@@ -56,6 +56,10 @@ class AgentResult:
     duration_ms: int = 0
     agent_name: str = ""
     site_id: str = ""
+    # 声明式事件发布:agent.run() 返回时声明要发什么事件,invoker 转发到 bus
+    # 每个元素: {"type": str, "payload": dict}
+    # 不持有 bus 引用,保持 agent 纯函数 + 无运行时依赖
+    emit_events: list[dict] = field(default_factory=list)
 
     def is_ok(self) -> bool:
         return self.status == AgentStatus.SUCCESS

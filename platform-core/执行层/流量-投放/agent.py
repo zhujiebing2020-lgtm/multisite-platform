@@ -58,6 +58,27 @@ def run(inp: AgentInput) -> AgentResult:
         "would_call_apis_when_real": ["meta_marketing_api", "google_ads_api"],
     }
 
+    # 跨 agent 影响(§15.4):若 upstream 是 attribution_risk 事件,加一段降权建议
+    upstream = inp.upstream_output or {}
+    if upstream.get("event_type") == "attribution_risk":
+        ev_payload = upstream.get("event_payload", {}) or {}
+        data["attribution_response"] = {
+            "triggered_by_event": "attribution_risk",
+            "utm_coverage_observed": ev_payload.get("utm_coverage"),
+            "threshold": ev_payload.get("threshold"),
+            "reason": ev_payload.get("reason"),
+            "降权建议": [
+                "暂停 utm_coverage < 阈值的所有广告组",
+                f"按 {ev_payload.get('lookback_days', 7)} 天回看,标记疑似异常的归因 session",
+                "把疑似异常的 spend 从 CPHQ 计算中剔除(不污染 KPI)",
+                "通知投手 HZM 复审最近 lookback 的归因配置(UTM 缺失源头)",
+            ],
+        }
+        data["decisions_mock"].append(
+            f"← 收到 attribution_risk(UTM={ev_payload.get('utm_coverage')}),"
+            f"已生成降权建议"
+        )
+
     return AgentResult(
         status=AgentStatus.SUCCESS,
         data=data,

@@ -49,6 +49,24 @@ def run(inp: AgentInput) -> AgentResult:
         },
         "would_query_when_real": ["adclaw_mcp", "ga4", "meta_attribution_api"],
     }
+
+    # MVP mock:本 stub 假设检测到 UTM 覆盖偏低 → 发 attribution_risk
+    # 真实场景下,这里应该根据查询结果决定是否 emit
+    mock_utm_coverage = 0.72   # mock 值,真实场景从 AdClaw 查
+    emit_events = []
+    if mock_utm_coverage < o["utm_coverage_min"]:
+        emit_events.append({
+            "type": "attribution_risk",
+            "payload": {
+                "utm_coverage": mock_utm_coverage,
+                "threshold": o["utm_coverage_min"],
+                "reason": f"UTM 覆盖率 {mock_utm_coverage:.0%} < 阈值 {o['utm_coverage_min']:.0%}",
+                "suggested_action": "降权或重审最近 lookback 内的归因",
+                "lookback_days": o["lookback_days"],
+            },
+        })
+        data["emitted"] = f"已声明发布 attribution_risk(覆盖率 {mock_utm_coverage:.0%})"
+
     return AgentResult(
         status=AgentStatus.SUCCESS,
         data=data,
@@ -56,4 +74,5 @@ def run(inp: AgentInput) -> AgentResult:
         duration_ms=int((time.time() - t0) * 1000),
         agent_name=name,
         site_id=inp.site_id,
+        emit_events=emit_events,
     )

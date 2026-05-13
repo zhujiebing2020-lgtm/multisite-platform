@@ -107,6 +107,38 @@ def mode_history(site_id: str):
     print(f"  第 2 个任务 result 存在? {second_task.result is not None}")
 
 
+def mode_cascade(site_id: str):
+    """级联:HVU下降 → 数据-归因 → emit attribution_risk → 流量-投放 → 降权建议"""
+    import json
+    bus, engine, n = setup()
+    print(f"已注册 {n} 条 event_to_task 映射\n")
+
+    print(">>> 发布 HVU下降")
+    bus.publish(type="HVU下降", site_id=site_id, source="demo")
+    print(f"  队列 pending: {engine.pending_count()}(应=1,数据-归因)")
+
+    print("\n>>> drain Engine(数据-归因 跑完后会自动发 attribution_risk → 触发 流量-投放)")
+    results = drain_engine(engine)
+
+    print(f"\n━━━ 总共消费 {len(results)} 个任务 ━━━")
+    for i, t in enumerate(engine.all_tasks(), 1):
+        print(f"  [{i}] task={t.task_id} agent={t.agent_name} priority={t.priority} "
+              f"event_id={t.event_id} status={t.status.value}")
+
+    print(f"\n━━━ 事件流水(bus.log)━━━")
+    for ev in bus.log():
+        print(f"  · {ev.event_id} type={ev.type} source={ev.source} "
+              f"payload_keys={list(ev.payload.keys())}")
+
+    # 找到 流量-投放 那一次,验证它拿到了 attribution_risk 上下文
+    traffic_result = engine.last_result(site_id, "流量-投放")
+    print(f"\n━━━ 流量-投放 拿到 attribution_risk 后的输出 ━━━")
+    if traffic_result and "attribution_response" in traffic_result.data:
+        print(json.dumps(traffic_result.data["attribution_response"], ensure_ascii=False, indent=2))
+    else:
+        print("  (未触发 attribution_response,可能 utm_coverage 未低于阈值)")
+
+
 def main():
     if len(sys.argv) < 3:
         print(__doc__)
@@ -118,6 +150,8 @@ def main():
         mode_multi(site_id, sys.argv[3:])
     elif mode == "历史继承":
         mode_history(site_id)
+    elif mode == "级联":
+        mode_cascade(site_id)
     else:
         print(f"未知模式: {mode}")
         sys.exit(1)

@@ -27,6 +27,9 @@ from _base import AgentInput, AgentResult, AgentStatus, TimeWindow  # noqa: E402
 sys.path.insert(0, str(PLATFORM_CORE / "引擎层"))
 from engine import Task, TaskEngine, TaskStatus, get_engine  # noqa: E402
 
+sys.path.insert(0, str(PLATFORM_CORE / "事件层"))
+from bus import get_bus  # noqa: E402
+
 import yaml  # noqa: E402
 
 
@@ -123,6 +126,19 @@ def execute_task(task: Task, engine: TaskEngine) -> AgentResult:
             site_id=task.site_id,
         )
     engine.complete(task.task_id, result)
+
+    # 跨 agent 影响(§15.4):转发 agent 声明的 emit_events 到 bus
+    # 自然规避循环:event_to_task.yaml 的 mapping 决定订阅,自调用映射不会被写进表
+    if result.emit_events:
+        bus = get_bus()
+        for ev in result.emit_events:
+            bus.publish(
+                type=ev["type"],
+                site_id=task.site_id,
+                payload=ev.get("payload", {}),
+                source=task.agent_name,
+            )
+
     return result
 
 

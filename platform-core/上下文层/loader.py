@@ -32,6 +32,22 @@ PLAYBOOK_REF_RE = re.compile(
     r"^(?P<author>[^-@]+)-(?P<category>[^-@]+)-(?P<stage>[^-@]+)@v(?P<version>[\d.]+)$"
 )
 
+# 站 config 字段中英别名(漏洞 1 修复)
+# 优先读中文 key(投手直觉),英文 key 作 fallback(客户剥站国际化)
+FIELD_ALIAS = {
+    "playbook": ["打法包", "playbook"],
+    "production": ["产出包", "production", "productions"],
+    "content": ["内容包", "content", "content_pack"],
+}
+
+
+def _get_aliased(cfg: dict, logical_name: str, default=None):
+    """按 FIELD_ALIAS 的顺序逐个尝试取值,首个非空返回"""
+    for key in FIELD_ALIAS.get(logical_name, [logical_name]):
+        if key in cfg and cfg[key] not in (None, "", []):
+            return cfg[key]
+    return default
+
 # 让 import context 工作:把本目录加进 sys.path
 sys.path.insert(0, str(Path(__file__).parent))
 from context import LoadedConfig, ResolvedField  # noqa: E402
@@ -91,10 +107,12 @@ def load_site_config(
         raise ConfigMissingError(str(site_cfg_path))
     site_cfg = _read_yaml(site_cfg_path)
 
-    # Step 2 · 定位打法包
-    ref = site_cfg.get("打法包")
+    # Step 2 · 定位打法包(漏洞 1 修复:支持中英 alias)
+    ref = _get_aliased(site_cfg, "playbook")
     if not ref:
-        raise ConfigMissingError(f"{site_cfg_path}: 缺少 '打法包' 字段")
+        raise ConfigMissingError(
+            f"{site_cfg_path}: 缺少打法包字段 (尝试过: {FIELD_ALIAS['playbook']})"
+        )
     parts = _parse_ref(ref)
     pb_path = PLAYBOOKS_DIR / f"{parts['author']}-{parts['category']}-{parts['stage']}.yaml"
     if not pb_path.is_file():
@@ -139,8 +157,16 @@ def load_site_config(
         enabled_agents=playbook.get("enabled_agents", []),
         active_flow=playbook.get("active_flow", ""),
         resolved_thresholds=merged,
-        production_packages=site_cfg.get("产出包", []) or playbook.get("production_packages", []),
-        content_pack=site_cfg.get("内容包") or playbook.get("default_content_pack"),
+        production_packages=(
+            _get_aliased(site_cfg, "production", [])
+            or playbook.get("production_packages", [])
+        ),
+        # 漏洞 2 修复:内容包解析顺序明确写出(loader.md §2.3 已同步)
+        # 站 config.内容包 > 打法包.default_content_pack > None
+        content_pack=(
+            _get_aliased(site_cfg, "content")
+            or playbook.get("default_content_pack")
+        ),
         budget=site_cfg.get("budget", {}),
         raw_site_cfg=site_cfg,
         raw_playbook=playbook,

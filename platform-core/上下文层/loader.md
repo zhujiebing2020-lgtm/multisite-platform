@@ -186,6 +186,31 @@ def invoke_agent(agent_name: str, site_id: str,
 
 `runtime_overrides` 是最顶层,用于投手手动重跑某次调用时的临时参数(比如"这次我想用 cphq_green_max=15 试一把"),不落盘,一次性。
 
+### 2.5 字段中英别名与覆盖顺序(2026-05-13 补)
+
+站 config.yaml 字段名支持中英双写,loader 用别名表归一:
+
+```python
+FIELD_ALIAS = {
+    "playbook":   ["打法包", "playbook"],
+    "production": ["产出包", "production", "productions"],
+    "content":    ["内容包", "content", "content_pack"],
+}
+```
+
+按列表顺序首个非空胜出。默认中文优先(投手直觉),英文保留作客户剥站国际化 fallback。
+
+**内容包覆盖顺序:**
+```
+sites/{site_id}/config.yaml#内容包
+  → 打法包.default_content_pack
+  → None
+```
+
+三层 fallback,**非合并**:一旦命中前者,后者不参与。
+
+**产出包也适用同样顺序**,但 MVP 阶段产出包是列表(非单选),若站 config 存在 `产出包` 列表即完全覆盖打法包的 `production_packages`,不做合并。
+
 ---
 
 ## 3. 参数覆盖优先级(四层,不是三层)

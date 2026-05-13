@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>多站群多 agent · widget</title>
+
+<style>
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         margin: 0; padding: 12px; color: #222; font-size: 13px; background: #fff; }
+  .header { display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #06c; padding-bottom: 6px; margin-bottom: 10px; }
+  .header h2 { margin: 0; font-size: 15px; color: #06c; }
+  .header a { color: #888; text-decoration: none; font-size: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+  .tile { border: 1px solid #e0e0e0; border-radius: 4px; padding: 8px; background: #fafafa; }
+  .tile-title { font-weight: bold; color: #444; font-size: 12px; margin-bottom: 4px; }
+  .tile-num { font-size: 16px; color: #06c; font-weight: bold; }
+  .tile-sub { color: #888; font-size: 11px; }
+  .status-success { color: #2a7; }
+  .status-failed { color: #d44; }
+  .绿 { color: #2a7; } .黄 { color: #c80; } .橙 { color: #d44; }
+  .footer { margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee;
+            color: #888; font-size: 11px; text-align: right; }
+</style>
+
+</head>
+<body>
+  <div class="header">
+    <h2>多站群多 agent</h2>
+    <a href="https://zhujiebing2020-lgtm.github.io/multisite-platform/" target="_top">完整看板 →</a>
+  </div>
+
+  <div style='font-size:12px; color:#666; margin-bottom:6px'>各投手当日数据</div>
+  <div class="grid">
+    
+          <div class="tile">
+            <div class="tile-title">CHJ</div>
+            <div class="tile-num">11 <span style='font-size:11px;color:#888'>组有数据</span></div>
+            <div class="tile-sub">
+              <span class="绿">17 绿</span> /
+              <span class="黄">0 黄</span> /
+              <span class="橙">0 橙</span>
+            </div>
+          </div>
+        
+          <div class="tile">
+            <div class="tile-title">HNN</div>
+            <div class="tile-num">8 <span style='font-size:11px;color:#888'>组有数据</span></div>
+            <div class="tile-sub">
+              <span class="绿">9 绿</span> /
+              <span class="黄">1 黄</span> /
+              <span class="橙">1 橙</span>
+            </div>
+          </div>
+        
+          <div class="tile">
+            <div class="tile-title">HZM</div>
+            <div class="tile-num">20 <span style='font-size:11px;color:#888'>组有数据</span></div>
+            <div class="tile-sub">
+              <span class="绿">51 绿</span> /
+              <span class="黄">19 黄</span> /
+              <span class="橙">31 橙</span>
+            </div>
+          </div>
+        
+          <div class="tile">
+            <div class="tile-title">ZJB</div>
+            <div class="tile-num">22 <span style='font-size:11px;color:#888'>组有数据</span></div>
+            <div class="tile-sub">
+              <span class="绿">29 绿</span> /
+              <span class="黄">2 黄</span> /
+              <span class="橙">2 橙</span>
+            </div>
+          </div>
+        
+  </div>
+
+  <div style='font-size:12px; color:#666; margin: 12px 0 6px'>各 agent 健康度</div>
+  <div class="grid">
+    
+          <div class="tile">
+            <div class="tile-title">数据分析</div>
+            <div class="tile-num status-success" style='font-size:13px'>success</div>
+            <div class="tile-sub">05-13 23:25</div>
+          </div>
+        
+  </div>
+
+  <div class="footer">
+    更新于 2026-05-13 23:35 ·
+    <a href="https://github.com/zhujiebing2020-lgtm/multisite-platform/tree/main/requests" target="_top">提请求</a>
+  </div>
+</body>
+</html>

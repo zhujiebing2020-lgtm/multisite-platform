@@ -90,6 +90,16 @@ def process(req: dict) -> dict:
 
 def scan_once() -> int:
     DONE_DIR.mkdir(exist_ok=True)
+
+    # 先 git pull,看 HZM 是否有新请求
+    if (REPO / ".git").is_dir():
+        result = subprocess.run(
+            ["git", "-C", str(REPO), "pull", "--ff-only", "--quiet"],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0 and "no upstream" not in result.stderr.lower():
+            print(f"  ⚠ git pull 失败(忽略,见 stderr): {result.stderr.strip()[:100]}")
+
     pending = sorted([f for f in REQ_DIR.glob("*.md")
                      if f.name != "README.md" and "_done" not in str(f)])
     if not pending:

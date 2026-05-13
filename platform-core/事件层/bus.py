@@ -10,10 +10,20 @@ MVP 形态:
 """
 from __future__ import annotations
 
+import sys
 import time
 import uuid
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable, Optional
+
+# 数据层持久化(SVG L6);bus 可以 import 数据层,反过来不行
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "数据层"))
+try:
+    from runtime import get_data_runtime  # noqa: E402
+    _HAS_DR = True
+except Exception:
+    _HAS_DR = False
 
 
 @dataclass
@@ -53,6 +63,18 @@ class EventBus:
             source=source,
         )
         self._log.append(ev)
+
+        # 落库(SVG L6)
+        if _HAS_DR:
+            try:
+                get_data_runtime().record_event(
+                    event_id=ev.event_id, type=ev.type, site_id=ev.site_id,
+                    source=ev.source, payload=ev.payload, ts=ev.ts,
+                )
+            except Exception as e:
+                # 落库失败不阻塞事件分发,仅 stderr 提醒
+                import sys as _sys
+                print(f"[bus] record_event 失败: {e}", file=_sys.stderr)
 
         for fn in self._subs.get(type, []):
             fn(ev)

@@ -13,3 +13,9 @@ sites/*/data-inbox/*
 !sites/*/data-inbox/.gitkeep
 sites/*/assets/raw/
 sites/*/.runtime-cache/
+
+# 数据层运行时 db,跑出来的实例数据不进 git
+platform-core/数据层/runtime.db
+platform-core/数据层/*.db-journal
+platform-core/数据层/*.db-shm
+platform-core/数据层/*.db-wal

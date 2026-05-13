@@ -25,6 +25,14 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "执行层"))
 from _base import AgentResult, AgentStatus  # noqa: E402
 
+# 数据层持久化;engine 可以 import 数据层,反过来不行
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "数据层"))
+try:
+    from runtime import get_data_runtime  # noqa: E402
+    _HAS_DR = True
+except Exception:
+    _HAS_DR = False
+
 
 # ─── 状态机 ──────────────────────────────────────
 class TaskStatus(str, Enum):
@@ -94,6 +102,47 @@ class TaskEngine:
         # 历史继承:(site_id, agent_name) -> [AgentResult, AgentResult, ...]
         self.history: dict[tuple[str, str], list[AgentResult]] = {}
 
+    # ─── 持久化钩子(所有落库都走这里,便于统一关闭)─────
+    def _persist_task_upsert(self, t: Task) -> None:
+        if not _HAS_DR:
+            return
+        try:
+            get_data_runtime().upsert_task(
+                task_id=t.task_id, agent_name=t.agent_name, site_id=t.site_id,
+                priority=t.priority, seq=t.seq, event_id=t.event_id,
+                status=t.status.value, lookback_days=t.lookback_days,
+                created_at=t.created_at, started_at=t.started_at,
+                finished_at=t.finished_at, error=t.error,
+            )
+        except Exception as e:
+            import sys as _sys
+            print(f"[engine] upsert_task 失败: {e}", file=_sys.stderr)
+
+    def _persist_task_transition(self, t: Task, new_status: TaskStatus, note: str) -> None:
+        if not _HAS_DR:
+            return
+        try:
+            import time as _t
+            get_data_runtime().record_task_transition(
+                task_id=t.task_id, status=new_status.value, note=note, ts=_t.time(),
+            )
+        except Exception as e:
+            import sys as _sys
+            print(f"[engine] record_task_transition 失败: {e}", file=_sys.stderr)
+
+    def _persist_agent_result(self, t: Task, r: AgentResult) -> None:
+        if not _HAS_DR:
+            return
+        try:
+            get_data_runtime().record_agent_result(
+                task_id=t.task_id, site_id=t.site_id, agent_name=t.agent_name,
+                status=r.status.value, data=r.data, emit_events=r.emit_events,
+                cost=r.cost, duration_ms=r.duration_ms, gap_reason=r.gap_reason,
+            )
+        except Exception as e:
+            import sys as _sys
+            print(f"[engine] record_agent_result 失败: {e}", file=_sys.stderr)
+
     def submit(
         self,
         agent_name: str,
@@ -117,6 +166,8 @@ class TaskEngine:
         )
         heappush(self._queue, task)
         self._tasks[task.task_id] = task
+        self._persist_task_upsert(task)
+        self._persist_task_transition(task, TaskStatus.PENDING, "created")
         return task.task_id
 
     def next(self) -> Optional[Task]:
@@ -126,6 +177,8 @@ class TaskEngine:
         task = heappop(self._queue)
         task.started_at = time.time()
         task.transition(TaskStatus.RUNNING, "dispatched")
+        self._persist_task_upsert(task)
+        self._persist_task_transition(task, TaskStatus.RUNNING, "dispatched")
         return task
 
     def complete(self, task_id: str, result: AgentResult) -> None:
@@ -136,13 +189,22 @@ class TaskEngine:
 
         if result.status == AgentStatus.SUCCESS:
             task.transition(TaskStatus.SUCCESS, f"agent_status={result.status.value}")
+            note = f"agent_status={result.status.value}"
+            new_status = TaskStatus.SUCCESS
         else:
             task.transition(TaskStatus.FAILED, f"agent_status={result.status.value}; {result.gap_reason}")
             task.error = result.gap_reason
+            note = f"agent_status={result.status.value}; {result.gap_reason}"
+            new_status = TaskStatus.FAILED
 
         # 历史继承:无论成功失败都入历史(失败也是经验)
         key = (task.site_id, task.agent_name)
         self.history.setdefault(key, []).append(result)
+
+        # 落库
+        self._persist_task_upsert(task)
+        self._persist_task_transition(task, new_status, note)
+        self._persist_agent_result(task, result)
 
     def fail(self, task_id: str, error: str) -> None:
         """任务运行时异常(非 agent 自然返回 failed)"""
@@ -150,11 +212,15 @@ class TaskEngine:
         task.finished_at = time.time()
         task.error = error
         task.transition(TaskStatus.FAILED, f"engine_error: {error}")
+        self._persist_task_upsert(task)
+        self._persist_task_transition(task, TaskStatus.FAILED, f"engine_error: {error}")
 
     def rollback(self, task_id: str, reason: str = "") -> None:
         """MVP 占位:只改状态不真撤销;真回滚 P1"""
         task = self._tasks[task_id]
         task.transition(TaskStatus.ROLLED_BACK, reason)
+        self._persist_task_upsert(task)
+        self._persist_task_transition(task, TaskStatus.ROLLED_BACK, reason)
 
     # ─── 历史继承查询 ──────────────────────────
     def last_result(self, site_id: str, agent_name: str) -> Optional[AgentResult]:

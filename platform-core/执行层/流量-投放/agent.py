@@ -45,6 +45,7 @@ def run(inp: AgentInput) -> AgentResult:
     # mock 输出
     data = {
         "summary": "dry-run 读阈值成功,未实际调 Meta/Google API",
+        "lookback_window": inp.time_window.describe(),
         "active_thresholds": {
             "cphq_green_max": cphq_green,
             "pause_on_hvu_zero_days": pause_days,

@@ -7,7 +7,7 @@ AgentInput / AgentResult dataclass — Agent 执行的统一 I/O 合约
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Protocol
 
@@ -29,10 +29,13 @@ class TimeWindow:
 
     @classmethod
     def last_n_days(cls, n: int) -> "TimeWindow":
-        end = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-        start = end.replace(day=end.day) if False else end  # 占位
-        from datetime import timedelta
-        return cls(start=end - timedelta(days=n), end=end)
+        # end = 今日 00:00 UTC,start = end - n 天(含今天计 n 天回看窗口)
+        end = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+        start = end - timedelta(days=n)
+        return cls(start=start, end=end)
+
+    def describe(self) -> str:
+        return f"{self.start.date()} ~ {self.end.date()}"
 
 
 # ─── Agent 入参(v3 §12.1)──────────────────────────

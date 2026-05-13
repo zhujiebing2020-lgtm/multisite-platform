@@ -59,6 +59,7 @@ def run(inp: AgentInput) -> AgentResult:
 
     data = {
         "summary": "dry-run 读阈值 + 内容包成功,未实际跑产出包流水线",
+        "lookback_window": inp.time_window.describe(),
         "fatigue_rule": (
             f"CTR 连续 {o['creative_fatigue_window_days']} 天下降 ≥ "
             f"{o['creative_fatigue_ctr_drop_pct']}% → 触发 creative-refresh"

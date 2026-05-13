@@ -30,6 +30,13 @@ from engine import Task, TaskEngine, TaskStatus, get_engine  # noqa: E402
 sys.path.insert(0, str(PLATFORM_CORE / "事件层"))
 from bus import get_bus  # noqa: E402
 
+sys.path.insert(0, str(PLATFORM_CORE / "数据层"))
+try:
+    from runtime import get_data_runtime  # noqa: E402
+    _HAS_DR = True
+except Exception:
+    _HAS_DR = False
+
 import yaml  # noqa: E402
 
 
@@ -98,13 +105,34 @@ def execute_task(task: Task, engine: TaskEngine) -> AgentResult:
         _load_content_pack(cfg.content_pack)
         if task.agent_name == "创意-素材" else None
     )
+
+    # 历史继承:优先内存,fallback 落库(重启后内存为空也能拿到上次)
     last = engine.last_result(task.site_id, task.agent_name)
-    upstream = task.upstream_output or {}
+    previous_summary = None
     if last is not None:
-        upstream = {**upstream, "previous_result": {
+        previous_summary = {
+            "source": "memory",
             "status": last.status.value,
             "data_keys": list(last.data.keys()),
-        }}
+        }
+    elif _HAS_DR:
+        try:
+            row = get_data_runtime().last_agent_result(task.site_id, task.agent_name)
+            if row is not None:
+                import json as _j
+                data_keys = list((_j.loads(row.get("data_json") or "{}") or {}).keys())
+                previous_summary = {
+                    "source": "data-runtime",
+                    "status": row["status"],
+                    "data_keys": data_keys,
+                    "ts": row["ts"],
+                }
+        except Exception:
+            pass
+
+    upstream = task.upstream_output or {}
+    if previous_summary is not None:
+        upstream = {**upstream, "previous_result": previous_summary}
 
     inp = AgentInput(
         site_id=task.site_id,

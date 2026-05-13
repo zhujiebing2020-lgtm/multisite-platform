@@ -35,7 +35,12 @@ def run(inp: AgentInput) -> AgentResult:
 
     data = {
         "summary": "dry-run 读阈值成功,未实际查询 AdClaw / 站内分析",
+        "lookback_window": inp.time_window.describe(),
         "lookback_days": o["lookback_days"],
+        "upstream_received": {
+            "has_event_payload": "event_payload" in (inp.upstream_output or {}),
+            "previous_result": (inp.upstream_output or {}).get("previous_result"),
+        },
         "attribution_check": {
             "rule": f"UTM 覆盖率低于 {o['utm_coverage_min']*100:.0f}% → 标 attribution_risk",
             "min_sessions": o.get("min_sessions_for_confidence"),

@@ -35,6 +35,7 @@ def run(inp: AgentInput) -> AgentResult:
 
     data = {
         "summary": "dry-run 读阈值成功,未实际调 PageSpeed/埋点回放",
+        "lookback_window": inp.time_window.describe(),
         "launch_gate": {
             "rules": [
                 f"页面 HTTP 状态码 = {o['http_status_ok']}",

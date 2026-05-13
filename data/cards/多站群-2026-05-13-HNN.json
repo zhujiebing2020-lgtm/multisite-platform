@@ -3,18 +3,18 @@
     "date": "2026-05-13",
     "owner": "HNN",
     "card_type": "pitcher_view",
-    "generated_at": "2026-05-13T22:20:27.060234"
+    "generated_at": "2026-05-13T22:28:26.396582"
   },
   "agent_outputs": [
     {
-      "ts": 1778682027.0321338,
+      "ts": 1778682506.3741188,
       "status": "success",
       "duration_ms": 0,
       "data": {
         "视角": "投手 HNN 自看",
         "视角说明": "只看 HNN 负责的组,不含他人组",
         "在册组数": 28,
-        "本次有日报数据的组": 9,
+        "本次有日报数据的组": 8,
         "CPHQ 灯色阈值来源": {
           "rule_file": "platform-core/规则/thresholds.json",
           "version": "1.0",
@@ -26,24 +26,6 @@
         },
         "按灯色分类": {
           "绿灯": [
-            {
-              "group": "组25 强迫休息",
-              "owner": "HNN",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组58（弯棒）",
-              "owner": "HNN",
-              "cphq": 2.86,
-              "hvu": 3,
-              "spend": 8.57,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
             {
               "group": "组58（弯棒）",
               "owner": "HNN",
@@ -127,24 +109,6 @@
             }
           ],
           "黄灯": [
-            {
-              "group": "组59（肛塞",
-              "owner": "HNN",
-              "cphq": 4.82,
-              "hvu": 2,
-              "spend": 9.64,
-              "date": "2026-05-10",
-              "color": "黄灯"
-            },
-            {
-              "group": "组66 （躺椅）",
-              "owner": "HNN",
-              "cphq": 3.37,
-              "hvu": 3,
-              "spend": 10.1,
-              "date": "2026-05-10",
-              "color": "黄灯"
-            },
             {
               "group": "组58（弯棒）",
               "owner": "HNN",

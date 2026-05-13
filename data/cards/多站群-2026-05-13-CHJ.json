@@ -3,11 +3,11 @@
     "date": "2026-05-13",
     "owner": "CHJ",
     "card_type": "pitcher_view",
-    "generated_at": "2026-05-13T22:20:27.060429"
+    "generated_at": "2026-05-13T22:28:26.396823"
   },
   "agent_outputs": [
     {
-      "ts": 1778682027.02989,
+      "ts": 1778682506.37245,
       "status": "success",
       "duration_ms": 0,
       "data": {
@@ -26,87 +26,6 @@
         },
         "按灯色分类": {
           "绿灯": [
-            {
-              "group": "组4 Viennese Oyster",
-              "owner": "CHJ",
-              "cphq": 0.41,
-              "hvu": 15,
-              "spend": 6.16,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组5 30 Positions",
-              "owner": "CHJ",
-              "cphq": 0.54,
-              "hvu": 28,
-              "spend": 15.14,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组7 The best intimacy",
-              "owner": "CHJ",
-              "cphq": 0.64,
-              "hvu": 13,
-              "spend": 8.3,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组17 18 Sensual",
-              "owner": "CHJ",
-              "cphq": 0.57,
-              "hvu": 26,
-              "spend": 14.76,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组27 performance",
-              "owner": "CHJ",
-              "cphq": 1.64,
-              "hvu": 3,
-              "spend": 4.93,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组32 confidence",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 2,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组35 15 Ideas",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组38 CRAVE AI",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组41 Most positions",
-              "owner": "CHJ",
-              "cphq": 0.78,
-              "hvu": 8,
-              "spend": 6.21,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
             {
               "group": "组4 Viennese Oyster",
               "owner": "CHJ",

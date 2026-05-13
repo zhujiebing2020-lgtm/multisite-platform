@@ -3,18 +3,18 @@
     "date": "2026-05-13",
     "owner": "ZJB",
     "card_type": "pitcher_view",
-    "generated_at": "2026-05-13T22:20:27.059894"
+    "generated_at": "2026-05-13T22:28:26.396296"
   },
   "agent_outputs": [
     {
-      "ts": 1778682027.035367,
+      "ts": 1778682506.375896,
       "status": "success",
       "duration_ms": 0,
       "data": {
         "视角": "ZJB 统筹",
         "视角说明": "跨投手聚合,按 owner 拆解",
         "在册组数": 66,
-        "本次有日报数据的组": 24,
+        "本次有日报数据的组": 22,
         "CPHQ 灯色阈值来源": {
           "rule_file": "platform-core/规则/thresholds.json",
           "version": "1.0",
@@ -26,123 +26,6 @@
         },
         "按灯色分类": {
           "绿灯": [
-            {
-              "group": "组4 Viennese Oyster",
-              "owner": "CHJ",
-              "cphq": 0.41,
-              "hvu": 15,
-              "spend": 6.16,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组5 30 Positions",
-              "owner": "CHJ",
-              "cphq": 0.54,
-              "hvu": 28,
-              "spend": 15.14,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组7 The best intimacy",
-              "owner": "CHJ",
-              "cphq": 0.64,
-              "hvu": 13,
-              "spend": 8.3,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组17 18 Sensual",
-              "owner": "CHJ",
-              "cphq": 0.57,
-              "hvu": 26,
-              "spend": 14.76,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组25 强迫休息",
-              "owner": "HNN",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组27 performance",
-              "owner": "CHJ",
-              "cphq": 1.64,
-              "hvu": 3,
-              "spend": 4.93,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组32 confidence",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 2,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组35 15 Ideas",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组36 女性高潮",
-              "owner": "HZM",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组38 CRAVE AI",
-              "owner": "CHJ",
-              "cphq": 0.0,
-              "hvu": 1,
-              "spend": 0.0,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组41 Most positions",
-              "owner": "CHJ",
-              "cphq": 0.78,
-              "hvu": 8,
-              "spend": 6.21,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组58（弯棒）",
-              "owner": "HNN",
-              "cphq": 2.86,
-              "hvu": 3,
-              "spend": 8.57,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
-            {
-              "group": "组65（沈星回）",
-              "owner": "HZM",
-              "cphq": 2.78,
-              "hvu": 6,
-              "spend": 16.7,
-              "date": "2026-05-10",
-              "color": "绿灯"
-            },
             {
               "group": "组4 Viennese Oyster",
               "owner": "CHJ",
@@ -405,54 +288,7 @@
               "color": "绿灯"
             }
           ],
-          "黄灯": [
-            {
-              "group": "组59（肛塞",
-              "owner": "HNN",
-              "cphq": 4.82,
-              "hvu": 2,
-              "spend": 9.64,
-              "date": "2026-05-10",
-              "color": "黄灯"
-            },
-            {
-              "group": "组66 （躺椅）",
-              "owner": "HNN",
-              "cphq": 3.37,
-              "hvu": 3,
-              "spend": 10.1,
-              "date": "2026-05-10",
-              "color": "黄灯"
-            },
-            {
-              "group": "组58（弯棒）",
-              "owner": "HNN",
-              "cphq": 3.9,
-              "hvu": 2,
-              "spend": 7.81,
-              "date": "2026-05-12",
-              "color": "黄灯"
-            },
-            {
-              "group": "组64（黎深）",
-              "owner": "HZM",
-              "cphq": 4.91,
-              "hvu": 3,
-              "spend": 14.74,
-              "date": "2026-05-12",
-              "color": "黄灯"
-            }
-          ],
           "橙灯/红灯候选": [
-            {
-              "group": "组64（黎深）",
-              "owner": "HZM",
-              "cphq": 6.75,
-              "hvu": 3,
-              "spend": 20.24,
-              "date": "2026-05-10",
-              "color": "橙灯/红灯候选"
-            },
             {
               "group": "组64（黎深）",
               "owner": "HZM",
@@ -471,6 +307,26 @@
               "date": "2026-05-12",
               "color": "橙灯/红灯候选"
             }
+          ],
+          "黄灯": [
+            {
+              "group": "组58（弯棒）",
+              "owner": "HNN",
+              "cphq": 3.9,
+              "hvu": 2,
+              "spend": 7.81,
+              "date": "2026-05-12",
+              "color": "黄灯"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 4.91,
+              "hvu": 3,
+              "spend": 14.74,
+              "date": "2026-05-12",
+              "color": "黄灯"
+            }
           ]
         },
         "按投手拆解": {
@@ -480,14 +336,14 @@
             "CPHQ均值": 0.48
           },
           "HNN": {
-            "组数": 9,
-            "绿灯数": 7,
-            "CPHQ均值": 1.85
+            "组数": 8,
+            "绿灯数": 6,
+            "CPHQ均值": 2.08
           },
           "HZM": {
-            "组数": 4,
-            "绿灯数": 3,
-            "CPHQ均值": 1.74
+            "组数": 3,
+            "绿灯数": 2,
+            "CPHQ均值": 2.32
           }
         },
         "语气提示": "ZJB 视角 · 必须用提问句式(合约三 L128),不坚信自己对",

@@ -1,17 +1,12 @@
 """platform-core/引擎层/invoker.py
-invoke_agent(agent_name, site_id, ...) — 唯一对外的 agent 执行入口
+任务执行器 + Engine 驱动器
 
-MVP 形态(本文件不做):
-  - 任务队列(留 P1,本文件直接调)
-  - 状态机(留 P1)
-  - 优先级(留 P1)
-  - 回滚(留 P1)
-  - 历史继承(留 P1)
+两种入口:
+  · execute_task(task):单任务执行(被 drain 调用,也可直接调用绕过 Engine)
+  · drain_engine(engine):顺序消费 Engine 队列直到空
+  · invoke_agent(...)(legacy CLI):直调单 agent,等价"提交一个 priority=5 任务后立刻 drain"
 
-MVP 形态(本文件做):
-  - 收到 (agent_name, site_id) → load_site_config → 动态 import agent → run → 返回 AgentResult
-  - 把 resolved_thresholds 注入 AgentInput.overrides
-  - 把 content_pack 内容注入 AgentInput.content_pack(如果是 创意-素材 agent)
+历史继承:execute_task 在调 agent 前会从 engine.history 读上次结果注入 upstream_output。
 """
 from __future__ import annotations
 
@@ -22,14 +17,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLATFORM_CORE = REPO_ROOT / "platform-core"
 
-# 上下文层 import
 sys.path.insert(0, str(PLATFORM_CORE / "上下文层"))
 from loader import load_site_config  # noqa: E402
 from context import LoadedConfig  # noqa: E402
 
-# 执行层 import
 sys.path.insert(0, str(PLATFORM_CORE / "执行层"))
 from _base import AgentInput, AgentResult, AgentStatus, TimeWindow  # noqa: E402
+
+sys.path.insert(0, str(PLATFORM_CORE / "引擎层"))
+from engine import Task, TaskEngine, TaskStatus, get_engine  # noqa: E402
 
 import yaml  # noqa: E402
 
@@ -38,9 +34,7 @@ class AgentNotFoundError(Exception): ...
 
 
 def _load_agent_module(agent_name: str):
-    """动态加载 platform-core/执行层/{agent_name}/agent.py"""
-    agent_dir = PLATFORM_CORE / "执行层" / agent_name
-    agent_file = agent_dir / "agent.py"
+    agent_file = PLATFORM_CORE / "执行层" / agent_name / "agent.py"
     if not agent_file.is_file():
         raise AgentNotFoundError(
             f"找不到 agent: {agent_name} (期望 {agent_file})"
@@ -54,7 +48,6 @@ def _load_agent_module(agent_name: str):
 
 
 def _load_content_pack(content_ref: str | None) -> dict | None:
-    """content_ref 形如 '限时紧迫-折扣站@v0.1.0'。MVP 简单读 yaml,版本不强校验。"""
     if not content_ref:
         return None
     pack_id = content_ref.split("@")[0]
@@ -65,60 +58,108 @@ def _load_content_pack(content_ref: str | None) -> dict | None:
         return yaml.safe_load(f) or {}
 
 
+def execute_task(task: Task, engine: TaskEngine) -> AgentResult:
+    """执行单个任务,落历史"""
+    cfg = load_site_config(task.site_id)
+
+    # 白名单校验
+    if task.agent_name not in cfg.enabled_agents:
+        result = AgentResult(
+            status=AgentStatus.FAILED,
+            gap_reason=(
+                f"agent {task.agent_name!r} 未在打法包 {cfg.playbook_ref} 的 "
+                f"enabled_agents={cfg.enabled_agents} 中"
+            ),
+            agent_name=task.agent_name,
+            site_id=task.site_id,
+        )
+        engine.complete(task.task_id, result)
+        return result
+
+    # 加载 agent
+    try:
+        mod = _load_agent_module(task.agent_name)
+    except AgentNotFoundError as e:
+        result = AgentResult(
+            status=AgentStatus.FAILED,
+            gap_reason=str(e),
+            agent_name=task.agent_name,
+            site_id=task.site_id,
+        )
+        engine.complete(task.task_id, result)
+        return result
+
+    # 注入阈值 + 内容包 + 历史(同站同 agent 的上次结果)
+    overrides_flat = {k: v.value for k, v in cfg.resolved_thresholds.items()}
+    content_pack_data = (
+        _load_content_pack(cfg.content_pack)
+        if task.agent_name == "创意-素材" else None
+    )
+    last = engine.last_result(task.site_id, task.agent_name)
+    upstream = task.upstream_output or {}
+    if last is not None:
+        upstream = {**upstream, "previous_result": {
+            "status": last.status.value,
+            "data_keys": list(last.data.keys()),
+        }}
+
+    inp = AgentInput(
+        site_id=task.site_id,
+        time_window=TimeWindow.last_n_days(task.lookback_days),
+        upstream_output=upstream or None,
+        overrides=overrides_flat,
+        content_pack=content_pack_data,
+    )
+
+    # 调用 + 落历史
+    try:
+        result = mod.run(inp)
+    except Exception as e:
+        engine.fail(task.task_id, f"agent.run 异常: {e}")
+        return AgentResult(
+            status=AgentStatus.FAILED,
+            gap_reason=f"agent.run raised: {e}",
+            agent_name=task.agent_name,
+            site_id=task.site_id,
+        )
+    engine.complete(task.task_id, result)
+    return result
+
+
+def drain_engine(engine: TaskEngine, max_iter: int = 1000) -> list[AgentResult]:
+    """顺序消费 Engine 队列直到空,返回所有 AgentResult"""
+    results = []
+    i = 0
+    while True:
+        task = engine.next()
+        if task is None:
+            break
+        results.append(execute_task(task, engine))
+        i += 1
+        if i >= max_iter:
+            raise RuntimeError(f"drain_engine 超过 {max_iter} 次,可能死循环")
+    return results
+
+
 def invoke_agent(
     agent_name: str,
     site_id: str,
     lookback_days: int = 7,
     upstream_output: dict | None = None,
-    runtime_overrides: dict | None = None,
 ) -> tuple[LoadedConfig, AgentResult]:
-    """
-    端到端:加载站上下文 → 动态加载 agent → 调 run → 返回 (cfg, result)
-
-    返回 cfg 也是为了让调用方能拿到溯源信息(playbook_ref / thresholds 来源)。
-    """
-    # Step 1 · 加载站上下文(loader.md §1)
-    cfg = load_site_config(site_id, runtime_overrides=runtime_overrides)
-
-    # Step 2 · 校验 agent 是否被启用
-    if agent_name not in cfg.enabled_agents:
-        return cfg, AgentResult(
-            status=AgentStatus.FAILED,
-            gap_reason=(
-                f"agent {agent_name!r} 未在打法包 {cfg.playbook_ref} 的 "
-                f"enabled_agents 中,拒绝执行。当前启用: {cfg.enabled_agents}"
-            ),
-            agent_name=agent_name,
-            site_id=site_id,
-        )
-
-    # Step 3 · 注入阈值 + 内容包
-    overrides_flat = {k: v.value for k, v in cfg.resolved_thresholds.items()}
-    content_pack_data = (
-        _load_content_pack(cfg.content_pack) if agent_name == "创意-素材" else None
-    )
-
-    inp = AgentInput(
+    """Legacy 单 agent 直调:提交一个任务 + drain"""
+    engine = get_engine()
+    task_id = engine.submit(
+        agent_name=agent_name,
         site_id=site_id,
-        time_window=TimeWindow.last_n_days(lookback_days),
+        priority=5,
+        lookback_days=lookback_days,
         upstream_output=upstream_output,
-        overrides=overrides_flat,
-        content_pack=content_pack_data,
     )
-
-    # Step 4 · 动态加载并调 agent
-    try:
-        mod = _load_agent_module(agent_name)
-    except AgentNotFoundError as e:
-        return cfg, AgentResult(
-            status=AgentStatus.FAILED,
-            gap_reason=str(e),
-            agent_name=agent_name,
-            site_id=site_id,
-        )
-
-    result = mod.run(inp)
-    return cfg, result
+    drain_engine(engine)
+    cfg = load_site_config(site_id)
+    task = engine.get_task(task_id)
+    return cfg, task.result
 
 
 # ─── CLI ─────────────────────────────────────────
@@ -127,13 +168,8 @@ if __name__ == "__main__":
 
     if len(sys.argv) < 3:
         print("用法: python invoker.py <site_id> <agent_name>")
-        print("示例: python invoker.py elysianu 流量-投放")
         sys.exit(1)
-
-    site_id = sys.argv[1]
-    agent_name = sys.argv[2]
-
-    cfg, result = invoke_agent(agent_name, site_id)
+    cfg, result = invoke_agent(sys.argv[2], sys.argv[1])
 
     print(f"━━━ 站上下文 ━━━")
     print(f"  site_id        : {cfg.site_id}")
@@ -145,7 +181,6 @@ if __name__ == "__main__":
     print(f"  agent          : {result.agent_name}")
     print(f"  status         : {result.status.value}")
     print(f"  duration_ms    : {result.duration_ms}")
-    print(f"  cost_usd       : {result.cost}")
     if result.gap_reason:
         print(f"  gap_reason     : {result.gap_reason}")
     print()

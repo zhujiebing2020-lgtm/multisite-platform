@@ -1,0 +1,60 @@
+# platform-core/引擎层/event_to_task.yaml
+# 事件 → 任务 映射表
+# 挂载点:引擎层(§15.6 未决项 1 的落地,不嵌打法包不嵌 agent defaults)
+# 作用:事件层捕获到事件后,Engine 查此表决定调哪个 agent 生成任务
+#
+# 语义:
+#   - event_type 必须与事件层 publish 的 event.type 字符串匹配
+#   - target_agent 必须在打法包 enabled_agents 内(invoker 会二次校验)
+#   - priority:0 最高(预算触顶/埋点致命) · 5 默认 · 9 最低(观察型)
+#   - lookback_days:该任务需要的回看窗口
+
+_meta:
+  version: 0.1.0
+  updated: 2026-05-13
+
+mappings:
+
+  # ── 流量事件 ──────────────────
+  - event_type: HVU下降
+    target_agent: 数据-归因
+    priority: 3
+    lookback_days: 7
+    note: HVU 下降先归因,确定是流量还是承接问题,再决定后续
+
+  - event_type: 预算触顶
+    target_agent: 流量-投放
+    priority: 0
+    lookback_days: 1
+    note: 预算触顶最高优先级,流量-投放 判断是否暂停/拉红线
+
+  # ── 技术事件 ──────────────────
+  - event_type: 埋点失效
+    target_agent: 技术-埋点
+    priority: 1
+    lookback_days: 1
+    note: 埋点失效会污染所有后续数据,必须立刻修
+
+  - event_type: landing_page_slow
+    target_agent: 技术-埋点
+    priority: 2
+    lookback_days: 3
+
+  # ── 创意事件 ──────────────────
+  - event_type: 素材老化
+    target_agent: 创意-素材
+    priority: 4
+    lookback_days: 7
+    note: 触发 creative-refresh 产出包流水线
+
+  - event_type: creative_fatigue_detected
+    target_agent: 创意-素材
+    priority: 4
+    lookback_days: 7
+
+  # ── 数据事件(跨 agent 影响,§15.4 虚线)──
+  - event_type: attribution_risk
+    target_agent: 流量-投放
+    priority: 3
+    lookback_days: 7
+    note: 数据-归因 发布 → 流量-投放 订阅,生成降权建议

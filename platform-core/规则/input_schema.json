@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "rule_name": "input_schema",
+    "purpose": "IO 合约·合约一 7 槽位输入清洗规则",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-IO合约-输入端.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "charter_ref": "CLAUDE.md L62-L103 合约一"
+  },
+  "slots": {
+    "date": {
+      "required": true,
+      "type": "date",
+      "format": "YYYY-MM-DD",
+      "fallback": "unknown_追问",
+      "auto_fill": "今天/昨天/本周等相对词根据对话时间自动解析"
+    },
+    "channel": {
+      "required": true,
+      "type": "enum",
+      "values": ["FB", "Google", "TikTok", "X", "其他"],
+      "fallback": "unknown_追问"
+    },
+    "metric": {
+      "required": true,
+      "type": "enum",
+      "values": ["花费", "HVU", "CPHQ", "CPA", "注册", "购买", "停留时长", "env_flag", "其他"],
+      "fallback": "unknown_追问"
+    },
+    "provided_by": {
+      "required": true,
+      "type": "enum",
+      "values": ["ZJB", "CHJ", "HNN", "HZM", "ZXR", "LZL", "PLZ", "郭刚", "曾凡立", "吴玲", "田棒棒", "吴慧妍", "陆佳炜", "柴碧如", "AdClaw", "Qwen-ingest", "unknown"],
+      "fallback": "unknown_追问"
+    },
+    "source": {
+      "required": true,
+      "type": "string",
+      "examples": ["FB后台导出csv", "AdClaw 导出（ZJB 手动）", "AdClaw（ZJB 授权，单次）", "ZJB 口头", "CHJ 日报", "Qwen 清洗"],
+      "fallback": "unknown_追问"
+    },
+    "subject": {
+      "required": false,
+      "type": "string",
+      "examples": ["HNN-组54-樱花", "CHJ-组17", "BM-A", "FB平台", "Google平台"],
+      "notes": "env_flag 场景填平台名"
+    },
+    "note": {
+      "required": false,
+      "type": "string"
+    }
+  },
+  "missing_required_rule": {
+    "action": "accept_with_unknown_and_ask",
+    "ask_template": "这份{数据类型}是谁给的？我先按 {field}=unknown 入库，你补一下我再回填。",
+    "no_reply_timeout_hours": 24,
+    "remind_on_next_conversation": true
+  },
+  "adclaw_exception": {
+    "default_policy": "Claude 不主动触发 AdClaw",
+    "authorization_flow": "参见 SOP-IO合约-输入端 · AdClaw 偶发触发例外流程",
+    "authorized_phrase_examples": ["帮我拉一下", "授权", "OK 拉吧", "可以"],
+    "scope": "单次授权，用完即失效"
+  }
+}

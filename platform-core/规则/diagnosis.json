@@ -1,0 +1,46 @@
+{
+  "_meta": {"type": "diagnosis", "version": "1.0", "updated": "2026-05-08"},
+
+  "chain": [
+    {
+      "id": "D1",
+      "condition": "ctr_declining AND cphq_worsening",
+      "conclusion": "素材钩子老化或方向错",
+      "category": "素材",
+      "action": "换素材方向或更新钩子",
+      "priority": "P1"
+    },
+    {
+      "id": "D2",
+      "condition": "ctr_normal AND hvu_declining",
+      "conclusion": "落地页承接或技术问题",
+      "category": "承接",
+      "action": "检查落地页首屏一致性和加载速度",
+      "priority": "P1"
+    },
+    {
+      "id": "D3",
+      "condition": "hvu == 0 AND lcp > 2500",
+      "conclusion": "技术承接问题（页面加载过慢）",
+      "category": "技术",
+      "action": "紧急优化LCP，排查服务器/CDN",
+      "priority": "P0"
+    },
+    {
+      "id": "D4",
+      "condition": "hvu_v1 > 0 AND hvu_v2 == 0",
+      "conclusion": "内容沉浸但无购买意图",
+      "category": "承接",
+      "action": "优化产品引导、增加商业意图触发点",
+      "priority": "P1"
+    },
+    {
+      "id": "D5",
+      "condition": "buy_now_clicks > 0 AND purchase == 0",
+      "conclusion": "支付链路技术断裂",
+      "category": "技术",
+      "action": "排查Buy Now按钮→结账页跳转链路",
+      "priority": "P0"
+    }
+  ]
+}

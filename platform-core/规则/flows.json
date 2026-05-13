@@ -1,0 +1,40 @@
+{
+  "_meta": {"type": "flows", "version": "1.0", "updated": "2026-05-08"},
+
+  "new_group_lifecycle": {
+    "states": ["创建", "学习期", "跑量期", "稳定期", "衰退", "暂停"],
+    "transitions": {
+      "创建→学习期": "上线即进入",
+      "学习期→跑量期": "spend >= 30 AND cphq <= threshold",
+      "学习期→暂停": "hvu == 0 连续2天",
+      "跑量期→稳定期": "cphq 连续7天在green区间",
+      "跑量期→暂停": "cphq 连续3天恶化 OR hvu==0 出现2次",
+      "稳定期→衰退": "cphq 连续3天从green升到yellow",
+      "衰退→暂停": "cphq 进入orange 且无改善趋势"
+    }
+  },
+
+  "daily_operation": {
+    "steps": [
+      "normalize_filenames.py --apply",
+      "run_dashboard.sh {MMDD}",
+      "review_conclusions.py (有提案时)",
+      "health_check.py",
+      "工作台刷新"
+    ]
+  },
+
+  "acceptance_check": {
+    "before_launch": [
+      "页面可访问 (HTTP 200)",
+      "LCP < 2000ms",
+      "素材钩子与落地页首屏一致",
+      "UTM 参数正确设置",
+      "年龄验证弹窗正常弹出"
+    ],
+    "output_fields": {
+      "tech_health": ["Healthy", "FixNeeded"],
+      "content_consistency": ["High", "Medium", "Low"]
+    }
+  }
+}

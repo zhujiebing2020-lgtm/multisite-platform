@@ -1,0 +1,541 @@
+{
+  "_meta": {
+    "purpose": "广告组号 → (投手/落地页/选题) 主数据 · 数据主权归 ZJB · ingest 必须走这张表",
+    "authority": "ZJB",
+    "scope": "组1 ~ 组66 · 后续新组追加时必须先登记再入数据",
+    "lock_principle": "每条记录一次写定 · ingest 不允许反向推断 advertiser/landing",
+    "source": "从桌面 0512 xlsx 一次性抓取 · 后续 ZJB 编辑",
+    "last_updated": "2026-05-12T03:26:14.265889+00:00",
+    "scope_check": "Claude 只读 · 不允许修改 · 修改走 vault/2_知识库/业务规则/"
+  },
+  "groups": {
+    "1": {
+      "name": "组1 Library",
+      "theme": "Library",
+      "owner": "HZM",
+      "landing": "scene/031937",
+      "landing_type": "scene",
+      "first_day": "2026-04-05"
+    },
+    "2": {
+      "name": "组2 Tonight",
+      "theme": "Tonight",
+      "owner": "HZM",
+      "landing": "scene/853762",
+      "landing_type": "scene",
+      "first_day": "2026-04-05"
+    },
+    "3": {
+      "name": "组3 Elevator",
+      "theme": "Elevator",
+      "owner": "HNN",
+      "landing": "scene/767297",
+      "landing_type": "scene",
+      "first_day": "2026-04-06"
+    },
+    "4": {
+      "name": "组4 Viennese Oyster",
+      "theme": "Viennese Oyster",
+      "owner": "CHJ",
+      "landing": "/multisensory/power-dynamics/3923-architecture-of-depth-mastering-viennese-oyster-position",
+      "landing_type": "article",
+      "first_day": "2026-04-06"
+    },
+    "5": {
+      "name": "组5 30 Positions",
+      "theme": "30 Positions",
+      "owner": "CHJ",
+      "landing": "/multisensory/most-positions/4690-30-adventurous-sex-positions-to-explore-with-your-partner",
+      "landing_type": "article",
+      "first_day": "2026-04-07"
+    },
+    "6": {
+      "name": "组6 冰块",
+      "theme": "冰块",
+      "owner": "HNN",
+      "landing": "scene/903553",
+      "landing_type": "scene",
+      "first_day": "2026-04-08"
+    },
+    "7": {
+      "name": "组7 The best intimacy",
+      "theme": "The best intimacy",
+      "owner": "CHJ",
+      "landing": "/multisensory/kink-fetish/4689-mastering-anilingus-sensual-guide-to-rimming-pleasure",
+      "landing_type": "article",
+      "first_day": "2026-04-08"
+    },
+    "8": {
+      "name": "组8 山间",
+      "theme": "山间",
+      "owner": "HNN",
+      "landing": "scene/680577",
+      "landing_type": "scene",
+      "first_day": "2026-04-08"
+    },
+    "9": {
+      "name": "组9 金项圈",
+      "theme": "金项圈",
+      "owner": "HNN",
+      "landing": "scene/578113",
+      "landing_type": "scene",
+      "first_day": "2026-04-09"
+    },
+    "10": {
+      "name": "组10 dark fantasy",
+      "theme": "dark fantasy",
+      "owner": "CHJ",
+      "landing": "scene/411265",
+      "landing_type": "scene",
+      "first_day": "2026-04-09"
+    },
+    "11": {
+      "name": "组11 Lover Tonight",
+      "theme": "Lover Tonight",
+      "owner": "HZM",
+      "landing": "scene/869441",
+      "landing_type": "scene",
+      "first_day": "2026-04-09"
+    },
+    "12": {
+      "name": "组12 浴室",
+      "theme": "浴室",
+      "owner": "HNN",
+      "landing": "scene/888321",
+      "landing_type": "scene",
+      "first_day": "2026-04-10"
+    },
+    "13": {
+      "name": "组13 college secrecy",
+      "theme": "college secrecy",
+      "owner": "CHJ",
+      "landing": "scene/866241",
+      "landing_type": "scene",
+      "first_day": "2026-04-10"
+    },
+    "14": {
+      "name": "组14 女性专栏",
+      "theme": "女性专栏",
+      "owner": "HNN",
+      "landing": "/multisensory/womens-sexual-health/3186-how-to-choose-right-sex-toy-for-women",
+      "landing_type": "article",
+      "first_day": "2026-04-12"
+    },
+    "15": {
+      "name": "组15 Power Shift",
+      "theme": "Power Shift",
+      "owner": "HZM",
+      "landing": "scene/922306",
+      "landing_type": "scene",
+      "first_day": "2026-04-13"
+    },
+    "16": {
+      "name": "组16 敲门",
+      "theme": "敲门",
+      "owner": "HNN",
+      "landing": "scene/531778",
+      "landing_type": "scene",
+      "first_day": "2026-04-13"
+    },
+    "17": {
+      "name": "组17 18 Sensual",
+      "theme": "18 Sensual",
+      "owner": "CHJ",
+      "landing": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+      "landing_type": "article",
+      "first_day": "2026-04-13"
+    },
+    "18": {
+      "name": "组18 红玫瑰",
+      "theme": "红玫瑰",
+      "owner": "HNN",
+      "landing": "scene/613826",
+      "landing_type": "scene",
+      "first_day": "2026-04-14"
+    },
+    "19": {
+      "name": "组19 Top Predator's",
+      "theme": "Top Predator's",
+      "owner": "HZM",
+      "landing": "scene/922306",
+      "landing_type": "scene",
+      "first_day": "2026-04-14"
+    },
+    "20": {
+      "name": "组20 A Softer",
+      "theme": "A Softer",
+      "owner": "CHJ",
+      "landing": "/multisensory/solo-pleasure/4763-pillow-humping-essentials-guide-to-solo-pleasure",
+      "landing_type": "article",
+      "first_day": "2026-04-14"
+    },
+    "21": {
+      "name": "组21 职场",
+      "theme": "职场",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/1977563229444947970",
+      "landing_type": "scene",
+      "first_day": "2026-04-15"
+    },
+    "22": {
+      "name": "组22 Voyeurism",
+      "theme": "Voyeurism",
+      "owner": "CHJ",
+      "landing": "/multisensory/voyeurism/735-seen-body-why-is-voyeurism",
+      "landing_type": "article",
+      "first_day": "2026-04-15"
+    },
+    "23": {
+      "name": "组23 工作室",
+      "theme": "工作室",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/1972149814470684674",
+      "landing_type": "scene",
+      "first_day": "2026-04-15"
+    },
+    "24": {
+      "name": "组24 Dom",
+      "theme": "Dom",
+      "owner": "CHJ",
+      "landing": "/multisensory/power-dynamics/4724-understanding-dom-and-sub",
+      "landing_type": "article",
+      "first_day": "2026-04-15"
+    },
+    "25": {
+      "name": "组25 强迫休息",
+      "theme": "强迫休息",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/2013638045763465217",
+      "landing_type": "scene",
+      "first_day": "2026-04-16"
+    },
+    "26": {
+      "name": "组26 Surrender",
+      "theme": "Surrender",
+      "owner": "HZM",
+      "landing": "/exp-app/scene/2034147121168449537",
+      "landing_type": "scene",
+      "first_day": "2026-04-16"
+    },
+    "27": {
+      "name": "组27 performance",
+      "theme": "performance",
+      "owner": "CHJ",
+      "landing": "/multisensory/sensory-immersion/4312-architecture-of-arousal",
+      "landing_type": "article",
+      "first_day": "2026-04-16"
+    },
+    "28": {
+      "name": "组28 牛角",
+      "theme": "牛角",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/1968161107381112833",
+      "landing_type": "scene",
+      "first_day": "2026-04-17"
+    },
+    "29": {
+      "name": "组29 性爱疗愈",
+      "theme": "性爱疗愈",
+      "owner": "HZM",
+      "landing": "/multisensory/sexual-wellness/1474-can-sex-truly-alleviate-pain",
+      "landing_type": "article",
+      "first_day": "2026-04-18"
+    },
+    "30": {
+      "name": "组30 流汗男",
+      "theme": "流汗男",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/1967788094903078914",
+      "landing_type": "scene",
+      "first_day": "2026-04-17"
+    },
+    "31": {
+      "name": "组31 天使",
+      "theme": "天使",
+      "owner": "HZM",
+      "landing": "/exp-app/scene/1968879137365995521",
+      "landing_type": "scene",
+      "first_day": "2026-04-18"
+    },
+    "32": {
+      "name": "组32 confidence",
+      "theme": "confidence",
+      "owner": "CHJ",
+      "landing": "/multisensory/power-dynamics/4314-art-of-instrument-mastering-sensual-blowjob-power-dynamics?page=2",
+      "landing_type": "article",
+      "first_day": "2026-04-17"
+    },
+    "33": {
+      "name": "组33 黑男",
+      "theme": "黑男",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/2046070030933757953",
+      "landing_type": "scene",
+      "first_day": "2026-04-20"
+    },
+    "34": {
+      "name": "组34 银发男",
+      "theme": "银发男",
+      "owner": "HNN",
+      "landing": "/ja/exp-app/scene/2014393955091804162",
+      "landing_type": "scene",
+      "first_day": "2026-04-21"
+    },
+    "35": {
+      "name": "组35 15 Ideas",
+      "theme": "15 Ideas",
+      "owner": "CHJ",
+      "landing": "/multisensory/forbidden-fruit/4424-architecture-of-surrender-15-ideas-for-safe-sensual-self-bondage?page=2",
+      "landing_type": "article",
+      "first_day": "2026-04-20"
+    },
+    "36": {
+      "name": "组36 女性高潮",
+      "theme": "女性高潮",
+      "owner": "HZM",
+      "landing": "/multisensory/womens-sexual-health/1541-how-to-tell-if-woman-has-truly-reached-orgasm-women-s-sexual?page=4",
+      "landing_type": "article",
+      "first_day": "2026-04-21"
+    },
+    "37": {
+      "name": "组37 胸部高潮",
+      "theme": "胸部高潮",
+      "owner": "HZM",
+      "landing": "/multisensory/kink-fetish/4687-mastering-nipple-play-how-to-build-sensual-pleasure-deeper-arousal?page=1",
+      "landing_type": "article",
+      "first_day": "2026-04-21"
+    },
+    "38": {
+      "name": "组38 CRAVE AI",
+      "theme": "CRAVE AI",
+      "owner": "CHJ",
+      "landing": "/ai-sex-toys",
+      "landing_type": "product",
+      "first_day": "2026-04-21"
+    },
+    "39": {
+      "name": "组39 解锁高潮",
+      "theme": "解锁高潮",
+      "owner": "HNN",
+      "landing": "/zh/multisensory/power-dynamics/2746-unlocking-thrill-of-ruined-orgasms-guide-to-orgasm-control-and?page=6",
+      "landing_type": "article",
+      "first_day": "2026-04-21"
+    },
+    "40": {
+      "name": "组40 举杯",
+      "theme": "举杯",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/举杯",
+      "landing_type": "scene",
+      "first_day": "2026-04-23"
+    },
+    "41": {
+      "name": "组41 Most positions",
+      "theme": "Most positions",
+      "owner": "CHJ",
+      "landing": "/multisensory/most-positions",
+      "landing_type": "article",
+      "first_day": "2026-04-22"
+    },
+    "42": {
+      "name": "组42 解说",
+      "theme": "解说",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/exp-app/scene/2037410140233203714?from=theater-more-stories",
+      "landing_type": "scene",
+      "first_day": "2026-04-24"
+    },
+    "43": {
+      "name": "组43 hands-free",
+      "theme": "hands-free",
+      "owner": "CHJ",
+      "landing": "https://www.creviatech.com/multisensory/roleplay/4764-hands-free-orgasms-exploring-deep-pleasure-body-awareness-and?page=1",
+      "landing_type": "article",
+      "first_day": "2026-04-24"
+    },
+    "44": {
+      "name": "组44 泳池",
+      "theme": "泳池",
+      "owner": "HNN",
+      "landing": "/exp-app/scene/2047399614116618242?from=theater-more-stories",
+      "landing_type": "scene",
+      "first_day": "2026-04-24"
+    },
+    "45": {
+      "name": "组45 11种方式",
+      "theme": "11种方式",
+      "owner": "HNN",
+      "landing": "/multisensory/forbidden-fruit/4725-11-gentle-femdom-ideas-to-deepen-trust-pleasure-and-intimate?page=1",
+      "landing_type": "article",
+      "first_day": "2026-04-27"
+    },
+    "46": {
+      "name": "组46 五个产品合集",
+      "theme": "五个产品合集",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys",
+      "landing_type": "product",
+      "first_day": "2026-04-26"
+    },
+    "47": {
+      "name": "组47 直棒（🚫违规删除4/30）",
+      "theme": "直棒（🚫违规删除4/30",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys/1181025-shenyong",
+      "landing_type": "product",
+      "first_day": "2026-04-26"
+    },
+    "48": {
+      "name": "组48 弯棒",
+      "theme": "弯棒",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys/1181026-twin-pact",
+      "landing_type": "product",
+      "first_day": "2026-04-26"
+    },
+    "49": {
+      "name": "组49 肛塞",
+      "theme": "肛塞",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys/1181029-trembling-secret",
+      "landing_type": "product",
+      "first_day": "2026-04-27"
+    },
+    "50": {
+      "name": "组50 蘑菇",
+      "theme": "蘑菇",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys/1181028-that-first-flutter",
+      "landing_type": "product",
+      "first_day": "2026-04-26"
+    },
+    "51": {
+      "name": "组51 八爪鱼",
+      "theme": "八爪鱼",
+      "owner": "HZM",
+      "landing": "/ai-sex-toys/1181027-intimate-connection",
+      "landing_type": "product",
+      "first_day": "2026-04-26"
+    },
+    "52": {
+      "name": "组52 掌握眼神",
+      "theme": "掌握眼神",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/multisensory/sensory-immersion/4494-architecture-of-gaze-mastering-eye-contact-for-deep-intimacy?page=2",
+      "landing_type": "article",
+      "first_day": "2026-04-28"
+    },
+    "53": {
+      "name": "组53 （Piledriver Position）",
+      "theme": "Piledriver Position",
+      "owner": "CHJ",
+      "landing": "https://www.creviatech.com/multisensory/power-dynamics/3925-apex-of-depth-mastering-piledriver-position-power-dynamics?page=3",
+      "landing_type": "article",
+      "first_day": "2026-04-28"
+    },
+    "54": {
+      "name": "组54  樱花",
+      "theme": "樱花",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/ja/exp-app/scene/2039221547477065729?from=theater-more-stories",
+      "landing_type": "scene",
+      "first_day": "2026-04-30"
+    },
+    "55": {
+      "name": "组55（vulvas vary naturally）",
+      "theme": "vulvas vary naturally",
+      "owner": "CHJ",
+      "landing": "https://www.creviatech.com/multisensory/forbidden-fruit/4422-anatomy-of-normal-embracing-endless-diversity-of-vulva-forbidden?page=3",
+      "landing_type": "article",
+      "first_day": "2026-04-29"
+    },
+    "56": {
+      "name": "组56（蘑菇）",
+      "theme": "蘑菇",
+      "owner": "HZM",
+      "landing": "https://www.creviatech.com/ai-sex-toys/1181028-that-first-flutter",
+      "landing_type": "product",
+      "first_day": "2026-05-06"
+    },
+    "57": {
+      "name": "组57（八爪鱼）",
+      "theme": "八爪鱼",
+      "owner": "HZM",
+      "landing": "https://www.creviatech.com/ai-sex-toys/1181027-intimate-connection",
+      "landing_type": "product",
+      "first_day": "2026-05-06"
+    },
+    "58": {
+      "name": "组58（弯棒）",
+      "theme": "弯棒",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/ai-sex-toys/1181026-twin-pact",
+      "landing_type": "product",
+      "first_day": "2026-05-06"
+    },
+    "59": {
+      "name": "组59（肛塞",
+      "theme": "肛塞",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/ai-sex-toys/1181029-trembling-secret",
+      "landing_type": "product",
+      "first_day": "2026-05-06"
+    },
+    "60": {
+      "name": "组60（直棒）",
+      "theme": "直棒",
+      "owner": "HZM",
+      "landing": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+      "landing_type": "product",
+      "first_day": null
+    },
+    "61": {
+      "name": "组61（恶霸）",
+      "theme": "恶霸",
+      "owner": "HNN",
+      "landing": "/ja/exp-app/scene/1967491630842826754?from=theater-more-stories",
+      "landing_type": "scene",
+      "first_day": "2026-05-06"
+    },
+    "62": {
+      "name": "组62（教练）",
+      "theme": "教练",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/exp-app/scene/2023384913003253761?from=search&q=Coach%27s+Private+Session%3A+Part+Two&utm_source=facebook&utm_medium=paid&utm_campaign=260507_hnn_facebook_741e61fb&utm_content=HnN219",
+      "landing_type": "scene",
+      "first_day": "2026-05-07"
+    },
+    "63": {
+      "name": "组63（漫男）",
+      "theme": "漫男",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260507_hnn_facebook_11c5ec0d&utm_content=HnN219",
+      "landing_type": "scene",
+      "first_day": "2026-05-07"
+    },
+    "64": {
+      "name": "组64（黎深）",
+      "theme": "黎深",
+      "owner": "HZM",
+      "landing": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+      "landing_type": "scene",
+      "first_day": "2026-05-08"
+    },
+    "65": {
+      "name": "组65（沈星回）",
+      "theme": "沈星回",
+      "owner": "HZM",
+      "landing": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+      "landing_type": "scene",
+      "first_day": "2026-05-08"
+    },
+    "66": {
+      "name": "组66 （躺椅）",
+      "theme": "躺椅",
+      "owner": "HNN",
+      "landing": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+      "landing_type": "scene",
+      "first_day": "2026-05-08"
+    }
+  }
+}

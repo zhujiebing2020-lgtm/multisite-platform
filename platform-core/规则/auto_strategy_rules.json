@@ -1,0 +1,345 @@
+{
+  "_meta": {
+    "type": "auto_strategy_rules",
+    "version": "1.1",
+    "updated": "2026-05-10",
+    "purpose": "意志继承 · 把 ZJB 的业务判断编码为 Claude 自动执行的策略触发规则。投手是否采纳建议不影响规则运行——规则自动跑数据、自动触发 A/B、自动回滚验证、自动记录拒绝史。所有规则强制遵守永久约束 #7(触发条件 + 质疑条件 + 回滚机制)",
+    "origin": "ZJB 2026-05-10 原话:「这几个问题都是自动化输出策略建议的理由。投手不可控。我需要自动化跑策略出来完成数据的佐证和意志的继承」"
+  },
+
+  "S_class_scaling_test": {
+    "_applies_to": "价值分层 S 类广告组(样板:组 17 · CHJ · CPHQ $0.64 · 26 天 633 HVU)",
+    "_derived_from": "样板档案 Q17.1 / Q17.2 / Q17.4",
+
+    "trigger_conditions": {
+      "分层": "S",
+      "连续绿灯天数": ">=14",
+      "样本量 HVU 累计": ">=100",
+      "投手稳定性": "同一投手主导 >=80% 花费"
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "杠杆归因三拆 A/B",
+        "description": "同选题下自动生成 3 组实验:同素材×同定向×换落地页 / 同素材×同落地页×换定向 / 同定向×同落地页×换素材。每组 3 天 ≥$30 预算,回收 CPHQ 数据",
+        "output_to": "target_role=[投手, 承接层] 策略简报,格式见 CLAUDE.md 环 3.2"
+      },
+      {
+        "step": 2,
+        "name": "落地页模板复用实验",
+        "description": "把该组落地页 URL 模板挂载到同投手 2 个其他选题,跑 3 天 ≥$30/组,对比 CPHQ 差异",
+        "output_to": "target_role=[承接层] 模板复用结论"
+      },
+      {
+        "step": 3,
+        "name": "加预算建议自动生成",
+        "description": "CPHQ<$1 且 14 天稳定 → 生成加量 20% 建议,写入投手日报 + operation_log('AI建议' 类型)。投手不采纳不影响规则流转,仅在档案追加 'rejected_at' 字段"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "env_flag 活跃(任何承接页维护方/素材匹配外因) → 暂停 auto_action",
+      "跨周期单周 CPHQ > $2 → 暂停 auto_action",
+      "投手人事变动(CHJ 不在该组) → 暂停 auto_action,降级为 A 类观察",
+      "HQ2 真购物信号仍为 0 且无跨周期上升趋势 → 暂停 step3 加预算建议(仅跑 A/B,不放大花费)"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "加预算后 3 天 CPHQ 反弹 > $3 或 0 HVU 天 >=1",
+      "动作": [
+        "立即回滚预算到加量前",
+        "策略简报标为失效,通知投手撤回",
+        "向档案追加 env_flag='S 类扩容反弹-YYYY-MM-DD',未来 15 天不再触发 S_class_scaling_test",
+        "operation_log 追加回滚条目"
+      ]
+    },
+
+    "investor_rejection_tracking": {
+      "_note": "投手不采纳建议时的独立追踪。不是反规则,而是记录 ZJB 意志的执行损耗。",
+      "fields": ["组号", "建议类型", "建议日期", "投手拒绝日期", "拒绝原因", "30 天后数据回看"],
+      "review_cadence": "每 30 天 Claude 自动回看一次:如果 ZJB 建议后 30 天数据验证 ZJB 是对的(A 类复投成为绿灯 / S 类不加量反而更稳)→ 写入 operation_log 供 ZJB 决策是否升级为强制建议(例如 ZJB 直接签字跳过投手)"
+    }
+  },
+
+  "B_class_zero_hvu_diagnosis": {
+    "_applies_to": "价值分层 B 类且连续 >=7 天 0 HVU 的广告组(样板:组 54 · HNN · 9 天 $70 / 0 HVU)",
+    "_derived_from": "样板档案 Q54.1 / Q54.2 / Q54.3 / Q54.4",
+
+    "trigger_conditions": {
+      "分层": "B",
+      "连续 0 HVU 天数": ">=7",
+      "累计花费": ">=$30"
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "立即暂停建议",
+        "description": "生成暂停该组的建议发给投手。同时 Claude 内部将该组标 status=frozen(不是 paused),保留复投评估资格"
+      },
+      {
+        "step": 2,
+        "name": "三维度根因排查(自动)",
+        "description": "Claude 自动拉三份数据:① 落地页 LCP/CLS/FCP(Web Vitals) vs 对照组 ② 同素材落地页的其他广告组 HVU 命中 ③ 同落地页其他素材的广告组 HVU 命中。三份数据交叉出根因指向:素材 / 落地页 / 定向",
+        "data_source": "需 AdClaw 授权(约束 #1),所以 Claude 输出'建议 ZJB 授权 AdClaw 查询 XXX',不主动查"
+      },
+      {
+        "step": 3,
+        "name": "对照组实验触发",
+        "description": "如果根因指向落地页 LCP,自动生成实验:同素材×同定向×换已验证落地页(对照组)跑 3 天 ≥$30,回收数据"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "落地页 URL 为脏数据(utm token 中文 / 合计列污染等)→ 先修数据,不进实验",
+      "对照组本身在 env_flag 窗口内 → 延后到 env_flag 失效",
+      "累计花费 < $30 → 样本不足,不排查,继续观察到 >=$30 或 14 天"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "暂停后投手反驳(表示该组有外部信号如素材刚换)→ Claude 把 status 从 frozen 改回 paused 并挂 env_flag='投手反驳-YYYY-MM-DD'",
+      "动作": [
+        "不强制恢复投放(投手管账户),但在档案记录反驳原因",
+        "30 天后自动回看:如投手没补数据证明有效,ZJB 决策是否强制结案"
+      ]
+    }
+  },
+
+  "A_class_replay_after_stop": {
+    "_applies_to": "价值分层 A 类 · 投手主动停投且 Claude 当时提出过复投建议但被拒绝(样板:组 1 Library · HZM · $3.97 · 4-16 停 · ZJB 曾建议复投被投手否)",
+    "_derived_from": "样板档案 Q1.1 / Q1.2 / Q1.3 / Q1.4 + ZJB 2026-05-10 原话「投手没采纳建议」",
+
+    "trigger_conditions": {
+      "分层": "A",
+      "广告组状态": "paused(投手主动停)",
+      "早期 CPHQ": "$2-$5 区间",
+      "环境外因": "env_flag 活跃期内被停(归因本身有歧义)",
+      "无投手停投的 rejection_reason 日志": true
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "复投建议持续生成",
+        "description": "env_flag 失效后自动生成复投建议:同素材同落地页在新维护方下跑 7 天 ≥$50,验证 A 类是否真的是'差一步到绿灯'还是'真不行'。每 30 天重生成一次直到实验跑完"
+      },
+      {
+        "step": 2,
+        "name": "投手拒绝记录",
+        "description": "投手拒绝复投时强制要求填写 rejection_reason(素材过期/预算不足/新素材代替/其他)。Claude 把 rejection_reason 编入命题库反证链,不是直接消化"
+      },
+      {
+        "step": 3,
+        "name": "30 天数据回看",
+        "description": "30 天后 Claude 自动对比:如果同投手其他新开组 CPHQ 没超过停投前 A 类组 → 拒绝是错的,ZJB 自动得到通知'组 1 拒绝理由不成立,建议强制复投或结案'"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "env_flag 仍活跃 → 不生成复投建议,等失效",
+      "该素材已被投手用于其他组且跑绿灯 → 不需要复投,判定'素材已证明有效'",
+      "投手 rejection_reason 为'素材创意已过期/平台内容政策变化'且有外部证据 → 自动关闭复投建议循环"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "复投后 7 天 CPHQ > 停投前 + $2 → 证伪 ZJB 当时的复投判断",
+      "动作": [
+        "立即暂停复投组",
+        "命题库追加 evidence_against 到'A 类广告组 env_flag 失效后复投有效'命题",
+        "operation_log 追加'ZJB 复投判断被 7 天数据证伪,组 X'条目",
+        "给 ZJB 输出'你的判断在组 X 上被证伪,是否降级 A 类复投规则的置信度?'"
+      ]
+    },
+
+    "will_inheritance_log": {
+      "_note": "意志继承日志 · ZJB 的每一个被投手拒绝的建议都要记录,防止飞轮在人脑环节断裂",
+      "fields": ["建议日期", "建议内容", "投手", "拒绝原因", "30 天后数据验证", "ZJB 本意是否成立"],
+      "review_cadence": "每 30 天 Claude 自动汇总:'过去 30 天 ZJB 建议被投手拒绝 N 次,其中 M 次 30 天后数据证明 ZJB 是对的。是否升级 ZJB 的建议为强制执行?'",
+      "escalation_path": "如 3 次以上 ZJB 建议被证明是对的且都被投手拒绝 → Claude 自动触发'ZJB 建议绕过投手直接执行'讨论,由 ZJB 签字决定是否改变合约三的 target_role 归属"
+    }
+  },
+
+  "breakpoint_01_zjb_to_investor": {
+    "_applies_to": "ZJB 给投手的所有操作建议(暂停/复投/加量/素材调整)",
+    "_derived_from": "Q5.2 飞轮断点 #1 · HZM 组 1 复投建议 2026-04-16 被拒后 30 天无数据回补",
+
+    "trigger_conditions": {
+      "操作对象": "ZJB 给投手的任一具体建议(写入 operation_log 或投手日报)",
+      "投手回应": ["采纳", "拒绝 + rejection_reason", "未回应"]
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "48 小时未回应自动提醒",
+        "description": "投手 48 小时未回应 → Claude 自动发日报提醒 '建议 XXX 仍待回应,请采纳 / 拒绝(附原因)'"
+      },
+      {
+        "step": 2,
+        "name": "拒绝强制 rejection_reason",
+        "description": "投手拒绝必须填 rejection_reason(素材过期 / 预算不足 / 新素材代替 / 业务不允许 / 其他)。无 rejection_reason 的拒绝视为'未回应',继续 step1 循环"
+      },
+      {
+        "step": 3,
+        "name": "30 天回看",
+        "description": "30 天后 Claude 自动拉数据:① ZJB 建议的组 / 变量当前状态 ② 同投手其他新开组的对照表现 ③ 若 ZJB 建议被证明是对的 → 计入'ZJB 建议被证明对但被拒绝'计数器"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "建议本身被 ZJB 撤回 → 关闭追踪",
+      "外因发生(env_flag 触发 / 账号被封 / 素材平台政策变更) → 暂停 30 天回看,等外因结束后重算",
+      "投手 rejection_reason 为'平台政策变化'且有 Claude 可查证的外部证据 → 自动关闭循环"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "30 天回看证明 ZJB 建议是错的 → ZJB 记入'被投手拒绝是对的'",
+      "动作": [
+        "命题库追加 evidence_against",
+        "operation_log 追加'ZJB 建议 X 被 30 天数据证伪,投手拒绝有效'条目",
+        "降低同类 ZJB 建议的默认优先级"
+      ]
+    },
+
+    "escalation_path": "3 次以上 ZJB 建议被证明是对的且都被投手拒绝 → Claude 自动触发'ZJB 建议绕过投手直接执行'讨论;ZJB 签字决定是否改写合约三的 target_role,允许部分规则直接发 ZJB→账号操作指令"
+  },
+
+  "breakpoint_02_zjb_to_tech": {
+    "_applies_to": "ZJB 给技术侧(郭刚 / 曾凡立 / fanli)的任一需求(埋点 / 排查 / 修复)",
+    "_derived_from": "Q5.2 飞轮断点 #2 · 2026-04-27 给 fanli 的埋点需求到 2026-05-10 未完全落地",
+
+    "trigger_conditions": {
+      "需求类型": ["埋点需求", "排查需求", "修复需求", "数据补采需求"],
+      "责任方": ["郭刚", "曾凡立", "fanli", "其他技术端"],
+      "需求落地状态": ["未开始", "进行中", "已完成"]
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "72 小时无进度自动提醒",
+        "description": "72 小时内责任方无进度更新 → Claude 发提醒:'需求 X 72 小时无进度,当前阻塞了哪些命题/规则'"
+      },
+      {
+        "step": 2,
+        "name": "7 天未落地自动降级下游",
+        "description": "7 天未落地 → Claude 自动把依赖该需求的命题 / 规则挂 env_flag='技术需求未落地-YYYY-MM-DD',暂停升置信度。命题 2(真购物信号)当前适用此规则"
+      },
+      {
+        "step": 3,
+        "name": "30 天未落地升级 ZJB",
+        "description": "30 天未落地 → Claude 自动向 ZJB 汇总'未落地技术需求 + 影响的下游 N 条命题 / 规则',请 ZJB 决策是否升级优先级或改换责任方"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "技术侧反驳:需求描述不清 → ZJB 补充描述后重启 72 小时计时",
+      "技术侧反驳:依赖另一个外部系统 → 挂 env_flag='外部依赖等待-YYYY-MM-DD',暂停计时",
+      "ZJB 主动延后 → 记录延后原因,暂停计时到指定日期"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "需求落地后数据证明需求本身无意义",
+      "动作": [
+        "命题库追加 evidence_against",
+        "operation_log 追加'需求 X 落地后数据不支持原命题'"
+      ]
+    },
+
+    "will_inheritance_log": {
+      "fields": ["需求日期", "需求内容", "责任方", "落地日期", "落地后数据验证", "阻塞过的下游命题"],
+      "review_cadence": "每月 1 日 Claude 汇总:'过去 1 个月技术需求落地率 / 平均落地天数 / 阻塞过的命题数'",
+      "escalation_path": "如连续 2 个月落地率 <50% → 升级到 ZJB,触发'技术侧执行力度'业务决策"
+    }
+  },
+
+  "breakpoint_03_proposal_rebirth_detection": {
+    "_applies_to": "承接层 / 投手 / 技术侧 提出的任一'新建议 / 新命题 / 新需求'",
+    "_derived_from": "Q5.2 飞轮断点 #3 · 吴玲 0430 提的 5 项建议被否,其中'文章→商品场景化转场' 0508 以新名字复活",
+
+    "trigger_conditions": {
+      "动作": "新建议 / 新命题 / 新需求入库",
+      "检查窗口": "过去 30 天"
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "语义相似度扫描",
+        "description": "新入库建议 / 命题的 3 个关键词(落地页 + 问题 + 业务痛点)与过去 30 天所有已入库建议做语义匹配。匹配度 >70% 视为'同域换壳'"
+      },
+      {
+        "step": 2,
+        "name": "换壳标记",
+        "description": "命中'同域换壳'的建议自动挂标签 reincarnation_of=<原建议 ID>,强制填写'上次为何没解决'字段,无此字段的新建议拒绝入库"
+      },
+      {
+        "step": 3,
+        "name": "换壳频次追踪",
+        "description": "同一域建议 30 天内换壳 >=2 次 → Claude 自动汇总'这个问题反复复现但无人解决'报告给 ZJB"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "新建议虽语义相似但附有'上次根因已被证伪'的完整说明 → 允许入库,不算换壳",
+      "新建议的评估维度变化(如从投手视角转为承接层视角)→ 允许入库,标记为'同问题多视角'"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "reincarnation_of 指向的原建议被 ZJB 标记为'已解决'后仍出现新换壳",
+      "动作": [
+        "operation_log 追加'已解决命题再次复现,原修复可能失效'",
+        "Claude 自动重开原命题,置信度降为存疑"
+      ]
+    }
+  },
+
+  "breakpoint_04_xlsx_pollution_trace": {
+    "_applies_to": "所有作为决策依据流转给投手 / 承接层 / ZJB 的 xlsx / csv 数据产物",
+    "_derived_from": "Q5.2 飞轮断点 #4 · xlsx 合计列误读导致的数据污染链,Q5.2 原问题未追溯",
+
+    "trigger_conditions": {
+      "动作": "任何 xlsx / csv 入库 OR 被引用作决策依据",
+      "检查项": ["列头穷举", "合计行一致性", "时间窗口一致性", "数据污染来源链"]
+    },
+
+    "auto_action": [
+      {
+        "step": 1,
+        "name": "入库前强制列头穷举",
+        "description": "任何 xlsx 解析脚本第一段必须是 pandas.read_*().columns.tolist() 打印所有列头 + 与预期 schema 对比 + 不一致告警(永久约束 #3)。无列头穷举的脚本拒绝运行"
+      },
+      {
+        "step": 2,
+        "name": "数据流转溯源",
+        "description": "xlsx 入库时记录 source_chain:[来源文件, 生成时间, 生成人, 下游使用者]。任何下游决策引用该 xlsx → 自动挂上游 source_chain 指针"
+      },
+      {
+        "step": 3,
+        "name": "污染事件自动追溯",
+        "description": "xlsx 发现数据错误(如合计列误读)→ Claude 自动沿 source_chain 反向追溯所有下游决策,标记'基于污染数据的决策需重审'"
+      }
+    ],
+
+    "skeptic_conditions": [
+      "列头穷举与预期 schema 不一致但是 xlsx 维护方主动升级 → 允许入库,但强制更新 schema 预期",
+      "旧 xlsx 在 CLAUDE.md 附录 D 的'历史只读'清单中 → 不做污染追溯,仅做只读引用"
+    ],
+
+    "rollback_procedure": {
+      "触发条件": "发现污染数据已影响 ≥1 条决策",
+      "动作": [
+        "operation_log 追加'数据污染事件 + 受影响决策清单'",
+        "自动生成污染清洗任务分派给 ZJB",
+        "污染源 xlsx 打上 quarantine=true 标签,禁止继续流转"
+      ]
+    },
+
+    "will_inheritance_log": {
+      "fields": ["xlsx 文件名", "污染发现日期", "污染类型", "影响决策数", "清洗完成日期", "防护规则是否加入 CLAUDE.md"],
+      "review_cadence": "每次污染事件后立即升级永久约束或合约四B 触发点"
+    }
+  }
+}
+

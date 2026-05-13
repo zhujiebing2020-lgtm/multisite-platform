@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "rule_name": "dashboard_update",
+    "purpose": "环5.1 看板更新规则——含合约四B 数据复查 + 规则 6.5 跑正周滚动检测 + 附录 E 8.1 越线提示",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-看板更新.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v0.1-draft",
+    "status": "骨架·阈值引用 vault 业务规则",
+    "charter_ref": "CLAUDE.md 合约四B + 环5.1-5.4 + 附录 E 8.1"
+  },
+  "update_flow": [
+    {"step": 1, "action": "读取最新数据输入（7 槽位已清洗）"},
+    {"step": 2, "action": "执行合约四B 数据复查（4 个触发点）"},
+    {"step": 3, "action": "生成看板（按 landing_type / advertiser 聚合）"},
+    {"step": 4, "action": "规则 6.5 跑正周滚动检测"},
+    {"step": 5, "action": "CPHQ 阈值越线提示（规则 8.1）"},
+    {"step": 6, "action": "补充素材记录（规则 7）"}
+  ],
+  "data_verification_rules": {
+    "source": "CLAUDE.md 合约四B（阶段一 2026-05-09 ~ 2026-05-16）",
+    "triggers": [
+      "每次看板更新后：合计行 = 各行之和",
+      "每次 ingest xlsx/csv 后：行列数与源文件一致",
+      "每次 ingest xlsx 后（2026-05-09 教训增补）：列头穷举检查——逐列打印 header 识别非数据列（合计/None/图例等），明确 data_cols 切片边界",
+      "每次 HVU JSON 入库后：条目数 = 历史均值 ±30%",
+      "命题证据表更新后：新增证据的日期/广告组/数字与源一致"
+    ],
+    "on_failure_numeric_bug": "找 ZJB 核查源数据修正（见合约四B 分流规则）",
+    "on_failure_business_dispute": "走环4.3 人工仲裁",
+    "incident_log_2026_05_09": "xlsx '合计'列（第 37 列）误读为 5/9 日期数据导致组级花费/HVU 双倍。修复后 S 分层从 S16 降至 S14。教训：xlsx 聚合前必须穷举列头。"
+  },
+  "cphq_threshold_rule": {
+    "rule_source_vault": "vault/2_知识库-AI维护/业务规则/规则-CPHQ阈值.md",
+    "absolute_value_grading": "参见上述 vault 文件",
+    "relative_baseline_warning": "参见上述 vault 文件",
+    "notes": "CPHQ 阈值归合约零·数据主权，由 ZJB 在 vault 业务规则/ 下定义，本 JSON 不重复"
+  },
+  "positive_week_detection": {
+    "rule_source": "CLAUDE.md 合约三演进标记 + 环5 规则 6.5",
+    "rolling_check": "每次看板更新后扫描本周（周一~当日）是否有 ≥1 成交用户 CPA ≤ $77",
+    "week_final_check": "每周日晚上对整周回看（周终完整口径）",
+    "breakeven_cpa": 77,
+    "breakeven_params": "AOV $128 × 毛利率 60%",
+    "action_on_detection": "看板顶部追加 🟢 + 对话中通知 ZJB；首次触发提醒升级 CLAUDE.md 到 v1.1"
+  },
+  "output_target_role": {
+    "default": ["Claude"],
+    "threshold_crossed": ["Claude", "投手"],
+    "positive_week_detected": ["Claude", "ZJB排查"]
+  },
+  "rule_source": "data/rules/dashboard_update.json",
+  "zjb_todo": [
+    "基线窗口（当前 14 天中位 CPHQ）是否合适",
+    "HVU 入库条目数 ±30% 的阈值是否合适（合约四B 阶段一跑一周后复盘）",
+    "素材记录字段（规则 7）需补充详细规格"
+  ]
+}

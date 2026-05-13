@@ -36,15 +36,20 @@ from typing import Optional
 
 
 # ─── 合约二 7 个处理动作 → 默认规则文件 ────────
+# 路径相对于 repo_root,本仓库实际位置:platform-core/规则/(P0-9.2 从 crave-AI fork)
 PROCESSING_ACTION_TO_RULE: dict[str, str] = {
-    "persona_clustering":  "data/rules/persona_clustering.json",
-    "ux_gap_extraction":   "data/rules/ux_gap_extraction.json",
-    "tech_priority":       "data/rules/tech_priority.json",
+    "persona_clustering":  "platform-core/规则/persona_clustering.json",
+    "ux_gap_extraction":   "platform-core/规则/ux_gap_extraction.json",
+    "tech_priority":       "platform-core/规则/tech_priority.json",
     "命题置信度升降":      "CLAUDE.md#环2.2 + 附录 E 规则 3.1/4.1/7.1/7.2",
-    "strategy_brief":      "data/rules/strategy_brief.json",
-    "attribution_pre_check": "data/rules/attribution_pre_check.json",
-    "dashboard_update":    "data/rules/dashboard_update.json",
+    "strategy_brief":      "platform-core/规则/strategy_brief.json",
+    "attribution_pre_check": "platform-core/规则/attribution_pre_check.json",
+    "dashboard_update":    "platform-core/规则/dashboard_update.json",
 }
+
+# 兼容 crave-AI 原路径(L107-114 文档里用 data/rules/),做归一化
+LEGACY_PATH_PREFIX = "data/rules/"
+PLATFORM_PATH_PREFIX = "platform-core/规则/"
 
 
 # ─── 合约零业务规则容器(L71)──────────────
@@ -124,9 +129,13 @@ def validate(
                 f"当前 rule_source={rs!r} 不匹配——请确认是否合约二之外的新动作"
             )
 
-    # 5. 文件存在性(仅对 data/rules/ 类 JSON 检查)
+    # 5. 文件存在性(仅对 processing JSON 检查)
     if check_file_exists and rule_kind == "processing" and repo_root is not None:
-        rs_path = Path(rule_source) if Path(rule_source).is_absolute() else Path(repo_root) / rule_source
+        path_to_check = rs
+        # crave-AI legacy 路径先归一(同 6.5 但提前)
+        if path_to_check.startswith(LEGACY_PATH_PREFIX):
+            path_to_check = path_to_check.replace(LEGACY_PATH_PREFIX, PLATFORM_PATH_PREFIX, 1)
+        rs_path = Path(path_to_check) if Path(path_to_check).is_absolute() else Path(repo_root) / path_to_check
         if not rs_path.is_file():
             warnings.append(
                 f"规则文件不存在: {rs_path}(合约二要求 rule_source 是真实可读文件;"
@@ -139,6 +148,15 @@ def validate(
     elif rule_kind == "processing":
         rule_name = Path(rs).stem
         suggested_vault = f"vault/2_知识库-AI维护/操作规范/SOP-规则-{rule_name}.md"
+
+    # 6.5. crave-AI legacy 路径自动归一(P0-9.2 后)
+    if rule_kind == "processing" and rs.startswith(LEGACY_PATH_PREFIX):
+        normalized = rs.replace(LEGACY_PATH_PREFIX, PLATFORM_PATH_PREFIX, 1)
+        warnings.append(
+            f"rule_source 用了 crave-AI legacy 路径 {rs!r},"
+            f"本仓库实际位置已迁移到 {normalized!r}(P0-9.2 fork 后)。已归一化做校验"
+        )
+        rs = normalized
 
     # 7. ZJB 口头/会议 是合法 fallback(附录 C operation_log 格式 L951)
     if rs in ("ZJB 口头", "ZJB 会议", "ZJB 口头/会议"):
@@ -169,7 +187,7 @@ def validate(
 
 
 def _classify(rs: str) -> str:
-    if rs.startswith("data/rules/") and rs.endswith(".json"):
+    if (rs.startswith("data/rules/") or rs.startswith("platform-core/规则/")) and rs.endswith(".json"):
         return "processing"
     if rs.startswith(BUSINESS_RULE_CONTAINER_VAULT):
         return "business"

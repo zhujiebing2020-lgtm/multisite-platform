@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "rule_name": "strategy_brief",
+    "purpose": "环3.2 策略简报生成规则 + 环3.4 飞书交接消息模板",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-策略简报生成.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "status": "ZJB 签字 · MVP 可用（模板冻结在 CLAUDE.md 环3.2，本文件作机读副本）",
+    "charter_ref": "CLAUDE.md 环3.2 + 环3.4 + 合约三 target_role"
+  },
+  "trigger_conditions": [
+    "命题置信度达到「可信」（自动生成，无需人工再提；见附录 E 规则 3.1/4.1）",
+    "ZJB 主动指令生成"
+  ],
+  "brief_template": {
+    "title": "{命题名}",
+    "core_judgment": "一句话命题陈述",
+    "evidence": "来自命题页 evidence_for 的精选证据（最多 3 条）",
+    "action": [
+      "操作1",
+      "操作2"
+    ],
+    "kpi_target": {
+      "CTR": "由命题本身推导（不设前置默认值）",
+      "CPHQ": "由命题本身推导（不设前置默认值，阈值参考 vault/业务规则/规则-CPHQ阈值.md）",
+      "observation_window": "7天"
+    },
+    "target_role": "由命题 domain 映射默认值（见 CLAUDE.md 附录 A.10 domain×role 映射表）",
+    "rule_source": "data/rules/strategy_brief.json"
+  },
+  "feishu_handoff_template": {
+    "command": "投本周素材",
+    "goal": "{命题驱动的目标}",
+    "materials": ["素材1链接", "素材2链接"],
+    "budget": "$X/天",
+    "target_cphq": "<$X（由命题推导）",
+    "recommended_advertiser": "{缩写}",
+    "target_role": ["投手", "承接层"],
+    "rule_source": "data/rules/strategy_brief.json"
+  },
+  "zjb_todo": [
+    "模板区块是否完整：冻结在 CLAUDE.md 环3.2，暂不改动",
+    "KPI 目标值默认填法：由命题推导，不设前置默认值",
+    "飞书 n8n 对接：技术项，不影响规则执行，待单独技术评估"
+  ]
+}
+

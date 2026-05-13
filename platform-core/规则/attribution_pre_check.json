@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "rule_name": "attribution_pre_check",
+    "purpose": "环4.1 归因前置检查——基于已入库数据核查外部环境 / 内部异常，不主动触发 AdClaw",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-归因前置检查.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "status": "ZJB 签字 · MVP 可用",
+    "charter_ref": "CLAUDE.md 环4.1 + 附录 E 顶部兼容性说明（基于已入库数据核查）"
+  },
+  "trigger": "数据回灌前必做；ROI 回灌结论与直觉相反时必做",
+  "check_items": {
+    "external_environment": {
+      "fields_checked": ["env_flag（合约一·输入端 7 槽位）"],
+      "data_source": "vault/7_日志/operation_log_业务决策流水.md + 命题页 env_flag 字段",
+      "env_flag_expiration_days": 15,
+      "env_flag_expiration_notes": "env_flag 自标记日起 15 天（半个月）后自动失效。失效后如环境问题仍在，需 ZJB 手动重标。防止一个 'FB 算法更新' 的标记无限期压制所有命题升级。",
+      "action_if_flag_present": "暂缓命题置信度变动，在结论中标注 ⚠️ 外因待排除",
+      "action_if_flag_expired": "自动移除标注，恢复命题置信度变动；在 operation_log 记录 'env_flag 自动失效' 条目",
+      "target_role": ["ZJB排查"]
+    },
+    "adclaw_cross_validation": {
+      "default_policy": "基于已入库 AdClaw 数据核查；**不主动触发 AdClaw 查询**",
+      "when_data_missing": "输出 ⚠️ 待 ZJB 补数，不自行拉取",
+      "authorization_flow": "若 ZJB 明确授权一次查询，按 input_schema.json · adclaw_exception 流程执行"
+    },
+    "campaign_level_check": {
+      "fields_checked": ["广告组状态变更", "预算调整", "定向变更"],
+      "data_source": "vault/2_知识库-AI维护/广告组档案/组{N}-*.md",
+      "change_window_days": 7,
+      "change_window_notes": "最近 7 天有变更即在归因中标注。依据：投放学习期 3-5 天，7 天覆盖学习期 + 首周效果。超过 7 天属成熟期不受变更影响。",
+      "action": "若最近 7 天有变更，在归因中标注变更日期与内容"
+    }
+  },
+  "output_schema": {
+    "env_flag_present": "boolean",
+    "env_flag_days_remaining": "int（距失效剩余天数，≤0 时触发自动失效）",
+    "suspected_factors": ["外因候选列表"],
+    "confidence_adjustment": "enum[保持/暂缓升级/暂缓降级]",
+    "target_role": ["ZJB排查"],
+    "rule_source": "data/rules/attribution_pre_check.json"
+  },
+  "zjb_todo": [
+    "哪些外因必须由 ZJB 人工标记、哪些可由 Claude 从日志推断：当前全部走 ZJB 人工标记，Claude 日志推断等样本积累后再训"
+  ]
+}

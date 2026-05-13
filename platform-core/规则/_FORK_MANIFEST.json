@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "title": "L1 规则 fork manifest",
+    "description": "platform-core/规则/ 下所有规则文件 fork 自 crave-AI repo 的快照与完整性证据",
+    "version": "0.1.0",
+    "created": "2026-05-13T20:26:21",
+    "fork_policy": [
+      "源仓库:crave-AI(/Users/zhujiebing/Documents/GitHub/crave-AI)",
+      "源仓库零修改:本 manifest 锁定的 source_sha256 是 fork 时刻的源文件指纹",
+      "目标文件 chmod 444 只读,任何上层 agent / 投手不可改",
+      "需要变更业务规则:走 vault/2_知识库-AI维护/业务规则/(合约零数据主权)",
+      "需要变更处理规则:在 crave-AI 主仓库改,本仓库重新 fork(整文件覆盖)",
+      "fork 同步策略:P1 客户剥站时,sync 脚本读本 manifest 决定是否拉新版"
+    ],
+    "source_repo": {
+      "path": "/Users/zhujiebing/Documents/GitHub/crave-AI",
+      "head_sha": "51c9bdc854bf4f798f33e2b5398b26c8591fbbe0",
+      "head_short": "51c9bdc",
+      "head_committed_at": "2026-05-13T17:35:33+08:00"
+    }
+  },
+  "files": {
+    "attribution_pre_check.json": {
+      "zh_name": "归因前置检查 · 环4.1 ROI 异动前排外因",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/attribution_pre_check.json",
+      "sha256": "c134d65e9132a7739b357be51df73839299d0733c0b40f69388f2bc7e3076629",
+      "size_bytes": 2777,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "attribution_pre_check",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "auto_strategy_rules.json": {
+      "zh_name": "意志继承自动规则 · S 类杠杆三拆 / B 类零 HVU 诊断 / 30 天回看",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/auto_strategy_rules.json",
+      "sha256": "c0f313416bf8a1519c6a9db282af960ecbfd9183631c737b83792384431edad6",
+      "size_bytes": 17166,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "dashboard_update.json": {
+      "zh_name": "看板更新 · 环5.1 + 附录 E 8.1 越线提示",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/dashboard_update.json",
+      "sha256": "5696b31e25a18db07caba83675d0537ef1691d453262e2fa17fd581201973b36",
+      "size_bytes": 3234,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "dashboard_update",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "diagnosis.json": {
+      "zh_name": "诊断规则",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/diagnosis.json",
+      "sha256": "c4f4b84d30fc51128b8ed2aa0489b4d91dded5a673491915b0200d1a57fade0e",
+      "size_bytes": 1347,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "flows.json": {
+      "zh_name": "广告组生命周期 · 创建→学习→跑量→稳定→衰退→暂停",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/flows.json",
+      "sha256": "54dee33d58126aabac157c51eb95140ca7109029493cc11038decc1beda1836f",
+      "size_bytes": 1240,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "group_master.json": {
+      "zh_name": "广告组主数据 · 组号→投手/落地页/选题",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/group_master.json",
+      "sha256": "9191a165d25e46e980c74d5404eea6449a7711ffc8a353b5cb2a66caec40965b",
+      "size_bytes": 17207,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "input_schema.json": {
+      "zh_name": "输入端 7 槽位清洗规则(合约一)",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/input_schema.json",
+      "sha256": "58eb7e389f99b55947472eacd4deead6cee8c9ebf0ab587a4afbc8177182f5ae",
+      "size_bytes": 2355,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "合约一_输入清洗",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "persona_clustering.json": {
+      "zh_name": "承接端 persona 聚类",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/persona_clustering.json",
+      "sha256": "70adb5f16b04ccdb95817ef81ab2cdc2c700f04e6359330381efd9ef762ba93b",
+      "size_bytes": 1955,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "persona_clustering",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "strategy_brief.json": {
+      "zh_name": "策略简报生成 · 环3.2 命题→Hook/视觉/KPI",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/strategy_brief.json",
+      "sha256": "7301dc014e0359fdc84faa5e86d0bca0baba67a334543fe26bcd64f4d645b207",
+      "size_bytes": 1928,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "strategy_brief",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "tech_priority.json": {
+      "zh_name": "技术需求优先级 P0/P1/P2 判定",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/tech_priority.json",
+      "sha256": "fc3fe75c38b9db1256918afa2128bc6527ca3c2df00f185f1552f534648fc8ee",
+      "size_bytes": 2374,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "tech_priority",
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "thresholds.json": {
+      "zh_name": "CPHQ 灯色阈值 + 学习期/放量/止损(L1 兜底)",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/thresholds.json",
+      "sha256": "b876fd8b490b2b24bc30851bc498eaec99b18530f53b3d4f5f9411d6ae30b191",
+      "size_bytes": 516,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "translations.json": {
+      "zh_name": "称谓别名映射(运营/统筹/小朱→ZJB 等)",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/translations.json",
+      "sha256": "fe0534f6df9c0f25a4345d75b61f95a8dcbaba97c3ba7986486801bd8e0997ee",
+      "size_bytes": 2793,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": null,
+      "rule_kind": "processing",
+      "readonly": true
+    },
+    "ux_gap_extraction.json": {
+      "zh_name": "UX 缺口提炼 · 从用户行为/客服/退出调研",
+      "source_path": "~/Documents/GitHub/crave-AI/data/rules/ux_gap_extraction.json",
+      "sha256": "4a1d51f5ace469e0a3ebdf5af745c7b97c59259bee361c30fbbd9dfa31dc085e",
+      "size_bytes": 1977,
+      "fork_method": "cp -p + chmod 444",
+      "processing_action": "ux_gap_extraction",
+      "rule_kind": "processing",
+      "readonly": true
+    }
+  }
+}

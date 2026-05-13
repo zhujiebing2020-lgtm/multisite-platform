@@ -1,0 +1,27 @@
+{
+  "_meta": {"type": "thresholds", "version": "1.0", "updated": "2026-05-08"},
+
+  "cphq_color": {
+    "green": {"max": 3},
+    "yellow": {"min": 3, "max": 5},
+    "orange": {"min": 5},
+    "red": {"hvu": 0, "spend_min": 5}
+  },
+
+  "learning_period": {
+    "spend_threshold": 30,
+    "stop_if_zero_hvu_days": 2
+  },
+
+  "scale_up": {
+    "min_spend": 30,
+    "max_cphq": 3,
+    "consecutive_days": 3,
+    "max_increase_pct": 20
+  },
+
+  "stop_loss": {
+    "cphq_worsening_days": 3,
+    "zero_hvu_occurrences": 2
+  }
+}

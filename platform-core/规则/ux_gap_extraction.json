@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "rule_name": "ux_gap_extraction",
+    "purpose": "从用户行为数据 / 客服对话 / 退出调研 提炼 UX 缺口清单",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-UX缺口提炼.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "status": "ZJB 签字 · MVP 可用",
+    "charter_ref": "CLAUDE.md 合约二规则指针表 + 环 2.2 置信度数据门槛"
+  },
+  "input": {
+    "source_types": [
+      "承接端分析（跳出/退出/客服）",
+      "A/B 测试失败案例",
+      "复盘案例（2_知识库-AI维护/复盘案例/）"
+    ],
+    "minimum_evidence_strength": {
+      "min_independent_sources": 2,
+      "notes": "与命题升可信的'n≥10 或跨时段 2 次'精神对齐：不让单点证据触发缺口提炼。独立来源 = 来自不同文件/会话/日期的证据。"
+    }
+  },
+  "extraction_rules": {
+    "gap_naming_style": "一句陈述句（动词开头），如：'商品详情页缺少尺寸说明导致放弃购买'",
+    "gap_classification": ["产品信息缺失", "视觉引导不足", "功能故障", "信任缺口", "其他"],
+    "severity_levels_当前简化版": {
+      "高": "阻塞转化 / 影响核心漏斗",
+      "中": "影响体验但不阻塞",
+      "低": "锦上添花",
+      "notes": "当前使用三档粗分。精细分级（P0/P1/P2 或定量占比）待 UX 缺口积累 20+ 后再定。"
+    }
+  },
+  "output_schema": {
+    "name": "缺口简称",
+    "desc": "缺口描述",
+    "severity": "enum[高/中/低]",
+    "evidence_count": "支持证据数",
+    "related_sessions": "关联 session_id 列表",
+    "target_role": ["承接层", "技术"],
+    "rule_source": "data/rules/ux_gap_extraction.json"
+  },
+  "zjb_todo": [
+    "严重度精细分级（当前三档粗分，等 UX 缺口积累 20+ 后 ZJB 再定）",
+    "UX 缺口 → 产品需求的转化路径（当前走 环4.2 需求检查流程，不单独定）"
+  ]
+}
+

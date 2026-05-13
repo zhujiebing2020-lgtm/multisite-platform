@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "rule_name": "tech_priority",
+    "purpose": "技术需求 / 产品需求的优先级判定规则",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-技术需求优先级.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "status": "ZJB 签字 · MVP 可用",
+    "charter_ref": "CLAUDE.md 合约二规则指针表 + 合约零·数据主权 + 环4.2 需求检查（不预设行动）+ 环4.3 人工仲裁"
+  },
+  "priority_levels": {
+    "P0": {
+      "name": "阻塞级",
+      "criteria_示例": "收入漏斗断裂 / 核心功能故障 / 安全风险",
+      "claude_auto_assignable": false,
+      "assignment_rule": "Claude 不允许自动标记 P0。最高自动标记到 P1。P0 必须由 ZJB 或跨角色仲裁（环4.3）产出。",
+      "rule_source_ref": "合约零·数据主权（P0=最高优先级属业务定义权）"
+    },
+    "P1": {
+      "name": "重要",
+      "criteria_当前粗分": "影响用户体验但未阻塞核心漏斗",
+      "claude_auto_assignable": true,
+      "notes": "Claude 可基于证据自动标 P1，但输出必须带 target_role 和 规则来源"
+    },
+    "P2": {
+      "name": "优化",
+      "criteria_当前粗分": "锦上添花 / 非关键路径",
+      "claude_auto_assignable": true
+    }
+  },
+  "judgment_inputs_当前简化版": {
+    "受影响用户占比": "用于区分 P1 vs P2（未定量，由 Claude 结合证据判断）",
+    "对 HVU/CPHQ/CPA 的预估影响": "仅作文字描述，不加权",
+    "实施成本_人天": "由技术方填，不参与 Claude 判定",
+    "是否阻塞其他需求": "若阻塞，候选 P0（仍需 ZJB 批准）"
+  },
+  "output_schema": {
+    "priority": "enum[P0/P1/P2]",
+    "name": "需求简称",
+    "status": "enum[proposed/accepted/in_progress/done/rejected]",
+    "metrics_influence": "对哪些指标的预期影响",
+    "target_role": ["技术", "ZJB排查"],
+    "rule_source": "data/rules/tech_priority.json"
+  },
+  "no_next_action_rule": "遵合约三·不加 next_action。输出只列 P0/P1/P2，由 ZJB 拍板哪些做、谁做、何时做。见 CLAUDE.md 环4.2",
+  "zjb_todo": [
+    "P0/P1/P2 定量边界（受影响用户占比阈值）：当前粗分，等 Claude 积累 20+ 需求后由 ZJB 定量",
+    "判断输入的加权算法：当前不加权，仅作文字描述"
+  ]
+}
+

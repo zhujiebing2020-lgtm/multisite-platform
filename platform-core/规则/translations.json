@@ -1,0 +1,66 @@
+{
+  "_meta": {"type": "translations", "version": "1.1", "updated": "2026-05-10"},
+
+  "role_aliases": {
+    "xiaozhu": "ZJB",
+    "小朱": "ZJB",
+    "朱洁冰": "ZJB",
+    "统筹": "ZJB",
+    "运营统筹": "ZJB",
+    "_note": "xiaozhu 是 ZJB 在对投手/技术侧沟通时使用的自称；同一个人，一律归为 ZJB。历史文件 (0430/0506/0508 日报、给 xiaozhu 方法论、4.27 给 fanli 埋点需求等) 里的 xiaozhu 指 ZJB 本人"
+  },
+
+  "page_type_aliases": {
+    "详情页": ["商品详情", "产品详情", "pdp", "product detail", "商品页", "产品页"],
+    "文章页": ["专栏", "multisensory", "博客", "content page", "文章详情"],
+    "场景页": ["scene", "scenarios", "/exp-app/scene", "剧场页", "互动房间"]
+  },
+
+  "adclaw_to_business": {
+    "cphq_green": "绿灯稳定，可加量≤20%",
+    "cphq_yellow": "黄灯观察，不动",
+    "cphq_orange": "橙灯超线，准备暂停",
+    "cphq_red_zero_hvu": "红灯浪费，查落地页",
+    "learning_period": "学习期，不动",
+    "hvu_but_no_conversion": "用户来了但不买，查承接层",
+    "ctr_high_cphq_high": "素材吸引但落地页不匹配",
+    "conversion_p0": "技术阻断，不是投放问题，发工单"
+  },
+
+  "decision_to_action": {
+    "Stop": "通知投手暂停该广告组",
+    "Continue": "继续观察，不做操作",
+    "Increase": "通知投手加量≤20%，观察3天"
+  },
+
+  "persona_to_fix": {
+    "犹豫者": "视频增加功能标签/时间锚点",
+    "对比者": "商品横向对比表",
+    "急迫者": "修复Buy Now链路 + 游客结账",
+    "困惑者": "商品页嵌入AI体验说明"
+  },
+
+  "runtime_ui_labels": {
+    "_note": "Runtime 页面的业务语言翻译。Claude 内部 schema 键不直接外露给业务方(ZJB 2026-05-10 反馈)",
+    "signals": "当前数据",
+    "trigger_conditions": "触发条件 · 达标了没",
+    "skeptic_conditions": "需要重新审视的情况(反驳点)",
+    "rollback_conditions": "出事止损 · 怎么退回",
+    "actions": "三步动作 · 卡在哪",
+    "evidence_chain": "证据链 · 两跳到真源",
+    "honest_note": "现状说明",
+    "timeline": "时间线",
+    "env_flag_2026Q1_承接页维护方变更": "承接页维护方变更期(5/9 标记 · 5/24 失效 · 剩 15 天)",
+    "skeptic_impact.pause_all": "整卡暂停",
+    "skeptic_impact.pause_step3": "第 3 步暂停",
+    "skeptic_impact.degrade_confidence": "降置信度",
+    "skeptic_impact.note_only": "仅标注",
+    "ref_type.xlsx_row": "xlsx 行",
+    "ref_type.claim_md": "命题档",
+    "ref_type.operation_log_date": "操作日志",
+    "ref_type.承接端_md": "承接端分析",
+    "ref_type.command_rule_anchor": "规则锚点",
+    "ref_type.env_flag_md": "外因记录"
+  }
+}
+

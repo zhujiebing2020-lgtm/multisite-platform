@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "rule_name": "persona_clustering",
+    "purpose": "承接端数据 → 用户画像聚类的规则（从会话数据提炼 persona）",
+    "vault_spec": "2_知识库-AI维护/操作规范/SOP-规则-persona聚类.md",
+    "owner": "ZJB",
+    "last_updated": "2026-05-09",
+    "version": "v1.0",
+    "status": "ZJB 签字 · MVP 可用",
+    "charter_ref": "CLAUDE.md 合约二规则指针表 + A.10 domain×target_role 默认映射"
+  },
+  "input": {
+    "source_type": "承接端分析文件 / AdClaw session 导出",
+    "required_fields": ["session_id", "landing_page", "duration_sec", "page_count", "commercial_signal"],
+    "sample_size_threshold": 20
+  },
+  "clustering_logic": {
+    "dimensions": {
+      "behavior": {
+        "fields": ["duration_sec", "page_count", "exit_page"],
+        "notes": "行为特征：停留/页面深度/退出点"
+      },
+      "thinking": {
+        "fields": ["landing_page_type", "commercial_signal"],
+        "landing_page_type_values": ["场景", "商品", "专栏"],
+        "notes": "动机推断：通过落地类型+商业意图信号组合判断用户当前心智"
+      },
+      "commercial_intent": {
+        "fields": ["hvu_v2_signal"],
+        "hvu_v2_signal_types": ["Connected进房间", "Browse行为", "跳商品页或场景页"],
+        "source_ref": "vault/2_知识库-AI维护/概念与指标/HVU.md"
+      }
+    },
+    "max_personas": 4,
+    "min_count_per_persona": 3,
+    "clustering_method": "待定义"
+  },
+  "output_schema": {
+    "label": "一句话画像名",
+    "count": "数量",
+    "behavior": "行为描述",
+    "thinking": "动机推断",
+    "root_cause": "根本原因",
+    "status": "enum[恶化/稳定/改善/新增]",
+    "target_role": ["承接层"],
+    "rule_source": "data/rules/persona_clustering.json"
+  },
+  "zjb_todo": [
+    "聚类方法（K-means / 规则树 / 其他）：当前占位 '待定义'，实施前需 ZJB 或技术确认"
+  ]
+}
+

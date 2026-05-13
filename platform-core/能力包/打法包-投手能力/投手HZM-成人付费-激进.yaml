@@ -1,0 +1,64 @@
+# 打法包 · 投手 HZM · 成人付费 · 激进
+# 挂载点:上下文层(SVG §15.3 打法包 → Site Runtime Context)
+# 引用格式:投手HZM-成人付费-激进@v0.1.0
+# Fork 自:crave-AI/data/rules/{thresholds.json,auto_strategy_rules.json,flows.json}
+
+_meta:
+  author: 投手HZM
+  category: 成人付费
+  stage: 激进
+  version: "0.1.0"
+  updated: 2026-05-13
+  forked_from:
+    source: crave-AI
+    path: data/rules/*.json
+    commit: null              # crave-AI 当前 HEAD,P1 补 sha
+    note: 主站打法实战验证,激进分支专为折扣站时效性
+  lineage:
+    - crave-AI/主站打法
+    - 投手HZM-成人付费-激进@v0.1.0
+  status: draft               # draft / active / deprecated
+
+# ─── 启用 agent + flow ─────────────────────────
+enabled_agents:
+  - 流量-投放
+  - 技术-埋点
+  - 数据-归因
+  - 创意-素材
+
+active_flow: paid-ads-付费流量
+
+# ─── L2 覆盖层(字段级覆盖 L1,扁平 key)──────────
+# 注:E3 决策 — 激进具体数值留 TBD,等 ZJB / HZM 给数
+thresholds_overrides:
+
+  # 激进:零 HVU 容忍降到 1 天(L1 默认 3 天 / L1 学习期 2 天)
+  pause_on_hvu_zero_days: 1            # TBD-confirm 等 ZJB 拍
+
+  # 激进:放量条件放宽(L1 = 3 天连续 / 增量 20%)
+  scale_up_consecutive_days: 2         # TBD-confirm
+  scale_up_max_increase_pct: 30        # TBD-confirm
+
+  # 激进:止损更快(L1 = 3 天恶化)
+  stop_loss_cphq_worsening_days: 2     # TBD-confirm
+
+  # 折扣站素材老化快(L1 = 3 天 -30%)
+  creative_fatigue_ctr_drop_pct: 20    # TBD-confirm
+  creative_fatigue_window_days: 2      # TBD-confirm
+
+# ─── 默认挂的内容包(可被站级覆盖)─────────────────
+default_content_pack: 限时紧迫-折扣站@v0.1.0
+
+# ─── 产出包引用 ──────────────────────────────
+production_packages:
+  - ad-video-广告视频
+
+# ─── 预算建议(站级 L3 可覆盖)─────────────────
+budget_hints:
+  daily_cap_usd: 200
+  monthly_cap_usd: 5000
+  creative_monthly_cap_usd: 50          # 评议 #3 共识
+
+# ─── 事件 → 任务映射(loader.md §15.6 未决项之一)──
+# 暂留空,等 ZJB 决定这一段归属(嵌打法包 / 平台默认 / 各 agent 自带)
+event_to_task_map: null

@@ -1,0 +1,45 @@
+# 站级配置 · elysianu.com
+# 挂载点:上下文层 L3(loader.md §1.1 — runtime 扫描 sites/*/config.yaml 自动发现)
+
+_meta:
+  site_id: elysianu
+  domain: elysianu.com
+  owner: 投手HZM
+  category: 成人付费              # 必须与打法包 _meta.category 严格匹配(loader.md §3.4)
+  positioning: 折扣站
+  monetization: 自有直营
+  channel: paid-ads
+  region: global
+  budget_tier: small
+  risk_level: medium
+  status: pilot
+  onboarded_at: 2026-05-13
+
+# 打法包引用(loader.md §2.1)
+打法包: 投手HZM-成人付费-激进@v0.1.0
+
+# 产出包(可在打法包基础上叠加)
+产出包:
+  - ad-video-广告视频
+
+# 内容包(覆盖打法包默认)
+内容包: 限时紧迫-折扣站@v0.1.0
+
+# ─── L3 站级覆盖(白名单字段,见 defaults.yaml#site_level_overridable)──
+thresholds_overrides:
+  # 折扣站对素材老化更敏感
+  creative_fatigue_ctr_drop_pct: 15           # TBD-confirm
+  creative_fatigue_window_days: 2
+
+# ─── 预算红线 ─────────────────────────────────
+# v3 §7 方案乙:财务开站时定死,超限走平台内工作流
+budget:
+  daily_cap_usd: 150
+  monthly_cap_usd: 3500
+  creative_monthly_cap_usd: 50
+  breach_action: pause_and_workflow      # 不引入 finance 新角色(v3 §7)
+
+# ─── 数据 inbox(数据层扫描)────────────────────
+data_inbox:
+  path: sites/elysianu/data-inbox/
+  scan_interval_sec: 120

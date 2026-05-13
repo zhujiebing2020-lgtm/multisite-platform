@@ -1,0 +1,41 @@
+# 内容包 · 限时紧迫 · 折扣站
+# 挂载点:Agent 执行层入参(SVG §15.3 内容包 → 创意-素材 Agent 跑的时候读)
+# 跨站复用:任意折扣站可在 sites/{站}/config.yaml 引用此包
+
+_meta:
+  id: 限时紧迫-折扣站
+  version: "0.1.0"
+  owner: 投手HZM
+  updated: 2026-05-13
+
+tone:
+  primary: 限时紧迫
+  secondary: 划算
+
+brand_phrases:
+  cta:
+    - 限时直降
+    - 今晚截止
+    - 再不抢就没了
+    - 全网最低
+  urgency:
+    - 仅剩最后 X 小时
+    - 错过今晚涨价
+    - 专属折扣码倒计时
+  value:
+    - 省 XX 美元
+    - 同款对比官网便宜 40%
+    - 买一送一最后一天
+
+forbidden_phrases:
+  - 免费永久
+  - 医疗承诺类
+  - 绝对化用词(最棒/第一/唯一)
+
+style_hints:
+  script_pace: fast              # 每镜头 ≤ 3s
+  voiceover_emotion: urgent
+  visual_motif:
+    - 倒计时
+    - 价格划线对比
+    - 抢购画面

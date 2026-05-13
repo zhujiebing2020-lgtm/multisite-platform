@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+venv/
+.env
+.env.local
+*.swp
+.idea/
+.vscode/
+
+sites/*/data-inbox/*
+!sites/*/data-inbox/.gitkeep
+sites/*/assets/raw/
+sites/*/.runtime-cache/

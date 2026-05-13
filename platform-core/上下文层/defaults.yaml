@@ -1,0 +1,54 @@
+# platform-core/上下文层/defaults.yaml
+# L1 平台默认阈值 · 全平台 1 份扁平,不分 agent
+# 来源:crave-AI/data/rules/thresholds.json(主站实战值,只读复刻)
+# 优先级最低,被打法包 L2 / 站级 L3 / 运行时 L4 覆盖
+
+_meta:
+  layer: L1-platform-default
+  version: 0.1.0
+  updated: 2026-05-13
+  source_repo: crave-AI/data/rules/thresholds.json
+
+thresholds:
+
+  # ─── CPHQ 配色(crave-AI thresholds.json#cphq_color)─────
+  cphq_green_max: 3                  # 绿灯上限 $
+  cphq_yellow_min: 3                 # 黄灯下限
+  cphq_yellow_max: 5                 # 黄灯上限
+  cphq_orange_min: 5                 # 橙灯下限
+  cphq_red_hvu: 0                    # 红灯条件:HVU == 0
+  cphq_red_spend_min: 5              # 红灯条件:花费 >= 5
+
+  # ─── 学习期(crave-AI thresholds.json#learning_period)─
+  learning_spend_threshold: 30       # 学习期累计花费阈值
+  learning_stop_if_zero_hvu_days: 2  # 零 HVU 暂停天数
+
+  # ─── 放量(crave-AI thresholds.json#scale_up)──────────
+  scale_up_min_spend: 30
+  scale_up_max_cphq: 3
+  scale_up_consecutive_days: 3
+  scale_up_max_increase_pct: 20
+
+  # ─── 止损(crave-AI thresholds.json#stop_loss)─────────
+  stop_loss_cphq_worsening_days: 3
+  stop_loss_zero_hvu_occurrences: 2
+
+  # ─── 通用 ─────────────────────────────────────
+  lookback_days: 7
+  pause_on_hvu_zero_days: 3
+
+  # ─── 素材老化(creative-refresh workflow 触发条件)─────
+  creative_fatigue_ctr_drop_pct: 30
+  creative_fatigue_window_days: 3
+  creative_refresh_cooldown_days: 7
+
+  # ─── 月度产出闸门(评议 #3)────────────────────────
+  creative_monthly_cost_cap_usd: 50
+
+# 允许 L3 站级覆盖的白名单(loader.md §3 未决项,先放保守集合)
+site_level_overridable:
+  - pause_on_hvu_zero_days
+  - lookback_days
+  - creative_fatigue_ctr_drop_pct
+  - creative_fatigue_window_days
+  - creative_monthly_cost_cap_usd

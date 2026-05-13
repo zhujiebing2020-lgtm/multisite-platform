@@ -1,0 +1,141 @@
+# workflows-工作流/creative-refresh-素材更新.yaml
+# 自动触发产出包生产新素材的工作流定义
+# 归属:platform-core-平台内核/workflows-工作流/
+# 作用:为策略 agent 判定"素材老化"后的自动触发提供闸门,防止成本失控
+#
+# 原则:
+# 1. 触发口径具体化(不说"老化"说阈值)
+# 2. 冷却期防抖
+# 3. 审批窗口 + 超时默认拒绝(不是默认通过)
+# 4. 月度产出预算独立于投放预算
+# 5. 自动产出必须二次审批才能上线
+
+_meta:
+  version: 0.1-draft
+  owner: platform
+  created: 2026-05-13
+  status: 架构示例,未落代码
+
+# ============================================
+# 1. 触发条件 · 谁可以发起这个工作流
+# ============================================
+trigger:
+  source: 策略-strategy-agent       # 仅策略 agent 可自动触发
+                                     # (投手手动触发走另一通道,不经本工作流)
+
+  conditions:                        # 任一命中即进入触发评估
+    - name: CTR 衰减
+      metric: ctr_pct
+      rule: 相对基线下降 ≥ 30%
+      window: 连续 3 天
+    - name: CPM 上升
+      metric: cpm_usd
+      rule: 相对基线上升 ≥ 50%
+      window: 连续 5 天
+    - name: 转化率衰减
+      metric: conversion_rate_pct
+      rule: 相对基线下降 ≥ 25%
+      window: 连续 3 天
+
+  baseline:
+    definition: 该站该素材组近 14 天平均值
+    min_sample_days: 7               # 少于 7 天不触发(防新上线抖动误判)
+
+# ============================================
+# 2. 冷却期 · 防止反复触发
+# ============================================
+cooldown:
+  per_site_days: 7                   # 同一站 7 天内最多触发一次
+  per_ad_group_days: 14              # 同一广告组 14 天内最多一次
+  on_conflict: 跳过                   # 冷却期内再命中条件,跳过不告警
+
+# ============================================
+# 3. 审批窗口 · 投手必须在窗口内做决定
+# ============================================
+approval:
+  approver: 站负责投手                # 从站 config.owner 读
+  channel: 平台内工单 + 企微推送
+  window_h: 24                       # 24 小时
+  on_timeout: 拒绝                    # 超时默认拒绝(关键:不是默认通过)
+  on_approver_unavailable:           # 投手请假/离职时的 fallback
+    → ZJB / 运营接管审批
+
+# ============================================
+# 4. 成本闸门 · 独立于投放预算
+# ============================================
+cost_guard:
+  monthly_cap_per_site_usd: 50       # 单站月度产出包花销上限
+                                      # 默认值,站 config.creative_refresh.monthly_cap_usd 可覆盖
+
+  on_breach:
+    action: 暂停本站后续自动触发
+    notify: [财务, ZJB, 站负责投手]
+    resume_requires: 财务审批
+
+  cost_tracking:
+    write_to: data-spine/成本事件表
+    fields:
+      - site_id
+      - triggered_by                  # creative-refresh
+      - package                       # ad-video
+      - subpackages_called            # [script, storyboard, visual, ...]
+      - cost_usd
+      - timestamp
+
+# ============================================
+# 5. 执行步骤 · 审批通过后如何跑
+# ============================================
+execution:
+  on_approve:
+    - step: 调用产出包
+      call: ad-video-广告视频(整条)
+      inputs_from: 站 config.产出包配置
+
+    - step: 成品落盘
+      target: sites-站群/{site}/assets-pending/    # 进 pending,不是 ready
+      # 关键:自动产出不直接进 ready,必须二次审批
+
+    - step: 推送二次审批
+      to: 站负责投手
+      message: "自动生成 N 条素材待你最终确认"
+      window_h: 72                                  # 二次审批 3 天窗口
+
+    - step: 二次审批通过
+      action: 文件移至 assets-ready/,投放 agent 可用
+
+    - step: 二次审批超时
+      action: 文件移至 assets-archived/timeout/
+      # 不删除,归档备查,成本已计入本月配额
+
+  on_reject:
+    - step: 记录拒绝原因
+      write_to: data-spine/工作流日志
+      回流:
+        - 拒绝原因反哺策略 agent(减少类似无效触发)
+
+# ============================================
+# 6. 监控与告警
+# ============================================
+monitoring:
+  dashboards:
+    平台总监控台:
+      - 本周 creative-refresh 触发次数(全站)
+      - 各站月度产出花销 vs 上限
+      - 审批超时率 / 拒绝率
+    投手站群监控台:
+      - 本投手名下站的触发记录
+      - 待审工单数
+
+  alerts:
+    - 单站单日触发 ≥ 2 次 → 告警(可能 baseline 异常)
+    - 站月度花销 ≥ 80% cap → 告警
+    - 站月度花销 ≥ 100% cap → 触发 cost_guard.on_breach
+
+# ============================================
+# 未决项(架构层,不是执行层)
+# ============================================
+_unresolved:
+  - baseline 的 14 天窗口是否合适(可能按品类调整,投手配置)
+  - 二次审批 72h 窗口是否太长(成本账已计,但未审可能积压)
+  - 跨站成本联动:某投手名下所有站累计超某阈值是否应整体暂停
+  - 投手拒绝率过高时,是否该降低该站的 baseline 敏感度

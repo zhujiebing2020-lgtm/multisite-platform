@@ -39,9 +39,35 @@ from 规则指针校验 import validate as validate_rule  # noqa: E402
 name = "数据分析"
 
 RULES_DIR = PLATFORM_CORE / "规则"
+DATA_DIR = PLATFORM_CORE / "数据底盘"
 GROUP_MASTER_RULE = "platform-core/规则/group_master.json"
 THRESHOLDS_RULE = "platform-core/规则/thresholds.json"
 AUTO_STRATEGY_RULE = "platform-core/规则/auto_strategy_rules.json"
+
+
+# ─── 读真 CSV 底盘 ─────────────────────
+def _load_daily_long_csv(owner_filter: str | None = None) -> list[dict]:
+    """从 数据底盘/ad_history/current_account_daily_long.csv 读真实数据"""
+    import csv
+    csv_path = DATA_DIR / "ad_history" / "current_account_daily_long.csv"
+    if not csv_path.is_file():
+        return []
+    rows = []
+    with csv_path.open(encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for r in reader:
+            if owner_filter and r.get("advertiser") != owner_filter:
+                continue
+            rows.append({
+                "group": r.get("group", ""),
+                "group_id": r.get("group", ""),
+                "owner": r.get("advertiser", ""),
+                "date": r.get("date", ""),
+                "spend": float(r["spend"]) if r.get("spend") else 0,
+                "hvu": int(r["hvu"]) if r.get("hvu") else 0,
+                "cphq": float(r["cphq"]) if r.get("cphq") else None,
+            })
+    return rows
 
 
 # ─── CPHQ 灯色分级(读真规则)─────────────
@@ -113,28 +139,40 @@ def run(inp: AgentInput) -> AgentResult:
         }
 
     # ─── 5. 数据聚合 ─────────────────────
-    # MVP:日报行没传就只给"组归属+规则摘要",日报行传了就算灯色
-    daily_rows = upstream.get("daily_rows", [])
-    by_color: dict[str, list] = {"绿灯": [], "黄灯": [], "橙灯": [], "橙灯/红灯候选": []}
+    # 优先读 upstream 推入的 daily_rows;否则读真 CSV 底盘
+    daily_rows = upstream.get("daily_rows")
+    if daily_rows is None:
+        daily_rows = _load_daily_long_csv(owner_filter)
+
+    by_color: dict[str, list] = {}
     per_group_cphq = {}
 
     for row in daily_rows:
-        gid = str(row.get("group_id", ""))
-        if gid not in visible_groups:
-            continue  # 不在视角内,跳过
-        cphq = row.get("cphq")
-        if cphq is None:
+        gid = str(row.get("group_id", row.get("group", "")))
+        # 从 group_master 匹配(兼容 CSV 里 group 字段带名字如"组17 18 Sensual")
+        matched_gid = None
+        for k, g in visible_groups.items():
+            if k == gid or g["name"] in gid or gid in g["name"]:
+                matched_gid = k
+                break
+        if matched_gid is None:
             continue
-        color = _classify_cphq(float(cphq), thresholds)
+        cphq = row.get("cphq")
+        if cphq is None or cphq == "":
+            continue
+        cphq = float(cphq)
+        color = _classify_cphq(cphq, thresholds)
         entry = {
-            "group": f"组{gid} {visible_groups[gid]['name'].replace(f'组{gid} ','').strip()}",
-            "owner": visible_groups[gid]["owner"],
+            "group": visible_groups[matched_gid]["name"],
+            "owner": visible_groups[matched_gid]["owner"],
             "cphq": cphq,
             "hvu": row.get("hvu"),
+            "spend": row.get("spend"),
+            "date": row.get("date"),
             "color": color,
         }
         by_color.setdefault(color, []).append(entry)
-        per_group_cphq[gid] = entry
+        per_group_cphq[matched_gid] = entry
 
     # ─── 6. 输出结构化结论 ─────────────────
     data = {

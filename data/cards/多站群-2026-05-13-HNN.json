@@ -1,0 +1,184 @@
+{
+  "_meta": {
+    "date": "2026-05-13",
+    "owner": "HNN",
+    "card_type": "pitcher_view",
+    "generated_at": "2026-05-13T22:20:27.060234"
+  },
+  "agent_outputs": [
+    {
+      "ts": 1778682027.0321338,
+      "status": "success",
+      "duration_ms": 0,
+      "data": {
+        "视角": "投手 HNN 自看",
+        "视角说明": "只看 HNN 负责的组,不含他人组",
+        "在册组数": 28,
+        "本次有日报数据的组": 9,
+        "CPHQ 灯色阈值来源": {
+          "rule_file": "platform-core/规则/thresholds.json",
+          "version": "1.0",
+          "updated": "2026-05-08",
+          "绿": "≤ $3",
+          "黄": "$3-$5",
+          "橙": "≥ $5",
+          "红": "HVU=0 且花费≥$5"
+        },
+        "按灯色分类": {
+          "绿灯": [
+            {
+              "group": "组25 强迫休息",
+              "owner": "HNN",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组58（弯棒）",
+              "owner": "HNN",
+              "cphq": 2.86,
+              "hvu": 3,
+              "spend": 8.57,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组58（弯棒）",
+              "owner": "HNN",
+              "cphq": 1.27,
+              "hvu": 7,
+              "spend": 8.9,
+              "date": "2026-05-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组59（肛塞",
+              "owner": "HNN",
+              "cphq": 2.66,
+              "hvu": 3,
+              "spend": 7.98,
+              "date": "2026-05-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组66 （躺椅）",
+              "owner": "HNN",
+              "cphq": 0.76,
+              "hvu": 11,
+              "spend": 8.4,
+              "date": "2026-05-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组33 黑男",
+              "owner": "HNN",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组52 掌握眼神",
+              "owner": "HNN",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组59（肛塞",
+              "owner": "HNN",
+              "cphq": 1.62,
+              "hvu": 2,
+              "spend": 3.24,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组61（恶霸）",
+              "owner": "HNN",
+              "cphq": 0.0,
+              "hvu": 0,
+              "spend": 7.99,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组62（教练）",
+              "owner": "HNN",
+              "cphq": 0.0,
+              "hvu": 0,
+              "spend": 12.02,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组66 （躺椅）",
+              "owner": "HNN",
+              "cphq": 1.72,
+              "hvu": 5,
+              "spend": 8.59,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            }
+          ],
+          "黄灯": [
+            {
+              "group": "组59（肛塞",
+              "owner": "HNN",
+              "cphq": 4.82,
+              "hvu": 2,
+              "spend": 9.64,
+              "date": "2026-05-10",
+              "color": "黄灯"
+            },
+            {
+              "group": "组66 （躺椅）",
+              "owner": "HNN",
+              "cphq": 3.37,
+              "hvu": 3,
+              "spend": 10.1,
+              "date": "2026-05-10",
+              "color": "黄灯"
+            },
+            {
+              "group": "组58（弯棒）",
+              "owner": "HNN",
+              "cphq": 3.9,
+              "hvu": 2,
+              "spend": 7.81,
+              "date": "2026-05-12",
+              "color": "黄灯"
+            }
+          ],
+          "橙灯/红灯候选": [
+            {
+              "group": "组63（漫男）",
+              "owner": "HNN",
+              "cphq": 9.42,
+              "hvu": 1,
+              "spend": 9.42,
+              "date": "2026-05-12",
+              "color": "橙灯/红灯候选"
+            }
+          ]
+        },
+        "语气提示": "投手视角 · 陈述句+可执行判断,不加 next_action",
+        "_io_contract": {
+          "target_role": [
+            "投手"
+          ],
+          "rule_source": "platform-core/规则/thresholds.json",
+          "processing_actions_touched": [
+            "group_master_read",
+            "cphq_classify"
+          ]
+        }
+      }
+    }
+  ]
+}

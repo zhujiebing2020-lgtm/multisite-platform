@@ -118,19 +118,7 @@ def run(inp: AgentInput) -> AgentResult:
         },
     }
 
-    # 飞书交接消息(环3.4)
-    feishu_msg = {
-        "格式": "【素材需求 · {日期}】",
-        "命题依据": statement[:60],
-        "主题方向": f"基于命题「{statement[:20]}...」的投放方向",
-        "Hook选一": brief["Hook备选"][0],
-        "视觉方向": brief["视觉方向"],
-        "落地页": landing_type,
-        "目标CPHQ": brief["KPI目标"]["CPHQ"],
-        "推荐投手": recommended_pitcher,
-        "target_role": ["投手", "承接层"],
-        "rule_source": RULE_SOURCE,
-    }
+    # 飞书消息和交接由 交接消息 agent 处理(单独 agent,职责分离)
 
     # 看板建议行(环3.3)
     dashboard_row = {
@@ -144,13 +132,12 @@ def run(inp: AgentInput) -> AgentResult:
 
     data = {
         "策略简报": brief,
-        "飞书交接消息": feishu_msg,
         "看板建议行": dashboard_row,
         "说明": [
             "策略简报在对话中输出,不写文件(环3.5 执行规则)",
             "Hook/视觉/正文 标'待填写' = 需要 ZJB 或投手补充具体创意",
             "KPI 目标由命题推导,不设前置默认值(strategy_brief.json)",
-            "ZJB 确认后,交接消息可直接粘贴飞书/微信给投手",
+            "飞书/微信交接由 交接消息 agent 单独处理,本 agent 不管发送",
         ],
         "语气提示": "投手视角 · 陈述句+可执行判断",
     }

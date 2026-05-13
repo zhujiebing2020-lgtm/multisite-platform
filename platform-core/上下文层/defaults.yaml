@@ -45,6 +45,23 @@ thresholds:
   # ─── 月度产出闸门(评议 #3)────────────────────────
   creative_monthly_cost_cap_usd: 50
 
+  # ─── 技术域(launch gate + 运行时健康)──────────
+  # 来源:crave-AI/data/rules/flows.json#acceptance_check + tech_priority.json
+  lcp_ms_max: 2000                   # 上线前关卡
+  lcp_ms_alert: 3000                 # 运行时告警
+  http_status_ok: 200
+  utm_required: true
+  age_gate_required: true
+  tracking_loss_ratio_alert: 0.05    # 埋点丢失 > 5% 告警
+  api_error_rate_alert: 0.02
+
+  # ─── 数据归因域 ────────────────────────────
+  utm_coverage_min: 0.9              # UTM 覆盖率低于 90% 视为 attribution_risk
+  hvu_drop_pct_alert: 30             # HVU 下降 ≥ 30% 触发异常事件
+  cost_spike_pct_alert: 50
+  bounce_rate_alert: 0.8
+  min_sessions_for_confidence: 100   # 样本不足此值,归因结论标低置信
+
 # 允许 L3 站级覆盖的白名单(loader.md §3 未决项,先放保守集合)
 site_level_overridable:
   - pause_on_hvu_zero_days
@@ -52,3 +69,7 @@ site_level_overridable:
   - creative_fatigue_ctr_drop_pct
   - creative_fatigue_window_days
   - creative_monthly_cost_cap_usd
+  - lcp_ms_alert
+  - tracking_loss_ratio_alert
+  - hvu_drop_pct_alert
+  - utm_coverage_min

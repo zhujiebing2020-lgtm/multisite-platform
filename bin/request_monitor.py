@@ -115,6 +115,10 @@ def scan_once() -> int:
     print(f"\n→ 重生成 dashboard")
     subprocess.run([sys.executable, str(REPO / "bin/export_dashboard.py")], check=False)
     subprocess.run([sys.executable, str(REPO / "bin/build.py")], check=False)
+
+    # 自动 commit + push(无 remote 则静默)
+    print(f"\n→ 自动 git sync")
+    subprocess.run(["bash", str(REPO / "bin/git_sync.sh")], check=False)
     return len(pending)
 
 

@@ -1,0 +1,1906 @@
+{
+  "_meta": {
+    "date": "2026-05-13",
+    "owner": "HZM",
+    "card_type": "pitcher_view",
+    "generated_at": "2026-05-13T22:16:01.170834"
+  },
+  "agent_outputs": [
+    {
+      "ts": 1778681761.1442711,
+      "status": "success",
+      "duration_ms": 3,
+      "data": {
+        "视角": "投手 HZM 自看",
+        "视角说明": "只看 HZM 负责的组,不含他人组",
+        "在册组数": 21,
+        "本次有日报数据的组": 20,
+        "CPHQ 灯色阈值来源": {
+          "rule_file": "platform-core/规则/thresholds.json",
+          "version": "1.0",
+          "updated": "2026-05-08",
+          "绿": "≤ $3",
+          "黄": "$3-$5",
+          "橙": "≥ $5",
+          "红": "HVU=0 且花费≥$5"
+        },
+        "按灯色分类": {
+          "黄灯": [
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 4.65,
+              "hvu": 3,
+              "spend": 13.95,
+              "date": "2026-04-05",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 3.35,
+              "hvu": 3,
+              "spend": 10.04,
+              "date": "2026-04-06",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 3.4,
+              "hvu": 2,
+              "spend": 6.81,
+              "date": "2026-04-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 3.11,
+              "hvu": 5,
+              "spend": 15.57,
+              "date": "2026-04-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 3.76,
+              "hvu": 4,
+              "spend": 15.04,
+              "date": "2026-04-12",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 4.34,
+              "hvu": 2,
+              "spend": 8.68,
+              "date": "2026-04-14",
+              "color": "黄灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 3.89,
+              "hvu": 2,
+              "spend": 7.78,
+              "date": "2026-04-23",
+              "color": "黄灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 4.12,
+              "hvu": 2,
+              "spend": 8.24,
+              "date": "2026-04-24",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 3.37,
+              "hvu": 5,
+              "spend": 16.87,
+              "date": "2026-04-24",
+              "color": "黄灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 4.75,
+              "hvu": 5,
+              "spend": 23.75,
+              "date": "2026-04-25",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 4.41,
+              "hvu": 3,
+              "spend": 13.24,
+              "date": "2026-04-26",
+              "color": "黄灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 4.69,
+              "hvu": 5,
+              "spend": 23.45,
+              "date": "2026-04-26",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 3.64,
+              "hvu": 3,
+              "spend": 10.91,
+              "date": "2026-04-27",
+              "color": "黄灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 4.41,
+              "hvu": 5,
+              "spend": 22.04,
+              "date": "2026-04-27",
+              "color": "黄灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 4.57,
+              "hvu": 2,
+              "spend": 9.13,
+              "date": "2026-04-28",
+              "color": "黄灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 3.5,
+              "hvu": 3,
+              "spend": 10.5,
+              "date": "2026-05-01",
+              "color": "黄灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 3.04,
+              "hvu": 2,
+              "spend": 6.07,
+              "date": "2026-05-07",
+              "color": "黄灯"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 3.57,
+              "hvu": 4,
+              "spend": 14.29,
+              "date": "2026-05-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 4.91,
+              "hvu": 3,
+              "spend": 14.74,
+              "date": "2026-05-12",
+              "color": "黄灯"
+            }
+          ],
+          "橙灯/红灯候选": [
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.04,
+              "hvu": 2,
+              "spend": 14.09,
+              "date": "2026-04-05",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 9.79,
+              "hvu": 1,
+              "spend": 9.79,
+              "date": "2026-04-06",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 9.94,
+              "hvu": 1,
+              "spend": 9.94,
+              "date": "2026-04-07",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 6.28,
+              "hvu": 2,
+              "spend": 12.55,
+              "date": "2026-04-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组11 Lover Tonight",
+              "owner": "HZM",
+              "cphq": 5.21,
+              "hvu": 2,
+              "spend": 10.42,
+              "date": "2026-04-09",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.29,
+              "hvu": 2,
+              "spend": 14.58,
+              "date": "2026-04-10",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组11 Lover Tonight",
+              "owner": "HZM",
+              "cphq": 5.13,
+              "hvu": 1,
+              "spend": 5.13,
+              "date": "2026-04-11",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 10.63,
+              "hvu": 1,
+              "spend": 10.63,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.03,
+              "hvu": 2,
+              "spend": 14.06,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组15 Power Shift",
+              "owner": "HZM",
+              "cphq": 6.16,
+              "hvu": 2,
+              "spend": 12.32,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 9.39,
+              "hvu": 2,
+              "spend": 18.79,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组15 Power Shift",
+              "owner": "HZM",
+              "cphq": 8.31,
+              "hvu": 2,
+              "spend": 16.63,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组19 Top Predator's",
+              "owner": "HZM",
+              "cphq": 15.59,
+              "hvu": 1,
+              "spend": 15.59,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 8.09,
+              "hvu": 2,
+              "spend": 16.17,
+              "date": "2026-04-18",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 6.43,
+              "hvu": 2,
+              "spend": 12.87,
+              "date": "2026-04-19",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组31 天使",
+              "owner": "HZM",
+              "cphq": 6.75,
+              "hvu": 2,
+              "spend": 13.49,
+              "date": "2026-04-19",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 17.75,
+              "hvu": 1,
+              "spend": 17.75,
+              "date": "2026-04-20",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组31 天使",
+              "owner": "HZM",
+              "cphq": 10.96,
+              "hvu": 1,
+              "spend": 10.96,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 7.22,
+              "hvu": 3,
+              "spend": 21.65,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 26.39,
+              "hvu": 1,
+              "spend": 26.39,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 10.16,
+              "hvu": 2,
+              "spend": 20.33,
+              "date": "2026-04-22",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 22.99,
+              "hvu": 1,
+              "spend": 22.99,
+              "date": "2026-04-23",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 11.6,
+              "hvu": 1,
+              "spend": 11.6,
+              "date": "2026-04-24",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 29.14,
+              "hvu": 1,
+              "spend": 29.14,
+              "date": "2026-04-25",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 5.25,
+              "hvu": 7,
+              "spend": 36.76,
+              "date": "2026-04-28",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 17.13,
+              "hvu": 2,
+              "spend": 34.26,
+              "date": "2026-05-06",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 9.18,
+              "hvu": 2,
+              "spend": 18.36,
+              "date": "2026-05-07",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 6.46,
+              "hvu": 1,
+              "spend": 6.46,
+              "date": "2026-05-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组57（八爪鱼）",
+              "owner": "HZM",
+              "cphq": 33.9,
+              "hvu": 1,
+              "spend": 33.9,
+              "date": "2026-05-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 6.75,
+              "hvu": 3,
+              "spend": 20.24,
+              "date": "2026-05-10",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 5.33,
+              "hvu": 3,
+              "spend": 15.99,
+              "date": "2026-05-11",
+              "color": "橙灯/红灯候选"
+            }
+          ],
+          "绿灯": [
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 2.24,
+              "hvu": 5,
+              "spend": 11.21,
+              "date": "2026-04-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 1.76,
+              "hvu": 5,
+              "spend": 8.79,
+              "date": "2026-04-08",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 1.7,
+              "hvu": 3,
+              "spend": 5.1,
+              "date": "2026-04-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 2.92,
+              "hvu": 4,
+              "spend": 11.66,
+              "date": "2026-04-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 0.38,
+              "hvu": 6,
+              "spend": 2.3,
+              "date": "2026-04-14",
+              "color": "绿灯"
+            },
+            {
+              "group": "组19 Top Predator's",
+              "owner": "HZM",
+              "cphq": 2.55,
+              "hvu": 3,
+              "spend": 7.64,
+              "date": "2026-04-14",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 2.3,
+              "hvu": 1,
+              "spend": 2.3,
+              "date": "2026-04-15",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 0.06,
+              "hvu": 3,
+              "spend": 0.18,
+              "date": "2026-04-16",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 1.38,
+              "hvu": 2,
+              "spend": 2.75,
+              "date": "2026-04-16",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.55,
+              "hvu": 14,
+              "spend": 7.69,
+              "date": "2026-04-22",
+              "color": "绿灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 2.47,
+              "hvu": 12,
+              "spend": 29.65,
+              "date": "2026-04-22",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.29,
+              "hvu": 10,
+              "spend": 2.94,
+              "date": "2026-04-23",
+              "color": "绿灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 1.59,
+              "hvu": 13,
+              "spend": 20.61,
+              "date": "2026-04-23",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 1.66,
+              "hvu": 10,
+              "spend": 16.6,
+              "date": "2026-04-24",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 1.74,
+              "hvu": 5,
+              "spend": 8.68,
+              "date": "2026-04-26",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 5,
+              "spend": 0.0,
+              "date": "2026-04-27",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 1.54,
+              "hvu": 6,
+              "spend": 9.25,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 2.25,
+              "hvu": 6,
+              "spend": 13.5,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 2.22,
+              "hvu": 8,
+              "spend": 17.78,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 2.79,
+              "hvu": 2,
+              "spend": 5.58,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 1.53,
+              "hvu": 3,
+              "spend": 4.58,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.61,
+              "hvu": 9,
+              "spend": 5.48,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.95,
+              "hvu": 8,
+              "spend": 7.64,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.33,
+              "hvu": 12,
+              "spend": 3.96,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.98,
+              "hvu": 3,
+              "spend": 2.94,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 2.66,
+              "hvu": 3,
+              "spend": 7.98,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 9,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-05-02",
+              "color": "绿灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-03",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-04",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-05",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-06",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 2.28,
+              "hvu": 1,
+              "spend": 2.28,
+              "date": "2026-05-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-08",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 1.87,
+              "hvu": 9,
+              "spend": 16.85,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.78,
+              "hvu": 6,
+              "spend": 16.7,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.36,
+              "hvu": 7,
+              "spend": 16.53,
+              "date": "2026-05-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组60（直棒）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 8,
+              "spend": 0.0,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.04,
+              "hvu": 10,
+              "spend": 20.38,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            }
+          ]
+        },
+        "语气提示": "投手视角 · 陈述句+可执行判断,不加 next_action",
+        "_io_contract": {
+          "target_role": [
+            "投手"
+          ],
+          "rule_source": "platform-core/规则/thresholds.json",
+          "processing_actions_touched": [
+            "group_master_read",
+            "cphq_classify"
+          ]
+        }
+      }
+    },
+    {
+      "ts": 1778681579.74988,
+      "status": "success",
+      "duration_ms": 3,
+      "data": {
+        "视角": "投手 HZM 自看",
+        "视角说明": "只看 HZM 负责的组,不含他人组",
+        "在册组数": 21,
+        "本次有日报数据的组": 20,
+        "CPHQ 灯色阈值来源": {
+          "rule_file": "platform-core/规则/thresholds.json",
+          "version": "1.0",
+          "updated": "2026-05-08",
+          "绿": "≤ $3",
+          "黄": "$3-$5",
+          "橙": "≥ $5",
+          "红": "HVU=0 且花费≥$5"
+        },
+        "按灯色分类": {
+          "黄灯": [
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 4.65,
+              "hvu": 3,
+              "spend": 13.95,
+              "date": "2026-04-05",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 3.35,
+              "hvu": 3,
+              "spend": 10.04,
+              "date": "2026-04-06",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 3.4,
+              "hvu": 2,
+              "spend": 6.81,
+              "date": "2026-04-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 3.11,
+              "hvu": 5,
+              "spend": 15.57,
+              "date": "2026-04-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 3.76,
+              "hvu": 4,
+              "spend": 15.04,
+              "date": "2026-04-12",
+              "color": "黄灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 4.34,
+              "hvu": 2,
+              "spend": 8.68,
+              "date": "2026-04-14",
+              "color": "黄灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 3.89,
+              "hvu": 2,
+              "spend": 7.78,
+              "date": "2026-04-23",
+              "color": "黄灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 4.12,
+              "hvu": 2,
+              "spend": 8.24,
+              "date": "2026-04-24",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 3.37,
+              "hvu": 5,
+              "spend": 16.87,
+              "date": "2026-04-24",
+              "color": "黄灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 4.75,
+              "hvu": 5,
+              "spend": 23.75,
+              "date": "2026-04-25",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 4.41,
+              "hvu": 3,
+              "spend": 13.24,
+              "date": "2026-04-26",
+              "color": "黄灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 4.69,
+              "hvu": 5,
+              "spend": 23.45,
+              "date": "2026-04-26",
+              "color": "黄灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 3.64,
+              "hvu": 3,
+              "spend": 10.91,
+              "date": "2026-04-27",
+              "color": "黄灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 4.41,
+              "hvu": 5,
+              "spend": 22.04,
+              "date": "2026-04-27",
+              "color": "黄灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 4.57,
+              "hvu": 2,
+              "spend": 9.13,
+              "date": "2026-04-28",
+              "color": "黄灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 3.5,
+              "hvu": 3,
+              "spend": 10.5,
+              "date": "2026-05-01",
+              "color": "黄灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 3.04,
+              "hvu": 2,
+              "spend": 6.07,
+              "date": "2026-05-07",
+              "color": "黄灯"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 3.57,
+              "hvu": 4,
+              "spend": 14.29,
+              "date": "2026-05-09",
+              "color": "黄灯"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 4.91,
+              "hvu": 3,
+              "spend": 14.74,
+              "date": "2026-05-12",
+              "color": "黄灯"
+            }
+          ],
+          "橙灯/红灯候选": [
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.04,
+              "hvu": 2,
+              "spend": 14.09,
+              "date": "2026-04-05",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 9.79,
+              "hvu": 1,
+              "spend": 9.79,
+              "date": "2026-04-06",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 9.94,
+              "hvu": 1,
+              "spend": 9.94,
+              "date": "2026-04-07",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 6.28,
+              "hvu": 2,
+              "spend": 12.55,
+              "date": "2026-04-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组11 Lover Tonight",
+              "owner": "HZM",
+              "cphq": 5.21,
+              "hvu": 2,
+              "spend": 10.42,
+              "date": "2026-04-09",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.29,
+              "hvu": 2,
+              "spend": 14.58,
+              "date": "2026-04-10",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组11 Lover Tonight",
+              "owner": "HZM",
+              "cphq": 5.13,
+              "hvu": 1,
+              "spend": 5.13,
+              "date": "2026-04-11",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 10.63,
+              "hvu": 1,
+              "spend": 10.63,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 7.03,
+              "hvu": 2,
+              "spend": 14.06,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组15 Power Shift",
+              "owner": "HZM",
+              "cphq": 6.16,
+              "hvu": 2,
+              "spend": 12.32,
+              "date": "2026-04-13",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 9.39,
+              "hvu": 2,
+              "spend": 18.79,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组15 Power Shift",
+              "owner": "HZM",
+              "cphq": 8.31,
+              "hvu": 2,
+              "spend": 16.63,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组19 Top Predator's",
+              "owner": "HZM",
+              "cphq": 15.59,
+              "hvu": 1,
+              "spend": 15.59,
+              "date": "2026-04-15",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 8.09,
+              "hvu": 2,
+              "spend": 16.17,
+              "date": "2026-04-18",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 6.43,
+              "hvu": 2,
+              "spend": 12.87,
+              "date": "2026-04-19",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组31 天使",
+              "owner": "HZM",
+              "cphq": 6.75,
+              "hvu": 2,
+              "spend": 13.49,
+              "date": "2026-04-19",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 17.75,
+              "hvu": 1,
+              "spend": 17.75,
+              "date": "2026-04-20",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组31 天使",
+              "owner": "HZM",
+              "cphq": 10.96,
+              "hvu": 1,
+              "spend": 10.96,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 7.22,
+              "hvu": 3,
+              "spend": 21.65,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 26.39,
+              "hvu": 1,
+              "spend": 26.39,
+              "date": "2026-04-21",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 10.16,
+              "hvu": 2,
+              "spend": 20.33,
+              "date": "2026-04-22",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 22.99,
+              "hvu": 1,
+              "spend": 22.99,
+              "date": "2026-04-23",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 11.6,
+              "hvu": 1,
+              "spend": 11.6,
+              "date": "2026-04-24",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 29.14,
+              "hvu": 1,
+              "spend": 29.14,
+              "date": "2026-04-25",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 5.25,
+              "hvu": 7,
+              "spend": 36.76,
+              "date": "2026-04-28",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 17.13,
+              "hvu": 2,
+              "spend": 34.26,
+              "date": "2026-05-06",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 9.18,
+              "hvu": 2,
+              "spend": 18.36,
+              "date": "2026-05-07",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 6.46,
+              "hvu": 1,
+              "spend": 6.46,
+              "date": "2026-05-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组57（八爪鱼）",
+              "owner": "HZM",
+              "cphq": 33.9,
+              "hvu": 1,
+              "spend": 33.9,
+              "date": "2026-05-08",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 6.75,
+              "hvu": 3,
+              "spend": 20.24,
+              "date": "2026-05-10",
+              "color": "橙灯/红灯候选"
+            },
+            {
+              "group": "组64（黎深）",
+              "owner": "HZM",
+              "cphq": 5.33,
+              "hvu": 3,
+              "spend": 15.99,
+              "date": "2026-05-11",
+              "color": "橙灯/红灯候选"
+            }
+          ],
+          "绿灯": [
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 2.24,
+              "hvu": 5,
+              "spend": 11.21,
+              "date": "2026-04-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 1.76,
+              "hvu": 5,
+              "spend": 8.79,
+              "date": "2026-04-08",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 1.7,
+              "hvu": 3,
+              "spend": 5.1,
+              "date": "2026-04-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 2.92,
+              "hvu": 4,
+              "spend": 11.66,
+              "date": "2026-04-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 0.38,
+              "hvu": 6,
+              "spend": 2.3,
+              "date": "2026-04-14",
+              "color": "绿灯"
+            },
+            {
+              "group": "组19 Top Predator's",
+              "owner": "HZM",
+              "cphq": 2.55,
+              "hvu": 3,
+              "spend": 7.64,
+              "date": "2026-04-14",
+              "color": "绿灯"
+            },
+            {
+              "group": "组2 Tonight",
+              "owner": "HZM",
+              "cphq": 2.3,
+              "hvu": 1,
+              "spend": 2.3,
+              "date": "2026-04-15",
+              "color": "绿灯"
+            },
+            {
+              "group": "组1 Library",
+              "owner": "HZM",
+              "cphq": 0.06,
+              "hvu": 3,
+              "spend": 0.18,
+              "date": "2026-04-16",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 1.38,
+              "hvu": 2,
+              "spend": 2.75,
+              "date": "2026-04-16",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.55,
+              "hvu": 14,
+              "spend": 7.69,
+              "date": "2026-04-22",
+              "color": "绿灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 2.47,
+              "hvu": 12,
+              "spend": 29.65,
+              "date": "2026-04-22",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.29,
+              "hvu": 10,
+              "spend": 2.94,
+              "date": "2026-04-23",
+              "color": "绿灯"
+            },
+            {
+              "group": "组37 胸部高潮",
+              "owner": "HZM",
+              "cphq": 1.59,
+              "hvu": 13,
+              "spend": 20.61,
+              "date": "2026-04-23",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 1.66,
+              "hvu": 10,
+              "spend": 16.6,
+              "date": "2026-04-24",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 1.74,
+              "hvu": 5,
+              "spend": 8.68,
+              "date": "2026-04-26",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 5,
+              "spend": 0.0,
+              "date": "2026-04-27",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 1.54,
+              "hvu": 6,
+              "spend": 9.25,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 2.25,
+              "hvu": 6,
+              "spend": 13.5,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 2.22,
+              "hvu": 8,
+              "spend": 17.78,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 2.79,
+              "hvu": 2,
+              "spend": 5.58,
+              "date": "2026-04-28",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 1.53,
+              "hvu": 3,
+              "spend": 4.58,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.61,
+              "hvu": 9,
+              "spend": 5.48,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.95,
+              "hvu": 8,
+              "spend": 7.64,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.33,
+              "hvu": 12,
+              "spend": 3.96,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.98,
+              "hvu": 3,
+              "spend": 2.94,
+              "date": "2026-04-29",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 2.66,
+              "hvu": 3,
+              "spend": 7.98,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 9,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-04-30",
+              "color": "绿灯"
+            },
+            {
+              "group": "组47 直棒（🚫违规删除4/30）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组50 蘑菇",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组51 八爪鱼",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-01",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 3,
+              "spend": 0.0,
+              "date": "2026-05-02",
+              "color": "绿灯"
+            },
+            {
+              "group": "组29 性爱疗愈",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-03",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-04",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-05",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-06",
+              "color": "绿灯"
+            },
+            {
+              "group": "组48 弯棒",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组49 肛塞",
+              "owner": "HZM",
+              "cphq": 2.28,
+              "hvu": 1,
+              "spend": 2.28,
+              "date": "2026-05-07",
+              "color": "绿灯"
+            },
+            {
+              "group": "组56（蘑菇）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-08",
+              "color": "绿灯"
+            },
+            {
+              "group": "组26 Surrender",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 2,
+              "spend": 0.0,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 1.87,
+              "hvu": 9,
+              "spend": 16.85,
+              "date": "2026-05-09",
+              "color": "绿灯"
+            },
+            {
+              "group": "组36 女性高潮",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 1,
+              "spend": 0.0,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.78,
+              "hvu": 6,
+              "spend": 16.7,
+              "date": "2026-05-10",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.36,
+              "hvu": 7,
+              "spend": 16.53,
+              "date": "2026-05-11",
+              "color": "绿灯"
+            },
+            {
+              "group": "组60（直棒）",
+              "owner": "HZM",
+              "cphq": 0.0,
+              "hvu": 8,
+              "spend": 0.0,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            },
+            {
+              "group": "组65（沈星回）",
+              "owner": "HZM",
+              "cphq": 2.04,
+              "hvu": 10,
+              "spend": 20.38,
+              "date": "2026-05-12",
+              "color": "绿灯"
+            }
+          ]
+        },
+        "语气提示": "投手视角 · 陈述句+可执行判断,不加 next_action",
+        "_io_contract": {
+          "target_role": [
+            "投手"
+          ],
+          "rule_source": "platform-core/规则/thresholds.json",
+          "processing_actions_touched": [
+            "group_master_read",
+            "cphq_classify"
+          ]
+        }
+      }
+    }
+  ]
+}

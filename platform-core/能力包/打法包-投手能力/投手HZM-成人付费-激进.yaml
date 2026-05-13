@@ -20,11 +20,21 @@ _meta:
   status: draft               # draft / active / deprecated
 
 # ─── 启用 agent + flow ─────────────────────────
+# P0-9.3 起按 ZJB 修正的 12 agent 清单(数据分析/归因诊断/承接端分析/知识沉淀/...)
+# MVP 阶段先启用已实现的,未实现的标 [pending]
 enabled_agents:
-  - 流量-投放
-  - 技术-埋点
-  - 数据-归因
-  - 创意-素材
+  - 数据分析          # P0-9.3 已实现
+  # - 归因诊断       # pending
+  # - 承接端分析     # pending
+  # - 知识沉淀       # pending
+  # - 策略简报       # pending
+  # - 研发需求       # pending
+  # - 意志继承       # pending
+  # - 文案           # pending
+  # - 故事脚本       # pending
+  # - 素材审核       # pending
+  # - 搬运           # pending
+  # - 交接消息       # pending
 
 active_flow: paid-ads-付费流量
 

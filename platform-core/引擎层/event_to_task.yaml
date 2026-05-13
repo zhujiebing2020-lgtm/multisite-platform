@@ -1,60 +1,39 @@
 # platform-core/引擎层/event_to_task.yaml
 # 事件 → 任务 映射表
 # 挂载点:引擎层(§15.6 未决项 1 的落地,不嵌打法包不嵌 agent defaults)
-# 作用:事件层捕获到事件后,Engine 查此表决定调哪个 agent 生成任务
+#
+# P0-9.3 按 ZJB 修正的 12 agent 清单重写:
+#   只保留当前已实现的 agent 映射,未实现的注释掉,写进 pending 池
 #
 # 语义:
-#   - event_type 必须与事件层 publish 的 event.type 字符串匹配
-#   - target_agent 必须在打法包 enabled_agents 内(invoker 会二次校验)
-#   - priority:0 最高(预算触顶/埋点致命) · 5 默认 · 9 最低(观察型)
-#   - lookback_days:该任务需要的回看窗口
+#   - event_type 与事件层 publish 的 event.type 字符串匹配
+#   - target_agent 必须在打法包 enabled_agents 内(invoker 二次校验)
+#   - priority:0 最高 / 5 默认 / 9 最低
 
 _meta:
-  version: 0.1.0
+  version: 0.2.0
   updated: 2026-05-13
+  note: P0-9.3 数据分析 agent 上线;其它 11 个 agent 按需求逐个实现后取消注释
 
 mappings:
 
-  # ── 流量事件 ──────────────────
+  # ── 已实现 ────────────────────────
+  - event_type: 日报ingest
+    target_agent: 数据分析
+    priority: 3
+    lookback_days: 1
+    note: 吴玲日报/桌面 xlsx 清洗后触发数据分析 agent,按投手或 ZJB 视角聚合
+
   - event_type: HVU下降
-    target_agent: 数据-归因
+    target_agent: 数据分析
     priority: 3
     lookback_days: 7
-    note: HVU 下降先归因,确定是流量还是承接问题,再决定后续
+    note: P0-9.3 阶段 HVU 下降先走数据分析;后续加归因诊断 agent 后改投向它
 
-  - event_type: 预算触顶
-    target_agent: 流量-投放
-    priority: 0
-    lookback_days: 1
-    note: 预算触顶最高优先级,流量-投放 判断是否暂停/拉红线
-
-  # ── 技术事件 ──────────────────
-  - event_type: 埋点失效
-    target_agent: 技术-埋点
-    priority: 1
-    lookback_days: 1
-    note: 埋点失效会污染所有后续数据,必须立刻修
-
-  - event_type: landing_page_slow
-    target_agent: 技术-埋点
-    priority: 2
-    lookback_days: 3
-
-  # ── 创意事件 ──────────────────
-  - event_type: 素材老化
-    target_agent: 创意-素材
-    priority: 4
-    lookback_days: 7
-    note: 触发 creative-refresh 产出包流水线
-
-  - event_type: creative_fatigue_detected
-    target_agent: 创意-素材
-    priority: 4
-    lookback_days: 7
-
-  # ── 数据事件(跨 agent 影响,§15.4 虚线)──
-  - event_type: attribution_risk
-    target_agent: 流量-投放
-    priority: 3
-    lookback_days: 7
-    note: 数据-归因 发布 → 流量-投放 订阅,生成降权建议
+  # ── 待实现(P0-9.4+ 逐个写,注释保留为路标)─────
+  # - event_type: 预算触顶          → 策略简报 agent(P0)
+  # - event_type: 埋点失效          → 研发需求 agent
+  # - event_type: 素材老化          → 素材审核 + 文案 + 故事脚本 agent 链路
+  # - event_type: attribution_risk  → 归因诊断 agent
+  # - event_type: 命题升可信_自动   → 策略简报 agent(合约三 L152 内置流程)
+  # - event_type: 跨站搬运          → 搬运 agent

@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "card_id": "claim-google-roi-vs-fb",
+    "card_type": "claim",
+    "channel": "all",
+    "title": "Google 用户购买意向是 FB 的 12.6 倍 · 但占比仅 16% · 投放结构失衡",
+    "subject_ref": {
+      "data_source": "吴玲 0511-PromptA-综合分析报告 第4节 · 643 真实用户",
+      "date_range": "2026-05-09 ~ 2026-05-10"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-11",
+    "target_role": ["投手", "ZJB决策"],
+    "rule_source": "auto_strategy_rules.json · 跨渠道效率对比",
+    "proposition_status": "validated",
+    "claim_side": "ad",
+    "validated_date": "2026-05-11",
+    "validated_by": "吴玲 0511 综合分析报告",
+    "diagnosis_path": "path2_wuling_direct",
+    "evidence_chain": [
+      {"path": 1, "by": "Claude", "date": "2026-05-11", "ref": "daily_long.csv 5/9-5/10 Google spend $29.58 + 34 HVU vs FB spend $338 + 223 HVU", "conclusion": "Google CPHQ $0.87 远低于 FB CPHQ $1.51"},
+      {"path": 2, "by": "吴玲", "date": "2026-05-11", "ref": "0511-PromptA-综合分析报告 第4节", "action": "confirm_with_data", "tech_detail": "Buy Now 率 Google 9.6% vs FB 0.76% · 12.6 倍 · 但 Google 占比仅 16%"}
+    ]
+  },
+  "signals": [
+    {"label": "Google Buy Now 率", "value": "9.6%", "source": "吴玲报告第4节 · ~105 Google 用户 · ~10 Buy Now"},
+    {"label": "FB Buy Now 率", "value": "0.76%", "source": "吴玲报告第4节 · ~520 FB 用户 · ~4 Buy Now"},
+    {"label": "倍数差", "value": "Google 是 FB 的 12.6 倍", "source": "9.6% / 0.76%"},
+    {"label": "用户占比", "value": "FB 81% / Google 16% / 其他 3%", "source": "643 用户分布"},
+    {"label": "spend 占比", "value": "FB $338(92%) / Google $29.58(8%)", "source": "5/9-5/10 daily_long.csv 双日合计"},
+    {"label": "失衡核心", "value": "FB 用 92% 预算换 16% Buy Now · Google 用 8% 预算换 84% Buy Now", "source": "推导"},
+    {"label": "FB 内部 Buy Now 来源", "value": "全部来自文章落地页(非产品页) · 说明 FB 文章→产品的承接断裂", "source": "吴玲报告购买意向用户明细 0509-0510"},
+    {"label": "Google 流量特征", "value": "直接进产品页 · 高意图搜索词 · 5/6→5/10 HVU 9→39(4.3x 上升) · spend 几乎不变", "source": "daily-2026-05-09-google.json"}
+  ],
+  "trigger_conditions": [
+    {"condition": "Google Buy Now 率 ≥ 5x FB", "met": true, "evidence": "12.6x"},
+    {"condition": "跨渠道样本充分(Google ≥ 30 HVU)", "met": true, "evidence": "Google 105 用户 / FB 520 用户"},
+    {"condition": "Google spend 趋势稳定", "met": true, "evidence": "5/7-5/9 三天 spend 趋稳 $47→$29→$29"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "结算页 0 转化未修 · 加 Google 预算也无法变现", "active": true, "impact": "前置依赖", "evidence": "claim-order-page-dead-end validated · 必须先修结算页"},
+    {"condition": "Google 政策限制中 · 加量空间有限", "active": true, "impact": "需验证", "evidence": "daily-2026-05-08-google · 仅高意向搜索词可展示 · 投放空间已被 Google 限制"},
+    {"condition": "FB 文章策略可能不是无效 · 而是承接断裂导致的伪低效", "active": true, "impact": "note_only", "evidence": "FB 文章用户停留长 · 内容消费深 · 但产品页承接转化差(B级用户 35人内容消费不转化型)"}
+  ],
+  "rollback_conditions": [
+    {"condition": "Google 加量后 CPHQ 反升 >2x", "action_on_trigger": ["回到原 spend 占比", "标记 Google 已触顶"]},
+    {"condition": "FB 文章→产品承接修复后 FB Buy Now 率反弹", "action_on_trigger": ["重新评估失衡", "可能不需要调结构"]}
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "短期不动结构 · 等结算页修复",
+      "description": "结算页 0 转化未修复时,加 Google 预算 = 加漏(同理 FB)· 当前所有加预算建议失效",
+      "execution_status": "立即生效",
+      "next_move": {
+        "owner": "投手(CHJ/HNN/HZM)",
+        "due_date": "结算页修复后",
+        "do_what": "维持当前 spend 结构",
+        "handoff_to": "等 claim-order-page-dead-end 降级或消除",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "结算页修复后激活下一步"
+      }
+    },
+    {
+      "step": 2,
+      "name": "结算页修复后:Google 预算加倍试投",
+      "description": "结算页修复+1 单完成后,Google spend 从 $29 → $60 试投 7 天 · 同时观察 CPHQ 是否维持 <$1",
+      "execution_status": "待触发",
+      "next_move": {
+        "owner": "Google 投手(CHJ 谷歌玩具投放)",
+        "due_date": "结算页修复+1单完成后",
+        "do_what": "Google 日预算翻倍至 $60",
+        "handoff_to": "Claude 监测 CPHQ 变化",
+        "escalate_if_silent": "CPHQ >$2 立刻回滚",
+        "reminder_cadence": "每日"
+      }
+    },
+    {
+      "step": 3,
+      "name": "FB 文章→产品承接断裂诊断",
+      "description": "FB 现有 4 Buy Now 全来自文章页 · 说明文章策略本身能跑出意向 · 但承接断裂 · 不是 FB 渠道无效 · 立 ad-side claim 排查文章→产品页跳转",
+      "execution_status": "待触发",
+      "next_move": {
+        "owner": "Claude",
+        "due_date": "2026-05-13",
+        "do_what": "拆解 FB 文章页用户漏斗:文章→产品页跳转率/产品页停留/Buy Now 率",
+        "handoff_to": "命题库 · 新建 ad-side claim",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "单次"
+      }
+    }
+  ]
+}

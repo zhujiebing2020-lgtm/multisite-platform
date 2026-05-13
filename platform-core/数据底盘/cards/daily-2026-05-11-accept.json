@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-11-accept",
+    "card_type": "daily_dashboard",
+    "channel": "facebook",
+    "title": "承接诊断 · 2026-05-11 · 吴玲日报",
+    "subject_ref": {
+      "report_file": "vault/3_执行层-人工维护/单平台分析/Facebook/承接端分析-高质量用户/0512-PromptA-综合分析报告.md",
+      "data_date": "2026-05-11"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-12",
+    "data_date": "2026-05-11",
+    "target_role": ["ZJB排查", "Claude内部", "承接层"],
+    "rule_source": "吴玲承接侧日报"
+  },
+  "signals": [
+    {"label": "原始HVU", "value": "303 人 · 较 0509-10 均值 (321) ↓6%", "source": "吴玲第一部分1"},
+    {"label": "HQ1/HQ2", "value": "HQ1 207 / HQ2 189 / 交集 93", "source": "同上"},
+    {"label": "用户分级", "value": "🔴A级 15(5.0% ↑较2.3%) · 🟡B级 50 · 🟢C级 237", "source": "第一部分2"},
+    {"label": "停留分布异动", "value": "<1分钟 53%(↑↑较28%) · >10分钟 3%(↓↓较18%) · 用户停留时长大幅缩短", "source": "第一部分3"},
+    {"label": "漏斗", "value": "303→211(产品页69.6% ↑15.2pp)→15(BuyNow 5% ↑2.7pp)→15(进结算100%)→0(支付0%)", "source": "第一部分4"},
+    {"label": "🔴 结算页 100% 流失第3天", "value": "三天累计 30/30 = 0% · claim-order-page-dead-end re-confirm", "source": "第三部分漏斗对比"},
+    {"label": "🟡 商品详情页视频入口", "value": "61% 用户没看视频就走 · 播放率 38.9% · 立 claim-product-page-video-cta", "source": "第二部分三"},
+    {"label": "🔴 Scene Room 创建失败", "value": "11 次/天 · ROW6 连续 8 次失败 · 立 claim-scene-room-creation-fail", "source": "第二部分四"},
+    {"label": "Buy Now 来源", "value": "Google 11/15(73%) · FB 4/15(27%) · 再次验证 claim-google-roi-vs-fb 12.6 倍效率差", "source": "第一部分5"},
+    {"label": "投放数据看板对比", "value": "CHJ 5/11 spend 接近 $0(看板未更新完整或预算异动) · #17 单用户成本最低 $0.63", "source": "第三部分投放数据"}
+  ],
+  "trigger_conditions": [
+    {"condition": "吴玲承接日报已到", "met": true, "evidence": "0512-PromptA-综合分析报告.md"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "停留<1分钟从28%→53% 异动 · 可能是流量结构变化 / 也可能是站点性能下降", "active": true, "impact": "note_only"}
+  ],
+  "rollback_conditions": [],
+  "actions": [
+    {"step": 1, "name": "Path2 · 三轮交叉验证(0509-10 / 0511 / 0511再次)", "description": "claim-order-page-dead-end 已第三次 confirm · 升级为最高优先级", "execution_status": "已执行"},
+    {"step": 2, "name": "新立两张 claim · 待 ZJB 签字", "description": "claim-product-page-video-cta(P1)+ claim-scene-room-creation-fail(P0 Bug)", "execution_status": "已立 · pending"},
+    {"step": 3, "name": "两张 dev-req · 待 ZJB approved_by 签字", "description": "dev-req-product-video-cta-prefix + dev-req-scene-room-creation-fix · 当前 approved_by=null", "execution_status": "draft"}
+  ]
+}

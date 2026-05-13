@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-07-google",
+    "card_type": "daily_dashboard",
+    "channel": "google",
+    "title": "Google · 5/7 HVU 快照",
+    "schema_version": "v1",
+    "last_updated": "2026-05-07",
+    "data_date": "2026-05-07",
+    "target_role": [
+      "ZJB排查",
+      "Claude内部"
+    ],
+    "rule_source": "scripts/gen_google_daily_cards.py"
+  },
+  "signals": [
+    {
+      "label": "渠道",
+      "value": "Google Ads(搜索广告) · 广告系列「玩具」",
+      "source": "谷歌—HVU-2026-05-07-all.json"
+    },
+    {
+      "label": "Google Ads 5/7 spend",
+      "value": "US$47.44",
+      "source": "广告系列(2026.05.07).csv"
+    },
+    {
+      "label": "Google Ads 5/7 点击/CTR",
+      "value": "134 clicks / CTR 20.71%",
+      "source": "广告系列(2026.05.07).csv"
+    },
+    {
+      "label": "5/7 CPHQ",
+      "value": "$4.74",
+      "source": "csv/HVU"
+    },
+    {
+      "label": "Google 5/7 HVU 总数",
+      "value": "10 人(关联 0 + 未关联 10)",
+      "source": "谷歌—HVU-2026-05-07-all.json"
+    },
+    {
+      "label": "5/7 HQ1/HQ2",
+      "value": "HQ1 6 / HQ2 5",
+      "source": "hq"
+    },
+    {
+      "label": "5/7 国家",
+      "value": "US 4 · TR 2 · PK 1 · AU 1 · VN 1",
+      "source": "geo.country"
+    },
+    {
+      "label": "5/7 停留/页数",
+      "value": "267.7s · 4.3页",
+      "source": "duration/page_count"
+    },
+    {
+      "label": "5/7 转化阶段",
+      "value": "age_verified(10)",
+      "source": "max_conv_stage"
+    }
+  ],
+  "trigger_conditions": [
+    {
+      "condition": "HVU JSON",
+      "met": true,
+      "evidence": "谷歌—HVU-2026-05-07-all.json"
+    }
+  ],
+  "skeptic_conditions": [],
+  "actions": []
+}

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "card_id": "dev-req-product-video-cta-prefix",
+    "card_type": "dev_requirement",
+    "channel": "all",
+    "title": "P1 · 商品详情页视频入口前置 · 提升 61% 流失",
+    "linked_claim": "claim-product-page-video-cta",
+    "priority": "P1",
+    "dev_status": "draft",
+    "approved_by": null,
+    "target_role": ["技术", "承接层"],
+    "rule_source": "claim-product-page-video-cta · 待 ZJB 签字",
+    "last_updated": "2026-05-12",
+    "fix_date": null,
+    "verify_next": "修复后 7 天 · 视频播放率从 38.9% 是否升到 ≥50%",
+    "watch_points": "视频自动播放后 25% 流失率 · 滚动 50%+ 比例 · Buy Now 点击率"
+  },
+  "problem": "332 人到产品页 · 仅 38.9% 播放视频 · 61% 没看视频就离开 · 第二大流失点",
+  "root_cause": "视频入口在产品页首屏不够显眼 · 用户进页面没看到视频/不知道有视频 = 直接跳走",
+  "solution": [
+    "视频区块上移到产品页首屏首位 · 标题/价格之后立即可见",
+    "首帧静态图替换为带'▶播放'图标 + 时长标识(如 0:30)",
+    "移动端首屏自动静音播放 · 桌面端首屏暴露 + hover 自动播放",
+    "视频结束后自动展示 Buy Now CTA"
+  ],
+  "before_after_verification": {
+    "before_baseline": "0511 视频播放率 38.9% · 61% 不点视频离开",
+    "after_target": "播放率 ≥50% · 不点视频离开率降至 <40%",
+    "verification_method": "修复后 7 天 · 拉商品详情页用户行为日报 · 播放率 + 滚动深度 + Buy Now 率三指标对比",
+    "success_criteria": "播放率 ≥50% = 成功 · 50%-60% 部分成功 · ≥60% 显著优化"
+  }
+}

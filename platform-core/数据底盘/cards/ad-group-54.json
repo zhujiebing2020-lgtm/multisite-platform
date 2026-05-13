@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "card_id": "ad-group-54",
+    "card_type": "ad_group",
+    "channel": "facebook",
+    "title": "组 54 · 樱花 日语场景",
+    "subject_ref": {
+      "xlsx_file": "桌面/广告组数据看板0509xlsx.xlsx",
+      "xlsx_sheet": "广告组数据看板",
+      "xlsx_row": 55
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "target_role": ["承接层", "技术", "ZJB排查"],
+    "rule_source": "repo/data/rules/auto_strategy_rules.json#B_class_zero_hvu_diagnosis"
+  },
+  "signals": [
+    {"label": "投手", "value": "HNN", "source": "xlsx#row55#col2", "as_of": "2026-05-08"},
+    {"label": "落地页", "value": "https://www.creviatech.com/ja/exp-app/scene/2039221547477065729?from=theater-more-stories", "source": "xlsx#row55#col3", "as_of": "2026-05-08"},
+    {"label": "累计花费", "value": "$56.49", "source": "xlsx#row55#col38", "as_of": "2026-05-08"},
+    {"label": "累计 HVU", "value": 0, "source": "xlsx#row55#col38"},
+    {"label": "CPHQ", "value": "—(无 HVU 无法计算)", "source": "xlsx#row55#col38"},
+    {"label": "连续 0 HVU 天数", "value": 9, "source": "xlsx#row55 按日逐列数 HVU=0 连续段"},
+    {"label": "分层", "value": "🔴 红灯 · 有花费 HVU=0 · 浪费", "source": "跨账号数据聚合 · 2026-05-09"},
+    {"label": "对照组(同投手同语言同场景类型)", "value": "组 34 · 银发男 · HNN · 日语场景 · CPHQ $1.92 · 49 HVU", "source": "广告组原始数据"}
+  ],
+  "trigger_conditions": [
+    {"condition": "分层 = B", "met": true, "evidence": "tiered csv 标记"},
+    {"condition": "连续 0 HVU 天数 >= 7", "met": true, "evidence": "9 > 7"},
+    {"condition": "累计花费 >= $30", "met": true, "evidence": "$56.49 > $30"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "落地页 URL 为脏数据(utm token 中文/合计列污染)", "active": false, "impact": "pause_all", "evidence": "URL 检查正常"},
+    {
+      "condition": "对照组本身在 env_flag 窗口内",
+      "active": true,
+      "impact": "note_only",
+      "evidence": "组 34 同样在 env_flag=2026Q1-承接页维护方变更 活跃期内;对照结论需等 env_flag 失效后复核"
+    },
+    {"condition": "累计花费 < $30", "active": false, "impact": "pause_all"}
+  ],
+  "rollback_conditions": [
+    {
+      "condition": "暂停后投手反驳表示该组有外部信号(如素材刚换)",
+      "action_on_trigger": [
+        "Claude 把 status 从 frozen 改回 paused",
+        "档案挂 env_flag='投手反驳-YYYY-MM-DD'",
+        "30 天后自动回看,如投手没补数据证明有效,ZJB 决策是否强制结案"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "立即暂停建议",
+      "description": "建议 HNN 暂停该组。Claude 内部先标为冻结态(保留复投评估资格)",
+      "execution_status": "已生成未执行",
+      "blocker": "HNN 要手动在账户里停组 · Claude 无权限",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-11",
+        "do_what": "把'暂停组 54 · 9 天 0 HVU · 累计烧 $56.49'微信发给 HNN · 要求 24h 内停组 + 回复 rejection_reason(若 HNN 反驳不停,必须说为什么)",
+        "handoff_to": "HNN 停组后回 ZJB · ZJB 告诉 Claude · Claude 把本卡 step1 改为'已执行'并启动 step2 倒计时",
+        "escalate_if_silent": "2026-05-12 HNN 未回应 → Claude 在日报标红'组 54 暂停建议 24h 未执行,累计浪费 $X' · ZJB 决定是否直接口头催",
+        "reminder_cadence": "每日日报,直到 HNN 响应"
+      }
+    },
+    {
+      "step": 2,
+      "name": "三维度根因排查(素材 / 落地页 / 定向)",
+      "description": "① 对比组 54 落地页 vs 对照组 34 的 LCP / CLS / FCP 三项加载速度指标 ② 同素材其他广告组 HVU 命中率 ③ 同落地页其他素材 HVU 命中率",
+      "execution_status": "挂起等外因",
+      "blocker": "要查 AdClaw 才能拿到落地页速度数据 · Claude 被永久约束禁止主动调 · 等 ZJB 单次授权",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-12",
+        "do_what": "说一句'授权 Claude 查 AdClaw 组 54 和组 34 的 Web Vitals + HVU 归因(期间 4/30-5/8)' · Claude 凭此单次授权跑 3 组查询",
+        "handoff_to": "Claude 拉数据 → 生成根因结论 → 把指向性(素材/落地页/定向)告诉 ZJB → ZJB 决定 step3 要不要跑",
+        "escalate_if_silent": "授权超过 3 天不给 → Claude 在日报提醒'组 54 根因排查被 ZJB 卡 X 天,继续烧钱概率下降但命题也推不动'",
+        "reminder_cadence": "每 48 小时日报提醒 1 次"
+      }
+    },
+    {
+      "step": 3,
+      "name": "对照组实验(若根因指向落地页速度)",
+      "description": "同素材同定向 × 换对照组落地页 · 跑 3 天 ≥$30 · 验证换落地页能否救活",
+      "execution_status": "未生成",
+      "blocker": "要先跑完 step2 根因排查",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "step2 完成后 1 天内",
+        "do_what": "step2 根因指向落地页速度 → 自动生成实验配置(素材 ID / 定向 / 替换落地页 URL / 预算) → 本卡 step3 改为'已生成未执行' → 走 step1 流程",
+        "handoff_to": "ZJB → HNN 建组",
+        "escalate_if_silent": "step2 如果根因指向素材或定向 → step3 不跑 · 本卡 overall 改为'已证伪'进入命题库反证链",
+        "reminder_cadence": "由 step2 完成触发"
+      }
+    }
+  ],
+  "evidence_chain": [
+    {"ref": "2026-04-30 至 2026-05-08 · 广告组原始数据", "ref_type": "xlsx_row", "excerpt": "组 54 HNN 日语场景页 9 天连续 0 HVU · 累计烧 $56.49 · 佐证:该落地页下同投手长期归零 · 非学习期波动"},
+    {"ref": "2026-04-13 至 2026-05-08 · 广告组原始数据(对照)", "ref_type": "xlsx_row", "excerpt": "对照组 34 银发男 HNN 同日语场景类型 CPHQ $1.92 · 排除投手因素 / 语言因素 / 场景类型因素 · 唯一变量是落地页 URL 本身"},
+    {"ref": "2026-04-27 · 承接端用户分析(弹窗率下降)", "ref_type": "承接端_md", "excerpt": "同素材+同弹窗下换落地页导致通过率 82.5%→1.7% · 跨案例支持'落地页 URL 技术状态影响命中率'假设 · 佐证命题:B 类 0 HVU 根因多指向落地页技术而非素材"},
+    {"ref": "2026-05-09 · 广告组样板档案(组 54 档)", "ref_type": "claim_md", "excerpt": "Q54.1-54.4 排查题转自动规则 · 不再靠 HNN 自己判断是否暂停"}
+  ],
+  "status": {
+    "confidence": "存疑",
+    "overall": "规则触发但挂起",
+    "honest_note": "暂停建议已发投手未执行。根因排查挂起等 ZJB 授权 AdClaw 查 LCP/CLS 数据。对照组 34 本身处于 env_flag 窗口内,所以即便 LCP 对比出差异,结论需等 env_flag 2026-05-24 失效后复核才能升置信度。"
+  },
+  "timeline": [
+    {"date": "2026-04-27", "actor": "吴玲", "action": "27 弹窗率分析 发现同素材同弹窗下落地页差异导致通过率 82.5%→1.7%", "artifact": "承接测分析27号弹窗率下降的原因.md", "downstream_effect": "为本组根因假设'落地页 URL 技术状态'提供跨案例支持"},
+    {"date": "2026-04-30", "actor": "HNN", "action": "开投组 54", "artifact": "xlsx 首列 4/30 数据", "downstream_effect": "9 天 0 HVU 累计进入 B 类红色"},
+    {"date": "2026-05-09", "actor": "ZJB + Claude", "action": "建组 54 样板档案 挂 4 条排查题", "artifact": "组54-樱花-日语场景.md", "downstream_effect": "样板档案成为 2026-05-10 B_class_zero_hvu_diagnosis 规则输入"},
+    {"date": "2026-05-10", "actor": "Claude", "action": "规则编码完成", "artifact": "auto_strategy_rules.json#B_class_zero_hvu_diagnosis", "downstream_effect": "step1 建议已生成,step2 挂起等 ZJB 授权 AdClaw,step3 未生成"}
+  ]
+}

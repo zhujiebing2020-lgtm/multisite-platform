@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "card_id": "auto-strategy-2026-05-12",
+    "card_type": "action_list",
+    "channel": "facebook",
+    "title": "🤖 自动策略草稿 · 2026-05-12 · S类 21 组扩量路径(可信级)",
+    "subject_ref": {
+      "rule": "data/rules/auto_strategy_rules.json#S_class_scaling_test",
+      "trigger_data": "tiered.csv 5/12 · 21 组 S · daily_long.csv 近38天",
+      "matched_groups": 21,
+      "compared_to": "auto-strategy-2026-05-11(19 组 S)"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-13",
+    "target_role": ["投手", "ZJB决策"],
+    "rule_source": "data/rules/auto_strategy_rules.json#S_class_scaling_test step1",
+    "confidence_level": "可信(基于 HVU/CPHQ · 未到放量门槛)",
+    "blocked_by_order_page": false
+  },
+  "context": {
+    "constraint": "结算页 0 转化未修 · 但本卡是'策略草稿'不是'放量执行' · 不被结算页阻塞",
+    "strategy": "基于 21 个 S 类组(累计 HVU ≥ 5 且 CPHQ ≤ $3)的成功路径 · 自动生成「同选题×换变量」的 A/B 实验草稿",
+    "two_layer_explanation": "可信级=策略可生成可参考(本卡)· 确认级=放量执行(等结算页修+1单成交)· 两层独立",
+    "vs_yesterday": "新增 2 组进入 S:组35 15 Ideas(5/11 是 A)、组48 弯棒(5/11 是 B)· CHJ 5/11 余额不足已恢复,5/12 CHJ 花费回到 $50.95"
+  },
+  "actions_by_pitcher": {
+    "CHJ": {
+      "summary": "你的 12 组都在 S 类(累计 HVU 前 10 全在 CHJ)· CHJ 5/12 spend 恢复 $50.95,趋势回正。下一批新组按「同选题→换 1 个变量」三拆开。",
+      "s_class_count": 12,
+      "top_3_templates": [
+        {"基础组": "组17 18 Sensual · CPHQ $0.64 · 727 累计 HVU(全盘第一)", "三拆方向": "①换落地页(文章→剧情) ②换定向(同素材换受众) ③换素材(同落地页换钩子)", "预期": "找到选题/落地页/素材三个变量谁贡献最大"},
+        {"基础组": "组5 30 Positions · CPHQ $1.26 · 417 累计 HVU", "三拆方向": "同上三拆模板", "预期": "验证 positions 类选题是否仅限 CHJ 做法"},
+        {"基础组": "组4 Viennese Oyster · CPHQ $1.38 · 247 累计 HVU · 5/12 再添 1HVU", "三拆方向": "同上三拆模板", "预期": "小样本 S 是否扩量也稳"}
+      ],
+      "note": "CHJ 全 S 类,扩量重点 = 把 3 个样板的方法论往其他组复制 · 不动现有组预算"
+    },
+    "HNN": {
+      "summary": "5 组 S(33/34/39/42/58),其中组33 黑男仅 $6 累计 · 样本太小不建议作为模板。真样板 = 组34 银发男 / 组58 弯棒。",
+      "s_class_count": 5,
+      "top_templates": [
+        {"基础组": "组34 银发男 · CPHQ $1.81 · 55 累计 HVU", "三拆方向": "①换落地页 ②换定向 ③换素材", "预期": "银发男是否能复制到其他人设(中男/熟男)"},
+        {"基础组": "组58（弯棒）· CPHQ $2.16 · 29 HVU · 5/12 新增 2HVU", "三拆方向": "同上", "预期": "弯棒产品线是否值得 HNN 放量"}
+      ]
+    },
+    "HZM": {
+      "summary": "4 组 S(36/48/49/50)· 其中组48 弯棒是 5/12 新入 S,CPHQ $0.95 · 建议作为新一批 A/B 的基础组。",
+      "s_class_count": 4,
+      "top_template": {"基础组": "组48 弯棒 · CPHQ $0.95 · 26 HVU · 5/12 新入 S", "三拆方向": "①换落地页(产品详情→剧情) ②换定向 ③换素材", "预期": "HZM 产品线首个进 S 的组 · 是否是结算页问题减弱的信号"},
+      "note": "组60 直棒 5/12 异常:spend=0 但 HVU=8 · 不纳入策略草稿(先查是不是归因延迟/任务名复用)"
+    }
+  },
+  "trigger_conditions": [
+    {"condition": "tiered.csv 分层完成", "met": true, "evidence": "66 组 · S21/A5/B21/R3/O16"},
+    {"condition": "近 38 天数据可用", "met": true, "evidence": "daily_long.csv 713 行"},
+    {"condition": "CHJ 余额已充(5/11 issue 已解决)", "met": true, "evidence": "5/12 CHJ 花费恢复 $50.95"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "组60 5/12 HVU=8 / spend=0 是否归因延迟 · 若是则 HZM 产品线 S 类扩量前提可能错误", "active": true, "impact": "gate_before_action", "evidence": "待 5/13 复查"},
+    {"condition": "结算页如果不是 bug 而是价格 · 则 S 类策略扩量方向(更多 HVU 进口)整体方向错", "active": true, "impact": "note_only", "evidence": "等吴玲确认"}
+  ],
+  "rollback_conditions": [
+    {"condition": "组60 归因异常确认 · HZM 扩量结论需重评", "action_on_trigger": ["HZM 段落标记'数据存疑'", "组48 单独保留为唯一可执行样板"]},
+    {"condition": "claim-order-page-dead-end 被消除(结算页修好)", "action_on_trigger": ["本卡可从'草稿'升级为'执行指令'"]}
+  ]
+}

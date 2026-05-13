@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-10-google",
+    "card_type": "daily_dashboard",
+    "channel": "google",
+    "title": "Google · 5/10 HVU 快照",
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "data_date": "2026-05-10",
+    "target_role": [
+      "ZJB排查",
+      "Claude内部"
+    ],
+    "rule_source": "scripts/gen_google_daily_cards.py"
+  },
+  "signals": [
+    {
+      "label": "渠道",
+      "value": "Google Ads(搜索广告) · 广告系列「玩具」",
+      "source": "goole-HVU-2026-05-10-all.json"
+    },
+    {
+      "label": "Google Ads 5/10 spend",
+      "value": "CSV 未出",
+      "source": "待导出"
+    },
+    {
+      "label": "Google 5/10 HVU 总数",
+      "value": "39 人(关联 33 + 未关联 6)",
+      "source": "goole-HVU-2026-05-10-all.json"
+    },
+    {
+      "label": "5/10 HQ1/HQ2",
+      "value": "HQ1 33 / HQ2 29",
+      "source": "hq"
+    },
+    {
+      "label": "5/10 国家",
+      "value": "US 26 · GB 3 · TR 2 · TW 1 · RO 1",
+      "source": "geo.country"
+    },
+    {
+      "label": "5/10 停留/页数",
+      "value": "198.5s · 3.4页",
+      "source": "duration/page_count"
+    },
+    {
+      "label": "5/10 转化阶段",
+      "value": "landing(3) · age_verified(36)",
+      "source": "max_conv_stage"
+    }
+  ],
+  "trigger_conditions": [
+    {
+      "condition": "HVU JSON",
+      "met": true,
+      "evidence": "goole-HVU-2026-05-10-all.json"
+    }
+  ],
+  "skeptic_conditions": [],
+  "actions": []
+}

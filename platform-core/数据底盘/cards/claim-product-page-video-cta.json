@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "card_id": "claim-product-page-video-cta",
+    "card_type": "claim",
+    "channel": "all",
+    "title": "商品详情页 61% 用户没看视频就走 · 视频入口可见性是第二大流失点",
+    "subject_ref": {
+      "data_source": "吴玲 0512-PromptA-综合分析报告.md 第二部分三 · 商品详情页用户行为日报 332 人",
+      "date_range": "2026-05-11"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-12",
+    "target_role": ["承接层", "技术"],
+    "rule_source": "吴玲 0512 报告 · 商品详情页专项分析",
+    "proposition_status": "validated",
+    "claim_side": "site",
+    "diagnosis_path": "path2_wuling_direct",
+    "validated_date": "2026-05-12",
+    "validated_by": "吴玲 0512 综合分析报告",
+    "evidence_chain": [
+      {"path": 2, "by": "吴玲", "date": "2026-05-12", "ref": "0512-PromptA-综合分析报告.md 第二部分三", "action": "direct_observation", "tech_detail": "332人到达产品页 · 仅 38.9%(129人)播放视频 · 61% 用户没看视频就离开"}
+    ]
+  },
+  "signals": [
+    {"label": "数据样本", "value": "332 人到达商品详情页(0511 全天)", "source": "吴玲商品详情页用户行为日报"},
+    {"label": "视频播放率", "value": "38.9%(129/332) · 61% 用户根本不点播放", "source": "吴玲报告第二部分三"},
+    {"label": "视频完播率(播放者中)", "value": "65.1%(~84/129) · 看视频的人愿意看完", "source": "同上"},
+    {"label": "看到 25%(播放者中)", "value": "51.9%(67/129) · 一半人前 25% 就走了", "source": "同上"},
+    {"label": "页面滚动深度", "value": "50%+滚动率 39.5% · 75%+滚动率 35.0% · 100% 滚动率 25.3% · 60% 用户滚不到一半", "source": "同上"},
+    {"label": "流失节点占比", "value": "🔴61% 没看视频就走 · 30% 看了视频但没滚到底 · 5% 滚到底没点 Buy Now · 4.5% 点了 Buy Now", "source": "同上"},
+    {"label": "核心断点", "value": "视频入口可见性 · 用户进产品页第一眼没看到视频/不知道有视频 = 直接跳走", "source": "推导"},
+    {"label": "对比结算页", "value": "结算页 0/15(100%流失) · 视频入口 61% 流失(仅次于结算页) · 双断点叠加 = 全链路只剩 4.5% 用户进入支付环节", "source": "漏斗对比"}
+  ],
+  "trigger_conditions": [
+    {"condition": "样本量 ≥100 用户", "met": true, "evidence": "332 人"},
+    {"condition": "视频播放率 <50%", "met": true, "evidence": "38.9%"},
+    {"condition": "吴玲直接观察(非 Claude 推断)", "met": true, "evidence": "Path2 直接立卡"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "可能是视频本身内容差(看了 25% 就走的 51.9%)", "active": true, "impact": "需验证", "evidence": "需吴玲补观察:那 67 人是因为内容不对走还是因为页面切走"},
+    {"condition": "可能是视频加载慢导致用户没等就划走", "active": true, "impact": "需验证", "evidence": "需技术看视频 LCP / 首帧加载时间"},
+    {"condition": "61% 这个分母里包含从广告直进就跳出的低质流量", "active": true, "impact": "note_only", "evidence": "需把<10s 的 session 排除后重算"}
+  ],
+  "rollback_conditions": [
+    {"condition": "视频入口前置后 7 天数据 · 播放率仍 <50%",
+     "action_on_trigger": ["假设推翻 · 改假设为'视频内容本身问题' · 触发素材组重做"]}
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "视频入口前置 · 等 ZJB 签字",
+      "description": "产品页首屏可见 + 自动播放(静音 · 移动端兼容) + 时长标识 · 让 61% 没点播放的用户至少看到视频在",
+      "execution_status": "待 ZJB 签字",
+      "next_move": {"owner": "ZJB审 → 技术","due_date": "2026-05-13","do_what": "ZJB 决定是否做(可能与 ROADMAP 现有任务有冲突)","handoff_to": "approved 后挂 dev-req-product-video-cta-prefix"}
+    }
+  ]
+}

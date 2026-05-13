@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "card_id": "claim-scene-room-creation-fail",
+    "card_type": "claim",
+    "channel": "all",
+    "title": "Scene Room 创建失败 · 算法层 Bug · 0511 出现 11 次 · ROW6 连续 8 次失败",
+    "subject_ref": {
+      "data_source": "吴玲 0512-PromptA-综合分析报告.md 第二部分四",
+      "date_range": "2026-05-11"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-12",
+    "target_role": ["技术"],
+    "rule_source": "吴玲 0512 报告 · Bug 跟踪",
+    "proposition_status": "validated",
+    "claim_side": "site",
+    "diagnosis_path": "path2_wuling_direct",
+    "validated_date": "2026-05-12",
+    "validated_by": "吴玲 0512 综合分析报告",
+    "evidence_chain": [
+      {"path": 2, "by": "吴玲", "date": "2026-05-12", "ref": "0512-PromptA-综合分析报告.md 第二部分四", "action": "bug_report", "tech_detail": "0511 出现 11 次 Scene Room 创建失败事件 · 涉及至少 3 个用户 · ROW6 用户连续失败 8 次"}
+    ]
+  },
+  "signals": [
+    {"label": "Bug 事件次数", "value": "11 次创建失败(0511 全天)", "source": "吴玲报告"},
+    {"label": "受影响用户", "value": "至少 3 个用户(可见受影响)", "source": "同上"},
+    {"label": "极端案例 · ROW6", "value": "停留 6.5 小时(23468秒) · 4:33 失败 1 次后第 2 次成功 · 10:57-10:58 连续失败 8 次 · 第 9 次才成功", "source": "商品详情页用户行为日报 ROW6"},
+    {"label": "用户耐心异常", "value": "ROW6 用户已是高黏性场景体验者 · 6 小时后回来仍失败 8 次 · 普通用户必早跑", "source": "推导 · 隐藏流失人数远不止 3"},
+    {"label": "影响推算", "value": "如普通用户失败 1 次就跑 · 11 次失败 ≈ 10+ 用户因此流失 · 实际损失大于明面数字", "source": "保守估计"},
+    {"label": "状态", "value": "🔴 算法排查中(吴玲标记) · 等技术定位根因", "source": "吴玲报告 第三部分 Bug跟踪提醒"}
+  ],
+  "trigger_conditions": [
+    {"condition": "Bug 事件次数 ≥3", "met": true, "evidence": "11 次"},
+    {"condition": "单用户连续失败 ≥3 次", "met": true, "evidence": "ROW6 连续 8 次"},
+    {"condition": "吴玲明确标记算法排查中", "met": true, "evidence": "0512 报告第三部分 Bug 跟踪提醒"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "可能是某段时间服务降级导致的瞬时问题 · 不一定是算法 bug", "active": true, "impact": "需验证", "evidence": "需技术看后端日志 10:57-10:58 时段是否服务异常"},
+    {"condition": "可能与某特定场景 ID 相关(只某些场景失败)", "active": true, "impact": "需验证", "evidence": "需技术统计哪些 scene_id 的 Scene Room 创建失败率高"},
+    {"condition": "可能是用户网络问题(同一用户 6 小时后回来仍失败)", "active": false, "impact": "note_only", "evidence": "ROW6 网络问题不会出现 11 次跨用户重现"}
+  ],
+  "rollback_conditions": [
+    {"condition": "技术定位非算法 bug(如服务降级 / 网络)",
+     "action_on_trigger": ["卡降级为 `temporary_incident`", "claim_side 改 ad / 转监控范畴"]},
+    {"condition": "修复后 7 天创建失败次数 ≤1",
+     "action_on_trigger": ["卡转 verified", "before/after 写 flywheel_feedback"]}
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "技术侧排查 Scene Room 创建逻辑 · 等 ZJB 签字",
+      "description": "排查 10:57-10:58 时段连续失败 8 次的根因 · 算法 / 资源 / 第三方依赖",
+      "execution_status": "待 ZJB 签字",
+      "next_move": {"owner": "ZJB审 → 技术(郭刚/曾凡立)","due_date": "2026-05-13","do_what": "ZJB 决定优先级","handoff_to": "approved 后挂 dev-req-scene-room-creation-fix"}
+    }
+  ]
+}

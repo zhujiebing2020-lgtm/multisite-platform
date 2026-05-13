@@ -1,0 +1,232 @@
+{
+  "date": "2026-05-08",
+  "sample_size": 19,
+  "personas": [
+    {
+      "label": "反复看视频的犹豫者",
+      "count": 6,
+      "behavior": "商品页停留5-11分钟，反复拖动视频进度条（最高12次），触发考虑弹窗但不下单",
+      "thinking": "$200的东西我得好好研究。视频看了好几遍，想找到'就是它了'的感觉，但看完还是不确定它能给我什么体验。",
+      "root_cause": "视频偏氛围感，缺功能点讲解。用户反复拖进度条=在找特定功能展示但找不到",
+      "status": "待开发：视频时间锚点"
+    },
+    {
+      "label": "产品间反复横跳的对比者",
+      "count": 5,
+      "behavior": "在2-4款产品间快速切换，每款只看40-60秒，选不出来后放弃",
+      "thinking": "这几款看起来都差不多，价格也差不多，到底哪款适合我？页面没说清区别，算了不买了。",
+      "root_cause": "5款产品价格接近($150-$250)，商品页无直观差异化展示",
+      "status": "待开发：横向对比表"
+    },
+    {
+      "label": "狂点Buy Now却买不了的急迫者",
+      "count": 4,
+      "behavior": "进站后快速点击Buy Now 2-6次，按钮无响应，尝试登录后被甩回详情页",
+      "thinking": "广告太好了我直接想买！但点了Buy Now没反应……又点了几次还是不行。这网站有问题，不买了。",
+      "root_cause": "Buy Now在移动端(FB/IG内置浏览器)点击后跳转异常，Apple登录后未跳结账页",
+      "status": "P0紧急：已排查待确认"
+    },
+    {
+      "label": "搞不清AI和硬件关系的困惑者",
+      "count": 4,
+      "behavior": "看完硬件后跳到剧场/APP页，在商品页和剧场页间反复横跳",
+      "thinking": "硬件我看得懂，但'AI互动体验'到底是什么？要额外花钱吗？不买AI硬件还能用吗？",
+      "root_cause": "商品页缺少AI体验说明模块，用户被迫离开商品页找答案后回不来",
+      "status": "待开发：AI场景试听"
+    }
+  ],
+  "gaps": [
+    {
+      "name": "情绪断层",
+      "desc": "用户被文章/广告情绪带入，但商品页是冷冰冰的产品介绍（画像A/D，12人）"
+    },
+    {
+      "name": "差异化断层",
+      "desc": "5款产品看起来差不多，用户选不出来（画像B，5人）"
+    },
+    {
+      "name": "行动断层",
+      "desc": "想买但买不了(技术Bug) / 想买但缺临门一脚(画像A/C，10人)"
+    }
+  ],
+  "tech_needs": [
+    {
+      "priority": "P0",
+      "name": "Buy Now移动端链路修复",
+      "status": "已排查，待确认恢复",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": 4,
+          "click_attempts": 13,
+          "successful_purchases": 0,
+          "payment_rate": 0.0,
+          "hvu_to_purchase_rate": 0.0,
+          "note": "4 位高意向用户全部因 Buy Now 移动端技术断裂流失"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P1",
+      "name": "商品横向对比表",
+      "status": "已提交，待开发",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P1",
+      "name": "视频功能标签/时间锚点",
+      "status": "建议新增",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P1",
+      "name": "文章底部场景化产品推荐",
+      "status": "需求待完善",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P1",
+      "name": "游客结账 Guest Checkout",
+      "status": "建议新增",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P2",
+      "name": "商品页嵌入AI场景试听",
+      "status": "建议新增",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P2",
+      "name": "滚动50%触发决策模块",
+      "status": "建议新增",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    },
+    {
+      "priority": "P2",
+      "name": "停留>10分钟弹15%优惠",
+      "status": "待开发",
+      "metrics": {
+        "before_fix": {
+          "date": "2026-05-08",
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "待研发确认基线"
+        },
+        "after_fix": {
+          "date": null,
+          "affected_users": null,
+          "payment_rate": null,
+          "hvu_to_purchase_rate": null,
+          "note": "修复后填入，用于打脸验证"
+        },
+        "impact_category": null
+      }
+    }
+  ]
+}

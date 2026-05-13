@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-12",
+    "card_type": "daily_dashboard",
+    "channel": "facebook",
+    "title": "数据看板 · 2026-05-12 · FB 5/12 全量快照",
+    "subject_ref": {
+      "daily_csv": "repo/data/ad_history/current_account_daily_long.csv",
+      "tier_csv": "repo/data/ad_history/current_account_group_summary_tiered.csv",
+      "date": "2026-05-12"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-13",
+    "target_role": ["投手", "ZJB排查"],
+    "rule_source": "CLAUDE.md 合约四B · ingest_from_daily_long.py · daily_close.py"
+  },
+  "signals": [
+    {"label": "FB 5/12 spend", "value": "$135.14", "source": "3 份投手 xlsx 聚合(陈洪骏/黄楠楠/黄梓铭)"},
+    {"label": "FB 5/12 HVU 总数", "value": "80 人 (22 组关联 + 1 未关联 = 81 sessions)", "source": "FB-HVU-2026-05-12.json"},
+    {"label": "FB 5/12 CPHQ", "value": "$1.69", "source": "$135.14 / 80"},
+    {"label": "FB 5/12 按投手拆解", "value": "CHJ $50.95/47HVU · HNN $49.07/12HVU · HZM $35.12/21HVU", "source": "daily_long 按 advertiser 汇总"},
+    {"label": "全量分层(tiered.csv)", "value": "S 21 · A 5 · B 21 · R 3 · O 16 · 共 66 组", "source": "分层口径 CPHQ≤$3=S ≤$5=A >$5=B 0HVU=R <7天=O"},
+    {"label": "5/12 Top5 HVU 组", "value": "组17 18 Sensual(26) · 组65 沈星回(10) · 组5 30 Positions(8) · 组60 直棒(8) · 组66 躺椅(5)", "source": "FB HVU JSON linkedTask"},
+    {"label": "数据时间覆盖", "value": "2026-04-05 → 2026-05-12 (38 天)", "source": "daily_long.csv"},
+    {"label": "Google 5/12 HVU", "value": "29 人 (24 关联 + 5 未关联) · HQ1 24/HQ2 23 · Spend 等待广告系列 csv 重导", "source": "goole- HVU-2026-05-12.json"},
+    {"label": "⚠️ Google CSV 导错报表", "value": "5/10-5/11-5/12 三天 CSV 只有'展示次数'列 · 缺 费用/点击次数/点击率 · 需重导'广告系列'报表", "source": "Google 单平台文件夹对比"},
+    {"label": "每日 14:00 自动跑", "value": "launchd 已生效 · 本次起挂 daily_close.py 替代原 run_dashboard.sh", "source": "scripts/com.zhujiebing.crave-ai.dashboard.plist"}
+  ],
+  "trigger_conditions": [
+    {"condition": "数据已入 daily_long", "met": true, "evidence": "5/12 22 行追加"},
+    {"condition": "tiered.csv 已重算", "met": true, "evidence": "66 组 · S21/A5/B21/R3/O16"},
+    {"condition": "Google 5/12 日卡已生成", "met": true, "evidence": "data/cards/daily-2026-05-12-google.json"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "组60（直棒）5/12 HVU=8 但 spend=0 · 与 5/11 的 0HVU 突变", "active": true, "impact": "note_only", "evidence": "归因延迟 / 任务名复用 · 需 5/13 复核"}
+  ],
+  "rollback_conditions": [
+    {"condition": "5/12 Google 'spend' CSV 重导到位", "action_on_trigger": ["重跑 gen_google_daily_cards.py 刷新 5/12 卡", "daily_totals 刷新 CPHQ"]}
+  ]
+}

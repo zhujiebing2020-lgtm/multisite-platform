@@ -1,0 +1,223 @@
+{
+  "date": "2026-05-13",
+  "submitted_by": "吴玲",
+  "source_report": "0513-PromptA-综合分析报告.md",
+  "_note": "由 ingest_wuling_report.py 从 md 报告自动解析 · modules 继承自最近 intake · must_fix/fixed 来自本次报告",
+  "overall_health": "yellow",
+  "health_note": "三天结算页 100% 流失持续",
+  "must_fix_today": [],
+  "fixed_today": [],
+  "modules": [
+    {
+      "id": "buy_now",
+      "name": "Buy Now 模块",
+      "hostname": "craveai.life",
+      "status": "red",
+      "status_note": "FB/IG 内置浏览器点击 Buy Now 无响应,Apple Pay 认证在 WebView 被拦",
+      "affected_users_today": 18,
+      "affected_attempts_today": 44,
+      "trend_vs_yesterday": "worse",
+      "current_owner": "HNN",
+      "last_update": "2026-05-10 14:20 (5/12 报告未更新)",
+      "evidence": "5 段重现录屏在吴玲云盘 /accept_side/20260510/;最高一位用户连点 9 次",
+      "history": [
+        {
+          "date": "2026-04-22",
+          "event": "首次发现",
+          "detail": "投手 HZM 反馈 IG 流量到了但没成交"
+        },
+        {
+          "date": "2026-04-28",
+          "event": "定位",
+          "detail": "吴玲录屏 3 次,锁定在 WebView Apple Pay 交互"
+        },
+        {
+          "date": "2026-05-03",
+          "event": "尝试修复 · 未生效",
+          "detail": "HNN 加了 try/catch 重试,但根源在认证域名未配置"
+        },
+        {
+          "date": "2026-05-10",
+          "event": "升级为 P0",
+          "detail": "影响面扩大到 18 位/天,HNN 明日提 Apple 域名配置"
+        },
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "修复后观察项:IG 渠道支付成功率 · 当前基线 0%(18/18 失败)· 目标 ≥ 70%"
+    },
+    {
+      "id": "customer_support",
+      "name": "客服兜底",
+      "hostname": "craveai.life",
+      "status": "green",
+      "status_note": "按钮位置已改到右下角,不再遮挡 Buy Now;今日触达 12 次,响应均 <3min",
+      "affected_users_today": 0,
+      "affected_attempts_today": 12,
+      "trend_vs_yesterday": "better",
+      "current_owner": "吴玲",
+      "last_update": "2026-05-10 19:10 (5/12 报告未更新)",
+      "evidence": "吴玲人工 check 12 次对话全覆盖",
+      "history": [
+        {
+          "date": "2026-05-04",
+          "event": "提出命题",
+          "detail": "吴玲观察到按钮挡 CTA"
+        },
+        {
+          "date": "2026-05-10",
+          "event": "实施上线",
+          "detail": "HNN 改位置"
+        },
+        {
+          "date": "2026-05-10",
+          "event": "回灌数据",
+          "detail": "Buy Now 点击率 +9%(吴玲观察,样本 120)"
+        },
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "已佐证 · +9% 点击率(1 日观察)· 命题进入验证通过阶段 · 等 7 天稳定后入规则库"
+    },
+    {
+      "id": "fanli",
+      "name": "fanli 支付链路",
+      "hostname": "craveai.life",
+      "status": "yellow",
+      "status_note": "部分老用户 checkout 页 fanli 选项不出现,疑似缓存问题",
+      "affected_users_today": 7,
+      "affected_attempts_today": 9,
+      "trend_vs_yesterday": "same",
+      "current_owner": "HNN",
+      "last_update": "2026-05-10 16:40 (5/12 报告未更新)",
+      "evidence": "吴玲手动重现 2 次,硬刷页面后恢复;怀疑 service worker 缓存问题",
+      "history": [
+        {
+          "date": "2026-05-06",
+          "event": "首次发现",
+          "detail": "老用户反馈结算找不到 fanli"
+        },
+        {
+          "date": "2026-05-08",
+          "event": "吴玲定位",
+          "detail": "疑似 SW 缓存旧 bundle"
+        },
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "修复后观察项:fanli 选项出现率 · 当前 ~22% 异常 · 目标 <1%"
+    },
+    {
+      "id": "scenario_page",
+      "name": "剧情落地页",
+      "hostname": "craveai.life",
+      "status": "yellow",
+      "status_note": "视频无时间锚点,用户反复拖进度条后离开;19 位深度观察用户中 6 位命中该模式",
+      "affected_users_today": 6,
+      "affected_attempts_today": 6,
+      "trend_vs_yesterday": "same",
+      "current_owner": "CHJ",
+      "last_update": "2026-05-10 12:30 (5/12 报告未更新)",
+      "evidence": "personas.json 2026-05-08 样本;今天又观察到 3 位新增",
+      "history": [
+        {
+          "date": "2026-05-05",
+          "event": "首次观察",
+          "detail": "personas 样本出现反复拖进度条模式"
+        },
+        {
+          "date": "2026-05-10",
+          "event": "累积证据",
+          "detail": "今日新增 3 位 · 模式一致"
+        },
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "修复后观察项:剧情页到加购段留存率 · 当前 58% · 目标 ≥ 73%(+15pp)"
+    },
+    {
+      "id": "article_page",
+      "name": "文章落地页",
+      "hostname": "craveai.life",
+      "status": "green",
+      "status_note": "今日无异常;平均停留 3m20s",
+      "affected_users_today": 0,
+      "affected_attempts_today": 0,
+      "trend_vs_yesterday": "same",
+      "current_owner": "CHJ",
+      "last_update": "2026-05-10 11:00 (5/12 报告未更新)",
+      "evidence": "文章页 CR 正常,无用户反馈",
+      "history": [
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "无修复项 · 保持观察"
+    },
+    {
+      "id": "tracking",
+      "name": "埋点合约",
+      "hostname": "—",
+      "status": "gray",
+      "status_note": "今日未做系统检查,下次 2026-05-12 周检",
+      "affected_users_today": 0,
+      "affected_attempts_today": 0,
+      "trend_vs_yesterday": "first_day",
+      "current_owner": "吴玲",
+      "last_update": "2026-05-10 09:00 (5/12 报告未更新)",
+      "evidence": "—",
+      "history": [
+        {
+          "date": "2026-05-12",
+          "event": "0512 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 不覆盖 modules 档案 · 等吴玲明确状态变更"
+        },
+        {
+          "date": "2026-05-13",
+          "event": "2026-05-13 报告未提及 · 状态保留",
+          "detail": "ingest_wuling_report 增量模式 · 不覆盖 modules · 等吴玲明确状态变更"
+        }
+      ],
+      "data_reflow": "—"
+    }
+  ]
+}

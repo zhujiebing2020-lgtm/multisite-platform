@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-10",
+    "card_type": "daily_dashboard",
+    "channel": "facebook",
+    "title": "数据看板 · 2026-05-10 · FB 广告组全量快照(5/9 5/10 回填)",
+    "subject_ref": {
+      "xlsx_file": "桌面/广告组数据看板0511xlsx.xlsx",
+      "xlsx_sheet": "5.9-5.10 增量汇总",
+      "date_snapshot": "2026-05-10",
+      "repo_daily_csv": "repo/data/ad_history/current_account_daily_long.csv",
+      "repo_tier_csv": "repo/data/ad_history/current_account_group_summary_tiered.csv"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "data_date": "2026-05-10",
+    "card_recorded_at": "2026-05-11",
+    "target_role": ["投手", "ZJB排查"],
+    "rule_source": "CLAUDE.md 合约四B · 数据复查机制 · xlsx 列头穷举 + 合计一致性 · 0511 补口:桌面看板新增 '5.9-5.10 增量汇总' 并沉淀 daily_long"
+  },
+  "signals": [
+    {"label": "5/9 FB spend", "value": "$185.69", "source": "HZM+HNN+CHJ 投手 xlsx 聚合 · 5.9-5.10 增量汇总 sheet · FB 小计行"},
+    {"label": "5/9 FB HVU 总数", "value": "107 人(其中映射到广告组 106 / 未关联 1)", "source": "FB_HVU_2026-05-09.json · filters={s_pgmin:2,s_durmin:30}"},
+    {"label": "5/9 FB CPHQ", "value": "$1.74(小计口径)", "source": "$185.69 / 107"},
+    {"label": "5/9 FB HQ1/HQ2", "value": "HQ1 98 / HQ2 40", "source": "HVU json rule_version 2026-04-29"},
+    {"label": "5/10 FB spend", "value": "$152.21", "source": "HZM+HNN+CHJ 投手 xlsx 聚合 · 5.9-5.10 增量汇总 sheet · FB 小计行"},
+    {"label": "5/10 FB HVU 总数", "value": "116 人(映射 116 · 未关联 0)", "source": "FB_HVU_2026-05-10.json"},
+    {"label": "5/10 FB CPHQ", "value": "$1.31(小计口径)", "source": "$152.21 / 116"},
+    {"label": "5/10 FB HQ1/HQ2", "value": "HQ1 102 / HQ2 58", "source": "HVU json"},
+    {"label": "5/9 → 5/10 环比", "value": "spend -18% / HVU +8% / CPHQ -25% · 同 spend 下 HVU 更多", "source": "5/9 与 5/10 小计对比"},
+    {"label": "5/10 Top3 HVU 组", "value": "组5 30 Positions(HVU 28 · CPHQ $0.54)· 组17 18 Sensual(HVU 26 · $0.57)· 组4 Viennese Oyster(HVU 15 · $0.41)", "source": "daily_long.csv"},
+    {"label": "5/10 0 HVU 但有 spend 组", "value": "7 组(组49 肛塞 · 组50 蘑菇 · 组51 八爪鱼 · 组54 樱花 · 组61 恶霸 · 组62 教练 · 组63 漫男)", "source": "daily_long.csv · 需落地页聚集扫描"},
+    {"label": "🔴 红灯组(全周期 0 HVU 且有 spend)", "value": "2 组 · 组46 五个产品合集($3.7)· 组54 樱花($77.39 · 连续 11 天 0 HVU)", "source": "current_account_group_summary_tiered.csv"},
+    {"label": "全量分层(tiered.csv)", "value": "S 19 · A 4 · B 21 · R 2 · O 19(观察期 <7天) · 共 65 组", "source": "分层口径:CPHQ≤$3=S / $3-$5=A / >$5=B / 0HVU=R / <7天=O"},
+    {"label": "CHJ 数据修复", "value": "5/11 10:11 CHJ 5.9-5.10 xlsx 已补齐 · 5/9 spend $85.95 · 5/10 $55.50 全部合入", "source": "文件到位时间戳 + 本次入库"},
+    {"label": "daily_long.csv 新增行", "value": "47 行(5/9 24 行 + 5/10 23 行)", "source": "scripts/ingest_0910_fb.py 运行日志"}
+  ],
+  "trigger_conditions": [
+    {"condition": "每日 xlsx 更新后 24 小时内入库", "met": true, "evidence": "5/11 早 10:11 文件到位 · 11:30 前入库完成"},
+    {"condition": "列头穷举与预期 schema 一致", "met": true, "evidence": "3 份投手 xlsx 列头一致 · 均 27 列"},
+    {"condition": "日花费 + HVU 小计一致性校验", "met": true, "evidence": "桌面 sheet FB 小计与 daily_long sum 一致($185.69 / 106 + 1 未关联)"},
+    {"condition": "CHJ 数据断档 >24h", "met": false, "evidence": "已在 5/11 早补齐,不触发断档告警"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "env_flag=2026Q1-承接页维护方变更 仍活跃 · 所有 CPHQ 归因带歧义", "active": true, "impact": "note_only", "evidence": "env_flag 失效日 2026-05-24"},
+    {"condition": "5/10 0 HVU 7 组中 3 组(组49/50/51)同属 HZM 玩具系列 · 可能是玩具落地页技术断裂", "active": true, "impact": "note_only", "evidence": "组49 肛塞 / 组50 蘑菇 / 组51 八爪鱼 都导向 creviatech.com/ai-sex-toys/* · 需触发 0 HVU 落地页聚集扫描规则"},
+    {"condition": "组54 樱花 11 天连续 0 HVU 累计 $77.39 · 单组成本最高", "active": true, "impact": "note_only", "evidence": "tiered.csv tier=R · 规则 B_class_zero_hvu_diagnosis 候选"},
+    {"condition": "FB 5/10 spend 环比 -18% 是投手主动降预算还是账号限额", "active": true, "impact": "note_only", "evidence": "需交叉 HZM/HNN/CHJ 三人 5/9→5/10 各自 spend 走向"}
+  ],
+  "rollback_conditions": [
+    {"condition": "Google 5/10 csv 到位后 Google HVU 对齐口径变化",
+     "action_on_trigger": ["更新本卡 5/10 跨渠道段","同时建 daily-2026-05-10-google.json"]},
+    {"condition": "xlsx 入库后任一合计数字与逐日汇总偏差 >5%",
+     "action_on_trigger": ["本卡标 data_quality=quarantine · 禁下游引用","触发 breakpoint_04_xlsx_pollution_trace","反向标注基于本卡的决策为'需重审'"]}
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "桌面 0511 看板推送 + repo 沉淀",
+      "description": "桌面 广告组数据看板0511xlsx.xlsx 新增两张 sheet(5.9-5.10 增量汇总 · HVU明细5.9-5.10) · 已推送到 vault 两处归档 · 5/9-5/10 47 行已入 daily_long.csv · tiered.csv 重算",
+      "execution_status": "已执行",
+      "next_move": {
+        "owner": "Claude",
+        "due_date": "2026-05-11",
+        "do_what": "跑 renderer/build.py 重建 index.html + runtime/index.html · git push · GitHub Pages 自动发布",
+        "handoff_to": "ZJB 打开 https://zhujiebing2020-lgtm.github.io/crave-AI/ 验证本卡显示在 投放数据看板 view",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "一次性"
+      }
+    },
+    {
+      "step": 2,
+      "name": "5/10 0 HVU 落地页聚集扫描",
+      "description": "组49/50/51 同属 HZM 玩具线且同指向 creviatech.com/ai-sex-toys/* · 已构成 '≥3 组同落地页前缀 0 HVU' 前置条件 · 触发规则候选",
+      "execution_status": "待触发",
+      "next_move": {
+        "owner": "Claude",
+        "due_date": "2026-05-11",
+        "do_what": "读 breakpoint_zero_hvu_landing_cluster 规则(如不存在则建) · 写一张命题卡",
+        "handoff_to": "投放决策 view + 飞轮断点 view 显示",
+        "escalate_if_silent": "ZJB 日报顶置",
+        "reminder_cadence": "触发即通知"
+      }
+    },
+    {
+      "step": 3,
+      "name": "Google 5/10 csv 补口",
+      "description": "Google 5/10 广告系列 csv 未在 5/11 早三个导出包中 · 卡 daily-2026-05-09-google 已建为最近可用日期 · 5/10 csv 到位后补建 daily-2026-05-10-google",
+      "execution_status": "待触发",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "Google csv 导出后",
+        "do_what": "把 goole_csv(2026-05-11_*)或之后导出包里 广告系列(2026.05.10).csv 告知 Claude",
+        "handoff_to": "Claude 建 daily-2026-05-10-google.json 并重跑 build",
+        "escalate_if_silent": "连续 2 天无 5/10 csv → Claude 日报顶置 'Google 5/10 断档'",
+        "reminder_cadence": "隔日"
+      }
+    }
+  ]
+}

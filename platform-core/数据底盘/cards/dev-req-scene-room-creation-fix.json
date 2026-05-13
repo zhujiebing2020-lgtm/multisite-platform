@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "card_id": "dev-req-scene-room-creation-fix",
+    "card_type": "dev_requirement",
+    "channel": "all",
+    "title": "P0 · Scene Room 创建失败排查 · 0511 出现 11 次 · 算法层 Bug",
+    "linked_claim": "claim-scene-room-creation-fail",
+    "priority": "P0",
+    "pin_top": true,
+    "dev_status": "aligned",
+    "approved_by": "ZJB",
+    "approved_date": "2026-05-13",
+    "target_role": ["技术"],
+    "rule_source": "claim-scene-room-creation-fail · ZJB 2026-05-13 签字 + 策略对齐",
+    "last_updated": "2026-05-13",
+    "status_note": "偶发 · 根因未定位 · 已按容错+复现双轨策略推进",
+    "fix_date": null,
+    "verify_next": "修复后 7 天 · 创建失败次数从 11/天 降到 ≤1/天",
+    "watch_points": "高黏性用户(>1h停留)是否仍受影响 · 失败 vs 成功的 scene_id 分布"
+  },
+  "problem": "Scene Room 创建失败 0511 出现 11 次 · ROW6 用户 10:57-10:58 间连续失败 8 次第 9 次才成功 · 算法层异常",
+  "root_cause": "未定位 · 推测后端 → agent 报错 · 目前反馈无明确原因 · 偶发 · 走容错+复现双轨",
+  "策略": {
+    "前端": "报错 UI 调整 · 解决目前提示对用户不友好的问题",
+    "后端": "记录 agent 调用失败细节 · 复现后继续分析",
+    "测试": "冒烟测试覆盖 · 定时巡检",
+    "decided_at": "2026-05-13",
+    "decided_by": "ZJB"
+  },
+  "排查方向": [
+    "拉 0511 10:57-10:58 时段的 Scene Room 创建后端日志 · 看错误码分布",
+    "统计 0511 各 scene_id 的创建失败率 · 看是否集中在某些场景",
+    "对比 0511 与正常天的算法资源用量(GPU/内存)",
+    "ROW6 用户 6 小时跨度仍同样问题 · 排除短期波动 · 倾向系统性 bug"
+  ],
+  "before_after_verification": {
+    "before_baseline": "0511 创建失败 11 次 · 至少 3 用户受影响 · ROW6 连续 8 次失败",
+    "after_target": "≤1 次/天 · 单用户连续失败 ≤2 次",
+    "verification_method": "修复后 7 天 · Scene Room 创建失败事件次数 + 受影响用户数 + 单用户最大连续失败数",
+    "success_criteria": "失败次数 ≤1/天 = 修复成功 · 1-3/天 = 部分修复 · >3/天 = 未根治"
+  },
+  "state_history": [
+    {"date": "2026-05-12", "from": null, "to": "draft", "by": "Claude", "note": "吴玲 0512 报告标 P0 bug_alert · ROW6 连续 8 次失败"},
+    {"date": "2026-05-13", "from": "draft", "to": "aligned", "by": "ZJB", "note": "ZJB 签字 + 锁定策略(前端UI/后端日志/冒烟巡检)· 偶发问题 · 复现后再分析根因"}
+  ]
+}

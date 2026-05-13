@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-11",
+    "card_type": "daily_dashboard",
+    "channel": "facebook",
+    "title": "数据看板 · 2026-05-11 · FB 5/11 全量快照",
+    "subject_ref": {
+      "daily_csv": "repo/data/ad_history/current_account_daily_long.csv",
+      "tier_csv": "repo/data/ad_history/current_account_group_summary_tiered.csv",
+      "date": "2026-05-11"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-12",
+    "target_role": [
+      "投手",
+      "ZJB排查"
+    ],
+    "rule_source": "CLAUDE.md 合约四B · ingest_from_daily_long.py"
+  },
+  "signals": [
+    {
+      "label": "⚠️ env_flag · CHJ 5/11 余额不足",
+      "value": "5/11 CHJ 文章页组 spend 接近 $0 不是 bug · 是账户余额不足 · ZJB 已充值 · 后续 7 天有滞后效果",
+      "source": "ZJB 5/12 口头 · env_flags[]"
+    },
+    {
+      "label": "FB 5/11 spend",
+      "value": "$77.23",
+      "source": "投手 xlsx 聚合"
+    },
+    {
+      "label": "FB 5/11 HVU 总数",
+      "value": "70 人",
+      "source": "FB- HVU-2026-05-11.json"
+    },
+    {
+      "label": "FB 5/11 CPHQ",
+      "value": "$1.10",
+      "source": "$77.23 / 70"
+    },
+    {
+      "label": "全量分层(tiered.csv)",
+      "value": "S 19 · A 4 · B 21 · R 2 · O 32 · 共 78 组",
+      "source": "分层口径 CPHQ≤$3=S ≤$5=A >$5=B 0HVU=R <7天=O"
+    },
+    {
+      "label": "5/11 Top5 HVU 组",
+      "value": "组17 (HVU 12) · 组66 (HVU 11) · 组5 (HVU 10) · 组58 (HVU 7) · 组65 (HVU 7)",
+      "source": "FB HVU JSON"
+    },
+    {
+      "label": "数据时间覆盖",
+      "value": "2026-04-05 → 2026-05-11 (37 天)",
+      "source": "daily_long.csv"
+    },
+    {
+      "label": "Google 5/11 HVU",
+      "value": "57 人(53 关联+4 未关联) · 等待 Google Ads 5/10-11 csv 到位",
+      "source": "goole-HVU-2026-05-11.json"
+    },
+    {
+      "label": "每日 14:00 自动跑",
+      "value": "launchd 已生效 · run_dashboard.sh v3 auto-push",
+      "source": "scripts/com.zhujiebing.crave-ai.dashboard.plist"
+    }
+  ],
+  "trigger_conditions": [
+    {
+      "condition": "数据已入 daily_long",
+      "met": true,
+      "evidence": "5/11 18 行追加"
+    },
+    {
+      "condition": "tiered.csv 已重算",
+      "met": true,
+      "evidence": "78 组"
+    }
+  ],
+  "skeptic_conditions": [],
+  "rollback_conditions": [],
+  "actions": [
+    {
+      "step": 1,
+      "name": "自动入库",
+      "description": "投手 xlsx + HVU JSON 已解析 · daily_long + tiered 已更新",
+      "execution_status": "已执行",
+      "next_move": {
+        "owner": "Claude",
+        "due_date": "14:00 launchd 自动 build",
+        "do_what": "ingest_from_daily_long + build --runtime + push",
+        "handoff_to": "ZJB 打开站点查看"
+      }
+    }
+  ],
+  "env_flags": [
+    {
+      "flag": "chj_account_balance_low",
+      "date": "2026-05-11",
+      "note": "CHJ 5/11 账户余额不足导致 spend 接近$0(组17/5/4/7/41/27 都是$0.04-$0.05) · ZJB 已充值 · 后续广告会有滞后效果(已花的预算继续跑量收数据)",
+      "effect_window": "充值后 7 天内 CHJ 文章页组数据继续观察",
+      "reported_by": "ZJB",
+      "reported_at": "2026-05-12"
+    }
+  ]
+}

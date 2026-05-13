@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-05-09T05:05:07.846248+00:00",
+  "xlsx_source": "广告组数据看板0509xlsx.xlsx",
+  "conclusions": [
+    {
+      "type": "落地页类型对比",
+      "status": "达到门槛",
+      "data": {
+        "文章详情页": {
+          "n": 18,
+          "threshold": 15,
+          "reached": true,
+          "total_spend": 3268.48,
+          "total_hvu": 2122,
+          "cphq": 1.54,
+          "green_count": 12,
+          "green_rate": 66.7
+        },
+        "剧情体验页": {
+          "n": 24,
+          "threshold": 15,
+          "reached": true,
+          "total_spend": 1780.55,
+          "total_hvu": 268,
+          "cphq": 6.64,
+          "green_count": 2,
+          "green_rate": 8.3
+        },
+        "商品单品页": {
+          "n": 3,
+          "threshold": 8,
+          "reached": false,
+          "total_spend": 144.92,
+          "total_hvu": 29,
+          "cphq": 5.0,
+          "green_count": 1,
+          "green_rate": 33.3
+        },
+        "商品总览页": {
+          "n": 1,
+          "threshold": 5,
+          "reached": false,
+          "total_spend": 66.02,
+          "total_hvu": 53,
+          "cphq": 1.25,
+          "green_count": 1,
+          "green_rate": 100.0
+        }
+      },
+      "last_updated": "2026-05-09"
+    },
+    {
+      "type": "投手操作能力差异",
+      "status": "达到门槛",
+      "data": {
+        "CHJ": {
+          "n": 12,
+          "cphq": 1.31,
+          "green_count": 10,
+          "green_rate": 83.3
+        },
+        "HZM": {
+          "n": 3,
+          "cphq": 4.27,
+          "green_count": 1,
+          "green_rate": 33.3
+        },
+        "HNN": {
+          "n": 3,
+          "cphq": 3.94,
+          "green_count": 1,
+          "green_rate": 33.3
+        }
+      },
+      "last_updated": "2026-05-09"
+    }
+  ]
+}

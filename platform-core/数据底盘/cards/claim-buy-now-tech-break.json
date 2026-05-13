@@ -1,0 +1,226 @@
+{
+  "meta": {
+    "card_id": "claim-buy-now-tech-break",
+    "card_type": "claim",
+    "channel": "facebook",
+    "title": "Buy Now 移动端技术断裂 · 跨期未修复",
+    "subject_ref": {
+      "claim_md": "vault/2_知识库-AI维护/命题库/待验证命题/landing-page-buy-now-mobile-技术断裂跨期未修复.md"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "target_role": [
+      "技术",
+      "ZJB排查"
+    ],
+    "rule_source": "CLAUDE.md 合约二 · 命题置信度升降;环 4.1 回灌规则",
+    "proposition_status": "validating",
+    "proposition_id": "CL-2026-04-24-buy-now-tech-break",
+    "proposed_date": "2026-04-24",
+    "claim_side": "site",
+    "evidence_chain": [
+      {
+        "path": 2,
+        "by": "吴玲",
+        "date": "2026-05-12",
+        "ref": "vault/.../0512-PromptA-综合分析报告.md",
+        "action": "re-confirm",
+        "tech_detail": "吴玲 2026-05-12 日报再次提及"
+      }
+    ]
+  },
+  "signals": [
+    {
+      "label": "置信度",
+      "value": "可信(跨 3 期持续复现)",
+      "source": "命题档 2026-05-10 修正"
+    },
+    {
+      "label": "紧急程度",
+      "value": "🔴 红灯 · P0 技术阻断",
+      "source": "全部高意向用户 0 成交 · 根因未定位"
+    },
+    {
+      "label": "影响范围",
+      "value": "FB / IG 所有 ads 流量商品详情页",
+      "source": "0509 全量 243 用户观察"
+    },
+    {
+      "label": "4/24 单次观察",
+      "value": "ROW44 · 1 用户 · 1 次点击进结算页放弃",
+      "source": "0424 用户行为分析报告"
+    },
+    {
+      "label": "5/8 高意向用户",
+      "value": "4 人 · 13 次 Buy Now 点击 · 0 成交",
+      "source": "0508 用户行为分析报告画像 C"
+    },
+    {
+      "label": "5/9 全量用户",
+      "value": "15 人 · 15 次进结算页 · 0 成交",
+      "source": "0509 商品详情页分析"
+    },
+    {
+      "label": "研发推测(未验证)",
+      "value": "① 5/2 服务器问题(已修)② Apple 登录死循环 ③ FB/IG 内置浏览器路由跳转",
+      "source": "0508 汇报末尾"
+    }
+  ],
+  "trigger_conditions": [
+    {
+      "condition": "跨 ≥2 期广告流量样本 · 每期 ≥15 用户触发 Buy Now",
+      "met": true,
+      "evidence": "已跨 3 期满足(0424 / 0508 / 0509)"
+    },
+    {
+      "condition": "每期成交数为 0",
+      "met": true,
+      "evidence": "3 期合计 20+ 用户 0 成交"
+    },
+    {
+      "condition": "服务器修复宣称后数据仍复现",
+      "met": true,
+      "evidence": "5/2 服务器修 · 5/8 和 5/9 仍出现"
+    }
+  ],
+  "skeptic_conditions": [
+    {
+      "condition": "FB/IG 内置浏览器 UA 识别日志未拉取 → 无法排除浏览器兼容性单独原因",
+      "active": true,
+      "impact": "note_only",
+      "evidence": "需技术补 trace"
+    },
+    {
+      "condition": "Apple 登录回调 log 未验证 → 死循环路径还是假设",
+      "active": true,
+      "impact": "note_only"
+    },
+    {
+      "condition": "结算页放弃的用户意图可能是'看价格就关'而非'技术故障'",
+      "active": false,
+      "impact": "degrade_confidence",
+      "evidence": "画像 C 有 2-6 次连续点击 · 单纯看价格不会连点"
+    }
+  ],
+  "rollback_conditions": [
+    {
+      "condition": "技术侧拿出 3 个独立 trace 证据(服务器/Apple 登录/内置浏览器 UA)证明 3 个根因都已修",
+      "action_on_trigger": [
+        "命题置信度升级'可信 → 已确认(修复完成)'",
+        "本卡进入冷却观察期 · 新 7 天跨期数据无复现才能结案",
+        "operation_log 追加'Buy Now 技术断裂根因定位完成'"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "技术补 3 个独立 trace log",
+      "description": "① 服务器健康 log 证明 5/2 修复覆盖了所有路径 ② Apple 登录回调 log 证明无死循环 ③ FB/IG 内置浏览器 UA 识别 + 路由跳转 log",
+      "execution_status": "挂起等外因",
+      "blocker": "郭刚 · 曾凡立(技术)要拉出 3 条独立 trace · 不是'推测已恢复'一句话",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-13",
+        "do_what": "把本卡直接转发给郭刚 + 曾凡立 · 要求 3 天内给出 3 条独立 trace(或明确说'这条我暂时不做' + 原因)· 不接受口头'推测已修复'",
+        "handoff_to": "郭刚/曾凡立 trace 回 ZJB · ZJB 转 Claude · Claude 挂到本卡 signals 区作为已验证证据",
+        "escalate_if_silent": "5/13 技术侧未回 → Claude 在日报顶置'Buy Now 跨 3 期 0 成交 · 技术侧 X 天未响应 · 每天损失约 N 用户'",
+        "reminder_cadence": "每日日报,直到 3 条 trace 全部到位"
+      }
+    },
+    {
+      "step": 2,
+      "name": "承接侧加埋点监控 Buy Now 点击 → 成交转化率",
+      "description": "商品详情页 Buy Now 点击 + 结算页进入 + 实际成交 3 步漏斗 · 按日统计 · 按 FB/IG 渠道拆分",
+      "execution_status": "已生成未执行",
+      "blocker": "fanli(承接端技术)2026-04-27 收到类似埋点需求到今天未落地",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-13",
+        "do_what": "把埋点需求和 step1 一起转发 · 特别指出 4/27 需求未落地阻塞命题 2 和本命题 · 要求 fanli 给落地日期",
+        "handoff_to": "fanli 落地后 Claude 自动从新埋点数据拉漏斗 · 写回本卡 signals",
+        "escalate_if_silent": "7 天未给日期 → Claude 在合约四B 阶段一回顾时把本条标黄",
+        "reminder_cadence": "每日日报,与 step1 合并"
+      }
+    },
+    {
+      "step": 3,
+      "name": "用户临时兜底 · 所有 FB/IG 流量商品页加'客服链接'按钮",
+      "description": "在 Buy Now 断裂根因定位之前 · 给商品详情页加一个'买不了点这里'按钮 · 落到客服微信或表单 · 能救几个算几个",
+      "execution_status": "已生成未执行",
+      "blocker": "承接层(fanli)改前端 · 半天工作量",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-11",
+        "do_what": "征得你同意后 · 把本条发给 fanli · 要求 24h 内上线兜底按钮 · 防止高意向用户继续白白流失",
+        "handoff_to": "fanli 上线后通知 Claude · Claude 挂监控点击数",
+        "escalate_if_silent": "24h 未响应 → ZJB 考虑直接在客服号推文发'如购买遇到问题请联系我们'",
+        "reminder_cadence": "每小时提醒(前 24h)"
+      }
+    }
+  ],
+  "evidence_chain": [
+    {
+      "ref": "2026-04-24 · 广告组承接端用户分析",
+      "ref_type": "承接端_md",
+      "excerpt": "ROW44 · 1 用户 · 进结算页放弃 · 首次单用户观察"
+    },
+    {
+      "ref": "2026-05-08 · 广告组承接端用户分析(画像 C)",
+      "ref_type": "承接端_md",
+      "excerpt": "4 位高意向用户 · 13 次 Buy Now 点击 · Apple 登录→注册→回详情页死循环 · 全部 0 成交"
+    },
+    {
+      "ref": "2026-05-09 · 商品详情页全量分析(243 用户)",
+      "ref_type": "承接端_md",
+      "excerpt": "15 人进结算页全部 0 成交 · 停留时长从 0 到 451 分钟差异极大 · 共性仅'0 成交'"
+    },
+    {
+      "ref": "2026-05-10 · 命题档 ZJB 二次反驳",
+      "ref_type": "claim_md",
+      "excerpt": "服务器 5/2 修后 5/8 和 5/9 仍复现 · 根因未真正定位 · 不接受'推测已恢复'结案"
+    }
+  ],
+  "status": {
+    "confidence": "可信",
+    "overall": "规则触发但挂起",
+    "honest_note": "这是 Runtime 当前最紧急的 P0 · 跨 3 期 20+ 高意向用户 0 成交 · 技术侧 3 个推测根因都没拿出 trace 证据 · 不能凭'推测已修'结案。建议 ZJB 今天就把这张卡转发技术侧 + 同步推兜底按钮救人。"
+  },
+  "timeline": [
+    {
+      "date": "2026-04-24",
+      "actor": "吴玲",
+      "action": "59 用户深度分析 · ROW44 记录结算页放弃",
+      "artifact": "0424 报告",
+      "downstream_effect": "命题 1 最早证据"
+    },
+    {
+      "date": "2026-05-02",
+      "actor": "技术",
+      "action": "服务器问题修复宣称",
+      "artifact": "口头(无 trace)",
+      "downstream_effect": "后续假设根因'已恢复'· 被 5/8 5/9 数据证伪"
+    },
+    {
+      "date": "2026-05-08",
+      "actor": "吴玲",
+      "action": "画像 C 4 用户 13 点击 0 成交",
+      "artifact": "0508 报告",
+      "downstream_effect": "置信度升至可信"
+    },
+    {
+      "date": "2026-05-09",
+      "actor": "吴玲",
+      "action": "全量 243 用户 · 15 人进结算页 0 成交",
+      "artifact": "0509 报告",
+      "downstream_effect": "跨 3 期确认 · 根因未定位"
+    },
+    {
+      "date": "2026-05-10",
+      "actor": "ZJB",
+      "action": "二次反驳'推测已恢复' · 要求 3 条独立 trace",
+      "artifact": "命题档修订 + 本卡",
+      "downstream_effect": "本卡 step1 等待技术回应"
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "_meta": {
+    "title": "数据接入 + 数据底盘 fork manifest",
+    "created": "2026-05-13T20:56:34",
+    "source_repo": "~/Documents/GitHub/crave-AI",
+    "source_sha": "51c9bdc854bf4f798f33e2b5398b26c8591fbbe0",
+    "fork_policy": "cp -p + chmod 444 · 源仓库零改动 · 本仓库只读"
+  },
+  "数据接入-ingest": {
+    "daily_close.py": {
+      "sha256": "4ce5608b4ed5c06f843d016d5211173b37c586b80f08961e6eb0cfab596f3d9f",
+      "size": 6805
+    },
+    "gen_google_daily_cards.py": {
+      "sha256": "1acbf6da26dd9230664fb7af8eca97a19a5be105bb0db688be75b0db8b0633f9",
+      "size": 5401
+    },
+    "ingest_conclusions.py": {
+      "sha256": "988e961baa517c23c67796d5e07efcde08f715ecb9674714cfbeae809e716889",
+      "size": 7152
+    },
+    "ingest_conversion.py": {
+      "sha256": "5403d814fb8218b02da7f4db39fd63eb9757d2cb4fe7e291d6d7b24abd32d366",
+      "size": 14729
+    },
+    "ingest_from_daily_long.py": {
+      "sha256": "4588a1e40cf21c9014dbc06223936d0cd674827311d479d8ae5416953714d9c5",
+      "size": 11675
+    },
+    "ingest_from_xlsx.py": {
+      "sha256": "77edb61ed42656981d76adcd38745da09d73d6624c586ce25b7f1533aaede720",
+      "size": 5032
+    },
+    "ingest_wuling_report.py": {
+      "sha256": "1db710b463b8eaf0ea1aac031bbd95c002c6cb8a3b17c743a867f1a2de031a07",
+      "size": 15712
+    },
+    "run_dashboard.sh": {
+      "sha256": "2da01dd7de6c536345b2a701b1f6b54e32f9028b8c40fb525f7d093837468416",
+      "size": 1479
+    }
+  },
+  "数据底盘": {
+    "ad_history/closed_accounts_by_advertiser_platform.csv": {
+      "sha256": "b011c90c17dbb45a5f49425a74ffbe09e3f0498c99627318e5eabac09581c37c",
+      "size": 320
+    },
+    "ad_history/closed_accounts_period_summary.csv": {
+      "sha256": "556c3c6d4204b154d037aa71a853b9526c585324d19b7fdce110f4be1a6d099c",
+      "size": 15315
+    },
+    "ad_history/current_account_daily_long.csv": {
+      "sha256": "0361ded065f41f67f17a13fa097164079fa91a00475537255d0a53b34d2d8106",
+      "size": 78344
+    },
+    "ad_history/current_account_group_summary.csv": {
+      "sha256": "7a813b2dd22dcccb66fed6ea31d24c6583b6c1e028d5227da08f793a89a22697",
+      "size": 8196
+    },
+    "ad_history/current_account_group_summary_tiered.csv": {
+      "sha256": "570794147c2c4132f80052b6c9e4bb7a2a3c13b95e8714defa854add29cf912e",
+      "size": 8469
+    },
+    "cards/action-pitcher-2026-05-11.json": {
+      "sha256": "3f00dfc14ac590c40cad704f9e046ec358b58175e2e9a84cfb9cce8b06f8b832",
+      "size": 5500
+    },
+    "cards/action-pitcher-2026-05-12.json": {
+      "sha256": "2d824704023b6b504896e21b9f48aceaec88569d43337ee149cf17377084d501",
+      "size": 5762
+    },
+    "cards/ad-group-1.json": {
+      "sha256": "3b4aa5ec9081e0dd38d2d13c2344deafd990639dbf41d9489502ead00d2f5d67",
+      "size": 9558
+    },
+    "cards/ad-group-17.json": {
+      "sha256": "f5927ca345dc3127c95a95bc3c039d956e946b18cbd5e8d9f0fd9c830b3eceae",
+      "size": 9301
+    },
+    "cards/ad-group-54.json": {
+      "sha256": "2f30562046b73c58558d802cabc7674659c24644acfd6933ccfd173911932695",
+      "size": 7951
+    },
+    "cards/auto-strategy-2026-05-11.json": {
+      "sha256": "72e23168722c19a56cfe662e95255d77efe900ff7fca9f1b654984f0f22e7938",
+      "size": 4911
+    },
+    "cards/auto-strategy-2026-05-12.json": {
+      "sha256": "ef409b0fd6d055b013b426eb73d05a376aba343c5c6793a5c089979668bcbbe3",
+      "size": 4742
+    },
+    "cards/claim-buy-now-tech-break.json": {
+      "sha256": "a8ef0d32a559fd2c57aee07045454c531448af9d5aaa594b54180b13c973469d",
+      "size": 9092
+    },
+    "cards/claim-customer-support-position.json": {
+      "sha256": "29da6366671421cc98354a220339dce595798449764a72e3375db976b1b824ce",
+      "size": 3274
+    },
+    "cards/claim-google-roi-vs-fb.json": {
+      "sha256": "fa902e03b8f06f993cc12e52f0b79a11ee88f007001a25c5157eeabdb09167a7",
+      "size": 5586
+    },
+    "cards/claim-order-page-dead-end.json": {
+      "sha256": "08b5f72eea1535b05cc7321735fa05f2ebe0fc317a2c7ea5c7ce94164fdc5738",
+      "size": 7458
+    },
+    "cards/claim-product-page-video-cta.json": {
+      "sha256": "df965b7aacbe53022aa434fa66ff41ee634b0963ec30fbc6a6dd3e3061589982",
+      "size": 3966
+    },
+    "cards/claim-product-video-length-myth.json": {
+      "sha256": "ccf0e4105550ed87a9791e15f8a5538e95b463fa93df146ab885cd3b07a21f11",
+      "size": 2633
+    },
+    "cards/claim-scene-room-creation-fail.json": {
+      "sha256": "2f0422b3e77018c86e09144079867fe6d83587cfeec3806abd464fcb4d6ee629",
+      "size": 3808
+    },
+    "cards/claim-stub-2026-05-12-row9-疑似非真实用户-中文页面.json": {
+      "sha256": "b5455fe617196076f816cfa790340ba60f8182c2ff358a69286f184c3dd54782",
+      "size": 1217
+    },
+    "cards/daily-2026-05-02-google.json": {
+      "sha256": "c7f5894709d4edb3c0ac5a096ffb4b74f4a749e7959385dd7c485bfbd8b382f4",
+      "size": 1470
+    },
+    "cards/daily-2026-05-03-google.json": {
+      "sha256": "3ea29333dee29df31f5739d721084f558c321cefb28440905510b5d9bef526e2",
+      "size": 1464
+    },
+    "cards/daily-2026-05-04-google.json": {
+      "sha256": "45a17ae85e1190525b63cd227e60af678a87f40e14626781e379d17fa3f86475",
+      "size": 1456
+    },
+    "cards/daily-2026-05-05-google.json": {
+      "sha256": "4869234ddb1f92454243c1ad1ac56a83a68807e29a624b5994c1bea27f6aea59",
+      "size": 1485
+    },
+    "cards/daily-2026-05-06-google.json": {
+      "sha256": "26df9d6d1da6bb4ae891e5bf089147702dfd4e95882f127c3d1a70f9f51069d0",
+      "size": 1719
+    },
+    "cards/daily-2026-05-07-google.json": {
+      "sha256": "4b947f23c276979d642ff77ee34185f969a0eb6dd3de0d9ce8e79c01c4007dd9",
+      "size": 1726
+    },
+    "cards/daily-2026-05-08-google.json": {
+      "sha256": "3bd6c357d104fcfa6ad418843e6712bd2d6463520c41efcf522617069d707401",
+      "size": 1737
+    },
+    "cards/daily-2026-05-09-google.json": {
+      "sha256": "4a7bffef0451733a0970c1b0820546db512a0385537f4ab9c91b5d41d5813868",
+      "size": 1720
+    },
+    "cards/daily-2026-05-09.json": {
+      "sha256": "dc8596a7a809800dfcc7447c16c3e6d87cbdf6e119080916d1d30ba5c53875c3",
+      "size": 7591
+    },
+    "cards/daily-2026-05-10-google.json": {
+      "sha256": "5aadd3ee93163cc2ca46611ac38126c4cf75cbdad77211fdd24991b15d8c0dfe",
+      "size": 1488
+    },
+    "cards/daily-2026-05-10.json": {
+      "sha256": "76a9ae32ee8b3af8b48d78c11d641c4555291e97211d3d42089f6840f00537e1",
+      "size": 7370
+    },
+    "cards/daily-2026-05-11-accept.json": {
+      "sha256": "af461ca197fab8990c49269536e52f73f73c24a163712ec30e222fa9d506dbb6",
+      "size": 3127
+    },
+    "cards/daily-2026-05-11-google.json": {
+      "sha256": "cf22ef525582940476b0b3c14de54591e53e9681695aa5e761a1f4c10b81ca32",
+      "size": 1476
+    },
+    "cards/daily-2026-05-11.json": {
+      "sha256": "d5a7c73dc24db2c8709a37ba265883503fdbd9ed08115e2a537934dc15160f55",
+      "size": 3246
+    },
+    "cards/daily-2026-05-12-google.json": {
+      "sha256": "7f2114524835a711ab9d874c787a1967c7d335c79b8752a54273a5a090351cc4",
+      "size": 1479
+    },
+    "cards/daily-2026-05-12.json": {
+      "sha256": "c69184c92a2924ae7f4704e8fc2c54dca421c52fa7ef12bde841132cc7bba58c",
+      "size": 2918
+    },
+    "cards/dev-req-checkout-rebuild.json": {
+      "sha256": "dc122bcd452a12642d9aa159aacb94072cf15bb6c934d67c2cefd0e99f864c44",
+      "size": 3735
+    },
+    "cards/dev-req-product-video-cta-prefix.json": {
+      "sha256": "5c6da6968704e16b47d2239fd67fce829f1340623662c2af77c8b9d28c693f50",
+      "size": 1682
+    },
+    "cards/dev-req-scene-room-creation-fix.json": {
+      "sha256": "f430d0fcda8482e3b37590061eb1ca44340a0469e50ae8df2c98141c298f69e5",
+      "size": 2609
+    },
+    "conclusions_pending.json": {
+      "sha256": "da93591effee19e309c5dbd4dc81b3c79f1275d5db5b5c2f8c97ff4328324f6c",
+      "size": 1824
+    },
+    "conversion_daily.json": {
+      "sha256": "a9ef0985f73c1130a03d3e17dd389c0ec52b5a2c6998f1897dff4e469fa77b6f",
+      "size": 1701
+    },
+    "intake/accept_daily_2026-05-10.json": {
+      "sha256": "73a72f252872d9aad682a16db22ce302b0468cf5b43e2cf99c57bc20c6eaf6d7",
+      "size": 8154
+    },
+    "intake/accept_daily_2026-05-12.json": {
+      "sha256": "cdd5f788d3c7dd172688bc5719053ed6f30338d62549475a64d6acbebe023f3d",
+      "size": 8152
+    },
+    "intake/accept_daily_2026-05-13.json": {
+      "sha256": "a246c38ebc4d6bfa21637932f866d30283bc94281e8172d8f3b385a0ed524d3b",
+      "size": 8393
+    },
+    "personas.json": {
+      "sha256": "8bf09032ab79f7bdea0001ba4345f49f6560dbaa85d7256a4ae0aefcba714786",
+      "size": 7535
+    }
+  }
+}

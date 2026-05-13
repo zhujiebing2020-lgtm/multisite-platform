@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "card_id": "auto-strategy-2026-05-11",
+    "card_type": "action_list",
+    "channel": "facebook",
+    "title": "🤖 自动策略草稿 · 2026-05-11 · S类杠杆归因三拆(可信级)",
+    "subject_ref": {
+      "rule": "data/rules/auto_strategy_rules.json#S_class_scaling_test",
+      "trigger_data": "tiered.csv 19 组 S 类 + daily_long.csv 近30天",
+      "matched_groups": 7
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-11",
+    "target_role": ["投手", "ZJB决策"],
+    "rule_source": "data/rules/auto_strategy_rules.json#S_class_scaling_test step1",
+    "confidence_level": "可信(基于 HVU/CPHQ · 未到放量门槛)",
+    "blocked_by_order_page": false
+  },
+  "context": {
+    "constraint": "结算页 0 转化未修 · 但本卡是'策略草稿'不是'放量执行' · 不被结算页阻塞",
+    "strategy": "基于 6 个 S 类样板组(全 CHJ 文章页)的成功路径 · 自动生成「同选题×换变量」的 A/B 实验草稿 · 投手可参考用作下一批新组的方向",
+    "two_layer_explanation": "可信级=策略可生成可参考(本卡)· 确认级=放量执行(等结算页修+1单成交)· 两层独立"
+  },
+  "actions_by_pitcher": {
+    "CHJ": {
+      "summary": "你的 6 组 S 类样板已出方法论。系统建议下批新组按「同选题→换 1 个变量」三拆开,而不是再开新选题",
+      "strategy_drafts": [
+        {"基础组": "组17 18 Sensual · CPHQ $0.64 · 文章页", "三拆方向": "①换落地页(文章→剧情) ②换定向(同素材换受众) ③换素材(同落地页换钩子)", "预期": "找到选题/落地页/素材三个变量哪个贡献最大"},
+        {"基础组": "组5 30 Positions · CPHQ $0.61 · 文章页", "三拆方向": "同上 · 重点验证「30 Positions」选题是否对落地页类型不敏感"},
+        {"基础组": "组4 Viennese Oyster · CPHQ $0.52 · 文章页", "三拆方向": "重点验证此选题转剧情页表现"},
+        {"基础组": "组7 The best intimacy · CPHQ $0.67 · 文章页", "三拆方向": "重点测此选题换定向后的稳定性"},
+        {"基础组": "组41 Most positions · CPHQ $0.65 · 文章页", "三拆方向": "组41 与组5 选题相近,可做内部 A/B 看素材差异"},
+        {"基础组": "组27 performance · CPHQ $0.81 · 文章页", "三拆方向": "已知文章页能跑,测「performance」选题转商品页能否保持"}
+      ],
+      "execution_format": "每组三拆 = 3 个新广告组,每组 3 天 ≥$30 预算,跑完后回收 CPHQ + Buy Now 率对比",
+      "note": "本批不要求加预算到现有组,而是用'新开6×3=18 组'的方式扩量。结算页修好后,这 18 组里赢的才能升'确认'放大预算"
+    },
+    "HNN": {
+      "summary": "你的组合目前没有满足 14+天 + HVU≥100 的 S 类组(最稳的组33只有 4 HVU)。本批没有自动策略草稿",
+      "next_step": "继续运行已有指令(维持组58/59/66 + 停 3 组)。等任一新组累计 14 天 + 100 HVU 后,系统自动给你出三拆建议"
+    },
+    "HZM": {
+      "summary": "你的组合目前也没有满足触发条件的 S 类组(最近的组48 弯棒只 12 天)。本批没有自动策略草稿",
+      "next_step": "继续运行已有指令。组65 沈星回是观察期里最有潜力的,过 7 天再看"
+    }
+  },
+  "trigger_conditions": [
+    {"condition": "S_class_scaling_test 规则启用", "met": true, "evidence": "data/rules/auto_strategy_rules.json"},
+    {"condition": "至少 1 组满足 days_live≥14 + HVU≥100 + 同投手主导", "met": true, "evidence": "7 组满足 · 全 CHJ"},
+    {"condition": "本卡输出仅为'策略草稿'不直接执行", "met": true, "evidence": "投手参考 · 不强制 · 不通知放量"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "全 7 组都是 CHJ 文章页 · 样本结构单一 · 三拆出来的'变量贡献'可能只对 CHJ 文章页成立", "active": true, "impact": "note_only", "evidence": "未来 HZM/HNN 出 S 类后,自动重跑独立的样板归因"},
+    {"condition": "结算页 0 转化未修 · 即使三拆找到最优组合,也不能立刻放量验证 ROAS", "active": true, "impact": "本卡降级为可信非确认", "evidence": "claim-order-page-dead-end validating"},
+    {"condition": "投手不采纳本批草稿 · 系统记录拒绝,不影响后续触发", "active": false, "impact": "tracking_only", "evidence": "investor_rejection_tracking 已激活"}
+  ],
+  "rollback_conditions": [
+    {"condition": "结算页修复+任一三拆组成交 → 该方向升'确认' · 可放量",
+     "action_on_trigger": ["该新组 spend 翻倍试投 7 天", "本卡转历史参考"]},
+    {"condition": "三拆组 14 天内 CPHQ 全部 >$3 → 'CHJ 文章页方法论'被部分推翻",
+     "action_on_trigger": ["claim-google-roi-vs-fb 反驳 FB 文章页路径", "降级为'可能样本偏差'"]}
+  ]
+}

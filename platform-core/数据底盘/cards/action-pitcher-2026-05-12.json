@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "card_id": "action-pitcher-2026-05-12",
+    "card_type": "action_list",
+    "channel": "facebook",
+    "title": "投手行动指令 · 2026-05-12 · 结算页漏桶期间策略(v2)",
+    "subject_ref": {
+      "tiered_csv": "repo/data/ad_history/current_account_group_summary_tiered.csv",
+      "daily_csv": "repo/data/ad_history/current_account_daily_long.csv",
+      "constraint": "claim-order-page-dead-end(结算页0转化未修复)",
+      "version": "v2(基于 5/12 66 组分层)",
+      "delta_from_v1": "新增组48进S · 组34 下调 · 组54 继续 0 HVU 第 12 天 · 组61 恶霸 7 天 0 HVU(日语页美国投)"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-13",
+    "target_role": ["投手"],
+    "rule_source": "data/rules/auto_strategy_rules.json#leaky_bucket_hold + tiered.csv S/A/B/R/O 分层",
+    "proposition_status": "validated",
+    "claim_side": "ad"
+  },
+  "context": {
+    "constraint": "结算页 /order 0 转化未修复 · 但策略生成不卡这一步",
+    "strategy": "两层门槛分离:基于 HVU/Buy Now 的策略可立即生成(可信级)· 基于 ROAS/CPA 的放量决策才需等结算页修复(确认级)· 本指令是'可信级·动作指令',投手可执行但不放大预算",
+    "valid_until": "下一份吴玲日报 / 下一次数据沉淀触发新版"
+  },
+  "actions_by_pitcher": {
+    "CHJ": {
+      "summary": "你的 12 组全 S(含 5/12 新进 S 的组35)· 5/12 你花 $50.95 出 47HVU,CPHQ $1.08 · 全盘最稳。维持预算,不加不减。",
+      "continue": [
+        {"group": "组17 18 Sensual", "budget": "维持", "reason": "5/12 再添 26HVU · 累计 727HVU · CPHQ $0.94 · 全盘第一"},
+        {"group": "组5 30 Positions", "budget": "维持", "reason": "5/12 再添 8HVU · 累计 417HVU · CPHQ $2.29 此日偏高但累计稳"},
+        {"group": "组7 The best intimacy", "budget": "维持", "reason": "5/12 再添 4HVU · 累计 226HVU · CPHQ $2.04"},
+        {"group": "组4 Viennese Oyster", "budget": "维持", "reason": "5/12 再添 1HVU · 累计 247HVU"},
+        {"group": "组27 performance", "budget": "维持", "reason": "累计 113HVU · 近 3 日 CPHQ <$2"},
+        {"group": "组41 Most positions", "budget": "维持", "reason": "累计 130HVU · 5/12 再添 2HVU"}
+      ],
+      "note": "CHJ 5/11 余额不足已恢复 · 5/12 花费 $50.95 回到正常 · 观察连续 3 天看是否完全正常"
+    },
+    "HNN": {
+      "summary": "2 组立即停(组54樱花 12天0HVU/组61恶霸 7天0HVU日语页美国投)· 剩余按原节奏维持。",
+      "continue": [
+        {"group": "组58（弯棒）", "budget": "维持", "reason": "5/12 再添 2HVU · 累计 29HVU · CPHQ $2.16(降到 $3 以下)"},
+        {"group": "组65（沈星回）HZM 共管", "budget": "维持", "reason": "5/12 添 10HVU · 累计 32HVU · CPHQ $2.68"},
+        {"group": "组66 （躺椅）", "budget": "维持", "reason": "5/12 添 5HVU · 累计 23HVU"}
+      ],
+      "stop": [
+        {"group": "组54 樱花", "action": "立即停", "reason": "12天 $79 · 0 HVU · 已是全盘最大浪费(v1 已标,未停)"},
+        {"group": "组61（恶霸）", "action": "立即停", "reason": "7天 $51 · 0 HVU · 日语落地页在美国投无意义"},
+        {"group": "组62（教练）", "action": "停", "reason": "5/12 添 0HVU · 累计 $51 仅 2HVU"},
+        {"group": "组63（漫男）", "action": "降到最低", "reason": "5/12 添 1HVU · CPHQ $9.42"}
+      ]
+    },
+    "HZM": {
+      "summary": "1 组进 S(组48 弯棒 CPHQ $0.95)· 组60 直棒 5/12 数据异常(spend=0/HVU=8)· 先查归因 · 其余产品线组维持最低。",
+      "continue": [
+        {"group": "组65（沈星回）", "budget": "维持", "reason": "5/12 10HVU · 累计 32HVU · 观察期数据质量高"},
+        {"group": "组64（黎深）", "budget": "维持", "reason": "5/12 3HVU · CPHQ $4.91 观察期"}
+      ],
+      "stop": [
+        {"group": "组57（八爪鱼）", "action": "停(沿用 v1)", "reason": "累计 $56 仅 1HVU · v1 已标"},
+        {"group": "组46 五个产品合集", "action": "停(沿用 v1)", "reason": "12天 $3 · 0HVU · 早该停"}
+      ],
+      "reduce": [
+        {"group": "组49 肛塞", "action": "降到最低日预算", "reason": "累计 23HVU · 近期量少 · 等结算页修好后是扩量候选"},
+        {"group": "组50 蘑菇", "action": "降到最低日预算", "reason": "累计 19HVU · 同上"},
+        {"group": "组51 八爪鱼", "action": "降到最低日预算", "reason": "累计 0HVU · 再观察 3 天"}
+      ],
+      "investigate": [
+        {"group": "组60（直棒）", "action": "归因复查", "reason": "5/12 spend=$0 / HVU=8 · 异常 · 可能是任务名复用或归因延迟,5/13 前不做决策"}
+      ]
+    }
+  },
+  "trigger_conditions": [
+    {"condition": "tiered.csv 分层完成", "met": true, "evidence": "66组 · S21/A5/B21/R3/O16"},
+    {"condition": "结算页漏桶确认", "met": true, "evidence": "claim-order-page-dead-end validated"},
+    {"condition": "近3天数据可用(5/10-5/12)", "met": true, "evidence": "daily_long.csv 713 行"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "组54/61 v1 已标停未停 · 需要投手反馈是否已经停", "active": true, "impact": "note_only", "evidence": "对比 v1 状态未变"},
+    {"condition": "组60 归因异常 · HZM 结论受影响", "active": true, "impact": "gate_before_action"},
+    {"condition": "结算页如果是价格问题 · '等修好再扩量'策略错", "active": true, "impact": "note_only"}
+  ],
+  "rollback_conditions": [
+    {"condition": "claim-order-page-dead-end 被消除", "action_on_trigger": ["本指令作废", "生成扩量版 · 优先扩 CHJ 三组 + HZM 组48"]}
+  ]
+}

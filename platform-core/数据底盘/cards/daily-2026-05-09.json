@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "card_id": "daily-2026-05-09",
+    "card_type": "daily_dashboard",
+    "channel": "facebook",
+    "title": "数据看板 · 2026-05-09 · FB 广告组全量快照",
+    "subject_ref": {
+      "xlsx_file": "桌面/广告组数据看板0509xlsx.xlsx",
+      "xlsx_sheet": "广告组数据看板",
+      "date_snapshot": "2026-05-09"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-09",
+    "target_role": ["投手", "ZJB排查"],
+    "rule_source": "CLAUDE.md 合约四B · 数据复查机制(列头穷举 / 合计一致性)"
+  },
+  "signals": [
+    {"label": "FB 广告组总数", "value": "66 组(含 6 组 5/7-5/8 新开观察期)", "source": "xlsx 全量统计"},
+    {"label": "🟢 绿灯组(CPHQ ≤ $3)", "value": "14 组 · S 类样板", "source": "跨账号数据治理 γ 流程 · 2026-05-09 分层"},
+    {"label": "🟡 黄灯组(CPHQ $3-$5)", "value": "3 组 · A 类(含组 1 Library 已停投)", "source": "同上"},
+    {"label": "🟠 橙灯组(CPHQ > $5)", "value": "21 组 · B 类(需观察趋势)", "source": "同上"},
+    {"label": "🔴 红灯 0 HVU 组", "value": "12 组 · 含组 54 樱花(9 天连续 0 HVU)", "source": "同上"},
+    {"label": "观察期新组(<7 天)", "value": "6 组 · 组 60/62/63/64/65/66", "source": "xlsx 首列入场日 5/7-5/8"},
+    {"label": "当周累计花费", "value": "约 $2.8K(5/2-5/8)", "source": "xlsx 合计列修正后"},
+    {"label": "当周累计 HVU", "value": "约 1.1K 人(5/2-5/8)", "source": "同上"},
+    {"label": "数据质量事件", "value": "2026-05-09 Claude 自查发现 xlsx 合计列曾被误读 · 5 份 csv 已重生 · 合约四B 新增列头穷举强制检查", "source": "operation_log 2026-05-09"}
+  ],
+  "trigger_conditions": [
+    {"condition": "每日 xlsx 更新后 24 小时内入库", "met": true, "evidence": "5/9 EOD 已入库 5 份 csv"},
+    {"condition": "列头穷举与预期 schema 一致", "met": true, "evidence": "5/9 自查修正后一致"},
+    {"condition": "花费与 HVU 合计一致性校验通过", "met": true, "evidence": "修正后通过"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "观察期新组占比 >10% · 总盘面统计会被拉偏", "active": false, "impact": "note_only", "evidence": "6/66 = 9% 在容忍范围"},
+    {"condition": "env_flag 承接页维护方变更期内所有 CPHQ 数据归因有歧义", "active": true, "impact": "note_only", "evidence": "env_flag 到 5/24 失效"},
+    {"condition": "0 HVU 组里有 ≥3 组同落地页 → 可能是落地页技术问题而非素材", "active": true, "impact": "note_only", "evidence": "组 54 单例 · 需全盘扫一次同落地页聚集"}
+  ],
+  "rollback_conditions": [
+    {
+      "condition": "xlsx 入库后任一合计数字与当日逐日汇总偏差 >5%",
+      "action_on_trigger": [
+        "本卡标 data_quality=quarantine · 禁止下游引用",
+        "自动触发 breakpoint_04_xlsx_pollution_trace 规则(断点 view 将显示)",
+        "沿 source_chain 反向追溯所有基于本卡的决策 · 标'需重审'"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "每日快照 · xlsx 入库 + 分层更新",
+      "description": "ZJB 每日手动下载 xlsx 至桌面 · Claude 读取 · 按 CPHQ 阈值分层 · 更新本卡 signals",
+      "execution_status": "已执行",
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "每日(下一次:2026-05-10)",
+        "do_what": "下载 5-10 xlsx 至桌面 · 通知 Claude 刷新",
+        "handoff_to": "Claude 按合约四B 跑列头穷举 + 合计校验 + 分层 · 写回本卡 · 出异常进 breakpoint view",
+        "escalate_if_silent": "连续 2 天未下载 → Claude 日报顶置'数据断档 N 天'",
+        "reminder_cadence": "每日"
+      }
+    },
+    {
+      "step": 2,
+      "name": "分层 → 规则触发",
+      "description": "S/A/B 类自动触发 auto_strategy_rules 对应规则 · 每张卡在'投放决策'view 显示 · 观察期新组不触发",
+      "execution_status": "已执行",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "每日入库后",
+        "do_what": "扫 66 组 · 分层变动 → 触发 S_class_scaling_test / B_class_zero_hvu_diagnosis / A_class_replay_after_stop · 更新对应 ad_group 卡",
+        "handoff_to": "自动规则 view 显示规则触发状态 · 投放决策 view 显示卡",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "触发即通知"
+      }
+    },
+    {
+      "step": 3,
+      "name": "0 HVU 组落地页聚集扫描",
+      "description": "12 组 0 HVU 按落地页 URL 聚合 · 如 ≥3 组同落地页 → 自动生成'落地页技术问题'假设 + 触发命题",
+      "execution_status": "未生成",
+      "blocker": "本卡 step3 是下一步要自动化的环节 · 当前还没写",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "2026-05-13",
+        "do_what": "写 scripts/scan_landing_clusters.py · 每日入库后自动跑 · 发现聚集 → 生成 claim 卡入命题库 · 诚实的空白期间显示'观察期 · 脚本即将加入'",
+        "handoff_to": "如发现聚集 → ZJB 授权后自动通知 fanli 和承接端",
+        "escalate_if_silent": "无 · Claude 自动跑",
+        "reminder_cadence": "脚本上线后静默 · 异常才报"
+      }
+    }
+  ],
+  "evidence_chain": [
+    {"ref": "2026-05-09 · 广告组原始数据(桌面 xlsx)", "ref_type": "xlsx_row", "excerpt": "66 组全量 · 佐证:当前投放盘面健康度 · 14 绿灯 · 3 黄灯 · 21 橙灯 · 12 红灯 · 6 观察期"},
+    {"ref": "2026-05-09 · 跨账号数据治理 γ 流程", "ref_type": "claim_md", "excerpt": "5 份 csv(current_account_daily_long / group_summary / tiered / closed_accounts / by_advertiser_platform)· 分层规则落地"},
+    {"ref": "2026-05-09 · 操作日志 Claude 自查合计列误读", "ref_type": "operation_log_date", "excerpt": "xlsx'合计'列被误读为日期列导致数据双倍 · 5 份 csv 重生 · 合约四B 加'列头穷举检查'强制项 · 佐证:本卡的数字是第二版修正后的真实值"},
+    {"ref": "2026-05-09 · 承接页维护方变更 外因记录", "ref_type": "env_flag_md", "excerpt": "标记期 5/9 → 5/24 自动失效 · 期间 CPHQ 归因有歧义 · 佐证:本卡所有趋势判断加 env_flag 标注"}
+  ],
+  "status": {
+    "confidence": "可信",
+    "overall": "规则触发但挂起",
+    "honest_note": "当前 66 组分层已就位 · 12 组 0 HVU 中组 54 已单独出卡 · 其余 11 组未个别出卡(诚实的空白:按 B_class 规则 7 天触发 · 当前在观察期)。step3 落地页聚集扫描脚本还没写 · 3 天后上线。"
+  },
+  "timeline": [
+    {"date": "2026-05-02", "actor": "技术", "action": "服务器问题修复", "artifact": "口头", "downstream_effect": "影响 5/2-5/8 归因基线"},
+    {"date": "2026-05-06", "actor": "吴玲", "action": "运营日报发现 Umami 漏斗数据缺失", "artifact": "0506 日报", "downstream_effect": "合约四B 触发点雏形"},
+    {"date": "2026-05-09", "actor": "ZJB + Claude", "action": "跨账号数据治理 γ 流程 + 分层 · xlsx 合计列误读自查修复", "artifact": "5 份 csv + 合约四B 升级 + 3 份样板档案", "downstream_effect": "本卡数据基线 + 样板卡全部就位 + 数据质量事件机制"},
+    {"date": "2026-05-10", "actor": "Claude", "action": "数据看板卡 v1 生成", "artifact": "本卡", "downstream_effect": "数据看板 view 首卡 · 等 step3 脚本上线后完整"}
+  ]
+}

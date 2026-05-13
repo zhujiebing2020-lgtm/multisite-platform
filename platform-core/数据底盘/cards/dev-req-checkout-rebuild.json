@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "card_id": "dev-req-checkout-rebuild",
+    "card_type": "dev_requirement",
+    "channel": "all",
+    "title": "P0 · 结算页重构 · 首屏快捷支付+总价透明+无操作干预+信任标签",
+    "linked_claim": "claim-order-page-dead-end",
+    "priority": "P0",
+    "dev_status": "in_progress",
+    "approved_by": "ZJB",
+    "approved_date": "2026-05-11",
+    "target_role": ["技术"],
+    "rule_source": "ZJB 2026-05-11 结算页重构方案 · 基于吴玲 0511 报告 15人0完成支付",
+    "last_updated": "2026-05-13",
+    "status_note": "设计稿已出 · 等技术发布",
+    "fix_date": null,
+    "verify_next": "修复后 48h 拉 HVU JSON · 统计 /order 完成支付率 · 对比 before 0/15",
+    "watch_points": "首屏退出率(原 7/15 在 0-30s 退) · 长停留无操作率(原 3/15 停 3-20min) · 首单是否完成"
+  },
+  "problem": "15人点击 Buy Now 全部到达结算页 · 0人完成支付 · 7人首屏劝退(0-30s退) · 3人长时间盯屏不动(3-20min无操作)",
+  "root_cause": "结算页首屏无快捷支付 · 总价不透明 · 填表复杂 · 无信任标签 · 无挽回机制",
+  "solution": {
+    "一_首屏": [
+      "总价(含税含运费)大字加粗 · 首屏完整展示",
+      "Google Pay / Apple Pay 按钮紧跟总价下方 · 主推支付方式",
+      "按钮顺序按设备动态排:iOS→Apple Pay第一 · Android→Google Pay第一(Stripe Express Checkout 标准)",
+      "免运费标注 FREE",
+      "'Or pay with card' 作为备选 · 在快捷支付下方",
+      "邮箱输入框保持首屏"
+    ],
+    "二_表单区": [
+      "所有字段保持不变(邮箱已必填)",
+      "Apartment/套房 标注'选填' · 减少填表心理负担",
+      "国家默认按 IP 自动填充"
+    ],
+    "三_支付区": [
+      "Pay 按钮固定屏幕底部 · 滚动时始终可见",
+      "底部信任标签(一行四图标+短文字):14-Day Returns / Discreet Package / Secure Payment / Free Shipping",
+      "支持信用卡 + 支付宝(空气钱包)"
+    ],
+    "四_额外优化": [
+      "无操作干预:停留>2min且无操作 → 弹窗 AI 客服入口 + 限时 15% off",
+      "折扣码:默认折叠点击展开 · 避免空输入框给'错过优惠'感觉"
+    ],
+    "五_待确认": [
+      "空气钱包是否支持分期(Afterpay/Klarna) · 如支持则价格旁加'4期免息每期$XX'"
+    ],
+    "六_UI设计师要点": [
+      "移动端优先",
+      "首屏一屏内看到总价和快捷支付 · 不需滚动",
+      "快捷支付按钮比信用卡表单更醒目",
+      "总价大字加粗 · 税/运费小字在下方",
+      "Pay按钮始终固定屏幕底部",
+      "整体色调与产品页一致"
+    ]
+  },
+  "before_after_verification": {
+    "before_baseline": "0/15 = 0% 结算页完成率(2026-05-09~10)",
+    "after_target": "≥1 单完成 = 通路打通 · ≥3 单 = 重构有效",
+    "verification_method": "修复上线后 48h 拉 HVU JSON · 筛 /order 到达用户 · 统计完成支付比例",
+    "success_criteria": "首屏退出率从 47%(7/15) 降到 <20% · 长停留无操作率从 20%(3/15) 降到 <10%",
+    "watch_metrics": ["首屏退出率(0-30s)", "长停留无操作率(>2min)", "支付完成率", "快捷支付使用率 vs 信用卡"]
+  },
+  "supersedes": ["dev-req-checkout-firstscreen", "dev-req-checkout-inactivity"],
+  "state_history": [
+    {"date": "2026-05-11", "from": "draft", "to": "aligned", "by": "ZJB", "note": "方案签字 · 同时 supersede firstscreen/inactivity 两张旧卡"},
+    {"date": "2026-05-13", "from": "aligned", "to": "in_progress", "by": "Claude", "note": "设计稿已出 · 等技术发布 · 权限分级内自动升级(aligned→in_progress)"}
+  ]
+}

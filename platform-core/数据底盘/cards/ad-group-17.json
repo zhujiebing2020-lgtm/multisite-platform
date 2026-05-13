@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "card_id": "ad-group-17",
+    "card_type": "ad_group",
+    "channel": "facebook",
+    "title": "组 17 · 18 Sensual Couch Sex Ideas",
+    "subject_ref": {
+      "xlsx_file": "桌面/广告组数据看板0509xlsx.xlsx",
+      "xlsx_sheet": "广告组数据看板",
+      "xlsx_row": 18
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "target_role": ["投手", "承接层", "ZJB排查"],
+    "rule_source": "repo/data/rules/auto_strategy_rules.json#S_class_scaling_test"
+  },
+  "signals": [
+    {"label": "投手", "value": "CHJ", "source": "xlsx#row18#col2", "as_of": "2026-05-08"},
+    {"label": "落地页", "value": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1", "source": "xlsx#row18#col3", "as_of": "2026-05-08"},
+    {"label": "累计花费", "value": "$382.26", "source": "xlsx#row18#col38", "as_of": "2026-05-08"},
+    {"label": "累计 HVU", "value": 545, "source": "xlsx#row18#col38", "as_of": "2026-05-08"},
+    {"label": "CPHQ", "value": "$0.70", "source": "xlsx#row18#col38", "as_of": "2026-05-08"},
+    {"label": "绿灯连续天数", "value": 26, "source": "xlsx#row18 按日逐列数 CPHQ<$2", "as_of": "2026-05-08"},
+    {"label": "分层", "value": "🟢 绿灯组(CPHQ ≤ $3) · S 类样板", "source": "跨账号数据聚合 · 2026-05-09"},
+    {"label": "投手主导占比", "value": "100%", "source": "广告组原始数据 · 投手字段 4-13 至 5-8 未变"}
+  ],
+  "trigger_conditions": [
+    {"condition": "分层 = S", "met": true, "evidence": "tiered csv 标记 S 类 14 组之一"},
+    {"condition": "连续绿灯天数 >= 14", "met": true, "evidence": "连续 26 天 > 14"},
+    {"condition": "样本量 HVU 累计 >= 100", "met": true, "evidence": "545 > 100"},
+    {"condition": "同一投手主导 >= 80% 花费", "met": true, "evidence": "CHJ 100%"}
+  ],
+  "skeptic_conditions": [
+    {
+      "condition": "env_flag = 2026Q1-承接页维护方变更 活跃中(失效日 2026-05-24)",
+      "active": true,
+      "impact": "pause_step3",
+      "evidence": "vault/2_知识库-AI维护/业务规则/env_flag-2026Q1-承接页维护方变更.md · 15 天自动失效"
+    },
+    {"condition": "跨周期单周 CPHQ > $2", "active": false, "impact": "pause_all"},
+    {"condition": "CHJ 不再主导该组", "active": false, "impact": "degrade_confidence"},
+    {
+      "condition": "HQ2 真购物信号仍为 0 且无跨周期上升趋势",
+      "active": true,
+      "impact": "pause_step3",
+      "evidence": "命题 metrics-文章类CPHQ2成本优于产品类 降级为存疑,文章类跳 cart 11 天全 0"
+    }
+  ],
+  "rollback_conditions": [
+    {
+      "condition": "加量后 3 天 CPHQ 反弹 > $3 或 0 HVU 天 >= 1",
+      "action_on_trigger": [
+        "立即回滚预算到加量前",
+        "策略简报标为失效,通知投手撤回",
+        "向档案追加 env_flag='S 类扩容反弹-YYYY-MM-DD' · 15 天冷却",
+        "operation_log 追加回滚条目"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "三拆 A/B 归因测试 · Claude 直接生成 3 组完整配置",
+      "description": "3 组实验 · 每组 3 天 ≥$30 · 目的:验证这张绿灯是素材带的、定向带的、还是落地页带的",
+      "execution_status": "已生成",
+      "blocker": "等 CHJ 在 FB 广告账户建 3 个实验组 · 建议已完整生成可直接复用",
+      "claude_generated_config": {
+        "variant_A_换定向": {
+          "素材": "组 17 原视频 ID(保持)",
+          "落地页": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas · 保持",
+          "定向调整": "北美 25-34 女性(原定向)→ 扩到 25-44 女性",
+          "预算": "$30/天 × 3 天 = $90",
+          "组名建议": "组17-A_扩龄定向"
+        },
+        "variant_B_换落地页": {
+          "素材": "组 17 原视频 ID(保持)",
+          "落地页替换": "/multisensory/kink-fetish/4689-mastering-anilingus-sensual-guide(组 7 落地页,同投手同选题类型)",
+          "定向": "原定向保持",
+          "预算": "$30/天 × 3 天 = $90",
+          "组名建议": "组17-B_换落地页"
+        },
+        "variant_C_换素材": {
+          "素材替换": "用 CHJ 组 5(30 Positions)的素材",
+          "落地页": "组 17 原落地页保持",
+          "定向": "原定向保持",
+          "预算": "$30/天 × 3 天 = $90",
+          "组名建议": "组17-C_换素材"
+        },
+        "回收指标": "3 天后看各变体 CPHQ · 哪个最接近 $0.70 就是主杠杆 · 偏离 $2 以上说明不是主因"
+      },
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-11",
+        "do_what": "把上方 3 组配置截图/复制发 CHJ 建组(文案都齐了 · 不用自己拼) · 要求 CHJ 24 小时内回复建或不建 · 不用再口头解释 A/B 目的",
+        "handoff_to": "CHJ 建完 → 回传 3 个 ad_id 给 ZJB → ZJB 转 Claude → Claude 挂到本卡追踪 3 天 CPHQ",
+        "escalate_if_silent": "5/12 CHJ 未响应 → 日报标红 + 记入投手拒绝追踪",
+        "reminder_cadence": "每日日报,直到 CHJ 响应"
+      }
+    },
+    {
+      "step": 2,
+      "name": "落地页模板复用到 CHJ 其他选题 · Claude 直接挑候选",
+      "description": "把多感官模板挂到 CHJ 另 2 个选题 · 跑 3 天 ≥$30/组 · 验证模板可复制",
+      "execution_status": "已生成",
+      "blocker": "等 ZJB 确认候选选题",
+      "claude_generated_config": {
+        "候选选题 1": "'30 Day Intimacy Challenge' · 同属多感官体位类 · 投手 CHJ 已有相关素材库存",
+        "候选选题 2": "'Partner Breathing Sync' · 多感官感官沉浸类 · 与现有模板结构兼容",
+        "模板 URL": "/multisensory/kink-fetish/4686-... 的结构骨架",
+        "每组预算": "$30/天 × 3 天",
+        "回收指标": "3 天 CPHQ 对比组 17 · 都 ≤$2 → 模板可复用 · 任一 >$5 → 模板非主因"
+      },
+      "next_move": {
+        "owner": "ZJB",
+        "due_date": "2026-05-11",
+        "do_what": "确认 2 个候选选题(或换你想试的) · 回复一句'OK 用这俩'或'换成 X 和 Y' · 然后 Claude 再出 2 组完整配置",
+        "handoff_to": "同 step1 流程",
+        "escalate_if_silent": "与 step1 合并提醒",
+        "reminder_cadence": "每日日报"
+      }
+    },
+    {
+      "step": 3,
+      "name": "加量 20% 建议(CPHQ<$1 且 14 天稳定时)",
+      "description": "满足条件 → 写投手日报发加量建议",
+      "execution_status": "挂起等外因",
+      "blocker": "承接页维护方变更期内加量会污染结论 · 等 5/24 期满 · 剩 15 天自动启动",
+      "review_at": "2026-05-24",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "2026-05-24",
+        "do_what": "5/24 当天检测:CPHQ 仍 <$1 且连续绿灯 ≥14 天 → 自动生成加量 20% 建议卡",
+        "handoff_to": "ZJB 审 → 发 CHJ",
+        "escalate_if_silent": "ZJB 7 天无审 → 日报顶置",
+        "reminder_cadence": "5/24 前不提醒 · 5/24 后每日"
+      }
+    }
+  ],
+  "evidence_chain": [
+    {"ref": "2026-04-13 至 2026-05-08 · 广告组原始数据", "ref_type": "xlsx_row", "excerpt": "组 17 CHJ 多感官模板 26 天连续绿灯 · CPHQ $0.70 · 545 HVU · 佐证:该投手在该选题类型下能稳定产出"},
+    {"ref": "2026-05-09 · 命题:CHJ 体位方法技巧类选题稳定绿灯(可信)", "ref_type": "claim_md", "excerpt": "S 类样板 14 组里 10 组是 CHJ 体位/方法/工具类选题 · 情景类几乎全部进 B 类恶化区 · 命题本卡为最强证据"},
+    {"ref": "2026-05-09 · 广告组样板档案(组 17 档)", "ref_type": "claim_md", "excerpt": "Q17.1-17.4 排查题转成自动规则 · 不再靠人脑判断是否扩量"},
+    {"ref": "2026-05-09 · 承接页维护方变更 外因记录", "ref_type": "env_flag_md", "excerpt": "标记期 5/9 → 5/24 自动失效 · 期间加量会污染结论"}
+  ],
+  "status": {
+    "confidence": "可信",
+    "overall": "规则触发但挂起",
+    "honest_note": "A/B 建议已生成,等投手在账户建实验组。加量建议挂起等 env_flag 于 2026-05-24 失效。当前 ZJB 能做的不是采纳/不采纳,而是反驳上方任一 skeptic_condition 的判断。"
+  },
+  "timeline": [
+    {"date": "2026-04-13", "actor": "CHJ", "action": "开投组 17 18 Sensual", "artifact": "xlsx 首列数据", "downstream_effect": "26 天绿灯成为 S 类样板"},
+    {"date": "2026-05-08", "actor": "吴玲", "action": "0508 商品详情页分析 提取画像 A", "artifact": "0508用户行为分析报告.md 画像 A 6 人 5-11 分钟深度停留", "downstream_effect": "组 17 落地页被验证为'首屏钩得住'对照样板"},
+    {"date": "2026-05-09", "actor": "ZJB", "action": "跨账号数据治理 γ 流程 + 分层", "artifact": "S/A/B/C/D 分层 + 本组标为 S 类", "downstream_effect": "组 17 成为样板档案第 1 份"},
+    {"date": "2026-05-10", "actor": "Claude", "action": "按意志继承原则建 S_class_scaling_test 规则", "artifact": "auto_strategy_rules.json#S_class_scaling_test", "downstream_effect": "3 步动作全部已生成未执行,等外因"}
+  ]
+}

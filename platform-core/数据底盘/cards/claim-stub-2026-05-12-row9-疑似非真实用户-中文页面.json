@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "card_id": "claim-stub-2026-05-12-row9-疑似非真实用户-中文页面",
+    "card_type": "claim",
+    "channel": "all",
+    "title": "[Claude推断 · 待ZJB审] ROW9 · 疑似非真实用户（中文页面）",
+    "schema_version": "v1",
+    "last_updated": "2026-05-12",
+    "target_role": [
+      "ZJB排查"
+    ],
+    "rule_source": "ingest_wuling_report.py · 自动 stub",
+    "proposition_status": "proposed",
+    "claim_side": "site",
+    "diagnosis_path": "path1_claude_inference",
+    "evidence_chain": [
+      {
+        "path": 1,
+        "by": "Claude",
+        "date": "2026-05-12",
+        "ref": "vault/.../0512-PromptA-综合分析报告.md",
+        "action": "auto_stub",
+        "tech_detail": "疑似非真实用户（中文页面）"
+      }
+    ]
+  },
+  "signals": [
+    {
+      "label": "原始描述",
+      "value": "ROW9 · 疑似非真实用户（中文页面）",
+      "source": "0512-PromptA-综合分析报告.md"
+    }
+  ],
+  "trigger_conditions": [],
+  "skeptic_conditions": [],
+  "rollback_conditions": [],
+  "actions": [
+    {
+      "step": 1,
+      "name": "等 ZJB 审核 · 决定是否升级为 validating",
+      "execution_status": "待审"
+    }
+  ]
+}

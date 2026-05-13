@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "card_id": "ad-group-1",
+    "card_type": "ad_group",
+    "channel": "facebook",
+    "title": "组 1 · Library",
+    "subject_ref": {
+      "xlsx_file": "桌面/广告组数据看板0509xlsx.xlsx",
+      "xlsx_sheet": "广告组数据看板",
+      "xlsx_row": 2
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-10",
+    "target_role": ["投手", "ZJB排查", "Claude内部"],
+    "rule_source": "repo/data/rules/auto_strategy_rules.json#A_class_replay_after_stop"
+  },
+  "signals": [
+    {"label": "投手", "value": "HZM", "source": "xlsx#row2#col2", "as_of": "2026-04-16"},
+    {"label": "落地页", "value": "/exp-app/scene/031937", "source": "xlsx#row2#col3"},
+    {"label": "累计花费", "value": "$115.21", "source": "xlsx#row2#col38"},
+    {"label": "累计 HVU", "value": 29, "source": "xlsx#row2#col38"},
+    {"label": "CPHQ", "value": "$3.97", "source": "xlsx#row2#col38"},
+    {"label": "状态", "value": "4-16 投手主动停", "source": "xlsx#row2 自 4-16 起列全为空"},
+    {"label": "分层", "value": "🟡 黄灯 · CPHQ $3-$5 正常区 · 已主动停投", "source": "跨账号数据聚合 · 2026-05-09"},
+    {"label": "早期 3 日 CPHQ 区间", "value": "$1.7 - $2.2", "source": "xlsx#row2#col_4-7_至_col_4-9"},
+    {"label": "早期 3 日 HVU", "value": "3 + 5 + 3 = 11", "source": "xlsx#row2"}
+  ],
+  "trigger_conditions": [
+    {"condition": "分层 = A", "met": true, "evidence": "tiered csv"},
+    {"condition": "广告组状态 = paused(投手主动停)", "met": true, "evidence": "xlsx 4-16 后全空"},
+    {"condition": "早期 CPHQ 在 $2-$5 区间", "met": true, "evidence": "聚合 $3.97 + 早期峰值 $2 以内"},
+    {"condition": "环境外因 env_flag 活跃期内被停", "met": true, "evidence": "停投日 4-16 在 env_flag=2026Q1-承接页维护方变更 窗口内,归因本身有歧义"},
+    {
+      "condition": "无投手停投的 rejection_reason 日志",
+      "met": true,
+      "evidence": "operation_log 2026-04-16 附近无 HZM 对组 1 停投的结构化记录;只有 ZJB 提过复投建议被口头拒'数据证据不足'"
+    }
+  ],
+  "skeptic_conditions": [
+    {
+      "condition": "env_flag 仍活跃",
+      "active": true,
+      "impact": "pause_all",
+      "evidence": "env_flag=2026Q1-承接页维护方变更 · 失效日 2026-05-24 · 未到"
+    },
+    {"condition": "该素材已被投手用于其他组且跑绿灯", "active": false, "impact": "note_only"},
+    {"condition": "投手 rejection_reason 为'素材创意已过期/平台内容政策变化'且有外部证据", "active": false, "impact": "pause_all"}
+  ],
+  "rollback_conditions": [
+    {
+      "condition": "复投后 7 天 CPHQ > 停投前 + $2(即 > $5.97)",
+      "action_on_trigger": [
+        "立即暂停复投组",
+        "命题库追加 evidence_against 到 'A 类广告组 env_flag 失效后复投有效' 命题",
+        "operation_log 追加 'ZJB 复投判断被 7 天数据证伪,组 1'",
+        "输出给 ZJB:'你的判断在组 1 上被证伪,是否降级 A 类复投规则的置信度?'"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "复投建议 · 承接页维护方变更期结束后启动",
+      "description": "同素材同落地页在新维护方下跑 7 天 ≥$50 · 验证组 1 是'差一步到绿灯'还是'真不行'",
+      "execution_status": "挂起等外因",
+      "blocker": "组 1 停投日正好落在承接页维护方变更期内 · 这期间归因有歧义 · 等 5/24 期满才能重发复投 · 剩 15 天",
+      "review_at": "2026-05-24",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "2026-05-24",
+        "do_what": "5/24 当天自动生成复投建议卡(素材 ID / 落地页 URL / 预算 $50 / 7 天窗口) · 本卡 step1 改为'已生成未执行'",
+        "handoff_to": "ZJB 审过 → 发给 HZM · HZM 建组 + 回传 ad_id · Claude 挂到本卡追踪 7 天 CPHQ",
+        "escalate_if_silent": "如 HZM 再次拒绝 → step2 自动强制收集 rejection_reason(不许口头'数据证据不足'这种含糊回答) · 如 HZM 拒绝理由不成立 → 计入 ZJB 建议被证明对的 N/3 计数器",
+        "reminder_cadence": "5/24 后每日日报"
+      }
+    },
+    {
+      "step": 2,
+      "name": "投手拒绝记录 · 强制填拒绝原因",
+      "description": "投手拒绝复投必须填具体原因(素材过期 / 预算不足 / 新素材代替 / 其他) · 口头敷衍不算",
+      "execution_status": "已拒绝",
+      "rejection_reason": "HZM 2026-04-16 口头拒'数据证据不足' · 但 30 天内没人回去补数据 · 建议被卡在人脑里",
+      "next_move": {
+        "owner": "Claude(已触发)",
+        "due_date": "2026-05-16",
+        "do_what": "step3 30 天回看触发时自动检测:当初 HZM '数据证据不足'的理由是否成立 · 如果不成立 → 本卡 step2 rejection_reason 前加'[已被 30 天数据反证]'",
+        "handoff_to": "ZJB 看到反证后决定是否升级 · 如升级 → 触发第 N/3 次'绕过投手'计数",
+        "escalate_if_silent": "无 · 已拒绝 = 已执行完一轮,等 step3 判",
+        "reminder_cadence": "无,由 step3 触发"
+      }
+    },
+    {
+      "step": 3,
+      "name": "30 天数据回看 · 自动对比 HZM 其他新组",
+      "description": "30 天后 Claude 自动拉 HZM 其他新组 CPHQ 对比 · 如果都没超过组 1 停投前的 $3.97 → HZM 拒绝理由不成立 → ZJB 建议被证明对 1/3",
+      "execution_status": "挂起等外因",
+      "blocker": "4/16 + 30 天 = 5/16 自动触发 · 剩 7 天",
+      "review_at": "2026-05-16",
+      "next_move": {
+        "owner": "Claude(自动)",
+        "due_date": "2026-05-16",
+        "do_what": "5/16 当天自动:① 拉 HZM 2026-04-16 到 2026-05-16 所有新开组的 CPHQ(需 ZJB 预授权或前一天申请) ② 与 $3.97 对比 ③ 生成结论:拒绝理由成立 / 不成立 · 写入本卡 step2 下方",
+        "handoff_to": "ZJB 看完结论 → 决定要不要把 HZM 的拒绝升级成'被证明对的 ZJB 建议 1/3' · 累计 3 次触发绕过投手讨论",
+        "escalate_if_silent": "ZJB 如 5/18 仍未看 → Claude 日报顶置 + 同时提醒 5/24 复投建议即将到期",
+        "reminder_cadence": "5/14 预通知一次 · 5/16 触发日自动执行 · 5/17 起每日日报"
+      }
+    }
+  ],
+  "evidence_chain": [
+    {"ref": "2026-04-06 至 2026-04-15 · 广告组原始数据", "ref_type": "xlsx_row", "excerpt": "组 1 HZM 早期 3 日 CPHQ $1.7-$2.2 · HVU 11 · 4/16 起全空 · 佐证:被停时数据方向良好 · 不是红灯硬停"},
+    {"ref": "2026-04-16 · 操作日志 ZJB→HZM 复投建议被拒", "ref_type": "operation_log_date", "excerpt": "ZJB 给出复投建议 HZM 口头拒'数据证据不足' · 30 天未补数据 · 佐证命题:意志继承断点 #1 ZJB→投手"},
+    {"ref": "2026-05-09 · 广告组样板档案(组 1 档)", "ref_type": "claim_md", "excerpt": "Q1.1-1.4 排查题转自动规则 · 不再靠 HZM 自己判断是否复投"},
+    {"ref": "2026-05-09 · 承接页维护方变更 外因记录", "ref_type": "env_flag_md", "excerpt": "组 1 停投日 4-16 恰好落在维护方变更窗口内 · 归因有歧义 · 佐证:不能凭 HZM 单人判断结案"}
+  ],
+  "status": {
+    "confidence": "存疑",
+    "overall": "规则被质疑暂停",
+    "honest_note": "组 1 是意志继承第一个已知案例。ZJB 2026-04-16 复投建议被 HZM 口头拒'数据证据不足',30 天无数据回补。当前 Claude 在等两个倒计时:2026-05-16 自动 30 天回看 HZM 其他新组 CPHQ 对比,2026-05-24 env_flag 失效后自动重发复投建议。ZJB 能做的不是决定复投与否,而是反驳 skeptic_conditions 任一处,或在 5-16 回看后看 Claude 的对比结论再拍板。"
+  },
+  "timeline": [
+    {"date": "2026-04-06", "actor": "HZM", "action": "开投组 1 Library", "artifact": "xlsx row2 col4 起", "downstream_effect": "初期 CPHQ $1.7-$2.2 方向良好"},
+    {"date": "2026-04-10", "actor": "HZM(客观)", "action": "0 HVU 日出现", "artifact": "xlsx row2 col7", "downstream_effect": "与 4-12 另一 0 HVU 日形成间断,疑似学习期波动而非断裂"},
+    {"date": "2026-04-16", "actor": "ZJB", "action": "给 HZM 组 1 复投建议", "artifact": "口头建议", "downstream_effect": "未被采纳"},
+    {"date": "2026-04-16", "actor": "HZM", "action": "拒绝复投建议 · 停投", "artifact": "operation_log 口头记录 · rejection_reason='数据证据不足'", "downstream_effect": "组 1 进入 A 类待复投队列 · 30 天回看倒计时启动"},
+    {"date": "2026-05-09", "actor": "ZJB", "action": "建组 1 样板档案", "artifact": "组1-Library.md", "downstream_effect": "样板档案 Q1.1-1.4 编码为 A_class_replay_after_stop"},
+    {"date": "2026-05-10", "actor": "Claude", "action": "意志继承规则编码完成", "artifact": "auto_strategy_rules.json#A_class_replay_after_stop · will_inheritance_log", "downstream_effect": "5-16 和 5-24 两个倒计时挂载"},
+    {"date": "2026-05-16", "actor": "Claude", "action": "待执行:30 天回看 HZM 其他新组 CPHQ 对比", "artifact": "(待生成)", "downstream_effect": "如 HZM 其他组均 > $3.97,则 HZM 拒绝理由不成立,计入 ZJB 建议被证明对 1/3"},
+    {"date": "2026-05-24", "actor": "Claude", "action": "待执行:env_flag 失效后自动重发复投建议", "artifact": "(待生成)", "downstream_effect": "投手再次回应时触发 rejection_reason 强制填写流程"}
+  ]
+}

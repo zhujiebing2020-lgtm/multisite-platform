@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "card_id": "claim-order-page-dead-end",
+    "card_type": "claim",
+    "channel": "all",
+    "title": "结算页 /order 是死胡同 · 15-16 人到达 0 人完成支付",
+    "subject_ref": {
+      "data_source": "FB_HVU_2026-05-09 + FB_HVU_2026-05-10 + goole-HVU-2026-05-09 + goole-HVU-2026-05-10 + 吴玲 0511 综合分析报告",
+      "sample_size_claude": 296,
+      "sample_size_wuling": 643,
+      "date_range": "2026-05-09 ~ 2026-05-10"
+    },
+    "schema_version": "v1",
+    "last_updated": "2026-05-11",
+    "target_role": ["技术", "ZJB决策"],
+    "rule_source": "data/rules/diagnosis.json#order_page_zero_conversion",
+    "proposition_status": "validated",
+    "claim_side": "site",
+    "diagnosis_path": "path2_wuling_cross_verified",
+    "validated_date": "2026-05-11",
+    "validated_by": "吴玲 0511-PromptA-综合分析报告.md",
+    "evidence_chain": [
+      {"path": 1, "by": "Claude", "date": "2026-05-11", "ref": "FB+Google HVU JSON 漏斗扫描", "conclusion": "16 人到 /order · 0 完成 · 推测 product state 丢失"},
+      {"path": 2, "by": "吴玲", "date": "2026-05-11", "ref": "vault/3_执行层/单平台分析/Facebook/承接端分析-高质量用户/0511-PromptA-综合分析报告.md", "action": "confirm_with_clarify", "tech_detail": "断点位置 confirm · 根因 clarify:不是 product state 丢失,是结算页内容劝退(首屏/总价/填表)"},
+      {"path": 2, "by": "吴玲", "date": "2026-05-12", "ref": "vault/.../0512-PromptA-综合分析报告.md", "action": "re-confirm", "tech_detail": "0511 再次复现 15人/0支付 · 三天累计 30人 0完成 · 100% 流失持续 · 最长停留 7m22s 仍无操作"}
+    ]
+  },
+  "signals": [
+    {"label": "漏斗总览(Claude 口径)", "value": "296 HVU → 294 年龄验证 → 133 看商品详情 → 81 次 Consider Popup → 18 次点击立即购买 → 16 人到结算页 → 0 完成支付", "source": "today_events 全量扫描"},
+    {"label": "漏斗总览(吴玲 口径)", "value": "643 真实用户 → 350 看商品 → 15 点 Buy Now → 15 到 /order(100%通过) → 0 完成支付", "source": "0511-PromptA-综合分析报告.md 第6节"},
+    {"label": "断点位置", "value": "结算页 /order · 转化率 0/15-16 = 0%", "source": "双口径一致"},
+    {"label": "三种流失用户类型(吴玲拆解)", "value": "①看一眼就走 7人(进结算0-30s即退·无任何操作) · ②长时间盯屏不动 3人(进结算3-20分钟无操作,典型ROW13停20分钟) · ③重复进入 2人(退出再回再退)", "source": "吴玲报告第二部分一·A级用户"},
+    {"label": "Google vs FB Buy Now率", "value": "Google 9.6% / FB 0.76% · Google 是 FB 的 12.6 倍 · 但 Google 占比仅 16%", "source": "吴玲报告第4节"},
+    {"label": "结算页停留时间分布", "value": "0-30s 退出 7 人 · 30s-2min 6 人 · 3-20min 2 人(最长 ROW13 停 1187s)", "source": "Claude HVU duration + 吴玲分析对齐"},
+    {"label": "Claude 原推测已被推翻", "value": "原推测「立即购买跳转未传 product state · 用户看到空页面」 → 吴玲反驳:用户能看到页面 · 有内容 · 但选择不操作(劝退/犹豫/无从下手)", "source": "吴玲报告 ROW3/ROW13 行为分析"},
+    {"label": "已上线研发需求验证", "value": "#68 产品对比 ✅ · #60 返回挽留 ✅ · #8 测试结果 ✅ · #9 演示视频 ✅ · #24 免运费 ✅ · #63/64 博客推荐 ✅", "source": "吴玲报告第三部分三"},
+    {"label": "待开发研发需求 P0", "value": "#87 固定支付按钮 ⏳ · 🆕 结算页无操作干预(新需求) · 🆕 结算页首屏重构(快捷支付默认+总价透明+信任标签)", "source": "吴玲报告第三部分二"},
+    {"label": "影响范围", "value": "结算页修好之前,所有'加预算'决策 = 往漏桶倒水", "source": "逻辑推导"}
+  ],
+  "trigger_conditions": [
+    {"condition": "≥10 人到达结算页且 0 完成支付", "met": true, "evidence": "16 人 · 0 支付"},
+    {"condition": "跨渠道(FB+Google)均复现", "met": true, "evidence": "FB 4 + Google 12"},
+    {"condition": "停留时间排除误触(中位数 >20s)", "met": true, "evidence": "中位数 36s · 最长 1187s"}
+  ],
+  "skeptic_conditions": [
+    {"condition": "结算页可能需要登录", "active": false, "impact": "已排除", "evidence": "curl 验证 /order 返回 200 + 页面含 guestCheckoutHint='No account required — checkout in seconds' · 支持游客结算"},
+    {"condition": "样本窗口仅 2 天 · 是否有支付通道临时关闭/维护", "active": true, "impact": "需验证", "evidence": "需吴玲确认 5/9-5/10 支付通道状态"},
+    {"condition": "HVU 门槛(≥2页≥30s)已过滤掉大量低质流量 · 到结算页的 16 人是高意愿用户", "active": false, "impact": "note_only", "evidence": "强化结论而非削弱"}
+  ],
+  "rollback_conditions": [
+    {"condition": "吴玲确认 5/9-5/10 支付通道正常 + 结算页无已知 bug",
+     "action_on_trigger": ["断点从'技术断裂'降级为'体验/信任问题'", "触发 UX 排查而非技术修复"]},
+    {"condition": "后续数据出现结算页完成支付(哪怕 1 单)",
+     "action_on_trigger": ["本卡从 validated 降为 validating", "重新评估是否为间歇性问题"]}
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "name": "技术侧排查结算页 /order",
+      "description": "16 人全部通过'立即购买'直跳 /order(0 人经过购物车) · 结算页支持游客 · 支付通道 8 种 · 排查方向收窄为:「立即购买」按钮跳转时是否把 product_id/SKU/数量正确传到 /order 页面 state · 用户可能看到空结算页",
+      "execution_status": "待执行",
+      "next_move": {
+        "owner": "技术(吴玲日报 intake 确认)",
+        "due_date": "2026-05-12",
+        "do_what": "排查 /order 页面技术状态 · 回答上述 4 个问题",
+        "handoff_to": "吴玲 intake 日报填写结算页状态 → Claude 更新本卡",
+        "escalate_if_silent": "连续 2 天无回应 → ZJB 日报顶置'结算页断裂未排查'",
+        "reminder_cadence": "每日"
+      }
+    },
+    {
+      "step": 2,
+      "name": "投放侧暂停加预算决策",
+      "description": "在结算页问题确认修复前,任何'加预算/扩量'建议必须附带警告:'结算页 0 转化未修复 · 加量 = 加漏'",
+      "execution_status": "立即生效",
+      "next_move": {
+        "owner": "Claude(自动规则)",
+        "due_date": "持续至本卡降级",
+        "do_what": "auto_strategy_rules 里任何 S_class_scaling 触发时,检查本卡状态 · 若 validated → 附加警告",
+        "handoff_to": "投放决策 view 显示红色警告条",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "触发即生效"
+      }
+    },
+    {
+      "step": 3,
+      "name": "修复后 before/after 验证",
+      "description": "结算页修复后,取修复后 48h 的 HVU 数据 · 统计到达 /order 的人中完成支付比例 · 与本卡 0/16 对比",
+      "execution_status": "待触发",
+      "next_move": {
+        "owner": "Claude",
+        "due_date": "修复确认后 48h",
+        "do_what": "拉修复后 HVU JSON · 统计 /order → 支付完成率 · 写 flywheel_feedback impact",
+        "handoff_to": "飞轮断点 view 显示 before/after",
+        "escalate_if_silent": "无",
+        "reminder_cadence": "单次"
+      }
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "date": "2026-05-10",
+  "submitted_by": "吴玲",
+  "overall_health": "yellow",
+  "health_note": "承接整体黄 · Buy Now 在 FB/IG 内置浏览器失效仍在拖,漏斗 product_interest / cart 段流失严重",
+  "_note": "这是 Claude 代吴玲填的样板日报(2026-05-10),用于演示 intake 格式渲染效果;真实日报由吴玲每日 20:00 前提交覆盖",
+  "modules": [
+    {
+      "id": "buy_now",
+      "name": "Buy Now 模块",
+      "hostname": "craveai.life",
+      "status": "red",
+      "status_note": "FB/IG 内置浏览器点击 Buy Now 无响应,Apple Pay 认证在 WebView 被拦",
+      "affected_users_today": 18,
+      "affected_attempts_today": 44,
+      "trend_vs_yesterday": "worse",
+      "current_owner": "HNN",
+      "last_update": "2026-05-10 14:20",
+      "evidence": "5 段重现录屏在吴玲云盘 /accept_side/20260510/;最高一位用户连点 9 次",
+      "history": [
+        {"date":"2026-04-22","event":"首次发现","detail":"投手 HZM 反馈 IG 流量到了但没成交"},
+        {"date":"2026-04-28","event":"定位","detail":"吴玲录屏 3 次,锁定在 WebView Apple Pay 交互"},
+        {"date":"2026-05-03","event":"尝试修复 · 未生效","detail":"HNN 加了 try/catch 重试,但根源在认证域名未配置"},
+        {"date":"2026-05-10","event":"升级为 P0","detail":"影响面扩大到 18 位/天,HNN 明日提 Apple 域名配置"}
+      ],
+      "data_reflow": "修复后观察项:IG 渠道支付成功率 · 当前基线 0%(18/18 失败)· 目标 ≥ 70%"
+    },
+    {
+      "id": "customer_support",
+      "name": "客服兜底",
+      "hostname": "craveai.life",
+      "status": "green",
+      "status_note": "按钮位置已改到右下角,不再遮挡 Buy Now;今日触达 12 次,响应均 <3min",
+      "affected_users_today": 0,
+      "affected_attempts_today": 12,
+      "trend_vs_yesterday": "better",
+      "current_owner": "吴玲",
+      "last_update": "2026-05-10 19:10",
+      "evidence": "吴玲人工 check 12 次对话全覆盖",
+      "history": [
+        {"date":"2026-05-04","event":"提出命题","detail":"吴玲观察到按钮挡 CTA"},
+        {"date":"2026-05-10","event":"实施上线","detail":"HNN 改位置"},
+        {"date":"2026-05-10","event":"回灌数据","detail":"Buy Now 点击率 +9%(吴玲观察,样本 120)"}
+      ],
+      "data_reflow": "已佐证 · +9% 点击率(1 日观察)· 命题进入验证通过阶段 · 等 7 天稳定后入规则库"
+    },
+    {
+      "id": "fanli",
+      "name": "fanli 支付链路",
+      "hostname": "craveai.life",
+      "status": "yellow",
+      "status_note": "部分老用户 checkout 页 fanli 选项不出现,疑似缓存问题",
+      "affected_users_today": 7,
+      "affected_attempts_today": 9,
+      "trend_vs_yesterday": "same",
+      "current_owner": "HNN",
+      "last_update": "2026-05-10 16:40",
+      "evidence": "吴玲手动重现 2 次,硬刷页面后恢复;怀疑 service worker 缓存问题",
+      "history": [
+        {"date":"2026-05-06","event":"首次发现","detail":"老用户反馈结算找不到 fanli"},
+        {"date":"2026-05-08","event":"吴玲定位","detail":"疑似 SW 缓存旧 bundle"}
+      ],
+      "data_reflow": "修复后观察项:fanli 选项出现率 · 当前 ~22% 异常 · 目标 <1%"
+    },
+    {
+      "id": "scenario_page",
+      "name": "剧情落地页",
+      "hostname": "craveai.life",
+      "status": "yellow",
+      "status_note": "视频无时间锚点,用户反复拖进度条后离开;19 位深度观察用户中 6 位命中该模式",
+      "affected_users_today": 6,
+      "affected_attempts_today": 6,
+      "trend_vs_yesterday": "same",
+      "current_owner": "CHJ",
+      "last_update": "2026-05-10 12:30",
+      "evidence": "personas.json 2026-05-08 样本;今天又观察到 3 位新增",
+      "history": [
+        {"date":"2026-05-05","event":"首次观察","detail":"personas 样本出现反复拖进度条模式"},
+        {"date":"2026-05-10","event":"累积证据","detail":"今日新增 3 位 · 模式一致"}
+      ],
+      "data_reflow": "修复后观察项:剧情页到加购段留存率 · 当前 58% · 目标 ≥ 73%(+15pp)"
+    },
+    {
+      "id": "article_page",
+      "name": "文章落地页",
+      "hostname": "craveai.life",
+      "status": "green",
+      "status_note": "今日无异常;平均停留 3m20s",
+      "affected_users_today": 0,
+      "affected_attempts_today": 0,
+      "trend_vs_yesterday": "same",
+      "current_owner": "CHJ",
+      "last_update": "2026-05-10 11:00",
+      "evidence": "文章页 CR 正常,无用户反馈",
+      "history": [],
+      "data_reflow": "无修复项 · 保持观察"
+    },
+    {
+      "id": "tracking",
+      "name": "埋点合约",
+      "hostname": "—",
+      "status": "gray",
+      "status_note": "今日未做系统检查,下次 2026-05-12 周检",
+      "affected_users_today": 0,
+      "affected_attempts_today": 0,
+      "trend_vs_yesterday": "first_day",
+      "current_owner": "吴玲",
+      "last_update": "2026-05-10 09:00",
+      "evidence": "—",
+      "history": [],
+      "data_reflow": "—"
+    }
+  ],
+  "funnel": {
+    "age_verification": { "in": 1200, "out": 1100, "drop_pct": 8.3,  "status": "green" },
+    "registration":     { "in": 1100, "out": 890,  "drop_pct": 19.1, "status": "yellow", "note": "登录回跳异常,详情页甩回" },
+    "product_interest": { "in": 890,  "out": 520,  "drop_pct": 41.6, "status": "red",    "note": "视频无时间锚点,反复拖进度条" },
+    "cart":             { "in": 520,  "out": 310,  "drop_pct": 40.4, "status": "red",    "note": "5 款同价位,无对比表,横跳放弃" },
+    "checkout":         { "in": 310,  "out": 280,  "drop_pct": 9.7,  "status": "green" },
+    "purchase":         { "in": 280,  "out": 262,  "drop_pct": 6.4,  "status": "green" }
+  },
+  "web_vitals": {
+    "by_hostname": [
+      {
+        "hostname": "craveai.life",
+        "lcp_p75_ms": 2840, "lcp_status": "yellow",
+        "cls_p75":   0.09,  "cls_status": "green",
+        "fcp_p75_ms": 1620, "fcp_status": "green",
+        "inp_p75_ms": 320,  "inp_status": "yellow",
+        "sample_size": 1180,
+        "note": "移动端 LCP 略超 2.5s 阈值,已记录下周观察"
+      }
+    ]
+  },
+  "must_fix_today": [
+    {
+      "id": "p0-buy-now-ig",
+      "priority": "P0",
+      "title": "Buy Now · FB/IG 内置浏览器失效",
+      "impact": "18 位用户 · 44 次点击 · 支付成功率 0%",
+      "root_cause_guess": "Apple Pay 认证在 WebView 里被拦",
+      "proposed_fix": "Universal Link 兜底跳到 Safari 重走结算",
+      "blocked_by": "需 HNN 确认 Apple 开发者后台域名配置",
+      "eta": "2026-05-11"
+    },
+    {
+      "id": "p1-fanli-cache",
+      "priority": "P1",
+      "title": "fanli 选项随机不出现",
+      "impact": "7 位用户 · 硬刷页面可恢复",
+      "root_cause_guess": "service worker 缓存旧 bundle",
+      "proposed_fix": "给 SW 加版本戳强制更新",
+      "blocked_by": "等 HNN 下周排期",
+      "eta": "2026-05-15"
+    }
+  ],
+  "fixed_today": [
+    {
+      "title": "客服兜底按钮位置调整",
+      "before": "2026-05-08 · 底部悬浮挡到 Buy Now",
+      "after":  "2026-05-10 · 移至右下角,不遮挡主 CTA",
+      "effect_note": "Buy Now 点击率 +9%(吴玲观察,样本 120)"
+    }
+  ],
+  "new_claim_candidates": [
+    {
+      "hypothesis": "视频加时间锚点(功能点章节)能把 product_interest 段流失从 41% 降到 25%",
+      "evidence_today": "19 位用户中 6 位反复拖进度条 5-11 次;3 位今日新命中",
+      "proposed_owner_ad_side": "CHJ",
+      "proposed_owner_site_side": "HNN",
+      "expected_lift": "product_interest 留存 +15pp"
+    },
+    {
+      "hypothesis": "5 款同价位产品加横向对比表能把 cart 段流失从 40% 降到 25%",
+      "evidence_today": "19 位用户中 5 位横跳 2-4 款,每款看 40-60s 放弃",
+      "proposed_owner_ad_side": "—",
+      "proposed_owner_site_side": "HNN",
+      "expected_lift": "cart 留存 +15pp"
+    }
+  ],
+  "notes": "今天 Buy Now 投诉比昨天多 3 起,全部来自 IG 渠道。建议 HNN 优先。"
+}

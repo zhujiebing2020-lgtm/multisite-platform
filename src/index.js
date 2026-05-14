@@ -6,6 +6,7 @@ import { handleRequest } from './api/request.js';
 import { handleAuth, verifySession } from './api/auth.js';
 import { handleTriggerAgent } from './api/trigger-agent.js';
 import { handleResults, handleResultDetail } from './api/results.js';
+import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -20,13 +21,16 @@ export default {
 
     // 需要鉴权的 API
     if (request.method === 'POST' && url.pathname === '/api/upload') {
-      return handleUpload(request, env);
+      return handleUploadAndParse(request, env);
     }
     if (request.method === 'POST' && url.pathname === '/api/request') {
       return handleRequest(request, env);
     }
     if (request.method === 'POST' && url.pathname === '/api/trigger-agent') {
       return handleTriggerAgent(request, env);
+    }
+    if (request.method === 'GET' && url.pathname === '/api/dashboard') {
+      return handleDashboard(request, env);
     }
     if (request.method === 'GET' && url.pathname === '/api/results') {
       return handleResults(request, env);

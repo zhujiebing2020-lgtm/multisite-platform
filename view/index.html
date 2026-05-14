@@ -109,7 +109,8 @@ header .user-info b{color:var(--text)}
     <!-- 概览面板 -->
     <div class="panel active" id="p-overview">
       <div class="overview-grid" id="overview-stats"></div>
-      <h3 style="font-size:14px;margin-bottom:10px">最近动态</h3>
+      <div id="dashboard-content"></div>
+      <h3 style="font-size:14px;margin:20px 0 10px">最近动态</h3>
       <div id="recent-jobs"></div>
     </div>
 
@@ -210,16 +211,51 @@ function switchTab(el){
 
 // --- 概览 ---
 function loadOverview(){
+  // 加载看板数据
+  fetch('/api/dashboard').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.latest_date){
+      document.getElementById('overview-stats').innerHTML=`
+        <div class="stat-card"><div class="num">—</div><div class="label">暂无数据</div></div>
+      `;
+      document.getElementById('dashboard-content').innerHTML='<p style="color:var(--muted);font-size:12px;margin:12px 0">上传第一份 xlsx 后，这里会显示你的投放数据看板</p>';
+    } else {
+      const s=d.summary;
+      document.getElementById('overview-stats').innerHTML=`
+        <div class="stat-card"><div class="num">$${s.spend}</div><div class="label">花费 · ${d.latest_date.slice(5)}</div></div>
+        <div class="stat-card"><div class="num">${s.hvu}</div><div class="label">HVU</div></div>
+        <div class="stat-card"><div class="num">$${s.cphq}</div><div class="label">CPHQ</div></div>
+        <div class="stat-card"><div class="num">${s.groups}</div><div class="label">活跃组</div></div>
+      `;
+      // 趋势
+      let trendHtml='';
+      if(d.daily&&d.daily.length>1){
+        trendHtml='<div class="card" style="margin-top:12px"><h3 style="font-size:13px">📈 近期趋势</h3><table style="width:100%;font-size:11px;border-collapse:collapse;margin-top:8px"><tr style="color:var(--muted)"><th style="text-align:left;padding:4px">日期</th><th>花费</th><th>HVU</th><th>CPHQ</th><th>组数</th></tr>';
+        d.daily.forEach(day=>{
+          const cphq=day.hvu>0?(day.spend/day.hvu).toFixed(2):'—';
+          trendHtml+=`<tr><td style="padding:4px">${day.date.slice(5)}</td><td>$${day.spend.toFixed(1)}</td><td>${day.hvu}</td><td>$${cphq}</td><td>${day.groups}</td></tr>`;
+        });
+        trendHtml+='</table></div>';
+      }
+      // 各组明细
+      let groupsHtml='';
+      if(d.groups&&d.groups.length){
+        groupsHtml='<div class="card" style="margin-top:12px"><h3 style="font-size:13px">📋 各组表现 · '+d.latest_date.slice(5)+'</h3><table style="width:100%;font-size:11px;border-collapse:collapse;margin-top:8px"><tr style="color:var(--muted)"><th style="text-align:left;padding:4px">组</th><th>花费</th><th>HVU</th><th>CPHQ</th></tr>';
+        d.groups.forEach(g=>{
+          const color=g.cphq>0&&g.cphq<1.5?'var(--green)':g.cphq<3?'var(--muted)':'var(--red)';
+          groupsHtml+=`<tr><td style="padding:4px">${esc(g.name)}</td><td>$${g.spend}</td><td>${g.hvu}</td><td style="color:${color};font-weight:600">$${g.cphq}</td></tr>`;
+        });
+        groupsHtml+='</table></div>';
+      }
+      document.getElementById('dashboard-content').innerHTML=trendHtml+groupsHtml;
+    }
+  }).catch(()=>{
+    document.getElementById('dashboard-content').innerHTML='';
+  });
+
+  // 加载最近任务
   fetch('/api/results').then(r=>r.json()).then(d=>{
     if(!d.ok) return;
     const jobs = d.jobs||[];
-    const done = jobs.filter(j=>j.status==='done').length;
-    const pending = jobs.filter(j=>j.status==='pending'||j.status==='running').length;
-    document.getElementById('overview-stats').innerHTML = `
-      <div class="stat-card"><div class="num">${jobs.length}</div><div class="label">总任务</div></div>
-      <div class="stat-card"><div class="num">${done}</div><div class="label">已完成</div></div>
-      <div class="stat-card"><div class="num">${pending}</div><div class="label">进行中</div></div>
-    `;
     const recent = jobs.slice(0,5);
     if(!recent.length){ document.getElementById('recent-jobs').innerHTML='<p style="color:var(--muted);font-size:12px">暂无任务 · 去"操作"标签触发一个 agent</p>'; return; }
     document.getElementById('recent-jobs').innerHTML = recent.map(j=>{
@@ -251,14 +287,18 @@ function setMainFile(f){
 async function uploadAndAnalyze(){
   if(!mainFile){toast('请先选择 xlsx 文件','var(--red)');return;}
   const b64 = await fileToBase64(mainFile);
-  toast('上传中...');
+  toast('上传解析中...');
   const up = await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
     body:JSON.stringify({filename:mainFile.name,contentBase64:b64,owner:user.owner_code,site:'elysianu',channel:'FB'})}).then(r=>r.json());
   if(!up.ok){toast('上传失败: '+(up.error||''),'var(--red)');return;}
-  const res = await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({agent_type:'data_analysis',site:'elysianu',params:{uploaded_file:up.path}})}).then(r=>r.json());
-  if(res.ok) toast('✓ 已上传并提交分析 · 稍后在"结果"查看');
-  else toast(res.error||'触发失败','var(--red)');
+  toast(up.message || `✓ 已解析 ${up.parsed} 条数据`);
+  // 刷新概览
+  setTimeout(()=>loadOverview(), 500);
+  // 同时触发分析 agent
+  if(up.parsed > 0){
+    fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({agent_type:'data_analysis',site:'elysianu',params:{uploaded_file:up.path,parsed:up.parsed}})});
+  }
 }
 
 // --- 操作：评论 ---

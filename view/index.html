@@ -175,6 +175,7 @@ header .user-info b{color:var(--text)}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.mini.min.js"></script>
 <script>
 const AGENT_NAMES = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
 let user = null;
@@ -286,18 +287,83 @@ function setMainFile(f){
 
 async function uploadAndAnalyze(){
   if(!mainFile){toast('请先选择 xlsx 文件','var(--red)');return;}
-  const b64 = await fileToBase64(mainFile);
-  toast('上传解析中...');
-  const up = await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
-    body:JSON.stringify({filename:mainFile.name,contentBase64:b64,owner:user.owner_code,site:'elysianu',channel:'FB'})}).then(r=>r.json());
-  if(!up.ok){toast('上传失败: '+(up.error||''),'var(--red)');return;}
-  toast(up.message || `✓ 已解析 ${up.parsed} 条数据`);
-  // 刷新概览
-  setTimeout(()=>loadOverview(), 500);
-  // 同时触发分析 agent
-  if(up.parsed > 0){
-    fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({agent_type:'data_analysis',site:'elysianu',params:{uploaded_file:up.path,parsed:up.parsed}})});
+  toast('解析中...');
+
+  // 前端解析 xlsx
+  const data = await mainFile.arrayBuffer();
+  const wb = XLSX.read(data, {type:'array'});
+  // 优先找 Facebook sheet，fallback 到第一个含"广告组"表头的 sheet
+  let sheetName = wb.SheetNames.find(n=>n.includes('Facebook')||n.includes('facebook')||n.includes('FB'));
+  if(!sheetName){
+    for(const sn of wb.SheetNames){
+      const ws0=wb.Sheets[sn];
+      const r0=XLSX.utils.sheet_to_json(ws0,{header:1,defval:'',range:0});
+      if(r0&&r0[0]&&String(r0[0][0]||'').includes('组')){sheetName=sn;break;}
+    }
+  }
+  if(!sheetName) sheetName=wb.SheetNames[0];
+  const ws = wb.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:'', raw:false});
+
+  if(!rows||rows.length<2){toast('无法解析表格内容','var(--red)');return;}
+
+  // 解析横向看板格式
+  const header = rows[0].map(h=>String(h||'').trim());
+  const records = [];
+
+  // 检测是否横向格式
+  const firstCol = header[0] || '';
+  const isHorizontal = firstCol.includes('广告组') || firstCol.includes('组') || firstCol.toLowerCase()==='group';
+
+  if(isHorizontal){
+    // 找日期列：匹配 "4/5" 或 "04/05" 或 "4月5日" 格式
+    const dateCols = [];
+    for(let c=3;c<header.length;c++){
+      const h = String(header[c]).trim();
+      if(!h || h==='合计' || h.includes('图例')) continue;
+      const m = h.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
+      if(m) dateCols.push({col:c, date:`2026-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`});
+    }
+    for(let i=1;i<rows.length;i++){
+      const row=rows[i];
+      const groupName=String(row[0]||'').trim();
+      const rowOwner=String(row[1]||'').trim()||user.owner_code;
+      if(!groupName||groupName.includes('合计')||groupName.includes('图例'))continue;
+      for(const{col,date}of dateCols){
+        const cell=String(row[col]||'').trim();
+        if(!cell||cell==='—'||cell===''||cell==='None')continue;
+        const parts=cell.split('/');
+        if(parts.length>=2){
+          const spend=parseFloat(parts[0].replace(/[$,（）\(\)a-zA-Z一-鿿]/g,''))||0;
+          const hvu=parseInt(parts[1])||0;
+          const cphq=parts.length>=3?parseFloat(parts[2].replace(/[$,—]/g,''))||0:(hvu>0?spend/hvu:0);
+          if(spend>0||hvu>0) records.push({owner:rowOwner,date,group_name:groupName,spend,hvu,cphq:Math.round(cphq*100)/100});
+        }
+      }
+    }
+  }
+
+  if(!records.length){
+    // debug info
+    const dbg = `Sheet: ${sheetName} | Rows: ${rows.length} | H[0]: "${header[0]}" | isH: ${isHorizontal} | H[3]: "${header[3]}"`;
+    toast('未解析到数据: '+dbg,'var(--red)');
+    return;
+  }
+  toast(`解析到 ${records.length} 条数据，入库中...`);
+
+  // 发送解析后的数据到后端
+  const res = await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
+    body:JSON.stringify({site:'elysianu',records})}).then(r=>r.json());
+
+  if(res.ok){
+    toast(`✓ ${res.ingested} 条数据已入库`);
+    setTimeout(()=>loadOverview(),500);
+    // 同时上传原始文件到 GitHub
+    const b64=await fileToBase64(mainFile);
+    fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
+      body:JSON.stringify({filename:mainFile.name,contentBase64:b64,owner:user.owner_code,site:'elysianu',channel:'FB'})});
+  } else {
+    toast(res.error||'入库失败','var(--red)');
   }
 }
 

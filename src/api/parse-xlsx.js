@@ -32,60 +32,86 @@ export async function handleUploadAndParse(request, env) {
 
     // 解析 xlsx 内容
     const binary = Uint8Array.from(atob(contentBase64), c => c.charCodeAt(0));
-    const rows = parseXlsx(binary);
+    let rows = parseXlsx(binary);
 
     if (!rows || rows.length < 2) {
       await ghPromise;
       return json({ ok: true, path, parsed: 0, message: '文件已上传但无法解析数据行' });
     }
 
-    // 找列索引
-    const header = rows[0].map(h => String(h || '').toLowerCase().trim());
-    const colMap = {
-      group: findCol(header, ['group', '组', 'ad_group', 'campaign']),
-      date: findCol(header, ['date', '日期', 'day']),
-      spend: findCol(header, ['spend', '花费', 'amount_spent', 'amount spent', 'cost']),
-      hvu: findCol(header, ['hvu', 'high_value_users', 'conversions', 'results']),
-      cphq: findCol(header, ['cphq', 'cost_per_hvu', 'cpa', 'cost_per_result']),
-      impressions: findCol(header, ['impressions', '展示', 'impr']),
-      clicks: findCol(header, ['clicks', '点击', 'link_clicks']),
-    };
-
-    if (colMap.group === -1 || colMap.spend === -1) {
-      await ghPromise;
-      return json({ ok: true, path, parsed: 0, message: '已上传但未找到 group/spend 列，请检查表头' });
-    }
-
-    // 解析日期：从文件名或数据中提取
-    let defaultDate = extractDateFromFilename(filename) || new Date().toISOString().slice(0, 10);
-
-    // 插入 D1
-    const stmts = [];
+    // 检测格式：横向看板格式 vs 标准纵向格式
+    const header = rows[0].map(h => String(h || '').trim());
     let parsed = 0;
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
-      const groupName = String(row[colMap.group] || '').trim();
-      if (!groupName) continue;
+    let defaultDate = extractDateFromFilename(filename) || new Date().toISOString().slice(0, 10);
+    const stmts = [];
 
-      const date = colMap.date !== -1 ? normalizeDate(row[colMap.date]) || defaultDate : defaultDate;
-      const spend = parseNum(row[colMap.spend]);
-      const hvu = Math.round(parseNum(row[colMap.hvu]));
-      const cphq = parseNum(row[colMap.cphq]);
-      const impressions = Math.round(parseNum(colMap.impressions !== -1 ? row[colMap.impressions] : 0));
-      const clicks = Math.round(parseNum(colMap.clicks !== -1 ? row[colMap.clicks] : 0));
+    if (isHorizontalFormat(header)) {
+      // 横向看板格式：行=组，列=日期，单元格=$spend/hvu/$cphq
+      const dateColumns = [];
+      for (let c = 3; c < header.length; c++) {
+        const dateStr = parseDateHeader(header[c]);
+        if (dateStr) dateColumns.push({ col: c, date: dateStr });
+      }
 
-      if (spend === 0 && hvu === 0 && impressions === 0) continue;
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const groupName = String(row[0] || '').trim();
+        const rowOwner = String(row[1] || '').trim() || owner;
+        if (!groupName || groupName === '合计' || groupName.includes('图例')) continue;
 
-      stmts.push(
-        env.DB.prepare(
-          'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq, impressions, clicks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-        ).bind(owner, site, date, groupName, spend, hvu, cphq, impressions, clicks)
-      );
-      parsed++;
+        for (const { col, date } of dateColumns) {
+          const cell = String(row[col] || '').trim();
+          if (!cell || cell === '—' || cell === '') continue;
+          const parsed_cell = parseCellValue(cell);
+          if (!parsed_cell || (parsed_cell.spend === 0 && parsed_cell.hvu === 0)) continue;
+
+          stmts.push(
+            env.DB.prepare(
+              'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)'
+            ).bind(rowOwner, site, date, groupName, parsed_cell.spend, parsed_cell.hvu, parsed_cell.cphq)
+          );
+          parsed++;
+        }
+      }
+    } else {
+      // 标准纵向格式：每行一条记录
+      const colMap = {
+        group: findCol(header.map(h=>h.toLowerCase()), ['group', '组', '广告组', 'ad_group', 'campaign']),
+        date: findCol(header.map(h=>h.toLowerCase()), ['date', '日期', 'day']),
+        spend: findCol(header.map(h=>h.toLowerCase()), ['spend', '花费', 'amount_spent', 'amount spent', 'cost']),
+        hvu: findCol(header.map(h=>h.toLowerCase()), ['hvu', 'high_value_users', 'conversions', 'results']),
+        cphq: findCol(header.map(h=>h.toLowerCase()), ['cphq', 'cost_per_hvu', 'cpa', 'cost_per_result']),
+        impressions: findCol(header.map(h=>h.toLowerCase()), ['impressions', '展示', 'impr']),
+        clicks: findCol(header.map(h=>h.toLowerCase()), ['clicks', '点击', 'link_clicks']),
+      };
+
+      if (colMap.group === -1 || colMap.spend === -1) {
+        await ghPromise;
+        return json({ ok: true, path, parsed: 0, message: '已上传但未找到 group/spend 列，请检查表头: ' + header.slice(0,5).join(', ') });
+      }
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const groupName = String(row[colMap.group] || '').trim();
+        if (!groupName) continue;
+        const date = colMap.date !== -1 ? normalizeDate(row[colMap.date]) || defaultDate : defaultDate;
+        const spend = parseNum(row[colMap.spend]);
+        const hvu = Math.round(parseNum(row[colMap.hvu]));
+        const cphq = parseNum(row[colMap.cphq]);
+        const impressions = Math.round(parseNum(colMap.impressions !== -1 ? row[colMap.impressions] : 0));
+        const clicks = Math.round(parseNum(colMap.clicks !== -1 ? row[colMap.clicks] : 0));
+        if (spend === 0 && hvu === 0 && impressions === 0) continue;
+
+        stmts.push(
+          env.DB.prepare(
+            'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq, impressions, clicks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+          ).bind(owner, site, date, groupName, spend, hvu, cphq, impressions, clicks)
+        );
+        parsed++;
+      }
     }
 
     if (stmts.length > 0) {
-      // D1 batch 限制 100 条
       for (let i = 0; i < stmts.length; i += 100) {
         await env.DB.batch(stmts.slice(i, i + 100));
       }
@@ -227,6 +253,51 @@ function parseSheet(xml, sharedStrings) {
     rows.push(cells);
   }
   return rows.length > 0 ? rows : null;
+}
+
+// --- 横向看板格式检测和解析 ---
+function isHorizontalFormat(header) {
+  // 如果前几列是 广告组/投手/落地页，后面是日期格式，就是横向格式
+  const first = (header[0] || '').toLowerCase();
+  if (first.includes('广告组') || first.includes('组') || first === 'group') {
+    // 检查第4列开始是否像日期
+    for (let i = 3; i < Math.min(header.length, 8); i++) {
+      if (parseDateHeader(header[i])) return true;
+    }
+  }
+  return false;
+}
+
+function parseDateHeader(h) {
+  if (!h) return null;
+  const s = String(h).trim();
+  // 格式: "4/5" or "5/13" or "2026-05-13"
+  const m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if (m) {
+    const month = m[1].padStart(2, '0');
+    const day = m[2].padStart(2, '0');
+    return `2026-${month}-${day}`;
+  }
+  const m2 = s.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+  if (m2) return `${m2[1]}-${m2[2].padStart(2,'0')}-${m2[3].padStart(2,'0')}`;
+  return null;
+}
+
+function parseCellValue(cell) {
+  // 格式: "$13.95/3/$4.65" = spend/hvu/cphq
+  // 或: "$13.95/0/—"
+  if (!cell || cell === '—') return null;
+  const parts = cell.split('/');
+  if (parts.length >= 2) {
+    const spend = parseNum(parts[0]);
+    const hvu = Math.round(parseNum(parts[1]));
+    const cphq = parts.length >= 3 ? parseNum(parts[2]) : (hvu > 0 ? spend / hvu : 0);
+    return { spend, hvu, cphq: Math.round(cphq * 100) / 100 };
+  }
+  // 单个数字可能是 spend
+  const n = parseNum(cell);
+  if (n > 0) return { spend: n, hvu: 0, cphq: 0 };
+  return null;
 }
 
 // --- 工具函数 ---

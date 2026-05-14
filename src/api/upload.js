@@ -29,7 +29,8 @@ export async function handleUpload(request, env) {
     }
 
     const path = `requests/uploads/${filename}`;
-    const ghRes = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/contents/${encodeURIComponent(path)}`, {
+    const ghPath = path.split('/').map(encodeURIComponent).join('/');
+    const ghRes = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/contents/${ghPath}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${env.GITHUB_TOKEN}`,

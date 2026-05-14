@@ -19,3 +19,9 @@ platform-core/数据层/runtime.db
 platform-core/数据层/*.db-journal
 platform-core/数据层/*.db-shm
 platform-core/数据层/*.db-wal
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example

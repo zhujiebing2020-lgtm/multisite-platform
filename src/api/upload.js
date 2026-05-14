@@ -1,6 +1,9 @@
 // src/api/upload.js
 // 接收投手 xlsx 上传 → 推到 GitHub repo → 触发 Actions
 
+const OWNERS = ['HZM','CHJ','HNN','ZXR','LZL','PLZ'];
+const CHANNELS = ['FB','Google','Twitter','TikTok'];
+
 export async function handleUpload(request, env) {
   try {
     const pass = request.headers.get('x-pass') || '';
@@ -8,15 +11,21 @@ export async function handleUpload(request, env) {
       return json({ error: '口令错误' }, 401);
     }
 
-    const { filename, contentBase64, owner } = await request.json();
-    if (!filename || !contentBase64 || !owner) {
-      return json({ error: '缺 filename / contentBase64 / owner' }, 400);
+    const { filename, contentBase64, owner, site, channel } = await request.json();
+    if (!filename || !contentBase64 || !owner || !site || !channel) {
+      return json({ error: '缺 filename / contentBase64 / owner / site / channel' }, 400);
     }
     if (!/^[A-Za-z0-9_.一-鿿-]+\.xlsx?$/i.test(filename)) {
       return json({ error: '文件名不合法' }, 400);
     }
-    if (!['HZM','CHJ','HNN','ZXR','LZL','PLZ'].includes(owner)) {
+    if (!OWNERS.includes(owner)) {
       return json({ error: 'owner 不在白名单' }, 400);
+    }
+    if (!/^[a-z0-9_-]+$/i.test(site)) {
+      return json({ error: 'site 标识只能字母数字_-' }, 400);
+    }
+    if (!CHANNELS.includes(channel)) {
+      return json({ error: `channel 必须是: ${CHANNELS.join('/')}` }, 400);
     }
 
     const path = `requests/uploads/${filename}`;
@@ -28,7 +37,7 @@ export async function handleUpload(request, env) {
         'User-Agent': 'multisite-upload-worker',
       },
       body: JSON.stringify({
-        message: `upload: ${owner} ${filename}`,
+        message: `upload: ${owner}/${site}/${channel} ${filename}`,
         content: contentBase64,
         branch: 'main',
       }),
@@ -38,7 +47,7 @@ export async function handleUpload(request, env) {
       const t = await ghRes.text();
       return json({ error: `GitHub ${ghRes.status}: ${t.slice(0, 200)}` }, 502);
     }
-    return json({ ok: true, path });
+    return json({ ok: true, path, meta: { owner, site, channel } });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);
   }

@@ -1,5 +1,8 @@
 // src/api/request.js
-// 投手点 agent 按钮 → 写 requests/{owner}-{agent}-{ts}.md → 触发 Actions
+// 投手点 agent 按钮 → 写 requests/{owner}-{site}-{channel}-{agent}-{ts}.md → 触发 Actions
+
+const OWNERS = ['HZM','CHJ','HNN','ZXR','LZL','PLZ'];
+const CHANNELS = ['FB','Google','Twitter','TikTok'];
 
 export async function handleRequest(request, env) {
   try {
@@ -8,15 +11,21 @@ export async function handleRequest(request, env) {
       return json({ error: '口令错误' }, 401);
     }
 
-    const { filename, content, owner } = await request.json();
-    if (!filename || !content || !owner) {
-      return json({ error: '缺 filename / content / owner' }, 400);
+    const { filename, content, owner, site, channel } = await request.json();
+    if (!filename || !content || !owner || !site || !channel) {
+      return json({ error: '缺 filename / content / owner / site / channel' }, 400);
     }
     if (!/^[A-Za-z0-9_.一-鿿-]+\.md$/.test(filename)) {
       return json({ error: '文件名不合法' }, 400);
     }
-    if (!['HZM','CHJ','HNN','ZXR','LZL','PLZ'].includes(owner)) {
+    if (!OWNERS.includes(owner)) {
       return json({ error: 'owner 不在白名单' }, 400);
+    }
+    if (!/^[a-z0-9_-]+$/i.test(site)) {
+      return json({ error: 'site 标识只能字母数字_-' }, 400);
+    }
+    if (!CHANNELS.includes(channel)) {
+      return json({ error: `channel 必须是: ${CHANNELS.join('/')}` }, 400);
     }
 
     const path = `requests/${filename}`;
@@ -30,7 +39,7 @@ export async function handleRequest(request, env) {
         'User-Agent': 'multisite-upload-worker',
       },
       body: JSON.stringify({
-        message: `req: ${owner} ${filename}`,
+        message: `req: ${owner}/${site}/${channel} ${filename}`,
         content: b64,
         branch: 'main',
       }),
@@ -40,7 +49,7 @@ export async function handleRequest(request, env) {
       const t = await ghRes.text();
       return json({ error: `GitHub ${ghRes.status}: ${t.slice(0, 200)}` }, 502);
     }
-    return json({ ok: true, path });
+    return json({ ok: true, path, meta: { owner, site, channel } });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);
   }

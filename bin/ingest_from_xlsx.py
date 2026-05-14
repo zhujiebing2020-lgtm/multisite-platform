@@ -29,24 +29,55 @@ REPO = Path(__file__).resolve().parents[1]
 UPLOADS_DIR = REPO / "requests" / "uploads"
 PROCESSED_DIR = REPO / "data" / "uploads"
 
+DEFAULT_SITE = "elysianu"
+DEFAULT_CHANNEL = "FB"
+KNOWN_CHANNELS = {"FB", "Google", "Twitter", "TikTok"}
 
-# ─── 文件名 → owner + date ────────────────
-FILENAME_RE = re.compile(
+
+# ─── 文件名 → owner/site/channel/date ────────────────
+# 新格式(三维): {owner}-{site}-{channel}-{date}-{原名}.xlsx
+#   例: HZM-elysianu-FB-2026-05-14-原名.xlsx
+# 兼容旧格式: {owner}-{date}.xlsx / {owner}-FB-{date}.xlsx 等
+FILENAME_RE_FULL = re.compile(
+    r"^(?P<owner>HZM|CHJ|HNN|ZXR|LZL|PLZ)-"
+    r"(?P<site>[a-z0-9_-]+)-"
+    r"(?P<channel>FB|Google|Twitter|TikTok)-"
+    r"(?P<date>\d{4}-\d{2}-\d{2})",
+    re.IGNORECASE,
+)
+FILENAME_RE_LEGACY = re.compile(
     r"^(?P<owner>HZM|CHJ|HNN|ZXR|LZL|PLZ)"
     r".*?(?P<date>\d{4}-\d{2}-\d{2})?",
     re.IGNORECASE,
 )
 
 
-def parse_filename(name: str) -> tuple[str, str]:
-    """从文件名抽 owner + date(都允许为空 → unknown)"""
+def parse_filename(name: str) -> tuple[str, str, str, str]:
+    """从文件名抽 owner / site / channel / date。
+    新格式优先,旧格式回退默认 site=elysianu / channel=FB。
+    """
     stem = Path(name).stem
-    m = FILENAME_RE.match(stem)
+    m = FILENAME_RE_FULL.match(stem)
+    if m:
+        # 渠道做大小写归一(枚举严格)
+        ch = m.group("channel")
+        for k in KNOWN_CHANNELS:
+            if ch.lower() == k.lower():
+                ch = k
+                break
+        return m.group("owner").upper(), m.group("site").lower(), ch, m.group("date")
+
+    # 旧格式回退
+    m = FILENAME_RE_LEGACY.match(stem)
+    today = datetime.now().strftime("%Y-%m-%d")
     if not m:
-        return "unknown", datetime.now().strftime("%Y-%m-%d")
-    owner = m.group("owner") or "unknown"
-    date = m.group("date") or datetime.now().strftime("%Y-%m-%d")
-    return owner.upper(), date
+        return "unknown", DEFAULT_SITE, DEFAULT_CHANNEL, today
+    return (
+        (m.group("owner") or "unknown").upper(),
+        DEFAULT_SITE,
+        DEFAULT_CHANNEL,
+        m.group("date") or today,
+    )
 
 
 # ─── xlsx 解析 ─────────────────────────
@@ -128,23 +159,25 @@ def parse_xlsx(path: Path) -> dict:
 # ─── 主入口 ────────────────────────────
 def process_xlsx(path: Path) -> dict:
     """处理一个 xlsx · 返回处理结果"""
-    owner, date = parse_filename(path.name)
+    owner, site, channel, date = parse_filename(path.name)
     parsed = parse_xlsx(path)
 
     if "error" in parsed:
-        return {"ok": False, "owner": owner, "date": date, "error": parsed["error"]}
+        return {"ok": False, "owner": owner, "site": site, "channel": channel,
+                "date": date, "error": parsed["error"]}
 
     # 落 JSON(审计 + 给 agent 用)
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PROCESSED_DIR / f"{owner}-{date}-{datetime.now().strftime('%H%M%S')}.json"
+    out_path = PROCESSED_DIR / f"{owner}-{site}-{channel}-{date}-{datetime.now().strftime('%H%M%S')}.json"
     out_path.write_text(json.dumps({
         "_meta": {
-            "owner": owner, "date": date,
+            "owner": owner, "site": site, "channel": channel, "date": date,
             "source_file": path.name,
             "ingested_at": datetime.now().isoformat(),
             "header_meta": parsed["header_meta"],
         },
-        "rows": [{**r, "owner": owner, "date": date} for r in parsed["rows"]],
+        "rows": [{**r, "owner": owner, "site": site, "channel": channel, "date": date}
+                 for r in parsed["rows"]],
         "warnings": parsed["warnings"],
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -166,24 +199,27 @@ def process_xlsx(path: Path) -> dict:
     engine = get_engine()
     daily_rows = [
         {"group": r["group_id"], "group_id": r["group_id"], "owner": owner,
+         "site": site, "channel": channel,
          "date": date, "spend": r["spend"], "hvu": r["hvu"], "cphq": r["cphq"]}
         for r in parsed["rows"]
     ]
 
     upstream = {
         "daily_rows": daily_rows, "owner_filter": owner,
+        "site_filter": site, "channel_filter": channel,
         "data_date": date, "uploaded_xlsx": path.name,
     }
-    tid = engine.submit("数据分析", "elysianu", priority=2, lookback_days=1,
+    tid = engine.submit("数据分析", site, priority=2, lookback_days=1,
                        upstream_output=upstream, event_id=f"xlsx_upload_{path.stem}")
     engine.next()
-    inp = AgentInput(site_id="elysianu", time_window=TimeWindow.last_n_days(1),
-                     overrides={"owner_filter": owner}, upstream_output=upstream)
+    inp = AgentInput(site_id=site, time_window=TimeWindow.last_n_days(1),
+                     overrides={"owner_filter": owner, "channel_filter": channel},
+                     upstream_output=upstream)
     result = mod.run(inp)
     engine.complete(tid, result)
 
     return {
-        "ok": True, "owner": owner, "date": date,
+        "ok": True, "owner": owner, "site": site, "channel": channel, "date": date,
         "rows_count": len(parsed["rows"]),
         "agent_status": result.status.value,
         "json_output": str(out_path.relative_to(REPO)),

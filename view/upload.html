@@ -59,9 +59,28 @@
     <option value="LZL">LZL</option>
     <option value="PLZ">PLZ</option>
   </select>
-  <label style="margin-left:16px">访问口令：</label>
-  <input id="passcode" type="password" placeholder="ZJB 发的口令" style="width:160px">
-  <span style="font-size:12px;color:#888;margin-left:8px">（首次访问需要，之后浏览器记住）</span>
+
+  <label style="margin-left:16px">站：</label>
+  <select id="site">
+    <option value="">-- 选 --</option>
+    <option value="elysianu">elysianu</option>
+  </select>
+  <button type="button" id="add-site" title="添加新站" style="background:#888;font-size:12px;padding:4px 8px;margin-left:4px">+ 加站</button>
+
+  <label style="margin-left:16px">渠道：</label>
+  <select id="channel">
+    <option value="">-- 选 --</option>
+    <option value="FB">FB</option>
+    <option value="Google">Google</option>
+    <option value="Twitter">Twitter</option>
+    <option value="TikTok">TikTok</option>
+  </select>
+
+  <div style="margin-top:8px">
+    <label>访问口令：</label>
+    <input id="passcode" type="password" placeholder="ZJB 发的口令" style="width:160px">
+    <span style="font-size:12px;color:#888;margin-left:8px">（首次访问需要，之后浏览器记住）</span>
+  </div>
 </div>
 
 <h2>① 上传当日 xlsx</h2>
@@ -104,6 +123,8 @@ const AGENTS = [
 
 const $ = (id) => document.getElementById(id);
 const ownerSel = $('owner');
+const siteSel = $('site');
+const channelSel = $('channel');
 const passInp = $('passcode');
 const drop = $('drop');
 const filepick = $('filepick');
@@ -111,14 +132,41 @@ const filesDiv = $('files');
 const agentsDiv = $('agents');
 const toastEl = $('toast');
 const selfLink = $('self-link');
+const addSiteBtn = $('add-site');
 
-// 持久化 owner + passcode
+function loadCustomSites() {
+  const extra = JSON.parse(localStorage.getItem('extra_sites') || '[]');
+  extra.forEach(s => {
+    if (![...siteSel.options].some(o => o.value === s)) {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = s + ' (本地)';
+      siteSel.appendChild(o);
+    }
+  });
+}
+loadCustomSites();
+
+addSiteBtn.addEventListener('click', () => {
+  const name = prompt('新站标识(英文/数字, 例 site2):');
+  if (!name || !/^[a-z0-9_-]+$/i.test(name)) { toast('标识只能字母数字_-'); return; }
+  const extra = JSON.parse(localStorage.getItem('extra_sites') || '[]');
+  if (!extra.includes(name)) extra.push(name);
+  localStorage.setItem('extra_sites', JSON.stringify(extra));
+  loadCustomSites();
+  siteSel.value = name;
+  toast(`✓ 已加 ${name}（本地记住,下次仍在）`);
+});
+
 ownerSel.value = localStorage.getItem('owner') || '';
+siteSel.value = localStorage.getItem('site') || '';
+channelSel.value = localStorage.getItem('channel') || '';
 passInp.value = localStorage.getItem('passcode') || '';
 ownerSel.addEventListener('change', () => {
   localStorage.setItem('owner', ownerSel.value);
   updateSelfLink();
 });
+siteSel.addEventListener('change', () => localStorage.setItem('site', siteSel.value));
+channelSel.addEventListener('change', () => localStorage.setItem('channel', channelSel.value));
 passInp.addEventListener('change', () => localStorage.setItem('passcode', passInp.value));
 
 function updateSelfLink() {
@@ -132,9 +180,11 @@ function toast(msg, ms = 2500) {
   setTimeout(() => toastEl.classList.remove('show'), ms);
 }
 
-function requireOwnerPass() {
-  if (!ownerSel.value) { toast('先选你是谁'); return false; }
-  if (!passInp.value)  { toast('填访问口令'); return false; }
+function requireFields() {
+  if (!ownerSel.value)   { toast('先选你是谁'); return false; }
+  if (!siteSel.value)    { toast('选站'); return false; }
+  if (!channelSel.value) { toast('选渠道'); return false; }
+  if (!passInp.value)    { toast('填访问口令'); return false; }
   return true;
 }
 
@@ -154,18 +204,20 @@ AGENTS.forEach(a => {
 });
 
 async function triggerAgent(name) {
-  if (!requireOwnerPass()) return;
+  if (!requireFields()) return;
   const owner = ownerSel.value;
+  const site = siteSel.value;
+  const channel = channelSel.value;
   const ts = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 13);
-  const filename = `${owner}-${name}-${ts}.md`;
-  const body = `---\nagent: ${name}\nowner: ${owner}\n---\n请帮我跑一次${name}`;
+  const filename = `${owner}-${site}-${channel}-${name}-${ts}.md`;
+  const body = `---\nagent: ${name}\nowner: ${owner}\nsite: ${site}\nchannel: ${channel}\n---\n请帮我跑一次${name}`;
 
   toast(`提交 ${name}…`);
   try {
     const res = await fetch('/api/request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-pass': passInp.value },
-      body: JSON.stringify({ filename, content: body, owner }),
+      body: JSON.stringify({ filename, content: body, owner, site, channel }),
     });
     const j = await res.json();
     if (!res.ok) throw new Error(j.error || res.status);
@@ -187,7 +239,7 @@ drop.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
 filepick.addEventListener('change', e => handleFiles(e.target.files));
 
 function handleFiles(fileList) {
-  if (!requireOwnerPass()) return;
+  if (!requireFields()) return;
   for (const f of fileList) {
     if (!f.name.toLowerCase().match(/\.(xlsx|xls)$/)) {
       toast(`✗ 跳过 ${f.name}（不是 xlsx）`); continue;
@@ -198,10 +250,11 @@ function handleFiles(fileList) {
 
 async function uploadOne(file) {
   const owner = ownerSel.value;
+  const site = siteSel.value;
+  const channel = channelSel.value;
   const date = todayStr();
-  // 规则文件名：HZM-2026-05-14.xlsx 或 HZM-原文件名.xlsx
   const stem = file.name.replace(/\.(xlsx|xls)$/i, '');
-  const normName = stem.includes(owner) ? `${stem}.xlsx` : `${owner}-${date}-${stem}.xlsx`;
+  const normName = `${owner}-${site}-${channel}-${date}-${stem}.xlsx`;
 
   const row = document.createElement('div');
   row.className = 'file-row';
@@ -214,7 +267,7 @@ async function uploadOne(file) {
     const res = await fetch('/api/upload', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-pass': passInp.value },
-      body: JSON.stringify({ filename: normName, contentBase64: b64, owner }),
+      body: JSON.stringify({ filename: normName, contentBase64: b64, owner, site, channel }),
     });
     const j = await res.json();
     if (!res.ok) throw new Error(j.error || res.status);

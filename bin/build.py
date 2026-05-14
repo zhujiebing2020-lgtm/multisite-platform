@@ -286,6 +286,175 @@ def build_overview(overview_data: dict, all_owners: list, repo_url: str = REPO_U
     return html
 
 
+def build_station_overview(overview_data: dict, all_owners: list, all_sites: list) -> str:
+    """站群总览(z-jb.com 根域)·极简版。
+    包含: 子站卡片(crave/elysianu/+扩) · 全局 KPI · 投手×站×渠道热力(若数据足)
+    """
+    html = HTML_HEAD.format(title="z-jb.com · 站群总览")
+
+    # 顶部导航(总览本身 + 投手页 + 投手工作台)
+    html += '<div class="nav">'
+    html += '<a href="index.html"><b>★ 站群总览</b></a>'
+    for o in all_owners:
+        html += f' | <a href="{o}.html">{o}</a>'
+    html += ' | <a href="upload.html">投手工作台</a>'
+    html += '</div>'
+
+    html += '<h1>z-jb.com · 站群总览</h1>'
+    html += '<p style="color:#888;font-size:13px">总站协调 · 各子站独立运营 · 数据回流训练 agent</p>'
+
+    # 子站卡片
+    html += '<h2>子站</h2>'
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0">'
+
+    # crave 子站(独立 CNAME · 永远在)
+    html += (
+        '<div class="card" style="border-left:4px solid #06c">'
+        '<div class="card-header">crave <span style="font-size:11px;color:#888">高权限</span></div>'
+        '<p style="font-size:12px;color:#666;margin:6px 0">决策台 / 规则集中地 / agent 引擎</p>'
+        '<a href="https://crave.z-jb.com" target="_blank" style="font-size:13px">→ crave.z-jb.com</a>'
+        '</div>'
+    )
+
+    # 已知子站(从数据里抓 site,加上 elysianu 兜底)
+    seen_sites = set(all_sites) | {"elysianu"}
+    for site in sorted(seen_sites):
+        html += (
+            f'<div class="card">'
+            f'<div class="card-header">{site}</div>'
+            f'<p style="font-size:12px;color:#666;margin:6px 0">业务运营子站</p>'
+            f'<a href="https://{site}.z-jb.com" target="_blank" style="font-size:13px">→ {site}.z-jb.com</a> '
+            f'<span style="font-size:11px;color:#888">|</span> '
+            f'<a href="site/{site}.html" style="font-size:13px">本地预览</a>'
+            f'</div>'
+        )
+
+    # 加站占位
+    html += (
+        '<div class="card" style="border:2px dashed #ccc;background:#fafafa">'
+        '<div class="card-header" style="color:#888">+ 添加新站</div>'
+        '<p style="font-size:12px;color:#888;margin:6px 0">投手工作台"+ 加站"按钮提交后,'
+        '由 ZJB 加入 sites/ 配置</p>'
+        '</div>'
+    )
+    html += '</div>'
+
+    # 全局 KPI
+    html += '<h2>全局 KPI</h2>'
+    html += (
+        f'<div class="card">'
+        f'<p>共 <b>{len(overview_data.get("agents", {}))}</b> 个 agent 跑过 · '
+        f'<b>{len(overview_data.get("events_recent", []))}</b> 个最近事件 · '
+        f'<b>{len(all_owners)}</b> 个投手 · '
+        f'<b>{len(seen_sites)}</b> 个子站</p>'
+        f'<p style="margin-top:8px"><a href="upload.html">→ 投手工作台(上传 xlsx / 触发 agent)</a></p>'
+        f'</div>'
+    )
+
+    # 各 agent 最近一次执行
+    html += '<h2>各 agent 最近一次执行</h2>'
+    html += '<table><tr><th>Agent</th><th>状态</th><th>时间</th><th>耗时</th></tr>'
+    for name, runs in overview_data.get("agents", {}).items():
+        # runs 可能是 list(多次执行) 或单 dict — 兼容两种
+        if isinstance(runs, list):
+            e = runs[0] if runs else {}
+        else:
+            e = runs or {}
+        ts_str = ""
+        if e.get("ts"):
+            try:
+                ts_str = datetime.fromtimestamp(e["ts"]).strftime("%Y-%m-%d %H:%M")
+            except Exception:
+                ts_str = "?"
+        st = e.get("status", "?")
+        html += (
+            f'<tr><td>{name}</td><td class="status-{st}">{st}</td>'
+            f'<td>{ts_str}</td><td>{e.get("duration_ms","?")}ms</td></tr>'
+        )
+    html += "</table>"
+
+    # 最近请求
+    html += '<h2>最近请求(投手提的)</h2>'
+    requests = list_recent_requests(limit=10)
+    if not requests:
+        html += "<p style='color:#888'>暂无请求记录</p>"
+    else:
+        html += '<table><tr><th>状态</th><th>时间</th><th>投手</th><th>agent</th><th>文件</th></tr>'
+        for r in requests:
+            ts_str = datetime.fromtimestamp(r["ts"]).strftime("%m-%d %H:%M")
+            status_color = "#c80" if r["status"] == "处理中" else "#2a7"
+            html += (
+                f'<tr><td style="color:{status_color}">{r["status"]}</td>'
+                f'<td>{ts_str}</td><td>{r["owner"]}</td><td>{r["agent"]}</td>'
+                f'<td style="font-size:11px;color:#666">{r["name"]}</td></tr>'
+            )
+        html += "</table>"
+
+    html += f'<div class="footer">生成于 {datetime.now().isoformat()} · build.py · z-jb.com 站群总览</div>'
+    html += "</body></html>"
+    return html
+
+
+def build_site_view(site: str, all_owners: list, all_sites: list) -> str:
+    """子站视图({site}.z-jb.com)。
+    内容: 该站 KPI · 该站投手列表 · 该站最近 agent 输出
+    数据来源: data/uploads/*.json 里 _meta.site == site 的;data/cards/ 里 site 字段匹配的
+    """
+    html = HTML_HEAD.format(title=f"{site}.z-jb.com · 子站运营视图")
+
+    html += '<div class="nav">'
+    html += '<a href="../index.html">站群总览</a> | '
+    html += f'<a href="../index.html#{site}"><b>★ {site}</b></a> | '
+    html += '<a href="../upload.html">投手工作台</a>'
+    html += '</div>'
+
+    html += f'<h1>{site} · 子站</h1>'
+    html += '<p style="color:#888;font-size:13px">该站独立运营视图 · 数据范围限定本站</p>'
+
+    # 该站数据汇总
+    site_uploads = []
+    uploads_dir = REPO / "data" / "uploads"
+    if uploads_dir.exists():
+        for f in sorted(uploads_dir.glob("*.json"), reverse=True)[:50]:
+            try:
+                d = json.loads(f.read_text(encoding="utf-8"))
+                if d.get("_meta", {}).get("site") == site:
+                    site_uploads.append((f.name, d))
+            except Exception:
+                continue
+
+    html += '<h2>本站当日数据</h2>'
+    if not site_uploads:
+        html += '<p style="color:#888">暂无上传数据 — 在投手工作台选择本站并上传 xlsx</p>'
+    else:
+        html += '<table><tr><th>投手</th><th>渠道</th><th>日期</th><th>组数</th><th>来源</th></tr>'
+        for fname, d in site_uploads[:20]:
+            m = d.get("_meta", {})
+            html += (
+                f'<tr><td>{m.get("owner","?")}</td>'
+                f'<td>{m.get("channel","?")}</td>'
+                f'<td>{m.get("date","?")}</td>'
+                f'<td>{len(d.get("rows", []))}</td>'
+                f'<td style="font-size:11px;color:#666">{m.get("source_file","")}</td></tr>'
+            )
+        html += "</table>"
+
+    html += '<h2>本站投手</h2>'
+    site_owners = sorted({d.get("_meta", {}).get("owner") for _, d in site_uploads
+                          if d.get("_meta", {}).get("owner")})
+    if site_owners:
+        html += '<div class="agent-grid">'
+        for o in site_owners:
+            html += f'<a class="agent-btn" href="../{o}.html" style="background:#06c"><div class="agent-name">{o}</div></a>'
+        html += '</div>'
+    else:
+        html += '<p style="color:#888">暂无</p>'
+
+    html += f'<div class="footer">生成于 {datetime.now().isoformat()} · build.py · {site} 子站视图</div>'
+    html += "</body></html>"
+    return html
+
+
 def main():
     VIEW_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -312,10 +481,26 @@ def main():
 
     all_owners = sorted(pitcher_data.keys())
 
-    # 生成 index.html(总览)
-    overview_html = build_overview(overview_data, all_owners)
+    # 收集所有 site(从 data/uploads/*.json _meta.site)
+    all_sites: set[str] = set()
+    uploads_dir = REPO / "data" / "uploads"
+    if uploads_dir.exists():
+        for f in uploads_dir.glob("*.json"):
+            try:
+                d = json.loads(f.read_text(encoding="utf-8"))
+                s = d.get("_meta", {}).get("site")
+                if s:
+                    all_sites.add(s)
+            except Exception:
+                continue
+    # 兜底加 elysianu(即使无数据,UI 也要展示)
+    all_sites.add("elysianu")
+    all_sites_list = sorted(all_sites)
+
+    # 生成 index.html(站群总览)
+    overview_html = build_station_overview(overview_data, all_owners, all_sites_list)
     (VIEW_DIR / "index.html").write_text(overview_html, encoding="utf-8")
-    print(f"✓ 写出 view/index.html")
+    print(f"✓ 写出 view/index.html (站群总览)")
 
     # 每个投手一份
     for owner, d in pitcher_data.items():
@@ -324,8 +509,16 @@ def main():
         (VIEW_DIR / f"{owner}.html").write_text(h, encoding="utf-8")
         print(f"✓ 写出 view/{owner}.html")
 
+    # 每个子站一份(view/site/{site}.html)
+    site_dir = VIEW_DIR / "site"
+    site_dir.mkdir(exist_ok=True)
+    for site in all_sites_list:
+        h = build_site_view(site, all_owners, all_sites_list)
+        (site_dir / f"{site}.html").write_text(h, encoding="utf-8")
+        print(f"✓ 写出 view/site/{site}.html")
+
     print(f"\n→ 双击 {VIEW_DIR / 'index.html'} 本地预览")
-    print(f"→ git push 到 GitHub Pages 后 HZM 浏览器可访问")
+    print(f"→ 子域 {{site}}.z-jb.com 会通过 src/index.js 路由到 view/site/{{site}}.html")
 
 
 if __name__ == "__main__":

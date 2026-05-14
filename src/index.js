@@ -48,17 +48,25 @@ export default {
       return handleCallback(request, env);
     }
 
-    // 子域路由
+    // 子域路由：*.z-jb.com → 子站页面
     const host = url.hostname.toLowerCase();
-    if (url.pathname === '/' && host.endsWith('.z-jb.com') && !ROOT_HOSTS.has(host)) {
+    if (host.endsWith('.z-jb.com') && !ROOT_HOSTS.has(host)) {
       const subdomain = host.replace(/\.z-jb\.com$/, '');
-      if (/^[a-z0-9_-]+$/.test(subdomain)) {
-        const subUrl = new URL(`/site/${subdomain}.html`, url);
-        const subResp = await env.ASSETS.fetch(new Request(subUrl, request));
-        if (subResp.status === 200) return subResp;
+      if (/^[a-z0-9_-]+$/.test(subdomain) && url.pathname === '/') {
+        return env.ASSETS.fetch(new Request(`${url.origin}/site/${subdomain}.html`));
       }
     }
 
-    return env.ASSETS.fetch(request);
+    // 根域 / → app.html
+    if (url.pathname === '/') {
+      return env.ASSETS.fetch(new Request(`${url.origin}/app.html`));
+    }
+
+    // 其他静态资源
+    const assetResp = await env.ASSETS.fetch(request);
+    if (assetResp.status === 404) {
+      return env.ASSETS.fetch(new Request(`${url.origin}/app.html`));
+    }
+    return assetResp;
   },
 };

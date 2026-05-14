@@ -7,14 +7,19 @@
   "assets": {
     "directory": "view",
     "binding": "ASSETS",
-    "not_found_handling": "single-page-application",
+    "not_found_handling": "404-page",
     "run_worker": {
-      "pattern": "/api/*"
+      "pattern": "always"
     }
   },
   "observability": {
     "enabled": true
   },
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "z-jb.com/*", "zone_name": "z-jb.com" },
+    { "pattern": "*.z-jb.com/*", "zone_name": "z-jb.com" }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

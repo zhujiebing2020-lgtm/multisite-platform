@@ -1,43 +1,29 @@
-# requests/ — 协作请求队列
+# requests/ — 系统内部目录（投手不要直接动）
 
-**这是 HZM / CHJ / HNN 投手发起请求的地方。** ZJB 在自己 Mac 上跑 `request_monitor.py` 扫这里,看到新文件就自动跑对应 agent。
+**这个目录是 ZJB 的后端管线。投手在浏览器工作台触发 agent，系统会自动写到这里。**
 
-## 用法 · HZM 视角
+投手入口：`https://multisite-platform.pages.dev/upload.html`（不需要 GitHub）
 
-### 1. 想看自己最新数据
-1. 打开本目录(GitHub 网页)
-2. 点 "Add file" → "Create new file"
-3. 文件名:`HZM-{你的名字}-{时间}.md`,例如 `HZM-数据-2026-05-13.md`
-4. 文件内容(直接复制贴):
+---
+
+## 这里是什么
+
+- `requests/*.md` — 投手在工作台点 agent 按钮后，Cloudflare Function 写进来的请求文件
+- `requests/uploads/` — 投手在工作台拖的 xlsx
+- `requests/_done/` — 处理完归档（GitHub Actions 自动移动）
+
+## 处理流程
 
 ```
----
-agent: 数据分析
-owner: HZM
----
-请帮我跑一次最新数据分析
+投手浏览器(upload.html)
+  → Cloudflare Pages Function (functions/api/request.js / upload.js)
+  → GitHub Contents API 写文件到本目录
+  → process-requests.yml Actions 触发
+  → 跑 agent / ingest xlsx
+  → 重建 view/ → Cloudflare Pages 自动重发布
+  → 投手刷新看板看新数据
 ```
 
-5. 滚到底,点 "Commit new file"
-6. 等 5-10 分钟,刷新看板,数据就更新了
+## 旧的"投手在 GitHub 网页 commit"流程已废弃
 
-### 2. 想改打法包阈值
-不在这里改,直接去 `platform-core/能力包/打法包-投手能力/投手HZM-成人付费-激进.yaml` 编辑保存。
-
-### 3. 触发不同 agent
-把上面的 `agent:` 字段换成下面这些:
-
-| agent: 后面填 | 作用 |
-|---|---|
-| `数据分析` | 看自己组的灯色分布 |
-| `归因诊断` | 异常组排外因 |
-| `知识沉淀` | 提炼新命题 |
-| `策略简报` | 命题→投放方向 |
-| `文案` | 生成 Hook/正文 |
-| `故事脚本` | 生成视频脚本 |
-| `素材审核` | 审禁用词/合规 |
-
-## 处理状态
-
-- 处理中:文件在本目录
-- 处理完:自动归档到 `_done/` 子目录,处理结果会追加在原文件末尾
+5/14 ZJB 决策：投手不接触 GitHub。任何"在 GitHub 网页编辑文件触发 agent"的旧文档忽略。

@@ -151,56 +151,20 @@ AGENTS = [
 
 
 def render_agent_buttons(owner: str, repo_url: str) -> str:
-    """11 个 agent 按钮 · 每个直接跳 GitHub 新建文件页面 + 预填 frontmatter"""
-    from urllib.parse import quote
-    ts = datetime.now().strftime('%Y%m%d-%H%M')
-
-    primary_btns = []
-    secondary_btns = []
-    for a in AGENTS:
-        # GitHub 新建文件 URL · 预填 filename + 内容
-        filename = f"{owner}-{a['name']}-{ts}.md"
-        body = f"---\nagent: {a['name']}\nowner: {owner}\n---\n请帮我跑一次{a['name']}"
-        url = f"{repo_url}/new/main/requests?filename={quote(filename)}&value={quote(body)}"
-
-        bg = "#06c" if a["primary"] else "#888"
-        btn = f'''
-        <a class="agent-btn" href="{url}" target="_blank"
-           title="{a['desc']}"
-           style="background:{bg}">
-          <div class="agent-name">{a['name']}</div>
-          <div class="agent-desc">{a['desc']}</div>
-        </a>'''
-        if a["primary"]:
-            primary_btns.append(btn)
-        else:
-            secondary_btns.append(btn)
-
-    # 改打法包按钮(单独区块)
-    playbook_btn = f'''
-    <a class="config-btn" href="{repo_url}/blob/main/platform-core/能力包/打法包-投手能力/投手{owner}-成人付费-激进.yaml" target="_blank">
-      ⚙ 改打法包阈值
-    </a>'''
-
+    """投手入口卡:跳到同域 upload.html(零 GitHub 依赖)
+    历史上这里直接跳 GitHub 新建文件页;5/14 ZJB 否决,投手不该接触 GitHub。
+    """
     return f'''
     <div class="card">
-      <div class="card-header">触发 agent · 点按钮跳 GitHub 新建文件 → Commit 即提交请求</div>
-
-      <div style='font-size:12px;color:#666;margin:8px 0 4px'>★ 常用</div>
-      <div class="agent-grid">
-        {''.join(primary_btns)}
-      </div>
-
-      <div style='font-size:12px;color:#666;margin:12px 0 4px'>其它 agent</div>
-      <div class="agent-grid">
-        {''.join(secondary_btns)}
-      </div>
-
-      <div style='font-size:12px;color:#666;margin:12px 0 4px'>配置</div>
-      {playbook_btn}
-
+      <div class="card-header">投手工作台</div>
+      <p style="margin: 8px 0 12px; font-size: 14px;">
+        上传当日 xlsx、触发 agent、看自己看板 —— 全在这一个页面。
+      </p>
+      <a class="request-btn" href="upload.html" style="background:#06c; font-size:15px; padding:10px 20px">
+        → 打开工作台
+      </a>
       <p style="font-size:12px; color:#888; margin-top:12px">
-        点按钮 → 跳 GitHub 网页 → 滚到底点 Commit → 等 5-10 分钟 → 刷新此页看新数据
+        首次需要 ZJB 发的访问口令 · 不需要 GitHub 账号
       </p>
     </div>'''
 
@@ -272,7 +236,7 @@ def build_overview(overview_data: dict, all_owners: list, repo_url: str = REPO_U
       <p>共 {len(overview_data.get('agents', {}))} 个 agent 跑过 ·
          {len(overview_data.get('events_recent', []))} 个最近事件 ·
          {len(all_owners)} 个投手</p>
-      <p><a href="{repo_url}/tree/main/requests" target="_blank">查看待处理请求</a></p>
+      <p><a href="upload.html">→ 投手工作台</a></p>
     </div>
     """
 
@@ -315,8 +279,7 @@ def build_overview(overview_data: dict, all_owners: list, repo_url: str = REPO_U
                 f'<td style="font-size:11px;color:#666">{r["name"]}</td></tr>'
             )
         html += "</table>"
-        html += f'<p style="font-size:12px;color:#888"><a href="{repo_url}/tree/main/requests" target="_blank">在 GitHub 查看 requests/ 目录</a> · '
-        html += f'<a href="{repo_url}/tree/main/requests/_done" target="_blank">查看 _done/ 归档</a></p>'
+        html += f'<p style="font-size:12px;color:#888"><a href="upload.html">打开投手工作台</a></p>'
 
     html += f'<div class="footer">生成于 {datetime.now().isoformat()} · build.py</div>'
     html += "</body></html>"

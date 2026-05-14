@@ -4,7 +4,7 @@
 
 ---
 
-## 现状(2026-05-13 EOD · 18 commits · ~6500 行)
+## 现状(2026-05-14 · 投手前端转 Cloudflare Pages)
 
 | 层 | 状态 |
 |---|---|
@@ -17,7 +17,8 @@
 | 中间件 | **CLAUDE.md 合约一二三全实现**(七槽位+rule_source+target_role) |
 | 规则底盘 | fork crave-AI@51c9bdc 13 个规则文件(chmod 444 只读)|
 | 数据底盘 | fork crave-AI · 714 行日级 CSV + 45 个 cards · 真数据跑 |
-| 协作层 | **GitHub Pages + 请求文件流 + 自动 push/pull** |
+| 投手前端 | **Cloudflare Pages + Pages Function · 不需 GitHub 账号** |
+| 后端管线 | GitHub Actions 全自动(process-requests.yml + pages.yml) |
 
 ## 11 个 agent
 
@@ -31,35 +32,28 @@
 
 每个 agent 强制走中间件三件套(七槽位输入校验 / rule_source 规则指针 / target_role 5 枚举封闭)。
 
-## 一键启动
+## 上线（ZJB 一次性）
 
-```bash
-cd ~/Documents/GitHub/multisite-platform
+按 `docs/deploy_cloudflare.md` 5 步：GitHub PAT → Cloudflare Pages 连 repo → 配 3 个环境变量 → 验证 → 发投手 URL。
 
-# 第一次(配 GitHub remote)
-git remote add origin git@github.com:你的账号/multisite-platform.git
-git push -u origin main
-# GitHub repo Settings → Pages: source=main / path=/view → 拿 URL
+之后 git push 自动重部署。
 
-# 日常
-bash bin/start.sh          # 跑 ingest + 起 monitor 后台
-bash bin/start.sh --stop   # 停 monitor
-```
-
-## HZM 协作循环
+## 投手协作循环
 
 ```
-HZM 浏览器:GitHub Pages URL
-    ↓ 看自己 21 组的灯色
-    ↓ 点"新建请求" → GitHub 网页编辑
-    ↓ commit
-[git pull via monitor scan]
-    ↓ ZJB Mac monitor 扫到请求
-    ↓ 跑 agent → 归档 → 重生成 dashboard
-    ↓ git_sync 自动 commit+push
+投手浏览器: https://multisite-platform.pages.dev/
+    ↓ 选 owner + 填口令(首次)
+    ↓ 拖 xlsx / 点 agent 按钮
+[Cloudflare Pages Function]
+    ↓ GitHub Contents API 写文件到 requests/
+[GitHub Actions process-requests.yml 触发]
+    ↓ ingest_from_xlsx / 跑 agent → 归档 → 重建 view/
+    ↓ Cloudflare Pages 自动重部署 view/
 [5-10 分钟]
-HZM 刷新看板 → 看到新数据
+投手刷新看板 → 看到新数据
 ```
+
+**投手不接触 GitHub。**
 
 ## 目录结构
 
@@ -79,19 +73,28 @@ platform-core/
 
 sites/elysianu/    车壳 · config.yaml + assets + data-inbox
 
-requests/          HZM 提请求的入口 · README.md 有格式
+requests/          投手前端写入的请求(系统内部 · 投手不直达)
+requests/uploads/  投手前端上传的 xlsx 归档
 requests/_done/    处理完归档
 
+functions/api/     Cloudflare Pages Function
+  upload.js          接收 xlsx → 写 requests/uploads/
+  request.js         接收 agent 触发 → 写 requests/
+
 data/cards/        agent 输出的 JSON cards
-view/              GitHub Pages 静态看板
+view/              静态看板 + upload.html(Cloudflare Pages serve)
 
 bin/
-  start.sh           一键启动
-  git_sync.sh        自动 commit + push
   ingest_daily.py    原生 ingest
+  ingest_from_xlsx.py 投手 xlsx → JSON + 触发 agent(Actions 调)
   export_dashboard.py sqlite → cards
   build.py           cards → HTML
-  request_monitor.py 请求文件监听
+  build_widget.py    精简嵌入版
+  request_monitor.py 请求文件处理(本地+Actions 双兼容)
+
+.github/workflows/
+  pages.yml          (备用 · 实际由 Cloudflare 部署)
+  process-requests.yml requests/ 改动自动触发处理
 
 docs/
   架构思路-v3.md

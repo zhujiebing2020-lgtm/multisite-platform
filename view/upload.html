@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>投手工作台 · 上传数据 / 触发 agent</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         max-width: 720px; margin: 0 auto; padding: 16px; color: #222; background: #fafafa; }
+  h1 { font-size: 20px; border-bottom: 2px solid #06c; padding-bottom: 8px; }
+  h2 { font-size: 15px; color: #444; margin-top: 28px; }
+  .who { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 12px; margin: 12px 0; }
+  .who label { font-size: 13px; color: #666; margin-right: 8px; }
+  .who select, .who input { font-size: 14px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; }
+  .drop { background: #fff; border: 2px dashed #06c; border-radius: 8px; padding: 32px 16px;
+          text-align: center; color: #555; cursor: pointer; transition: background 0.15s; }
+  .drop.hover { background: #eef6ff; border-color: #04a; }
+  .drop input { display: none; }
+  .drop .hint { font-size: 13px; color: #888; margin-top: 6px; }
+  .files { margin: 12px 0; }
+  .file-row { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px;
+              padding: 8px 12px; margin: 4px 0; display: flex; justify-content: space-between;
+              align-items: center; font-size: 13px; }
+  .file-row .status { font-size: 12px; }
+  .status-wait { color: #888; }
+  .status-uploading { color: #06c; }
+  .status-ok { color: #2a7; }
+  .status-fail { color: #d44; }
+  button { font-size: 14px; padding: 8px 16px; background: #06c; color: #fff;
+            border: none; border-radius: 4px; cursor: pointer; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  button.secondary { background: #888; }
+  .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .agent-btn { background: #06c; color: #fff; padding: 10px 12px; border-radius: 6px;
+                text-align: center; cursor: pointer; border: none; font-size: 13px; }
+  .agent-btn.secondary { background: #888; }
+  .agent-btn:hover { opacity: 0.85; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #333; color: #fff; padding: 10px 18px; border-radius: 4px;
+            font-size: 13px; opacity: 0; transition: opacity 0.2s; z-index: 100; }
+  .toast.show { opacity: 0.95; }
+  .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #eee;
+            color: #888; font-size: 12px; text-align: center; }
+  .footer a { color: #06c; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>投手工作台</h1>
+
+<div class="who">
+  <label>我是：</label>
+  <select id="owner">
+    <option value="">-- 选 --</option>
+    <option value="HZM">HZM</option>
+    <option value="CHJ">CHJ</option>
+    <option value="HNN">HNN</option>
+    <option value="ZXR">ZXR</option>
+    <option value="LZL">LZL</option>
+    <option value="PLZ">PLZ</option>
+  </select>
+  <label style="margin-left:16px">访问口令：</label>
+  <input id="passcode" type="password" placeholder="ZJB 发的口令" style="width:160px">
+  <span style="font-size:12px;color:#888;margin-left:8px">（首次访问需要，之后浏览器记住）</span>
+</div>
+
+<h2>① 上传当日 xlsx</h2>
+<div class="drop" id="drop">
+  把 FB 后台导出的 xlsx 拖到这里，或<u>点击选择文件</u>
+  <input id="filepick" type="file" accept=".xlsx,.xls" multiple>
+  <div class="hint">支持多文件 · 自动按"投手-日期.xlsx"重命名归档</div>
+</div>
+<div class="files" id="files"></div>
+
+<h2>② 触发 agent（不传文件，按需要点）</h2>
+<div class="agent-grid" id="agents"></div>
+
+<h2>③ 看分析结果</h2>
+<p style="font-size:13px;color:#666">
+  上传或触发后 5-10 分钟，<a href="index.html">回总览页</a>看更新；或
+  <a href="" id="self-link">看自己的看板</a>。
+</p>
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  multisite-platform · 不需要 GitHub 账号 · 有问题找 ZJB
+</div>
+
+<script>
+const AGENTS = [
+  { name: '数据分析', primary: true, desc: '看自己组的灯色 / CPHQ / HVU' },
+  { name: '归因诊断', primary: true, desc: 'ROI 异动时排外因' },
+  { name: '知识沉淀', primary: true, desc: '提炼命题' },
+  { name: '策略简报', primary: true, desc: '命题→投放方向' },
+  { name: '文案', primary: false, desc: 'Hook / 正文 / 评论区' },
+  { name: '故事脚本', primary: false, desc: '视频脚本' },
+  { name: '素材审核', primary: false, desc: '禁用词 / 调性' },
+  { name: '研发需求', primary: false, desc: 'UX 缺口 → 技术需求' },
+  { name: '意志继承', primary: false, desc: 'S/B 类自动规则' },
+  { name: '搬运', primary: false, desc: '子站→总站回灌' },
+  { name: '交接消息', primary: false, desc: '飞书/微信粘贴版' },
+];
+
+const $ = (id) => document.getElementById(id);
+const ownerSel = $('owner');
+const passInp = $('passcode');
+const drop = $('drop');
+const filepick = $('filepick');
+const filesDiv = $('files');
+const agentsDiv = $('agents');
+const toastEl = $('toast');
+const selfLink = $('self-link');
+
+// 持久化 owner + passcode
+ownerSel.value = localStorage.getItem('owner') || '';
+passInp.value = localStorage.getItem('passcode') || '';
+ownerSel.addEventListener('change', () => {
+  localStorage.setItem('owner', ownerSel.value);
+  updateSelfLink();
+});
+passInp.addEventListener('change', () => localStorage.setItem('passcode', passInp.value));
+
+function updateSelfLink() {
+  selfLink.href = ownerSel.value ? `${ownerSel.value}.html` : 'index.html';
+}
+updateSelfLink();
+
+function toast(msg, ms = 2500) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), ms);
+}
+
+function requireOwnerPass() {
+  if (!ownerSel.value) { toast('先选你是谁'); return false; }
+  if (!passInp.value)  { toast('填访问口令'); return false; }
+  return true;
+}
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+// ── 渲染 agent 按钮 ──
+AGENTS.forEach(a => {
+  const btn = document.createElement('button');
+  btn.className = 'agent-btn' + (a.primary ? '' : ' secondary');
+  btn.title = a.desc;
+  btn.innerHTML = `<div><b>${a.name}</b></div><div style="font-size:11px;opacity:0.9;margin-top:2px">${a.desc}</div>`;
+  btn.onclick = () => triggerAgent(a.name);
+  agentsDiv.appendChild(btn);
+});
+
+async function triggerAgent(name) {
+  if (!requireOwnerPass()) return;
+  const owner = ownerSel.value;
+  const ts = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 13);
+  const filename = `${owner}-${name}-${ts}.md`;
+  const body = `---\nagent: ${name}\nowner: ${owner}\n---\n请帮我跑一次${name}`;
+
+  toast(`提交 ${name}…`);
+  try {
+    const res = await fetch('/api/request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-pass': passInp.value },
+      body: JSON.stringify({ filename, content: body, owner }),
+    });
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || res.status);
+    toast(`✓ ${name} 已提交 · 5-10 分钟刷新看板`);
+  } catch (e) {
+    toast(`✗ ${e.message}`);
+  }
+}
+
+// ── 文件拖拽 ──
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.add('hover');
+}));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.remove('hover');
+}));
+drop.addEventListener('click', () => filepick.click());
+drop.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+filepick.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(fileList) {
+  if (!requireOwnerPass()) return;
+  for (const f of fileList) {
+    if (!f.name.toLowerCase().match(/\.(xlsx|xls)$/)) {
+      toast(`✗ 跳过 ${f.name}（不是 xlsx）`); continue;
+    }
+    uploadOne(f);
+  }
+}
+
+async function uploadOne(file) {
+  const owner = ownerSel.value;
+  const date = todayStr();
+  // 规则文件名：HZM-2026-05-14.xlsx 或 HZM-原文件名.xlsx
+  const stem = file.name.replace(/\.(xlsx|xls)$/i, '');
+  const normName = stem.includes(owner) ? `${stem}.xlsx` : `${owner}-${date}-${stem}.xlsx`;
+
+  const row = document.createElement('div');
+  row.className = 'file-row';
+  row.innerHTML = `<span>${normName} <small style="color:#888">(${(file.size / 1024).toFixed(1)} KB)</small></span><span class="status status-uploading">上传中…</span>`;
+  filesDiv.prepend(row);
+  const statusEl = row.querySelector('.status');
+
+  try {
+    const b64 = await fileToBase64(file);
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-pass': passInp.value },
+      body: JSON.stringify({ filename: normName, contentBase64: b64, owner }),
+    });
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || res.status);
+    statusEl.className = 'status status-ok';
+    statusEl.textContent = '✓ 已上传 · 处理中';
+  } catch (e) {
+    statusEl.className = 'status status-fail';
+    statusEl.textContent = `✗ ${e.message}`;
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(',')[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+</script>
+</body>
+</html>

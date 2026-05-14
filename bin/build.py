@@ -40,6 +40,15 @@ HTML_HEAD = """<!doctype html>
   pre {{ background: #f9f9f9; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }}
   .request-btn {{ display: inline-block; padding: 8px 14px; background: #06c; color: #fff;
                   border-radius: 4px; text-decoration: none; margin: 4px; }}
+  .agent-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                 gap: 8px; margin: 6px 0; }}
+  .agent-btn {{ display: block; padding: 10px 12px; color: #fff; text-decoration: none;
+                border-radius: 6px; transition: opacity 0.15s; }}
+  .agent-btn:hover {{ opacity: 0.85; }}
+  .agent-name {{ font-weight: bold; font-size: 14px; }}
+  .agent-desc {{ font-size: 11px; opacity: 0.9; margin-top: 2px; }}
+  .config-btn {{ display: inline-block; padding: 8px 14px; background: #444; color: #fff;
+                 border-radius: 4px; text-decoration: none; }}
   .footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
              color: #888; font-size: 12px; }}
 </style>
@@ -123,27 +132,84 @@ def render_agent_card(entry: dict) -> str:
     """
 
 
-REPO_URL_DEFAULT = "https://github.com/你的用户名/multisite-platform"
+REPO_URL_DEFAULT = "https://github.com/zhujiebing2020-lgtm/multisite-platform"
+
+# 11 个 agent · 业务前缀中文 + 用途说明 + 是否常用
+AGENTS = [
+    {"name": "数据分析",   "desc": "看自己组的灯色 / CPHQ / HVU",     "primary": True},
+    {"name": "归因诊断",   "desc": "ROI 异动时排外因(env_flag)",      "primary": True},
+    {"name": "知识沉淀",   "desc": "提炼命题(三要素+置信度)",         "primary": True},
+    {"name": "策略简报",   "desc": "命题→投放方向(Hook/KPI)",          "primary": True},
+    {"name": "文案",       "desc": "Hook / 正文 / 评论区",              "primary": False},
+    {"name": "故事脚本",   "desc": "视频脚本(4 镜头逐帧)",              "primary": False},
+    {"name": "素材审核",   "desc": "禁用词 / 调性 / 反 AI 腔",           "primary": False},
+    {"name": "研发需求",   "desc": "UX 缺口→P0/P1/P2 技术需求",          "primary": False},
+    {"name": "意志继承",   "desc": "S/B 类自动规则触发",                "primary": False},
+    {"name": "搬运",       "desc": "子站→总站数据回灌",                 "primary": False},
+    {"name": "交接消息",   "desc": "策略→飞书/微信粘贴版",              "primary": False},
+]
 
 
-def build_pitcher_view(owner: str, entries: list[dict], all_owners: list[str], repo_url: str = REPO_URL_DEFAULT) -> str:
+def render_agent_buttons(owner: str, repo_url: str) -> str:
+    """11 个 agent 按钮 · 每个直接跳 GitHub 新建文件页面 + 预填 frontmatter"""
+    from urllib.parse import quote
+    ts = datetime.now().strftime('%Y%m%d-%H%M')
+
+    primary_btns = []
+    secondary_btns = []
+    for a in AGENTS:
+        # GitHub 新建文件 URL · 预填 filename + 内容
+        filename = f"{owner}-{a['name']}-{ts}.md"
+        body = f"---\nagent: {a['name']}\nowner: {owner}\n---\n请帮我跑一次{a['name']}"
+        url = f"{repo_url}/new/main/requests?filename={quote(filename)}&value={quote(body)}"
+
+        bg = "#06c" if a["primary"] else "#888"
+        btn = f'''
+        <a class="agent-btn" href="{url}" target="_blank"
+           title="{a['desc']}"
+           style="background:{bg}">
+          <div class="agent-name">{a['name']}</div>
+          <div class="agent-desc">{a['desc']}</div>
+        </a>'''
+        if a["primary"]:
+            primary_btns.append(btn)
+        else:
+            secondary_btns.append(btn)
+
+    # 改打法包按钮(单独区块)
+    playbook_btn = f'''
+    <a class="config-btn" href="{repo_url}/blob/main/platform-core/能力包/打法包-投手能力/投手{owner}-成人付费-激进.yaml" target="_blank">
+      ⚙ 改打法包阈值
+    </a>'''
+
+    return f'''
+    <div class="card">
+      <div class="card-header">触发 agent · 点按钮跳 GitHub 新建文件 → Commit 即提交请求</div>
+
+      <div style='font-size:12px;color:#666;margin:8px 0 4px'>★ 常用</div>
+      <div class="agent-grid">
+        {''.join(primary_btns)}
+      </div>
+
+      <div style='font-size:12px;color:#666;margin:12px 0 4px'>其它 agent</div>
+      <div class="agent-grid">
+        {''.join(secondary_btns)}
+      </div>
+
+      <div style='font-size:12px;color:#666;margin:12px 0 4px'>配置</div>
+      {playbook_btn}
+
+      <p style="font-size:12px; color:#888; margin-top:12px">
+        点按钮 → 跳 GitHub 网页 → 滚到底点 Commit → 等 5-10 分钟 → 刷新此页看新数据
+      </p>
+    </div>'''
+
+
+def build_pitcher_view(owner: str, entries: list, all_owners: list, repo_url: str = REPO_URL_DEFAULT) -> str:
     html = HTML_HEAD.format(title=f"多站群多 agent · 投手 {owner}")
     html += html_nav(owner, all_owners)
     html += f"<h1>投手 {owner} 自看</h1>"
-    html += f"""
-    <div class="card">
-      <div class="card-header">触发 agent</div>
-      <a class="request-btn" href="{repo_url}/new/main/requests?filename=HZM-请求-{datetime.now().strftime('%Y%m%d-%H%M')}.md&value=---%0Aagent%3A+数据分析%0Aowner%3A+{owner}%0A---%0A%0A请帮我跑一次数据分析" target="_blank">
-        📝 新建请求 · 跑数据分析
-      </a>
-      <a class="request-btn" href="{repo_url}/blob/main/platform-core/能力包/打法包-投手能力/投手{owner}-成人付费-激进.yaml" target="_blank">
-        ⚙ 改打法包阈值
-      </a>
-      <p style="font-size:13px; color:#666; margin-top:10px">
-      点上面任一按钮跳到 GitHub 网页 → 编辑保存 → 5-10 分钟后回此页 refresh 看新数据
-      </p>
-    </div>
-    """
+    html += render_agent_buttons(owner, repo_url)
     html += f"<h2>近期 agent 输出({len(entries)} 条)</h2>"
     for entry in entries[:20]:
         html += render_agent_card(entry)
@@ -153,7 +219,49 @@ def build_pitcher_view(owner: str, entries: list[dict], all_owners: list[str], r
     return html
 
 
-def build_overview(overview_data: dict, all_owners: list[str], repo_url: str = REPO_URL_DEFAULT) -> str:
+def list_recent_requests(limit: int = 10) -> list:
+    """读 requests/ + requests/_done/ 列最近请求"""
+    requests_dir = REPO / "requests"
+    done_dir = requests_dir / "_done"
+    rows = []
+
+    # 处理中(在 requests/ 顶层但不是 README)
+    for f in requests_dir.glob("*.md"):
+        if f.name == "README.md":
+            continue
+        rows.append({
+            "name": f.name, "status": "处理中",
+            "ts": f.stat().st_mtime, "agent": "(未解析)",
+            "owner": "(未解析)",
+        })
+
+    # 已处理(_done/)
+    if done_dir.is_dir():
+        for f in sorted(done_dir.glob("*.md"), key=lambda x: x.stat().st_mtime, reverse=True)[:limit]:
+            # 解析 frontmatter
+            agent, owner = "?", "?"
+            try:
+                text = f.read_text(encoding="utf-8")
+                import re
+                m = re.match(r"^---\s*\n(.*?)\n---", text, re.DOTALL)
+                if m:
+                    for line in m.group(1).split("\n"):
+                        if line.startswith("agent:"):
+                            agent = line.split(":", 1)[1].strip()
+                        elif line.startswith("owner:"):
+                            owner = line.split(":", 1)[1].strip()
+            except Exception:
+                pass
+            rows.append({
+                "name": f.name, "status": "已处理",
+                "ts": f.stat().st_mtime, "agent": agent, "owner": owner,
+            })
+
+    rows.sort(key=lambda r: r["ts"], reverse=True)
+    return rows[:limit]
+
+
+def build_overview(overview_data: dict, all_owners: list, repo_url: str = REPO_URL_DEFAULT) -> str:
     html = HTML_HEAD.format(title="多站群多 agent · 总览")
     html += html_nav("总览", all_owners)
     html += "<h1>多站群多 agent · ZJB 总览</h1>"
@@ -190,6 +298,25 @@ def build_overview(overview_data: dict, all_owners: list[str], repo_url: str = R
         ts_str = datetime.fromtimestamp(ev["ts"]).strftime("%H:%M:%S") if ev.get("ts") else "?"
         html += f'<tr><td>{ts_str}</td><td>{ev["type"]}</td><td>{ev.get("source","")}</td></tr>'
     html += "</table>"
+
+    # 最近请求(P0-9.13 修 2)
+    html += "<h2>最近请求(投手提的)</h2>"
+    requests = list_recent_requests(limit=10)
+    if not requests:
+        html += "<p style='color:#888'>暂无请求记录</p>"
+    else:
+        html += "<table><tr><th>状态</th><th>时间</th><th>投手</th><th>agent</th><th>文件</th></tr>"
+        for r in requests:
+            ts_str = datetime.fromtimestamp(r["ts"]).strftime("%m-%d %H:%M")
+            status_color = "#c80" if r["status"] == "处理中" else "#2a7"
+            html += (
+                f'<tr><td style="color:{status_color}">{r["status"]}</td>'
+                f'<td>{ts_str}</td><td>{r["owner"]}</td><td>{r["agent"]}</td>'
+                f'<td style="font-size:11px;color:#666">{r["name"]}</td></tr>'
+            )
+        html += "</table>"
+        html += f'<p style="font-size:12px;color:#888"><a href="{repo_url}/tree/main/requests" target="_blank">在 GitHub 查看 requests/ 目录</a> · '
+        html += f'<a href="{repo_url}/tree/main/requests/_done" target="_blank">查看 _done/ 归档</a></p>'
 
     html += f'<div class="footer">生成于 {datetime.now().isoformat()} · build.py</div>'
     html += "</body></html>"

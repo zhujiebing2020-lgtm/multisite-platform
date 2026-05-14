@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 工坊 · z-jb.com</title>
+<style>
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:800px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg)}
+h1{font-size:18px;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:8px}
+.nav{background:#fff;padding:10px;border-radius:6px;margin-bottom:16px;border:1px solid var(--line)}
+.nav a{margin-right:14px;color:var(--accent);text-decoration:none;font-size:13px}
+.nav a:hover{text-decoration:underline}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:16px 0}
+.agent-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;transition:box-shadow .14s}
+.agent-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.agent-card h3{font-size:14px;margin:0 0 6px;color:var(--text)}
+.agent-card p{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.4}
+.agent-card button{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:8px 14px;font-size:13px;cursor:pointer;width:100%}
+.agent-card button:hover{opacity:.85}
+.agent-card button:disabled{background:var(--gray);cursor:not-allowed}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:20px 0;text-align:center}
+.login-box input{padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;width:160px}
+.login-box button{margin-left:8px;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:4px;font-size:13px;opacity:0;transition:opacity .2s;z-index:100}
+.toast.show{opacity:.95}
+.status{font-size:11px;padding:2px 8px;border-radius:10px;color:#fff;display:inline-block}
+.status-pending{background:var(--gray)}
+.status-running{background:var(--blue)}
+.status-done{background:var(--green)}
+.status-failed{background:#D94030}
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html"><b>总览</b></a> | <a href="upload.html">上传</a> | <a href="agents.html"><b>Agent 工坊</b></a> | <a href="results.html">我的结果</a></div>
+
+<h1>Agent 工坊</h1>
+<p style="font-size:12px;color:var(--muted);margin-bottom:16px">选择一个 agent 触发执行 · 结果 5-10 分钟后在"我的结果"查看</p>
+
+<div id="login-area" class="login-box">
+  <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">输入口令后使用</p>
+  <input id="passcode" type="password" placeholder="口令">
+  <button onclick="doLogin()">进入</button>
+</div>
+
+<div id="main" style="display:none">
+  <p style="font-size:13px;color:var(--muted)">当前身份：<b id="user-name"></b></p>
+  <div class="agent-grid" id="agents"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const AGENTS = [
+  {id:'data_analysis', name:'📊 数据分析', desc:'分析你的广告组表现，给出加减预算建议'},
+  {id:'comment_gen', name:'💬 评论生成', desc:'为绿灯组生成产品评论（反AI腔 v1.2）'},
+  {id:'video_script', name:'🎬 视频脚本', desc:'根据广告组生成视频创意脚本'},
+  {id:'strategy', name:'⚙️ 自动策略', desc:'基于最新数据生成投放动作指令'},
+];
+
+let currentUser = null;
+
+function doLogin(){
+  const pass = document.getElementById('passcode').value;
+  fetch('/api/auth', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({passcode:pass})})
+    .then(r=>r.json()).then(d=>{
+      if(d.ok){
+        currentUser = d.user;
+        document.getElementById('login-area').style.display='none';
+        document.getElementById('main').style.display='block';
+        document.getElementById('user-name').textContent = d.user.display_name || d.user.owner_code;
+        renderAgents();
+        localStorage.setItem('logged_in','1');
+      } else { toast(d.error||'登录失败','red'); }
+    }).catch(e=>toast(String(e),'red'));
+}
+
+function renderAgents(){
+  const grid = document.getElementById('agents');
+  grid.innerHTML = AGENTS.map(a=>`
+    <div class="agent-card">
+      <h3>${a.name}</h3>
+      <p>${a.desc}</p>
+      <button onclick="trigger('${a.id}')">触发执行</button>
+    </div>
+  `).join('');
+}
+
+function trigger(agentType){
+  const site = 'elysianu';
+  fetch('/api/trigger-agent', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:agentType, site})
+  }).then(r=>r.json()).then(d=>{
+    if(d.ok) toast(`✓ ${d.agent} 已提交 · 任务ID: ${d.job_id.slice(0,8)}...`);
+    else toast(d.error||'触发失败','red');
+  }).catch(e=>toast(String(e),'red'));
+}
+
+function toast(msg, color){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.background=color||'#333';
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+if(localStorage.getItem('logged_in')){
+  fetch('/api/results').then(r=>{if(r.ok){
+    document.getElementById('login-area').style.display='none';
+    document.getElementById('main').style.display='block';
+    renderAgents();
+  }});
+}
+</script>
+</body>
+</html>

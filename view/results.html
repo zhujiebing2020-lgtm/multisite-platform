@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的结果 · z-jb.com</title>
+<style>
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:900px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg)}
+h1{font-size:18px;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:8px}
+.nav{background:#fff;padding:10px;border-radius:6px;margin-bottom:16px;border:1px solid var(--line)}
+.nav a{margin-right:14px;color:var(--accent);text-decoration:none;font-size:13px}
+.nav a:hover{text-decoration:underline}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:20px 0;text-align:center}
+.login-box input{padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;width:160px}
+.login-box button{margin-left:8px;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+th,td{padding:10px 12px;text-align:left;font-size:12px;border-bottom:1px solid var(--line)}
+th{background:var(--bg);color:var(--muted);font-weight:600}
+.status{font-size:10px;padding:2px 8px;border-radius:10px;color:#fff;display:inline-block}
+.s-pending{background:var(--gray)}
+.s-running{background:var(--blue)}
+.s-done{background:var(--green)}
+.s-failed{background:#D94030}
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.detail-box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:12px 0;font-size:12px;white-space:pre-wrap;line-height:1.5;max-height:400px;overflow-y:auto}
+.refresh-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer;float:right}
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html"><b>总览</b></a> | <a href="upload.html">上传</a> | <a href="agents.html">Agent 工坊</a> | <a href="results.html"><b>我的结果</b></a></div>
+
+<h1>我的结果 <button class="refresh-btn" onclick="loadResults()">刷新</button></h1>
+
+<div id="login-area" class="login-box">
+  <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">输入口令查看结果</p>
+  <input id="passcode" type="password" placeholder="口令">
+  <button onclick="doLogin()">进入</button>
+</div>
+
+<div id="main" style="display:none">
+  <div id="results-list"></div>
+  <div id="detail-area"></div>
+</div>
+
+<script>
+function doLogin(){
+  const pass = document.getElementById('passcode').value;
+  fetch('/api/auth', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({passcode:pass})})
+    .then(r=>r.json()).then(d=>{
+      if(d.ok){
+        document.getElementById('login-area').style.display='none';
+        document.getElementById('main').style.display='block';
+        loadResults();
+      } else { alert(d.error||'登录失败'); }
+    });
+}
+
+function loadResults(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok){ document.getElementById('results-list').innerHTML='<div class="empty">加载失败</div>'; return; }
+    if(!d.jobs.length){ document.getElementById('results-list').innerHTML='<div class="empty">暂无任务 · 去 <a href="agents.html">Agent 工坊</a> 触发一个</div>'; return; }
+    const agentNames = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
+    let html = '<table><tr><th>时间</th><th>Agent</th><th>站</th><th>状态</th><th>摘要</th></tr>';
+    d.jobs.forEach(j=>{
+      const time = j.created_at ? j.created_at.slice(5,16).replace('T',' ') : '?';
+      const sClass = 's-'+(j.status||'pending');
+      html += `<tr style="cursor:pointer" onclick="showDetail('${j.id}')">
+        <td>${time}</td>
+        <td>${agentNames[j.agent_type]||j.agent_type}</td>
+        <td>${j.site}</td>
+        <td><span class="status ${sClass}">${j.status}</span></td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${j.output_summary||'—'}</td>
+      </tr>`;
+    });
+    html += '</table>';
+    document.getElementById('results-list').innerHTML = html;
+  });
+}
+
+function showDetail(jobId){
+  fetch('/api/results/'+jobId).then(r=>r.json()).then(d=>{
+    if(!d.ok){ return; }
+    const j = d.job;
+    let content = j.output_full || j.output_summary || '（等待执行中...）';
+    document.getElementById('detail-area').innerHTML = `
+      <h3 style="font-size:14px;margin-top:16px">${j.agent_type} · ${j.status}</h3>
+      <div class="detail-box">${content}</div>
+    `;
+  });
+}
+
+fetch('/api/results').then(r=>{
+  if(r.ok){
+    document.getElementById('login-area').style.display='none';
+    document.getElementById('main').style.display='block';
+    loadResults();
+  }
+});
+</script>
+</body>
+</html>

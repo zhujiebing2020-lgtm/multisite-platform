@@ -2,41 +2,351 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>z-jb.com · 站群总览</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>z-jb.com</title>
 <style>
-  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-         max-width: 1100px; margin: 20px auto; padding: 0 20px; color: #222; }
-  h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
-  h2 { margin-top: 30px; color: #444; }
-  .nav { background: #f5f5f5; padding: 10px; border-radius: 6px; margin-bottom: 20px; }
-  .nav a { margin-right: 16px; color: #06c; text-decoration: none; }
-  .nav a:hover { text-decoration: underline; }
-  .card { border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin: 12px 0; }
-  .card-header { font-weight: bold; color: #333; margin-bottom: 8px; }
-  .status-success { color: #2a7; }
-  .status-failed { color: #d44; }
-  .status-no_data { color: #888; }
-  table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
-  th { background: #f5f5f5; }
-  .绿灯 { color: #2a7; font-weight: bold; }
-  .黄灯 { color: #c80; font-weight: bold; }
-  .橙灯, .橙灯红灯候选 { color: #d44; font-weight: bold; }
-  pre { background: #f9f9f9; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
-  .request-btn { display: inline-block; padding: 8px 14px; background: #06c; color: #fff;
-                  border-radius: 4px; text-decoration: none; margin: 4px; }
-  .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                 gap: 8px; margin: 6px 0; }
-  .agent-btn { display: block; padding: 10px 12px; color: #fff; text-decoration: none;
-                border-radius: 6px; transition: opacity 0.15s; }
-  .agent-btn:hover { opacity: 0.85; }
-  .agent-name { font-weight: bold; font-size: 14px; }
-  .agent-desc { font-size: 11px; opacity: 0.9; margin-top: 2px; }
-  .config-btn { display: inline-block; padding: 8px 14px; background: #444; color: #fff;
-                 border-radius: 4px; text-decoration: none; }
-  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
-             color: #888; font-size: 12px; }
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;--red:#D94030}
+*{box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);margin:0;min-height:100vh}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+header .brand{font-size:16px;font-weight:700;color:var(--accent)}
+header .user-info{font-size:12px;color:var(--muted)}
+header .user-info b{color:var(--text)}
+.container{max-width:900px;margin:0 auto;padding:20px 16px}
+/* 登录 */
+.login-page{display:flex;align-items:center;justify-content:center;min-height:80vh}
+.login-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:40px;text-align:center;width:320px}
+.login-card h1{font-size:20px;color:var(--accent);margin-bottom:6px}
+.login-card p{font-size:12px;color:var(--muted);margin-bottom:20px}
+.login-card input{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:6px;font-size:14px;margin-bottom:12px}
+.login-card button{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer}
+.login-card button:hover{opacity:.9}
+.login-card .err{color:var(--red);font-size:12px;margin-top:8px;display:none}
+/* 标签导航 */
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:0}
+.tab{padding:8px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* 面板 */
+.panel{display:none}
+.panel.active{display:block}
+/* 卡片 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px;transition:box-shadow .14s}
+.card:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.card h3{font-size:14px;margin-bottom:6px}
+.card p{font-size:12px;color:var(--muted);line-height:1.5}
+/* 表单 */
+.form-group{margin-bottom:12px}
+.form-group label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px}
+.form-group textarea{height:60px;resize:vertical}
+/* 上传区 */
+.drop-zone{border:2px dashed var(--accent-bd);border-radius:6px;padding:20px;text-align:center;color:var(--muted);font-size:12px;cursor:pointer;transition:background .15s}
+.drop-zone.hover{background:var(--accent-soft);border-color:var(--accent)}
+.drop-zone input{display:none}
+.file-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;margin-top:6px}
+/* 按钮 */
+.btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer;width:100%}
+.btn:hover{opacity:.85}
+.btn:disabled{background:var(--gray);cursor:not-allowed}
+.btn-sm{padding:6px 12px;font-size:12px;width:auto}
+/* 结果列表 */
+.job-item{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;cursor:pointer;transition:all .12s}
+.job-item:hover{border-color:var(--accent-bd)}
+.job-item.active{border-color:var(--accent);background:var(--accent-soft)}
+.job-header{display:flex;justify-content:space-between;align-items:center}
+.job-title{font-size:13px;font-weight:600}
+.job-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.status{font-size:10px;padding:2px 8px;border-radius:10px;color:#fff}
+.s-pending{background:var(--gray)}
+.s-running{background:var(--blue)}
+.s-done{background:var(--green)}
+.s-failed{background:var(--red)}
+/* 结果详情 */
+.result-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:12px}
+.result-box h4{font-size:13px;color:var(--accent);margin-bottom:10px}
+.result-content{font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto}
+.action-item{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 12px;margin:6px 0;border-radius:0 6px 6px 0;font-size:12px}
+.pending-hint{color:var(--blue);padding:12px;background:rgba(58,159,232,.06);border-radius:6px;font-size:12px}
+.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:6px 12px;font-size:11px;cursor:pointer;margin-top:10px}
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;z-index:100;pointer-events:none}
+.toast.show{opacity:.95}
+/* 概览 */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.stat-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
+.stat-card .num{font-size:22px;font-weight:700;color:var(--accent)}
+.stat-card .label{font-size:11px;color:var(--muted);margin-top:2px}
 </style>
 </head>
 <body>
-<div class="nav"><a href="index.html"><b>★ 站群总览</b></a> | <a href="CHJ.html">CHJ</a> | <a href="HNN.html">HNN</a> | <a href="HZM.html">HZM</a> | <a href="ZJB.html">ZJB</a> | <a href="upload.html">投手工作台</a></div><h1>z-jb.com · 站群总览</h1><p style="color:#888;font-size:13px">总站协调 · 各子站独立运营 · 数据回流训练 agent</p><h2>子站</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0"><div class="card" style="border-left:4px solid #06c"><div class="card-header">crave <span style="font-size:11px;color:#888">高权限</span></div><p style="font-size:12px;color:#666;margin:6px 0">决策台 / 规则集中地 / agent 引擎</p><a href="https://crave.z-jb.com" target="_blank" style="font-size:13px">→ crave.z-jb.com</a></div><div class="card"><div class="card-header">elysianu</div><p style="font-size:12px;color:#666;margin:6px 0">业务运营子站</p><a href="https://elysianu.z-jb.com" target="_blank" style="font-size:13px">→ elysianu.z-jb.com</a> <span style="font-size:11px;color:#888">|</span> <a href="site/elysianu.html" style="font-size:13px">本地预览</a></div><div class="card" style="border:2px dashed #ccc;background:#fafafa"><div class="card-header" style="color:#888">+ 添加新站</div><p style="font-size:12px;color:#888;margin:6px 0">投手工作台"+ 加站"按钮提交后,由 ZJB 加入 sites/ 配置</p></div></div><h2>全局 KPI</h2><div class="card"><p>共 <b>1</b> 个 agent 跑过 · <b>0</b> 个最近事件 · <b>4</b> 个投手 · <b>1</b> 个子站</p><p style="margin-top:8px"><a href="upload.html">→ 投手工作台(上传 xlsx / 触发 agent)</a></p></div><h2>各 agent 最近一次执行</h2><table><tr><th>Agent</th><th>状态</th><th>时间</th><th>耗时</th></tr><tr><td>数据分析</td><td class="status-success">success</td><td>2026-05-13 23:25</td><td>4ms</td></tr></table><h2>最近请求(投手提的)</h2><table><tr><th>状态</th><th>时间</th><th>投手</th><th>agent</th><th>文件</th></tr><tr><td style="color:#2a7">已处理</td><td>05-14 10:27</td><td>?</td><td>?</td><td style="font-size:11px;color:#666">20260514_102729_test-2.md</td></tr><tr><td style="color:#2a7">已处理</td><td>05-14 10:21</td><td>?</td><td>?</td><td style="font-size:11px;color:#666">20260514_102119_test-actions.md</td></tr><tr><td style="color:#2a7">已处理</td><td>05-13 23:25</td><td>HZM</td><td>数据分析</td><td style="font-size:11px;color:#666">20260513_232531_test-1778685918.md</td></tr><tr><td style="color:#2a7">已处理</td><td>05-13 22:23</td><td>HZM</td><td>数据分析</td><td style="font-size:11px;color:#666">20260513_222348_HZM-数据-20260513.md</td></tr><tr><td style="color:#2a7">已处理</td><td>05-13 22:16</td><td>HZM</td><td>数据分析</td><td style="font-size:11px;color:#666">20260513_221601_HZM-测试-20260513.md</td></tr></table><div class="footer">生成于 2026-05-14T14:14:44.847001 · build.py · z-jb.com 站群总览</div></body></html>
+
+<!-- 登录页 -->
+<div id="login-page" class="login-page">
+  <div class="login-card">
+    <h1>z-jb.com</h1>
+    <p>投放智能平台 · 输入口令进入</p>
+    <input id="pass-input" type="password" placeholder="口令" autofocus>
+    <button onclick="doLogin()">进入</button>
+    <div class="err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- 主界面 -->
+<div id="main-app" style="display:none">
+  <header>
+    <span class="brand">z-jb.com</span>
+    <span class="user-info"><b id="hd-name"></b> · <span id="hd-site"></span></span>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <div class="tab active" data-panel="overview" onclick="switchTab(this)">概览</div>
+      <div class="tab" data-panel="operate" onclick="switchTab(this)">操作</div>
+      <div class="tab" data-panel="results" onclick="switchTab(this)">结果</div>
+    </div>
+
+    <!-- 概览面板 -->
+    <div class="panel active" id="p-overview">
+      <div class="overview-grid" id="overview-stats"></div>
+      <h3 style="font-size:14px;margin-bottom:10px">最近动态</h3>
+      <div id="recent-jobs"></div>
+    </div>
+
+    <!-- 操作面板 -->
+    <div class="panel" id="p-operate">
+      <!-- 上传 -->
+      <div class="card">
+        <h3>📤 上传今日数据</h3>
+        <p>拖入 FB 后台导出的 xlsx，上传后自动触发数据分析</p>
+        <div style="margin-top:10px">
+          <div class="drop-zone" id="main-drop">
+            拖拽 xlsx 到这里，或点击选择
+            <input type="file" accept=".xlsx,.xls" id="main-file">
+          </div>
+          <div id="main-file-tag"></div>
+          <button class="btn" style="margin-top:10px" onclick="uploadAndAnalyze()">上传并分析</button>
+        </div>
+      </div>
+
+      <!-- Agent 列表 -->
+      <div class="card">
+        <h3>💬 生成评论</h3>
+        <p>为绿灯广告组生成产品评论（反AI腔 v1.2）</p>
+        <div style="margin-top:10px">
+          <div class="form-group"><label>广告组名</label><input id="cmt-group" placeholder="例：组17 18 Sensual"></div>
+          <div class="form-group"><label>数量</label><select id="cmt-count"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
+          <div class="form-group"><label>补充要求</label><textarea id="cmt-note" placeholder="例：侧重手感、加一条3星"></textarea></div>
+          <button class="btn" onclick="triggerComment()">生成评论</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎬 生成视频脚本</h3>
+        <p>根据广告组生成视频创意脚本 + 分镜</p>
+        <div style="margin-top:10px">
+          <div class="form-group"><label>广告组</label><input id="vid-group" placeholder="例：组5 30 Positions"></div>
+          <div class="form-group"><label>创意方向</label><textarea id="vid-dir" placeholder="例：真人出镜、产品开箱、情侣互动"></textarea></div>
+          <button class="btn" onclick="triggerVideo()">生成脚本</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚙️ 自动策略</h3>
+        <p>基于系统已有数据，生成全组投放动作指令（加/减/停）</p>
+        <div style="margin-top:10px">
+          <button class="btn" onclick="triggerStrategy()">生成策略</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 结果面板 -->
+    <div class="panel" id="p-results">
+      <div id="results-list"></div>
+      <div class="result-box" id="result-box" style="display:none">
+        <h4 id="result-title"></h4>
+        <div class="result-content" id="result-content"></div>
+        <button class="copy-btn" onclick="copyResult()">复制结果</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const AGENT_NAMES = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
+let user = null;
+
+// --- 登录 ---
+document.getElementById('pass-input').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin()});
+
+function doLogin(){
+  const pass = document.getElementById('pass-input').value;
+  fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:pass})})
+    .then(r=>r.json()).then(d=>{
+      if(d.ok){ user=d.user; enterApp(); }
+      else { const el=document.getElementById('login-err'); el.textContent=d.error||'口令错误'; el.style.display='block'; }
+    }).catch(e=>{document.getElementById('login-err').textContent=String(e);document.getElementById('login-err').style.display='block';});
+}
+
+function enterApp(){
+  document.getElementById('login-page').style.display='none';
+  document.getElementById('main-app').style.display='block';
+  document.getElementById('hd-name').textContent=user.display_name||user.owner_code;
+  document.getElementById('hd-site').textContent='elysianu';
+  loadOverview();
+}
+
+// --- 标签切换 ---
+function switchTab(el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('p-'+el.dataset.panel).classList.add('active');
+  if(el.dataset.panel==='results') loadResults();
+  if(el.dataset.panel==='overview') loadOverview();
+}
+
+// --- 概览 ---
+function loadOverview(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok) return;
+    const jobs = d.jobs||[];
+    const done = jobs.filter(j=>j.status==='done').length;
+    const pending = jobs.filter(j=>j.status==='pending'||j.status==='running').length;
+    document.getElementById('overview-stats').innerHTML = `
+      <div class="stat-card"><div class="num">${jobs.length}</div><div class="label">总任务</div></div>
+      <div class="stat-card"><div class="num">${done}</div><div class="label">已完成</div></div>
+      <div class="stat-card"><div class="num">${pending}</div><div class="label">进行中</div></div>
+    `;
+    const recent = jobs.slice(0,5);
+    if(!recent.length){ document.getElementById('recent-jobs').innerHTML='<p style="color:var(--muted);font-size:12px">暂无任务 · 去"操作"标签触发一个 agent</p>'; return; }
+    document.getElementById('recent-jobs').innerHTML = recent.map(j=>{
+      const time = (j.created_at||'').slice(5,16).replace('T',' ');
+      return `<div class="job-item" onclick="switchTab(document.querySelector('[data-panel=results]'));setTimeout(()=>showDetail('${j.id}'),100)">
+        <div class="job-header"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div>
+        <div class="job-meta">${time}${j.output_summary?' · '+j.output_summary.slice(0,40):''}</div>
+      </div>`;
+    }).join('');
+  }).catch(()=>{});
+}
+
+// --- 操作：上传+分析 ---
+const mainDrop = document.getElementById('main-drop');
+const mainFileInput = document.getElementById('main-file');
+let mainFile = null;
+
+mainDrop.addEventListener('click',()=>mainFileInput.click());
+mainDrop.addEventListener('dragover',e=>{e.preventDefault();mainDrop.classList.add('hover')});
+mainDrop.addEventListener('dragleave',()=>mainDrop.classList.remove('hover'));
+mainDrop.addEventListener('drop',e=>{e.preventDefault();mainDrop.classList.remove('hover');setMainFile(e.dataTransfer.files[0])});
+mainFileInput.addEventListener('change',()=>setMainFile(mainFileInput.files[0]));
+
+function setMainFile(f){
+  if(!f)return; mainFile=f;
+  document.getElementById('main-file-tag').innerHTML=`<span class="file-tag">✓ ${f.name} (${(f.size/1024).toFixed(1)}KB)</span>`;
+}
+
+async function uploadAndAnalyze(){
+  if(!mainFile){toast('请先选择 xlsx 文件','var(--red)');return;}
+  const b64 = await fileToBase64(mainFile);
+  toast('上传中...');
+  const up = await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
+    body:JSON.stringify({filename:mainFile.name,contentBase64:b64,owner:user.owner_code,site:'elysianu',channel:'FB'})}).then(r=>r.json());
+  if(!up.ok){toast('上传失败: '+(up.error||''),'var(--red)');return;}
+  const res = await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:'data_analysis',site:'elysianu',params:{uploaded_file:up.path}})}).then(r=>r.json());
+  if(res.ok) toast('✓ 已上传并提交分析 · 稍后在"结果"查看');
+  else toast(res.error||'触发失败','var(--red)');
+}
+
+// --- 操作：评论 ---
+async function triggerComment(){
+  const group=document.getElementById('cmt-group').value;
+  if(!group){toast('请填广告组名','var(--red)');return;}
+  const params={group,count:document.getElementById('cmt-count').value,note:document.getElementById('cmt-note').value};
+  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:'comment_gen',site:'elysianu',params})}).then(r=>r.json());
+  if(res.ok) toast('✓ 评论生成已提交');else toast(res.error||'失败','var(--red)');
+}
+
+// --- 操作：视频 ---
+async function triggerVideo(){
+  const group=document.getElementById('vid-group').value;
+  if(!group){toast('请填广告组','var(--red)');return;}
+  const params={group,direction:document.getElementById('vid-dir').value};
+  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:'video_script',site:'elysianu',params})}).then(r=>r.json());
+  if(res.ok) toast('✓ 视频脚本已提交');else toast(res.error||'失败','var(--red)');
+}
+
+// --- 操作：策略 ---
+async function triggerStrategy(){
+  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:'strategy',site:'elysianu',params:{}})}).then(r=>r.json());
+  if(res.ok) toast('✓ 策略生成已提交');else toast(res.error||'失败','var(--red)');
+}
+
+// --- 结果 ---
+function loadResults(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.jobs.length){document.getElementById('results-list').innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:30px">暂无结果 · 去"操作"触发一个 agent</p>';return;}
+    document.getElementById('results-list').innerHTML=d.jobs.map(j=>{
+      const time=(j.created_at||'').slice(5,16).replace('T',' ');
+      return `<div class="job-item" onclick="showDetail('${j.id}',this)">
+        <div class="job-header"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div>
+        <div class="job-meta">${time} · ${j.site}${j.output_summary?' · '+j.output_summary.slice(0,50):''}</div>
+      </div>`;
+    }).join('');
+  });
+}
+
+function showDetail(jobId,el){
+  if(el){document.querySelectorAll('.job-item').forEach(e=>e.classList.remove('active'));el.classList.add('active');}
+  fetch('/api/results/'+jobId).then(r=>r.json()).then(d=>{
+    if(!d.ok)return;
+    const j=d.job;
+    const box=document.getElementById('result-box');
+    document.getElementById('result-title').textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+(j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
+    if(j.status==='pending'||j.status==='running'){
+      document.getElementById('result-content').innerHTML='<div class="pending-hint">⏳ 执行中，请稍后刷新（通常 5-10 分钟）</div>';
+    } else if(j.status==='failed'){
+      document.getElementById('result-content').innerHTML='<div style="color:var(--red)">❌ 失败：'+(j.output_summary||'未知错误')+'</div>';
+    } else {
+      const content=j.output_full||j.output_summary||'（无内容）';
+      document.getElementById('result-content').innerHTML=renderResult(j.agent_type,content);
+    }
+    box.style.display='block';
+  });
+}
+
+function renderResult(type,content){
+  try{content=JSON.parse(content)}catch(e){}
+  if(typeof content==='string') return esc(content);
+  if(type==='comment_gen'&&content.comments) return content.comments.map((c,i)=>`<div class="action-item"><b>#${i+1}</b> ${'⭐'.repeat(c.stars||5)}<br>${esc(c.text)}</div>`).join('');
+  if(type==='strategy'&&content.actions) return content.actions.map(a=>`<div class="action-item"><b>${esc(a.group||'')}</b> → ${esc(a.action||'')} <span style="color:var(--muted);font-size:11px">${esc(a.reason||'')}</span></div>`).join('');
+  if(type==='data_analysis'&&content.summary) return `<div style="margin-bottom:10px">${esc(content.summary)}</div>`+(content.groups||[]).map(g=>`<div class="action-item"><b>${esc(g.name||'')}</b> · CPHQ $${g.cphq||'?'} · ${esc(g.recommendation||'')}</div>`).join('');
+  return '<pre style="font-size:11px;overflow-x:auto">'+esc(JSON.stringify(content,null,2))+'</pre>';
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function copyResult(){
+  const el=document.getElementById('result-content');
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    const btn=document.querySelector('.copy-btn');btn.textContent='✓ 已复制';setTimeout(()=>btn.textContent='复制结果',1500);
+  });
+}
+
+// --- 工具 ---
+function fileToBase64(file){return new Promise(r=>{const rd=new FileReader();rd.onload=()=>r(rd.result.split(',')[1]);rd.readAsDataURL(file)})}
+function toast(msg,bg){const t=document.getElementById('toast');t.textContent=msg;t.style.background=bg||'#333';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+
+// --- 自动恢复登录 ---
+fetch('/api/results').then(r=>{if(r.ok)return r.json();throw 0}).then(d=>{
+  if(d.ok){user={owner_code:'',display_name:'已登录'};enterApp();}
+}).catch(()=>{});
+</script>
+</body>
+</html>

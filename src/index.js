@@ -50,6 +50,13 @@ export default {
 
     // 子域路由：*.z-jb.com → 子站页面
     const host = url.hostname.toLowerCase();
+    // crave.z-jb.com → 重定向到 GitHub Pages
+    if (host === 'crave.z-jb.com') {
+      if (url.pathname === '/') {
+        return Response.redirect('https://zhujiebing2020-lgtm.github.io/crave-AI/', 302);
+      }
+      return Response.redirect(`https://zhujiebing2020-lgtm.github.io/crave-AI${url.pathname}`, 302);
+    }
     if (host.endsWith('.z-jb.com') && !ROOT_HOSTS.has(host)) {
       const subdomain = host.replace(/\.z-jb\.com$/, '');
       if (/^[a-z0-9_-]+$/.test(subdomain) && url.pathname === '/') {

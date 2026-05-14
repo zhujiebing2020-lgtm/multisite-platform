@@ -21,7 +21,7 @@ if ! git remote | grep -q origin; then
 fi
 
 # 2. 只 add 看板产物 + 归档请求
-git add data/cards/ view/ requests/_done/ 2>/dev/null || true
+git add data/cards/ data/uploads/ view/ requests/_done/ requests/uploads/_done/ 2>/dev/null || true
 
 # 3. 没改动就退出
 if git diff --cached --quiet; then
@@ -33,10 +33,10 @@ fi
 CHANGED=$(git diff --cached --name-only | wc -l | tr -d ' ')
 REQUESTS=$(git diff --cached --name-only requests/_done/ 2>/dev/null | wc -l | tr -d ' ')
 
-# 5. 规范 commit message
-MSG="auto: dashboard refresh · ${CHANGED} files"
+# 5. 规范 commit message(加 [skip ci] 防 Actions 触发循环)
+MSG="auto: dashboard refresh · ${CHANGED} files [skip ci]"
 if [ "$REQUESTS" -gt 0 ]; then
-    MSG="auto: 处理 ${REQUESTS} 个请求 + 刷新看板"
+    MSG="auto: 处理 ${REQUESTS} 个请求 + 刷新看板 [skip ci]"
 fi
 
 git -c user.name="multisite-monitor" -c user.email="monitor@local" \

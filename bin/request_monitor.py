@@ -15,6 +15,7 @@ owner: HZM
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -90,9 +91,10 @@ def process(req: dict) -> dict:
 
 def scan_once() -> int:
     DONE_DIR.mkdir(exist_ok=True)
+    is_actions = os.environ.get("ACTIONS_RUNNER") == "1"
 
-    # 先 git pull,看 HZM 是否有新请求
-    if (REPO / ".git").is_dir():
+    # Actions 已 checkout 最新代码,跳过 git pull
+    if not is_actions and (REPO / ".git").is_dir():
         result = subprocess.run(
             ["git", "-C", str(REPO), "pull", "--ff-only", "--quiet"],
             capture_output=True, text=True,
@@ -100,8 +102,11 @@ def scan_once() -> int:
         if result.returncode != 0 and "no upstream" not in result.stderr.lower():
             print(f"  ⚠ git pull 失败(忽略,见 stderr): {result.stderr.strip()[:100]}")
 
+    # 1. 扫 .md 请求
     pending = sorted([f for f in REQ_DIR.glob("*.md")
                      if f.name != "README.md" and "_done" not in str(f)])
+
+    # 2. xlsx 上传由 Actions workflow 单独 step 处理(本地手动跑时不在这里管)
     if not pending:
         return 0
 
@@ -121,13 +126,16 @@ def scan_once() -> int:
         except Exception as e:
             print(f"  ✗ 失败: {e}")
 
-    # 重新生成 dashboard
+    # Actions 模式:不做 dashboard 重建 / git push,workflow 单独 step 处理
+    if is_actions:
+        return len(pending)
+
+    # 本地手动模式:重建 dashboard + git sync
     print(f"\n→ 重生成 dashboard")
     subprocess.run([sys.executable, str(REPO / "bin/export_dashboard.py")], check=False)
     subprocess.run([sys.executable, str(REPO / "bin/build.py")], check=False)
     subprocess.run([sys.executable, str(REPO / "bin/build_widget.py")], check=False)
 
-    # 自动 commit + push(无 remote 则静默)
     print(f"\n→ 自动 git sync")
     subprocess.run(["bash", str(REPO / "bin/git_sync.sh")], check=False)
     return len(pending)

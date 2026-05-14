@@ -1,0 +1,65 @@
+name: Process requests + ingest uploads
+
+# 触发条件:
+#   1. requests/ 有任何改动(.md / xlsx)
+#   2. 打法包改阈值
+#   3. 手动从 Actions 页面 dispatch
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'requests/**'
+      - 'platform-core/能力包/打法包-投手能力/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: process-requests
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install deps
+        run: pip install pyyaml openpyxl
+
+      - name: Process .md requests
+        run: python3 bin/request_monitor.py
+        env:
+          ACTIONS_RUNNER: '1'
+
+      - name: Process xlsx uploads
+        run: python3 bin/ingest_from_xlsx.py
+
+      - name: Rebuild dashboard
+        run: |
+          python3 bin/export_dashboard.py
+          python3 bin/build.py
+          python3 bin/build_widget.py
+
+      - name: Commit + push back
+        run: |
+          git config user.name "multisite-bot"
+          git config user.email "bot@multisite.local"
+          git add data/cards/ data/uploads/ view/ requests/_done/ requests/uploads/_done/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "auto: process requests [skip ci]"
+            git push
+          else
+            echo "无改动,跳过"
+          fi

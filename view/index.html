@@ -101,17 +101,53 @@ header .user-info b{color:var(--text)}
 
   <div class="container">
     <div class="tabs">
-      <div class="tab active" data-panel="overview" onclick="switchTab(this)">概览</div>
+      <div class="tab active" data-panel="overview" onclick="switchTab(this)">总控台</div>
+      <div class="tab" data-panel="sites" onclick="switchTab(this)">子站</div>
       <div class="tab" data-panel="operate" onclick="switchTab(this)">操作</div>
       <div class="tab" data-panel="results" onclick="switchTab(this)">结果</div>
     </div>
 
-    <!-- 概览面板 -->
+    <!-- 总控台面板 -->
     <div class="panel active" id="p-overview">
       <div class="overview-grid" id="overview-stats"></div>
       <div id="dashboard-content"></div>
       <h3 style="font-size:14px;margin:20px 0 10px">最近动态</h3>
       <div id="recent-jobs"></div>
+    </div>
+
+    <!-- 子站面板 -->
+    <div class="panel" id="p-sites">
+      <div class="card">
+        <h3 style="display:flex;justify-content:space-between;align-items:center">
+          子站管理
+          <span style="font-size:11px;color:var(--muted)">规则由总控下发 → 子站执行</span>
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px">
+          <div style="border:1px solid var(--line);border-radius:8px;padding:14px;border-left:3px solid var(--accent)">
+            <div style="font-size:14px;font-weight:600">crave</div>
+            <div style="font-size:11px;color:var(--muted);margin:4px 0">能力引擎 · 规则集中地 · agent 引擎</div>
+            <a href="https://zhujiebing2020-lgtm.github.io/crave-AI/" target="_blank" style="font-size:12px;color:var(--accent);text-decoration:none">→ 打开 crave 看板</a>
+          </div>
+          <div style="border:1px solid var(--line);border-radius:8px;padding:14px">
+            <div style="font-size:14px;font-weight:600">elysianu</div>
+            <div style="font-size:11px;color:var(--muted);margin:4px 0">业务运营子站 · 投手: HZM/CHJ/HNN</div>
+            <a href="/site/elysianu.html" style="font-size:12px;color:var(--accent);text-decoration:none">→ 打开子站看板</a>
+          </div>
+          <div style="border:2px dashed var(--line);border-radius:8px;padding:14px;background:var(--bg)">
+            <div style="font-size:14px;font-weight:600;color:var(--gray)">+ 新子站</div>
+            <div style="font-size:11px;color:var(--muted);margin:4px 0">客户接入后由 ZJB 创建</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h3>运营规则（总控 → 子站）</h3>
+        <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+          <tr style="color:var(--muted)"><th style="text-align:left;padding:6px">规则</th><th>阈值</th><th>适用站</th></tr>
+          <tr><td style="padding:6px">CPHQ 分层</td><td>S≤$1.5 / A≤$3 / B≤$5 / R>$5</td><td>全部</td></tr>
+          <tr><td style="padding:6px">止损线</td><td>连续 3 天 0 HVU</td><td>全部</td></tr>
+          <tr><td style="padding:6px">放量条件</td><td>S 类 + 累计 >200 HVU</td><td>elysianu</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- 操作面板 -->
@@ -208,6 +244,7 @@ function switchTab(el){
   document.getElementById('p-'+el.dataset.panel).classList.add('active');
   if(el.dataset.panel==='results') loadResults();
   if(el.dataset.panel==='overview') loadOverview();
+  if(el.dataset.panel==='sites') {}; // static content
 }
 
 // --- 概览 ---

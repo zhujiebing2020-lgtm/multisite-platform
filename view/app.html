@@ -387,10 +387,21 @@ function renderAgentOutput(type,raw){
     }).join('');
   }
   if(type==='video_script'){
-    let h=`<div class="card" style="padding:12px"><b>${esc(data.title||'')}</b><span style="font-size:11px;color:var(--muted);margin-left:8px">${data.duration||''}</span>`;
-    if(data.hook)h+=`<div style="margin-top:8px;padding:8px;background:var(--accent-soft);border-radius:6px;font-size:12px"><b>[HOOK]</b> ${esc(data.hook)}</div>`;
-    if(data.scenes)data.scenes.forEach((s,i)=>{h+=`<div style="margin-top:6px;font-size:12px;border-left:2px solid var(--line);padding-left:8px"><b>${s.time||'段'+(i+1)}</b><br>画面: ${esc(s.visual||'')}<br>音频: ${esc(s.audio||'')}</div>`;});
-    h+='</div>';return h;
+    let h=`<div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-size:14px">🎬 ${esc(data.title||'')}</b><span style="font-size:12px;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:4px">${data.duration||''}</span></div>`;
+    if(data.hook)h+=`<div style="padding:10px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;margin-bottom:12px;font-size:13px"><span style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px">HOOK</span><div style="margin-top:4px">${esc(data.hook)}</div></div>`;
+    if(data.scenes)data.scenes.forEach((s,i)=>{
+      h+=`<div style="border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:13px">🎬 Scene ${i+1}</span><span style="font-size:11px;padding:2px 8px;background:var(--bg);border-radius:4px;color:var(--muted)">${esc(s.time||'')}</span></div>
+        <div style="font-size:12px;margin-bottom:6px"><span style="color:var(--muted)">📹 画面：</span>${esc(s.visual||'')}</div>
+        <div style="font-size:12px"><span style="color:var(--muted)">🎙 音频：</span>${esc(s.audio||'')}</div>
+        <div style="margin-top:10px;display:flex;gap:6px">
+          <label style="font-size:11px;padding:4px 10px;background:var(--bg);border:1px solid var(--line);border-radius:4px;cursor:pointer">📷 上传图片<input type="file" accept="image/*" style="display:none" onchange="uploadSceneImg(this,${i})"></label>
+          <span id="scene-img-${i}" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+      </div>`;
+    });
+    h+=`<div style="margin-top:12px;text-align:center"><button class="btn btn-gray" disabled title="需要所有 Scene 上传图片后激活">🎬 合并所有片段生成完整视频</button></div></div>`;
+    return h;
   }
   if(type==='strategy'&&data.actions){
     return data.actions.map(a=>{

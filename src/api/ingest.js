@@ -1,12 +1,16 @@
 // src/api/ingest.js — 接收前端解析好的数据直接入库
 
 import { logOp } from './admin.js';
+import { verifySession } from './auth.js';
 
 export async function handleIngest(request, env) {
   try {
-    const pass = request.headers.get('x-pass') || '';
-    if (!env.ACCESS_PASSCODE || pass !== env.ACCESS_PASSCODE) {
-      return json({ error: '口令错误' }, 401);
+    const session = await verifySession(request, env);
+    if (!session) {
+      const pass = request.headers.get('x-pass') || '';
+      if (!env.ACCESS_PASSCODE || pass !== env.ACCESS_PASSCODE) {
+        return json({ error: '未登录或口令错误' }, 401);
+      }
     }
 
     const { site, records } = await request.json();
@@ -19,7 +23,8 @@ export async function handleIngest(request, env) {
       if (!r.group_name || (!r.spend && !r.hvu)) continue;
       stmts.push(
         env.DB.prepare(
-          'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)'
+          `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=CASE WHEN excluded.spend>0 THEN excluded.spend ELSE ad_daily.spend END, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq`
         ).bind(
           r.owner || 'unknown',
           site,

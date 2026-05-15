@@ -280,7 +280,7 @@ function renderOperator(){
     <div id="o-groups"></div>
     <div class="sec-h">操作</div>
     <div class="card"><h3>📤 上传今日数据</h3><p>拖入 xlsx，自动解析入库并触发分析</p>
-      <div class="drop-zone" id="o-drop" style="margin-top:8px">拖拽 xlsx 或点击选择<input type="file" accept=".xlsx,.xls" id="o-file"></div>
+      <div class="drop-zone" id="o-drop" style="margin-top:8px">拖拽 xlsx/json 或点击选择<input type="file" accept=".xlsx,.xls,.json" id="o-file"></div>
       <div id="o-file-tag"></div>
       <button class="btn" style="margin-top:8px" onclick="opUpload()">上传并分析</button>
     </div>
@@ -316,8 +316,17 @@ function initOperator(){
 }
 function setOpFile(f){if(!f)return;opFile=f;document.getElementById('o-file-tag').innerHTML=`<span class="file-tag">✓ ${f.name} (${(f.size/1024).toFixed(1)}KB)</span>`;}
 async function opUpload(){
-  if(!opFile){toast('请先选择 xlsx','var(--red)');return;}
+  if(!opFile){toast('请先选择文件','var(--red)');return;}
   toast('解析中...');
+
+  // JSON 文件 → 直接 base64 上传到后端解析
+  if(opFile.name.toLowerCase().endsWith('.json')){
+    const b64=btoa(String.fromCharCode(...new Uint8Array(await opFile.arrayBuffer())));
+    const res=await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:opFile.name,contentBase64:b64,owner:user.sub,site:'elysianu',channel:'FB'})}).then(r=>r.json());
+    if(res.ok)toast(`✓ ${res.message}`);else toast(res.error||'失败','var(--red)');
+    return;
+  }
+
   const data=await opFile.arrayBuffer();
   const wb=XLSX.read(data,{type:'array'});
   let sn=wb.SheetNames.find(n=>n.includes('Facebook')||n.includes('facebook')||n.includes('FB'));
@@ -328,14 +337,35 @@ async function opUpload(){
   const header=rows[0].map(h=>String(h||'').trim());
   const records=[];
   const firstCol=header[0]||'';
-  if(firstCol.includes('广告组')||firstCol.includes('组')||firstCol.toLowerCase()==='group'){
+  const headerLower=header.map(h=>h.toLowerCase());
+
+  // 检测原始 FB 格式（含"广告组名称"/"Ad set name"列）
+  const adsetIdx=headerLower.findIndex(h=>h.includes('广告组名称')||h.includes('ad set name')||h.includes('ชื่อชุดโฆษณา'));
+  const spendIdx=headerLower.findIndex(h=>h.includes('已花费金额')||h.includes('amount spent')||h.includes('จำนวนเงินที่ใช้จ่ายไป'));
+  if(adsetIdx!==-1&&spendIdx!==-1){
+    // 原始 FB 格式：按广告组聚合 spend
+    const agg={};
+    const dateFromName=opFile.name.match(/(\d{1,2})[._](\d{1,2})/);
+    const fileDate=dateFromName?`2026-${dateFromName[1].padStart(2,'0')}-${dateFromName[2].padStart(2,'0')}`:new Date().toISOString().slice(0,10);
+    for(let i=1;i<rows.length;i++){
+      const adset=String(rows[i][adsetIdx]||'');
+      const m=adset.match(/广告组(\d+)/);
+      if(!m)continue;
+      const key=`组${m[1]}`;
+      const spend=parseFloat(String(rows[i][spendIdx]||'0').replace(/[^0-9.]/g,''))||0;
+      agg[key]=(agg[key]||0)+spend;
+    }
+    for(const[gn,spend]of Object.entries(agg)){
+      if(spend>0)records.push({owner:user.sub,date:fileDate,group_name:gn,spend:Math.round(spend*100)/100,hvu:0,cphq:0});
+    }
+  } else if(firstCol.includes('广告组')||firstCol.includes('组')||firstCol.toLowerCase()==='group'){
     const dateCols=[];
     for(let c=3;c<header.length;c++){const h=String(header[c]).trim();if(!h||h.includes('合计')||h.includes('图例'))continue;const m=h.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);if(m)dateCols.push({col:c,date:`2026-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`});}
     for(let i=1;i<rows.length;i++){const row=rows[i];const gn=String(row[0]||'').trim();const ow=String(row[1]||'').trim()||user.owner_code;if(!gn||gn.includes('合计')||gn.includes('图例'))continue;
       for(const{col,date}of dateCols){const cell=String(row[col]||'').trim();if(!cell||cell==='—')continue;const parts=cell.split('/');if(parts.length>=2){const spend=parseFloat(parts[0].replace(/[$,（）\(\)a-zA-Z一-鿿]/g,''))||0;const hvu=parseInt(parts[1])||0;const cphq=parts.length>=3?parseFloat(parts[2].replace(/[$,—]/g,''))||0:(hvu>0?spend/hvu:0);if(spend>0||hvu>0)records.push({owner:ow,date,group_name:gn,spend,hvu,cphq:Math.round(cphq*100)/100});}}}
   }
   if(!records.length){toast(`未解析到数据 · Sheet:${sn} · H[0]:${header[0]} · H[3]:${header[3]}`,'var(--red)');return;}
-  const res=await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},body:JSON.stringify({site:'elysianu',records})}).then(r=>r.json());
+  const res=await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({site:'elysianu',records})}).then(r=>r.json());
   if(res.ok){toast(`✓ ${res.ingested} 条数据已入库`);loadOpData();}else toast(res.error||'失败','var(--red)');
 }
 async function opComment(){const g=document.getElementById('o-cmt-group').value;if(!g){toast('请填广告组','var(--red)');return;}const r=await trigger('comment_gen',{group:g,count:document.getElementById('o-cmt-count').value,note:document.getElementById('o-cmt-note').value});if(r)toast('✓ 评论生成已提交');}

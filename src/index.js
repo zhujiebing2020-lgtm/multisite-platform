@@ -11,7 +11,7 @@ import { handleIngest } from './api/ingest.js';
 import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
 import { handleKnowledge, handleKnowledgeToRule } from './api/knowledge.js';
-import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary } from './api/agents.js';
+import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -68,6 +68,10 @@ export default {
     // 跨站汇总
     if (url.pathname === '/api/cross-site/summary' && request.method === 'GET') {
       return handleCrossSiteSummary(request, env);
+    }
+    // 承接诊断数据
+    if (url.pathname === '/api/accept/data' && request.method === 'GET') {
+      return handleAcceptData(request, env);
     }
 
     // 需要鉴权的 API

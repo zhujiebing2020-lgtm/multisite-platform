@@ -368,9 +368,38 @@ function showResult(id){
 function renderAccept(el){
   el.innerHTML=`
     <div class="sec-h">站内质量概览</div>
-    <div class="kpi-row" id="a-kpis"><div class="kpi"><div class="num">—</div><div class="label">数据接入中</div></div></div>
-    <div class="card"><p style="font-size:12px;color:var(--muted)">承接诊断数据来源：吴玲每日日报 + AdClaw HVU 分析。<br>此视图将展示 HQ1/HQ2 命中率、用户行为路径、落地页性能。</p></div>
+    <div class="kpi-row" id="a-kpis"><div class="kpi"><div class="num">—</div><div class="label">加载中</div></div></div>
+    <div class="sec-h">每日趋势</div>
+    <div id="a-daily"></div>
+    <div class="sec-h">广告组质量排名</div>
+    <div id="a-groups"></div>
   `;
+  loadAcceptData();
+}
+function loadAcceptData(){
+  fetch('/api/accept/data').then(r=>r.json()).then(d=>{
+    if(!d.ok){document.getElementById('a-kpis').innerHTML='<div class="kpi"><div class="num">—</div><div class="label">无数据</div></div>';return;}
+    const k=d.kpis;
+    document.getElementById('a-kpis').innerHTML=`
+      <div class="kpi"><div class="num">${k.hq1_rate}%</div><div class="label">HQ1 命中率</div></div>
+      <div class="kpi"><div class="num">${k.hq2_rate}%</div><div class="label">HQ2 命中率</div></div>
+      <div class="kpi"><div class="num">${k.bounce_rate}%</div><div class="label">跳出率</div></div>
+      <div class="kpi"><div class="num">${k.avg_duration}s</div><div class="label">停留时长 P50</div></div>`;
+    // 每日趋势表
+    if(d.daily&&d.daily.length){
+      let h='<div class="card"><table><tr><th>日期</th><th>会话</th><th>HQ1</th><th>HQ2</th><th>HQ1%</th><th>HQ2%</th><th>跳出率</th></tr>';
+      d.daily.forEach(r=>{h+=`<tr><td>${r.date.slice(5)}</td><td>${r.sessions}</td><td>${r.hq1_sessions}</td><td>${r.hq2_sessions}</td><td style="color:var(--tier-${r.hq1_rate>15?'s':r.hq1_rate>8?'a':'o'})">${r.hq1_rate}%</td><td>${r.hq2_rate}%</td><td>${r.bounce_rate}%</td></tr>`;});
+      h+='</table></div>';
+      document.getElementById('a-daily').innerHTML=h;
+    }
+    // 广告组质量
+    if(d.groups&&d.groups.length){
+      let h='<div class="card"><table><tr><th>广告组</th><th>平台</th><th>会话</th><th>HQ1</th><th>HQ2</th><th>HQ1%</th><th>HQ2%</th></tr>';
+      d.groups.forEach(g=>{h+=`<tr><td>${esc(g.group_name)}</td><td>${g.platform}</td><td>${g.sessions}</td><td>${g.hq1}</td><td>${g.hq2}</td><td style="color:var(--tier-${g.hq1_rate>15?'s':g.hq1_rate>8?'a':'o'})">${g.hq1_rate}%</td><td>${g.hq2_rate}%</td></tr>`;});
+      h+='</table></div>';
+      document.getElementById('a-groups').innerHTML=h;
+    }
+  });
 }
 
 // === 策略视图 ===

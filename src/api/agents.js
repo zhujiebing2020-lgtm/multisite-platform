@@ -49,3 +49,36 @@ export async function handleCrossSiteSummary(request, env) {
     recommendations_by_status: recs.results,
   });
 }
+
+export async function handleAcceptData(request, env) {
+  const user = await verifySession(request, env);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const days = parseInt(url.searchParams.get('days') || '14');
+
+  const sessions = await env.DB.prepare(
+    `SELECT date, sessions, hq1_sessions, hq2_sessions, hq1_rate, hq2_rate, avg_duration_sec, bounce_rate
+     FROM site_session_stats WHERE site='elysianu' AND platform='overall'
+     ORDER BY date DESC LIMIT ?`
+  ).bind(days).all();
+
+  const groups = await env.DB.prepare(
+    `SELECT group_name, platform, sessions, hq1, hq2, hq1_rate, hq2_rate, cphq
+     FROM ad_group_stats WHERE site='elysianu'
+     ORDER BY sessions DESC LIMIT 30`
+  ).all();
+
+  const latest = sessions.results[0] || {};
+  return json({
+    ok: true,
+    kpis: {
+      hq1_rate: latest.hq1_rate || 0,
+      hq2_rate: latest.hq2_rate || 0,
+      bounce_rate: latest.bounce_rate || 0,
+      avg_duration: latest.avg_duration_sec || 0,
+    },
+    daily: sessions.results,
+    groups: groups.results,
+  });
+}

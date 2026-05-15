@@ -20,3 +20,4 @@ platform-core/数据层/*.db-journal
 platform-core/数据层/*.db-shm
 platform-core/数据层/*.db-wal
 .wrangler/
+view/index.html

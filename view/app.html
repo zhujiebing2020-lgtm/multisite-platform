@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>z-jb.com</title>
 <style>
-:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;--red:#D94030}
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;--red:#D94030;--master:#534AB7;--operator:#1D9E75;--tech:#BA7517;--client:#D85A30}
 *{box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);margin:0;min-height:100vh}
 header{background:#fff;border-bottom:1px solid var(--line);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
 header .brand{font-size:16px;font-weight:700;color:var(--accent)}
-header .user-info{font-size:12px;color:var(--muted)}
-header .user-info b{color:var(--text)}
-.container{max-width:900px;margin:0 auto;padding:20px 16px}
+header .right{display:flex;align-items:center;gap:12px}
+header .role-badge{font-size:11px;padding:3px 10px;border-radius:10px;color:#fff;font-weight:600}
+header .user-name{font-size:12px;color:var(--muted)}
+.container{max-width:960px;margin:0 auto;padding:20px 16px}
 /* 登录 */
 .login-page{display:flex;align-items:center;justify-content:center;min-height:80vh}
 .login-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:40px;text-align:center;width:320px}
@@ -22,35 +23,42 @@ header .user-info b{color:var(--text)}
 .login-card button{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer}
 .login-card button:hover{opacity:.9}
 .login-card .err{color:var(--red);font-size:12px;margin-top:8px;display:none}
-/* 标签导航 */
-.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:0}
-.tab{padding:8px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* View 切换 */
+.view-tabs{display:flex;gap:6px;margin-bottom:20px}
+.vtab{padding:7px 14px;font-size:12px;border-radius:20px;cursor:pointer;border:1px solid var(--line);color:var(--muted);transition:all .12s;background:var(--card)}
+.vtab:hover{border-color:var(--accent-bd);color:var(--text)}
+.vtab.active{color:#fff;font-weight:600;border-color:transparent}
+.vtab[data-view=master].active{background:var(--master)}
+.vtab[data-view=operator].active{background:var(--operator)}
+.vtab[data-view=tech].active{background:var(--tech)}
+.vtab[data-view=client].active{background:var(--client)}
 /* 面板 */
-.panel{display:none}
-.panel.active{display:block}
+.view{display:none}
+.view.active{display:block}
 /* 卡片 */
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px;transition:box-shadow .14s}
 .card:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.card h3{font-size:14px;margin-bottom:6px}
-.card p{font-size:12px;color:var(--muted);line-height:1.5}
+.card h3{font-size:14px;margin:0 0 8px}
+.card p{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
 /* 表单 */
-.form-group{margin-bottom:12px}
-.form-group label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px}
-.form-group textarea{height:60px;resize:vertical}
-/* 上传区 */
-.drop-zone{border:2px dashed var(--accent-bd);border-radius:6px;padding:20px;text-align:center;color:var(--muted);font-size:12px;cursor:pointer;transition:background .15s}
-.drop-zone.hover{background:var(--accent-soft);border-color:var(--accent)}
-.drop-zone input{display:none}
-.file-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;margin-top:6px}
-/* 按钮 */
-.btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer;width:100%}
+.form-group{margin-bottom:10px}
+.form-group label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px}
+.form-group textarea{height:50px;resize:vertical}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;width:100%}
 .btn:hover{opacity:.85}
 .btn:disabled{background:var(--gray);cursor:not-allowed}
-.btn-sm{padding:6px 12px;font-size:12px;width:auto}
-/* 结果列表 */
+/* 上传 */
+.drop-zone{border:2px dashed var(--accent-bd);border-radius:6px;padding:16px;text-align:center;color:var(--muted);font-size:12px;cursor:pointer;transition:background .15s;margin:8px 0}
+.drop-zone.hover{background:var(--accent-soft);border-color:var(--accent)}
+.drop-zone input{display:none}
+.file-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;margin-top:4px}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+.kpi .num{font-size:22px;font-weight:700;color:var(--accent)}
+.kpi .label{font-size:11px;color:var(--muted);margin-top:2px}
+/* 结果 */
 .job-item{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:8px 0;cursor:pointer;transition:all .12s}
 .job-item:hover{border-color:var(--accent-bd)}
 .job-item.active{border-color:var(--accent);background:var(--accent-soft)}
@@ -58,34 +66,33 @@ header .user-info b{color:var(--text)}
 .job-title{font-size:13px;font-weight:600}
 .job-meta{font-size:11px;color:var(--muted);margin-top:2px}
 .status{font-size:10px;padding:2px 8px;border-radius:10px;color:#fff}
-.s-pending{background:var(--gray)}
-.s-running{background:var(--blue)}
-.s-done{background:var(--green)}
-.s-failed{background:var(--red)}
-/* 结果详情 */
-.result-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:12px}
-.result-box h4{font-size:13px;color:var(--accent);margin-bottom:10px}
-.result-content{font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto}
+.s-pending{background:var(--gray)}.s-running{background:var(--blue)}.s-done{background:var(--green)}.s-failed{background:var(--red)}
+.result-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:12px}
+.result-box h4{font-size:13px;color:var(--accent);margin:0 0 10px}
+.result-content{font-size:12px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto}
 .action-item{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 12px;margin:6px 0;border-radius:0 6px 6px 0;font-size:12px}
-.pending-hint{color:var(--blue);padding:12px;background:rgba(58,159,232,.06);border-radius:6px;font-size:12px}
-.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:6px 12px;font-size:11px;cursor:pointer;margin-top:10px}
+.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:5px 10px;font-size:11px;cursor:pointer;margin-top:8px}
+/* Section header */
+.sec-h{font-size:13px;font-weight:600;color:var(--muted);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+/* 信息条 */
+.info-row{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:6px 0;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.info-row .label{color:var(--muted)}
+.info-row .val{font-weight:600}
 /* toast */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;z-index:100;pointer-events:none}
 .toast.show{opacity:.95}
-/* 概览 */
-.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-.stat-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
-.stat-card .num{font-size:22px;font-weight:700;color:var(--accent)}
-.stat-card .label{font-size:11px;color:var(--muted);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600;font-size:11px}
 </style>
 </head>
 <body>
 
-<!-- 登录页 -->
+<!-- 登录 -->
 <div id="login-page" class="login-page">
   <div class="login-card">
     <h1>z-jb.com</h1>
-    <p>投放智能平台 · 输入口令进入</p>
+    <p>投放智能平台</p>
     <input id="pass-input" type="password" placeholder="口令" autofocus>
     <button onclick="doLogin()">进入</button>
     <div class="err" id="login-err"></div>
@@ -96,400 +103,253 @@ header .user-info b{color:var(--text)}
 <div id="main-app" style="display:none">
   <header>
     <span class="brand">z-jb.com</span>
-    <span class="user-info"><b id="hd-name"></b> · <span id="hd-site"></span></span>
+    <div class="right">
+      <span class="role-badge" id="hd-badge"></span>
+      <span class="user-name" id="hd-name"></span>
+    </div>
   </header>
-
   <div class="container">
-    <div class="tabs">
-      <div class="tab active" data-panel="overview" onclick="switchTab(this)">总控台</div>
-      <div class="tab" data-panel="sites" onclick="switchTab(this)">子站</div>
-      <div class="tab" data-panel="operate" onclick="switchTab(this)">操作</div>
-      <div class="tab" data-panel="results" onclick="switchTab(this)">结果</div>
-    </div>
-
-    <!-- 总控台面板 -->
-    <div class="panel active" id="p-overview">
-      <div class="overview-grid" id="overview-stats"></div>
-      <div id="dashboard-content"></div>
-      <h3 style="font-size:14px;margin:20px 0 10px">最近动态</h3>
-      <div id="recent-jobs"></div>
-    </div>
-
-    <!-- 子站面板 -->
-    <div class="panel" id="p-sites">
-      <div class="card">
-        <h3 style="display:flex;justify-content:space-between;align-items:center">
-          子站管理
-          <span style="font-size:11px;color:var(--muted)">规则由总控下发 → 子站执行</span>
-        </h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px">
-          <div style="border:1px solid var(--line);border-radius:8px;padding:14px;border-left:3px solid var(--accent)">
-            <div style="font-size:14px;font-weight:600">crave</div>
-            <div style="font-size:11px;color:var(--muted);margin:4px 0">能力引擎 · 规则集中地 · agent 引擎</div>
-            <a href="https://zhujiebing2020-lgtm.github.io/crave-AI/" target="_blank" style="font-size:12px;color:var(--accent);text-decoration:none">→ 打开 crave 看板</a>
-          </div>
-          <div style="border:1px solid var(--line);border-radius:8px;padding:14px">
-            <div style="font-size:14px;font-weight:600">elysianu</div>
-            <div style="font-size:11px;color:var(--muted);margin:4px 0">业务运营子站 · 投手: HZM/CHJ/HNN</div>
-            <a href="/site/elysianu.html" style="font-size:12px;color:var(--accent);text-decoration:none">→ 打开子站看板</a>
-          </div>
-          <div style="border:2px dashed var(--line);border-radius:8px;padding:14px;background:var(--bg)">
-            <div style="font-size:14px;font-weight:600;color:var(--gray)">+ 新子站</div>
-            <div style="font-size:11px;color:var(--muted);margin:4px 0">客户接入后由 ZJB 创建</div>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <h3>运营规则（总控 → 子站）</h3>
-        <table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
-          <tr style="color:var(--muted)"><th style="text-align:left;padding:6px">规则</th><th>阈值</th><th>适用站</th></tr>
-          <tr><td style="padding:6px">CPHQ 分层</td><td>S≤$1.5 / A≤$3 / B≤$5 / R>$5</td><td>全部</td></tr>
-          <tr><td style="padding:6px">止损线</td><td>连续 3 天 0 HVU</td><td>全部</td></tr>
-          <tr><td style="padding:6px">放量条件</td><td>S 类 + 累计 >200 HVU</td><td>elysianu</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- 操作面板 -->
-    <div class="panel" id="p-operate">
-      <!-- 上传 -->
-      <div class="card">
-        <h3>📤 上传今日数据</h3>
-        <p>拖入 FB 后台导出的 xlsx，上传后自动触发数据分析</p>
-        <div style="margin-top:10px">
-          <div class="drop-zone" id="main-drop">
-            拖拽 xlsx 到这里，或点击选择
-            <input type="file" accept=".xlsx,.xls" id="main-file">
-          </div>
-          <div id="main-file-tag"></div>
-          <button class="btn" style="margin-top:10px" onclick="uploadAndAnalyze()">上传并分析</button>
-        </div>
-      </div>
-
-      <!-- Agent 列表 -->
-      <div class="card">
-        <h3>💬 生成评论</h3>
-        <p>为绿灯广告组生成产品评论（反AI腔 v1.2）</p>
-        <div style="margin-top:10px">
-          <div class="form-group"><label>广告组名</label><input id="cmt-group" placeholder="例：组17 18 Sensual"></div>
-          <div class="form-group"><label>数量</label><select id="cmt-count"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
-          <div class="form-group"><label>补充要求</label><textarea id="cmt-note" placeholder="例：侧重手感、加一条3星"></textarea></div>
-          <button class="btn" onclick="triggerComment()">生成评论</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🎬 生成视频脚本</h3>
-        <p>根据广告组生成视频创意脚本 + 分镜</p>
-        <div style="margin-top:10px">
-          <div class="form-group"><label>广告组</label><input id="vid-group" placeholder="例：组5 30 Positions"></div>
-          <div class="form-group"><label>创意方向</label><textarea id="vid-dir" placeholder="例：真人出镜、产品开箱、情侣互动"></textarea></div>
-          <button class="btn" onclick="triggerVideo()">生成脚本</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>⚙️ 自动策略</h3>
-        <p>基于系统已有数据，生成全组投放动作指令（加/减/停）</p>
-        <div style="margin-top:10px">
-          <button class="btn" onclick="triggerStrategy()">生成策略</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 结果面板 -->
-    <div class="panel" id="p-results">
-      <div id="results-list"></div>
-      <div class="result-box" id="result-box" style="display:none">
-        <h4 id="result-title"></h4>
-        <div class="result-content" id="result-content"></div>
-        <button class="copy-btn" onclick="copyResult()">复制结果</button>
-      </div>
-    </div>
+    <div class="view-tabs" id="view-tabs"></div>
+    <div id="view-content"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.mini.min.js"></script>
 <script>
-const AGENT_NAMES = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
 let user = null;
+let currentView = null;
+const VIEWS = {
+  master: {label:'Master',color:'var(--master)',roles:['admin']},
+  operator: {label:'Operator',color:'var(--operator)',roles:['admin','pitcher']},
+  tech: {label:'Tech',color:'var(--tech)',roles:['admin','tech']},
+  client: {label:'Client',color:'var(--client)',roles:['admin','client']},
+};
+const AGENT_NAMES = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
 
-// --- 登录 ---
-document.getElementById('pass-input').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('pass-input').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 
 function doLogin(){
-  const pass = document.getElementById('pass-input').value;
+  const pass=document.getElementById('pass-input').value;
   fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:pass})})
     .then(r=>r.json()).then(d=>{
-      if(d.ok){ user=d.user; enterApp(); }
-      else { const el=document.getElementById('login-err'); el.textContent=d.error||'口令错误'; el.style.display='block'; }
-    }).catch(e=>{document.getElementById('login-err').textContent=String(e);document.getElementById('login-err').style.display='block';});
+      if(d.ok){user=d.user;enterApp();}
+      else{const el=document.getElementById('login-err');el.textContent=d.error||'口令错误';el.style.display='block';}
+    });
 }
 
 function enterApp(){
   document.getElementById('login-page').style.display='none';
   document.getElementById('main-app').style.display='block';
+  const badge=document.getElementById('hd-badge');
+  const defaultView = user.role==='admin'?'master':'operator';
+  badge.textContent=defaultView;
+  badge.style.background=VIEWS[defaultView].color;
   document.getElementById('hd-name').textContent=user.display_name||user.owner_code;
-  document.getElementById('hd-site').textContent='elysianu';
-  loadOverview();
+  renderTabs();
+  switchView(defaultView);
 }
 
-// --- 标签切换 ---
-function switchTab(el){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('p-'+el.dataset.panel).classList.add('active');
-  if(el.dataset.panel==='results') loadResults();
-  if(el.dataset.panel==='overview') loadOverview();
-  if(el.dataset.panel==='sites') {}; // static content
+function renderTabs(){
+  const tabs=document.getElementById('view-tabs');
+  const allowed=Object.entries(VIEWS).filter(([k,v])=>v.roles.includes(user.role));
+  tabs.innerHTML=allowed.map(([k,v])=>`<div class="vtab" data-view="${k}" onclick="switchView('${k}')">${v.label}</div>`).join('');
 }
 
-// --- 概览 ---
-function loadOverview(){
-  // 加载看板数据
+function switchView(view){
+  currentView=view;
+  document.querySelectorAll('.vtab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));
+  const badge=document.getElementById('hd-badge');
+  badge.textContent=VIEWS[view].label;
+  badge.style.background=VIEWS[view].color;
+  const el=document.getElementById('view-content');
+  if(view==='master') el.innerHTML=renderMaster();
+  else if(view==='operator') el.innerHTML=renderOperator();
+  else if(view==='tech') el.innerHTML=renderTech();
+  else if(view==='client') el.innerHTML=renderClient();
+  if(view==='master') loadMasterData();
+  if(view==='operator') initOperator();
+}
+
+// ===== MASTER VIEW =====
+function renderMaster(){
+  return `
+    <div class="sec-h">站群风险总览</div>
+    <div class="kpi-grid" id="m-kpis"><div class="kpi"><div class="num">—</div><div class="label">加载中</div></div></div>
+    <div class="sec-h">子站状态</div>
+    <div id="m-sites"></div>
+    <div class="sec-h">运营规则（总控下发）</div>
+    <div class="card">
+      <table><tr><th>规则</th><th>阈值</th><th>适用站</th></tr>
+      <tr><td>CPHQ 分层</td><td>S≤$1.5 / A≤$3 / B≤$5 / R>$5</td><td>全部</td></tr>
+      <tr><td>止损线</td><td>连续 3 天 0 HVU</td><td>全部</td></tr>
+      <tr><td>放量条件</td><td>S 类 + 累计 >200 HVU</td><td>elysianu</td></tr></table>
+    </div>
+    <div class="sec-h">异常冒泡</div>
+    <div id="m-alerts"><p style="font-size:12px;color:var(--muted)">暂无异常</p></div>
+    <div class="sec-h">Agent 运行状态</div>
+    <div id="m-agents"></div>
+  `;
+}
+function loadMasterData(){
   fetch('/api/dashboard').then(r=>r.json()).then(d=>{
-    if(!d.ok||!d.latest_date){
-      document.getElementById('overview-stats').innerHTML=`
-        <div class="stat-card"><div class="num">—</div><div class="label">暂无数据</div></div>
-      `;
-      document.getElementById('dashboard-content').innerHTML='<p style="color:var(--muted);font-size:12px;margin:12px 0">上传第一份 xlsx 后，这里会显示你的投放数据看板</p>';
-    } else {
-      const s=d.summary;
-      document.getElementById('overview-stats').innerHTML=`
-        <div class="stat-card"><div class="num">$${s.spend}</div><div class="label">花费 · ${d.latest_date.slice(5)}</div></div>
-        <div class="stat-card"><div class="num">${s.hvu}</div><div class="label">HVU</div></div>
-        <div class="stat-card"><div class="num">$${s.cphq}</div><div class="label">CPHQ</div></div>
-        <div class="stat-card"><div class="num">${s.groups}</div><div class="label">活跃组</div></div>
-      `;
-      // 趋势
-      let trendHtml='';
-      if(d.daily&&d.daily.length>1){
-        trendHtml='<div class="card" style="margin-top:12px"><h3 style="font-size:13px">📈 近期趋势</h3><table style="width:100%;font-size:11px;border-collapse:collapse;margin-top:8px"><tr style="color:var(--muted)"><th style="text-align:left;padding:4px">日期</th><th>花费</th><th>HVU</th><th>CPHQ</th><th>组数</th></tr>';
-        d.daily.forEach(day=>{
-          const cphq=day.hvu>0?(day.spend/day.hvu).toFixed(2):'—';
-          trendHtml+=`<tr><td style="padding:4px">${day.date.slice(5)}</td><td>$${day.spend.toFixed(1)}</td><td>${day.hvu}</td><td>$${cphq}</td><td>${day.groups}</td></tr>`;
-        });
-        trendHtml+='</table></div>';
-      }
-      // 各组明细
-      let groupsHtml='';
-      if(d.groups&&d.groups.length){
-        groupsHtml='<div class="card" style="margin-top:12px"><h3 style="font-size:13px">📋 各组表现 · '+d.latest_date.slice(5)+'</h3><table style="width:100%;font-size:11px;border-collapse:collapse;margin-top:8px"><tr style="color:var(--muted)"><th style="text-align:left;padding:4px">组</th><th>花费</th><th>HVU</th><th>CPHQ</th></tr>';
-        d.groups.forEach(g=>{
-          const color=g.cphq>0&&g.cphq<1.5?'var(--green)':g.cphq<3?'var(--muted)':'var(--red)';
-          groupsHtml+=`<tr><td style="padding:4px">${esc(g.name)}</td><td>$${g.spend}</td><td>${g.hvu}</td><td style="color:${color};font-weight:600">$${g.cphq}</td></tr>`;
-        });
-        groupsHtml+='</table></div>';
-      }
-      document.getElementById('dashboard-content').innerHTML=trendHtml+groupsHtml;
-    }
-  }).catch(()=>{
-    document.getElementById('dashboard-content').innerHTML='';
+    if(!d.ok||!d.latest_date){document.getElementById('m-kpis').innerHTML='<div class="kpi"><div class="num">—</div><div class="label">暂无数据</div></div>';return;}
+    const s=d.summary;
+    document.getElementById('m-kpis').innerHTML=`
+      <div class="kpi"><div class="num">$${s.spend}</div><div class="label">总花费 · ${d.latest_date.slice(5)}</div></div>
+      <div class="kpi"><div class="num">${s.hvu}</div><div class="label">总 HVU</div></div>
+      <div class="kpi"><div class="num">$${s.cphq}</div><div class="label">平均 CPHQ</div></div>
+      <div class="kpi"><div class="num">${s.groups}</div><div class="label">活跃组</div></div>
+    `;
   });
-
-  // 加载最近任务
+  document.getElementById('m-sites').innerHTML=`
+    <div class="info-row"><span class="label">crave</span><span class="val" style="color:var(--master)">能力引擎</span><a href="https://crave.z-jb.com" style="font-size:11px;color:var(--accent);margin-left:8px">打开</a></div>
+    <div class="info-row"><span class="label">elysianu</span><span class="val" style="color:var(--green)">运营中</span><a href="https://elysianu.z-jb.com" style="font-size:11px;color:var(--accent);margin-left:8px">打开</a></div>
+  `;
   fetch('/api/results').then(r=>r.json()).then(d=>{
-    if(!d.ok) return;
-    const jobs = d.jobs||[];
-    const recent = jobs.slice(0,5);
-    if(!recent.length){ document.getElementById('recent-jobs').innerHTML='<p style="color:var(--muted);font-size:12px">暂无任务 · 去"操作"标签触发一个 agent</p>'; return; }
-    document.getElementById('recent-jobs').innerHTML = recent.map(j=>{
-      const time = (j.created_at||'').slice(5,16).replace('T',' ');
-      return `<div class="job-item" onclick="switchTab(document.querySelector('[data-panel=results]'));setTimeout(()=>showDetail('${j.id}'),100)">
-        <div class="job-header"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div>
-        <div class="job-meta">${time}${j.output_summary?' · '+j.output_summary.slice(0,40):''}</div>
-      </div>`;
-    }).join('');
-  }).catch(()=>{});
-}
-
-// --- 操作：上传+分析 ---
-const mainDrop = document.getElementById('main-drop');
-const mainFileInput = document.getElementById('main-file');
-let mainFile = null;
-
-mainDrop.addEventListener('click',()=>mainFileInput.click());
-mainDrop.addEventListener('dragover',e=>{e.preventDefault();mainDrop.classList.add('hover')});
-mainDrop.addEventListener('dragleave',()=>mainDrop.classList.remove('hover'));
-mainDrop.addEventListener('drop',e=>{e.preventDefault();mainDrop.classList.remove('hover');setMainFile(e.dataTransfer.files[0])});
-mainFileInput.addEventListener('change',()=>setMainFile(mainFileInput.files[0]));
-
-function setMainFile(f){
-  if(!f)return; mainFile=f;
-  document.getElementById('main-file-tag').innerHTML=`<span class="file-tag">✓ ${f.name} (${(f.size/1024).toFixed(1)}KB)</span>`;
-}
-
-async function uploadAndAnalyze(){
-  if(!mainFile){toast('请先选择 xlsx 文件','var(--red)');return;}
-  toast('解析中...');
-
-  // 前端解析 xlsx
-  const data = await mainFile.arrayBuffer();
-  const wb = XLSX.read(data, {type:'array'});
-  // 优先找 Facebook sheet，fallback 到第一个含"广告组"表头的 sheet
-  let sheetName = wb.SheetNames.find(n=>n.includes('Facebook')||n.includes('facebook')||n.includes('FB'));
-  if(!sheetName){
-    for(const sn of wb.SheetNames){
-      const ws0=wb.Sheets[sn];
-      const r0=XLSX.utils.sheet_to_json(ws0,{header:1,defval:'',range:0});
-      if(r0&&r0[0]&&String(r0[0][0]||'').includes('组')){sheetName=sn;break;}
-    }
-  }
-  if(!sheetName) sheetName=wb.SheetNames[0];
-  const ws = wb.Sheets[sheetName];
-  const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:'', raw:false});
-
-  if(!rows||rows.length<2){toast('无法解析表格内容','var(--red)');return;}
-
-  // 解析横向看板格式
-  const header = rows[0].map(h=>String(h||'').trim());
-  const records = [];
-
-  // 检测是否横向格式
-  const firstCol = header[0] || '';
-  const isHorizontal = firstCol.includes('广告组') || firstCol.includes('组') || firstCol.toLowerCase()==='group';
-
-  if(isHorizontal){
-    // 找日期列：匹配 "4/5" 或 "04/05" 或 "4月5日" 格式
-    const dateCols = [];
-    for(let c=3;c<header.length;c++){
-      const h = String(header[c]).trim();
-      if(!h || h==='合计' || h.includes('图例')) continue;
-      const m = h.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
-      if(m) dateCols.push({col:c, date:`2026-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`});
-    }
-    for(let i=1;i<rows.length;i++){
-      const row=rows[i];
-      const groupName=String(row[0]||'').trim();
-      const rowOwner=String(row[1]||'').trim()||user.owner_code;
-      if(!groupName||groupName.includes('合计')||groupName.includes('图例'))continue;
-      for(const{col,date}of dateCols){
-        const cell=String(row[col]||'').trim();
-        if(!cell||cell==='—'||cell===''||cell==='None')continue;
-        const parts=cell.split('/');
-        if(parts.length>=2){
-          const spend=parseFloat(parts[0].replace(/[$,（）\(\)a-zA-Z一-鿿]/g,''))||0;
-          const hvu=parseInt(parts[1])||0;
-          const cphq=parts.length>=3?parseFloat(parts[2].replace(/[$,—]/g,''))||0:(hvu>0?spend/hvu:0);
-          if(spend>0||hvu>0) records.push({owner:rowOwner,date,group_name:groupName,spend,hvu,cphq:Math.round(cphq*100)/100});
-        }
-      }
-    }
-  }
-
-  if(!records.length){
-    // debug info
-    const dbg = `Sheet: ${sheetName} | Rows: ${rows.length} | H[0]: "${header[0]}" | isH: ${isHorizontal} | H[3]: "${header[3]}"`;
-    toast('未解析到数据: '+dbg,'var(--red)');
-    return;
-  }
-  toast(`解析到 ${records.length} 条数据，入库中...`);
-
-  // 发送解析后的数据到后端
-  const res = await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
-    body:JSON.stringify({site:'elysianu',records})}).then(r=>r.json());
-
-  if(res.ok){
-    toast(`✓ ${res.ingested} 条数据已入库`);
-    setTimeout(()=>loadOverview(),500);
-    // 同时上传原始文件到 GitHub
-    const b64=await fileToBase64(mainFile);
-    fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},
-      body:JSON.stringify({filename:mainFile.name,contentBase64:b64,owner:user.owner_code,site:'elysianu',channel:'FB'})});
-  } else {
-    toast(res.error||'入库失败','var(--red)');
-  }
-}
-
-// --- 操作：评论 ---
-async function triggerComment(){
-  const group=document.getElementById('cmt-group').value;
-  if(!group){toast('请填广告组名','var(--red)');return;}
-  const params={group,count:document.getElementById('cmt-count').value,note:document.getElementById('cmt-note').value};
-  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({agent_type:'comment_gen',site:'elysianu',params})}).then(r=>r.json());
-  if(res.ok) toast('✓ 评论生成已提交');else toast(res.error||'失败','var(--red)');
-}
-
-// --- 操作：视频 ---
-async function triggerVideo(){
-  const group=document.getElementById('vid-group').value;
-  if(!group){toast('请填广告组','var(--red)');return;}
-  const params={group,direction:document.getElementById('vid-dir').value};
-  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({agent_type:'video_script',site:'elysianu',params})}).then(r=>r.json());
-  if(res.ok) toast('✓ 视频脚本已提交');else toast(res.error||'失败','var(--red)');
-}
-
-// --- 操作：策略 ---
-async function triggerStrategy(){
-  const res=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({agent_type:'strategy',site:'elysianu',params:{}})}).then(r=>r.json());
-  if(res.ok) toast('✓ 策略生成已提交');else toast(res.error||'失败','var(--red)');
-}
-
-// --- 结果 ---
-function loadResults(){
-  fetch('/api/results').then(r=>r.json()).then(d=>{
-    if(!d.ok||!d.jobs.length){document.getElementById('results-list').innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:30px">暂无结果 · 去"操作"触发一个 agent</p>';return;}
-    document.getElementById('results-list').innerHTML=d.jobs.map(j=>{
-      const time=(j.created_at||'').slice(5,16).replace('T',' ');
-      return `<div class="job-item" onclick="showDetail('${j.id}',this)">
-        <div class="job-header"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div>
-        <div class="job-meta">${time} · ${j.site}${j.output_summary?' · '+j.output_summary.slice(0,50):''}</div>
-      </div>`;
-    }).join('');
-  });
-}
-
-function showDetail(jobId,el){
-  if(el){document.querySelectorAll('.job-item').forEach(e=>e.classList.remove('active'));el.classList.add('active');}
-  fetch('/api/results/'+jobId).then(r=>r.json()).then(d=>{
     if(!d.ok)return;
-    const j=d.job;
-    const box=document.getElementById('result-box');
-    document.getElementById('result-title').textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+(j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
-    if(j.status==='pending'||j.status==='running'){
-      document.getElementById('result-content').innerHTML='<div class="pending-hint">⏳ 执行中，请稍后刷新（通常 5-10 分钟）</div>';
-    } else if(j.status==='failed'){
-      document.getElementById('result-content').innerHTML='<div style="color:var(--red)">❌ 失败：'+(j.output_summary||'未知错误')+'</div>';
-    } else {
-      const content=j.output_full||j.output_summary||'（无内容）';
-      document.getElementById('result-content').innerHTML=renderResult(j.agent_type,content);
-    }
+    const jobs=d.jobs||[];
+    const recent=jobs.slice(0,5);
+    document.getElementById('m-agents').innerHTML=recent.length?recent.map(j=>`
+      <div class="info-row"><span class="label">${AGENT_NAMES[j.agent_type]||j.agent_type} · ${j.owner}</span><span class="status s-${j.status}">${j.status}</span></div>
+    `).join(''):'<p style="font-size:12px;color:var(--muted)">暂无 Agent 记录</p>';
+  });
+}
+
+// ===== OPERATOR VIEW =====
+function renderOperator(){
+  return `
+    <div class="sec-h">今日待执行</div>
+    <div id="o-tasks"><p style="font-size:12px;color:var(--muted)">暂无待执行任务 · Agent 建议会出现在这里</p></div>
+    <div class="sec-h">广告组表现</div>
+    <div class="kpi-grid" id="o-kpis"></div>
+    <div id="o-groups"></div>
+    <div class="sec-h">操作</div>
+    <div class="card"><h3>📤 上传今日数据</h3><p>拖入 xlsx，自动解析入库并触发分析</p>
+      <div class="drop-zone" id="o-drop" style="margin-top:8px">拖拽 xlsx 或点击选择<input type="file" accept=".xlsx,.xls" id="o-file"></div>
+      <div id="o-file-tag"></div>
+      <button class="btn" style="margin-top:8px" onclick="opUpload()">上传并分析</button>
+    </div>
+    <div class="card"><h3>💬 生成评论</h3>
+      <div class="form-group"><label>广告组</label><input id="o-cmt-group" placeholder="例：组17 18 Sensual"></div>
+      <div class="form-group"><label>数量</label><select id="o-cmt-count"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
+      <div class="form-group"><label>补充要求</label><textarea id="o-cmt-note" placeholder="可选"></textarea></div>
+      <button class="btn" onclick="opComment()">生成评论</button>
+    </div>
+    <div class="card"><h3>🎬 生成视频脚本</h3>
+      <div class="form-group"><label>广告组</label><input id="o-vid-group" placeholder="例：组5 30 Positions"></div>
+      <div class="form-group"><label>创意方向</label><textarea id="o-vid-dir" placeholder="例：真人出镜、产品开箱"></textarea></div>
+      <button class="btn" onclick="opVideo()">生成脚本</button>
+    </div>
+    <div class="card"><h3>⚙️ 自动策略</h3><p>基于系统数据生成全组投放指令</p>
+      <button class="btn" style="margin-top:8px" onclick="opStrategy()">生成策略</button>
+    </div>
+    <div class="sec-h">我的结果</div>
+    <div id="o-results"></div>
+    <div class="result-box" id="o-result-box" style="display:none"><h4 id="o-result-title"></h4><div class="result-content" id="o-result-content"></div><button class="copy-btn" onclick="copyResult()">复制结果</button></div>
+  `;
+}
+let opFile=null;
+function initOperator(){
+  const drop=document.getElementById('o-drop');const fi=document.getElementById('o-file');
+  drop.addEventListener('click',()=>fi.click());
+  drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('hover')});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('hover'));
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('hover');setOpFile(e.dataTransfer.files[0])});
+  fi.addEventListener('change',()=>setOpFile(fi.files[0]));
+  loadOpData();
+  loadOpResults();
+}
+function setOpFile(f){if(!f)return;opFile=f;document.getElementById('o-file-tag').innerHTML=`<span class="file-tag">✓ ${f.name} (${(f.size/1024).toFixed(1)}KB)</span>`;}
+async function opUpload(){
+  if(!opFile){toast('请先选择 xlsx','var(--red)');return;}
+  toast('解析中...');
+  const data=await opFile.arrayBuffer();
+  const wb=XLSX.read(data,{type:'array'});
+  let sn=wb.SheetNames.find(n=>n.includes('Facebook')||n.includes('facebook')||n.includes('FB'));
+  if(!sn){for(const s of wb.SheetNames){const ws=wb.Sheets[s];const r=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false,range:0});if(r&&r[0]&&String(r[0][0]||'').includes('组')){sn=s;break;}}}
+  if(!sn)sn=wb.SheetNames[0];
+  const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:'',raw:false});
+  if(!rows||rows.length<2){toast('无法解析','var(--red)');return;}
+  const header=rows[0].map(h=>String(h||'').trim());
+  const records=[];
+  const firstCol=header[0]||'';
+  if(firstCol.includes('广告组')||firstCol.includes('组')||firstCol.toLowerCase()==='group'){
+    const dateCols=[];
+    for(let c=3;c<header.length;c++){const h=String(header[c]).trim();if(!h||h.includes('合计')||h.includes('图例'))continue;const m=h.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);if(m)dateCols.push({col:c,date:`2026-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`});}
+    for(let i=1;i<rows.length;i++){const row=rows[i];const gn=String(row[0]||'').trim();const ow=String(row[1]||'').trim()||user.owner_code;if(!gn||gn.includes('合计')||gn.includes('图例'))continue;
+      for(const{col,date}of dateCols){const cell=String(row[col]||'').trim();if(!cell||cell==='—')continue;const parts=cell.split('/');if(parts.length>=2){const spend=parseFloat(parts[0].replace(/[$,（）\(\)a-zA-Z一-鿿]/g,''))||0;const hvu=parseInt(parts[1])||0;const cphq=parts.length>=3?parseFloat(parts[2].replace(/[$,—]/g,''))||0:(hvu>0?spend/hvu:0);if(spend>0||hvu>0)records.push({owner:ow,date,group_name:gn,spend,hvu,cphq:Math.round(cphq*100)/100});}}}
+  }
+  if(!records.length){toast(`未解析到数据 · Sheet:${sn} · H[0]:${header[0]} · H[3]:${header[3]}`,'var(--red)');return;}
+  const res=await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-pass':document.getElementById('pass-input').value},body:JSON.stringify({site:'elysianu',records})}).then(r=>r.json());
+  if(res.ok){toast(`✓ ${res.ingested} 条数据已入库`);loadOpData();}else toast(res.error||'失败','var(--red)');
+}
+async function opComment(){const g=document.getElementById('o-cmt-group').value;if(!g){toast('请填广告组','var(--red)');return;}const r=await trigger('comment_gen',{group:g,count:document.getElementById('o-cmt-count').value,note:document.getElementById('o-cmt-note').value});if(r)toast('✓ 评论生成已提交');}
+async function opVideo(){const g=document.getElementById('o-vid-group').value;if(!g){toast('请填广告组','var(--red)');return;}const r=await trigger('video_script',{group:g,direction:document.getElementById('o-vid-dir').value});if(r)toast('✓ 视频脚本已提交');}
+async function opStrategy(){const r=await trigger('strategy',{});if(r)toast('✓ 策略已提交');}
+async function trigger(type,params){const r=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent_type:type,site:'elysianu',params})}).then(r=>r.json());if(!r.ok)toast(r.error||'失败','var(--red)');return r.ok;}
+function loadOpData(){
+  fetch('/api/dashboard').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.latest_date){document.getElementById('o-kpis').innerHTML='';document.getElementById('o-groups').innerHTML='<p style="font-size:12px;color:var(--muted)">上传 xlsx 后显示数据</p>';return;}
+    const s=d.summary;
+    document.getElementById('o-kpis').innerHTML=`<div class="kpi"><div class="num">$${s.spend}</div><div class="label">花费 · ${d.latest_date.slice(5)}</div></div><div class="kpi"><div class="num">${s.hvu}</div><div class="label">HVU</div></div><div class="kpi"><div class="num">$${s.cphq}</div><div class="label">CPHQ</div></div>`;
+    if(d.groups&&d.groups.length){document.getElementById('o-groups').innerHTML=`<div class="card"><table><tr><th>组</th><th>花费</th><th>HVU</th><th>CPHQ</th></tr>${d.groups.slice(0,15).map(g=>{const c=g.cphq<=1.5?'var(--green)':g.cphq<=3?'var(--muted)':'var(--red)';return `<tr><td>${esc(g.name)}</td><td>$${g.spend}</td><td>${g.hvu}</td><td style="color:${c};font-weight:600">$${g.cphq}</td></tr>`;}).join('')}</table></div>`;}
+  });
+}
+function loadOpResults(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.jobs.length){document.getElementById('o-results').innerHTML='<p style="font-size:12px;color:var(--muted)">暂无结果</p>';return;}
+    document.getElementById('o-results').innerHTML=d.jobs.slice(0,8).map(j=>`<div class="job-item" onclick="showResult('${j.id}',this)"><div class="job-header"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div><div class="job-meta">${(j.created_at||'').slice(5,16).replace('T',' ')}${j.output_summary?' · '+j.output_summary.slice(0,40):''}</div></div>`).join('');
+  });
+}
+function showResult(id,el){
+  document.querySelectorAll('.job-item').forEach(e=>e.classList.remove('active'));if(el)el.classList.add('active');
+  fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
+    if(!d.ok)return;const j=d.job;const box=document.getElementById('o-result-box');
+    document.getElementById('o-result-title').textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+(j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
+    if(j.status==='pending'||j.status==='running')document.getElementById('o-result-content').innerHTML='<div style="color:var(--blue);padding:10px;background:rgba(58,159,232,.06);border-radius:6px">⏳ 执行中，稍后刷新</div>';
+    else if(j.status==='failed')document.getElementById('o-result-content').innerHTML=`<div style="color:var(--red)">❌ ${j.output_summary||'失败'}</div>`;
+    else{const c=j.output_full||j.output_summary||'';document.getElementById('o-result-content').innerHTML=renderResult(j.agent_type,c);}
     box.style.display='block';
   });
 }
+function renderResult(type,content){try{content=JSON.parse(content)}catch(e){}if(typeof content==='string')return esc(content);if(type==='comment_gen'&&content.comments)return content.comments.map((c,i)=>`<div class="action-item"><b>#${i+1}</b> ${'⭐'.repeat(c.stars||5)}<br>${esc(c.text)}</div>`).join('');if(type==='strategy'&&content.actions)return content.actions.map(a=>`<div class="action-item"><b>${esc(a.group||'')}</b> → ${esc(a.action||'')} <span style="color:var(--muted)">${esc(a.reason||'')}</span></div>`).join('');return '<pre style="font-size:11px">'+esc(JSON.stringify(content,null,2))+'</pre>';}
+function copyResult(){navigator.clipboard.writeText(document.getElementById('o-result-content').innerText).then(()=>{const b=document.querySelector('.copy-btn');b.textContent='✓ 已复制';setTimeout(()=>b.textContent='复制结果',1500);});}
 
-function renderResult(type,content){
-  try{content=JSON.parse(content)}catch(e){}
-  if(typeof content==='string') return esc(content);
-  if(type==='comment_gen'&&content.comments) return content.comments.map((c,i)=>`<div class="action-item"><b>#${i+1}</b> ${'⭐'.repeat(c.stars||5)}<br>${esc(c.text)}</div>`).join('');
-  if(type==='strategy'&&content.actions) return content.actions.map(a=>`<div class="action-item"><b>${esc(a.group||'')}</b> → ${esc(a.action||'')} <span style="color:var(--muted);font-size:11px">${esc(a.reason||'')}</span></div>`).join('');
-  if(type==='data_analysis'&&content.summary) return `<div style="margin-bottom:10px">${esc(content.summary)}</div>`+(content.groups||[]).map(g=>`<div class="action-item"><b>${esc(g.name||'')}</b> · CPHQ $${g.cphq||'?'} · ${esc(g.recommendation||'')}</div>`).join('');
-  return '<pre style="font-size:11px;overflow-x:auto">'+esc(JSON.stringify(content,null,2))+'</pre>';
+// ===== TECH VIEW =====
+function renderTech(){
+  return `
+    <div class="sec-h">技术监控</div>
+    <div class="card"><h3>Pixel 状态</h3><p>暂未接入 · 后续由 Tech Agent 自动检测</p></div>
+    <div class="card"><h3>LCP / 页面速度</h3><p>暂未接入</p></div>
+    <div class="card"><h3>API / Webhook 健康</h3><p>暂未接入</p></div>
+    <div class="card"><h3>归因链路完整性</h3><p>暂未接入</p></div>
+    <div style="margin-top:16px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--muted)">
+      Tech View 当前为占位 · 接入后显示：Pixel 失效告警、LCP 超标页面、归因断裂检测
+    </div>
+  `;
 }
 
+// ===== CLIENT VIEW =====
+function renderClient(){
+  return `
+    <div class="sec-h">本周增长结果</div>
+    <div class="kpi-grid"><div class="kpi"><div class="num">—</div><div class="label">CPA</div></div><div class="kpi"><div class="num">—</div><div class="label">ROAS</div></div><div class="kpi"><div class="num">—</div><div class="label">花费</div></div></div>
+    <div class="card"><h3>趋势图</h3><p>暂未接入 · 后续展示花费 vs 转化趋势</p></div>
+    <div class="card"><h3>Agent 建议摘要</h3><p>暂未接入</p></div>
+    <div class="card"><h3>待确认事项</h3><p>暂无待确认</p></div>
+    <div style="margin-top:16px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--muted)">
+      Client View 为 P2 · 客户接入后展示周报级数据
+    </div>
+  `;
+}
+
+// ===== 工具 =====
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(msg,bg){const t=document.getElementById('toast');t.textContent=msg;t.style.background=bg||'#333';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
 
-function copyResult(){
-  const el=document.getElementById('result-content');
-  navigator.clipboard.writeText(el.innerText).then(()=>{
-    const btn=document.querySelector('.copy-btn');btn.textContent='✓ 已复制';setTimeout(()=>btn.textContent='复制结果',1500);
-  });
-}
-
-// --- 工具 ---
-function fileToBase64(file){return new Promise(r=>{const rd=new FileReader();rd.onload=()=>r(rd.result.split(',')[1]);rd.readAsDataURL(file)})}
-function toast(msg,bg){const t=document.getElementById('toast');t.textContent=msg;t.style.background=bg||'#333';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
-
-// --- 自动恢复登录 ---
-fetch('/api/results').then(r=>{if(r.ok)return r.json();throw 0}).then(d=>{
-  if(d.ok){user={owner_code:'',display_name:'已登录'};enterApp();}
-}).catch(()=>{});
+// 自动恢复
+fetch('/api/results').then(r=>{if(r.ok)return r.json();throw 0}).then(d=>{if(d.ok){user={role:'pitcher',owner_code:'',display_name:'已登录'};enterApp();}}).catch(()=>{});
 </script>
 </body>
 </html>

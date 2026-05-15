@@ -1,0 +1,5070 @@
+{
+  "date": null,
+  "filters": {
+    "s_pgmin": 2,
+    "s_durmin": 30
+  },
+  "sessions": [
+    {
+      "session_id": "f4cfb20b-1bf9-558f-945c-a54e5993494d",
+      "distinct_id": "7393267c-5fb0-4319-a769-c2f17b00cff4",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "440x956"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatu7R29zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe_8x9EBmmIkjKEmkkT7gddaYj3obQN6KaMl1N1_8m1ncg7zTeWwyNXEuL2y8_aem_74dirXcFtrwENxscjCGLPA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_60s"
+        ],
+        "hq2_reason_keys": [
+          "column_to_product_or_scenario",
+          "column_to_product"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T21:41:17Z",
+          "utm_campaign": "260413_chj_facebook_c3c702b5",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242549291400559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatu7R29zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe_8x9EBmmIkjKEmkkT7gddaYj3obQN6KaMl1N1_8m1ncg7zTeWwyNXEuL2y8_aem_74dirXcFtrwENxscjCGLPA",
+          "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "linkedTask": {
+            "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+            "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+            "dateSuffix": "c3c702b5",
+            "status": "active",
+            "utmCampaign": "260413_chj_facebook_c3c702b5",
+            "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+            "createdAt": "2026-04-13T09:31:06.691Z",
+            "updatedAt": "2026-04-13T09:31:07.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product_list": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T21:41:17.000Z",
+      "today_last_event_at": "2026-05-13T21:48:04.000Z",
+      "today_page_count": 6,
+      "today_event_count": 68,
+      "today_duration_sec": 687,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product_list": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T21:41:17Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "description": "专栏文章详情页 · kink-fetish · #4686 (/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer)",
+          "duration_sec": 56,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:41:19Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:42:13Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness",
+          "description": "专栏文章详情页 · kink-fetish · #4685 (/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness)",
+          "duration_sec": 49,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:43:02Z",
+          "type": "用户操作",
+          "description": "移动端菜单, 导航-商品",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:43:02Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys",
+          "description": "商品列表页 (/ai-sex-toys)",
+          "duration_sec": 35,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:43:37Z",
+          "type": "用户操作",
+          "description": "滚动深度, AI商品-发现点击, AI Sex Toys Product Detail Section View",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:43:37Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 110,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:45:26Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, AI Sex Toys Product Detail Section View×4, AI商品详情-视频播放×2, AI Sex Toys Product Detail Video Progress×7, AI商品详情-视频暂停×2, AI Sex Toys Product Detail Consider Popup Show, AI商品详情-滚动×2, AI商品-发现点击",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:45:27Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181026-twin-pact",
+          "description": "商品详情页 · 双生契约 (/ai-sex-toys/1181026-twin-pact)",
+          "duration_sec": 67,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:46:34Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, AI Sex Toys Product Detail Section View×4, AI商品详情-视频播放×2, AI Sex Toys Product Detail Video Progress×7, AI商品详情-视频暂停×2, AI商品详情-滚动×3, 滚动深度×3, AI商品-发现点击",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:46:34Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181029-trembling-secret",
+          "description": "商品详情页 · 颤抖的秘密 (/ai-sex-toys/1181029-trembling-secret)",
+          "duration_sec": 370,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-13T21:48:04Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, AI Sex Toys Product Detail Section View, AI商品详情-视频播放×3, AI Sex Toys Product Detail Video Progress×8, AI商品详情-视频暂停×3, AI商品详情-滚动, AI Sex Toys Product Detail Consider Popup Show",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 0
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 6,
+        "event_count": 70,
+        "duration_sec": 687,
+        "exit_page": "/ai-sex-toys/1181029-trembling-secret"
+      },
+      "extra_data": {
+        "windowSize": "440x774",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ATL"
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "99dd8256-c5ec-5a8e-9bdb-3a1539f5eac1",
+      "distinct_id": "c5daecae-6ca9-4dc6-9b46-d86a713b2acc",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Windows 10",
+        "type": "laptop",
+        "screen": "1920x1080"
+      },
+      "geo": {
+        "country": "US",
+        "language": "zh-CN"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "fbclid": "IwY2xjawRyHElleHRuA2FlbQIxMABicmlkETFNNWFwOXVhSEJ2UTJlZXZqc3J0YwZhcHBfaWQPNTQxNjM5NDkzODg5MDI1AAEePpsCUKwAAhx_y4qEfWi2GzocNuw2ndAIIochTFqZzhdiFdJ9j72L4xP3haA_aem_yzd5I9c2IJdxrX_7uNbvtw",
+        "referrer_domain": "l.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/zh/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_video_play",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T03:09:57Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "fbclid": "IwY2xjawRyHElleHRuA2FlbQIxMABicmlkETFNNWFwOXVhSEJ2UTJlZXZqc3J0YwZhcHBfaWQPNTQxNjM5NDkzODg5MDI1AAEePpsCUKwAAhx_y4qEfWi2GzocNuw2ndAIIochTFqZzhdiFdJ9j72L4xP3haA_aem_yzd5I9c2IJdxrX_7uNbvtw",
+          "landing_path": "/zh/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product_list": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T03:09:57.000Z",
+      "today_last_event_at": "2026-05-14T11:09:40.000Z",
+      "today_page_count": 5,
+      "today_event_count": 219,
+      "today_duration_sec": 246,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product_list": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T03:09:57Z",
+          "type": "页面访问",
+          "url": "/zh/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/zh/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 63,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T03:13:34Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, 年龄验证弹窗, 年龄验证通过, AI Sex Toys Product Detail Section View×4, AI商品详情-视频播放×24, AI商品详情-视频暂停×24, AI Sex Toys Product Detail Video Progress×8, AI商品详情-滚动×2, AI Sex Toys Product Detail Consider Popup Show",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T03:13:37Z",
+          "type": "页面访问",
+          "url": "/zh",
+          "description": "首页 (/zh)",
+          "duration_sec": 53,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T03:14:30Z",
+          "type": "用户操作",
+          "description": "滚动深度×2, 首页-下载区曝光, 剧场-轮播下一项×22, 导航-商品",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T03:14:30Z",
+          "type": "页面访问",
+          "url": "/zh/ai-sex-toys",
+          "description": "商品列表页 (/zh/ai-sex-toys)",
+          "duration_sec": 19,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T03:14:40Z",
+          "type": "用户操作",
+          "description": "滚动深度×2",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T03:14:49Z",
+          "type": "页面访问",
+          "url": "/zh/ai-sex-toys/1181028-that-first-flutter",
+          "description": "商品详情页 · 最初的悸动 (/zh/ai-sex-toys/1181028-that-first-flutter)",
+          "duration_sec": 93,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T03:39:58Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View×3, AI Sex Toys Product Detail Section View×4, AI商品详情-滚动×3, AI Sex Toys Product Detail Consider Popup Show, AI商品详情-视频播放×53, AI商品详情-视频暂停×53, AI Sex Toys Product Detail Video Progress×8",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T06:43:48Z",
+          "type": "页面访问",
+          "url": "/zh",
+          "description": "首页 (/zh)",
+          "duration_sec": 18,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 0
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 5,
+        "event_count": 262,
+        "duration_sec": 246,
+        "exit_page": "/zh"
+      },
+      "extra_data": {
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "SJC",
+        "hvv": "v2",
+        "hv": 1,
+        "hm": 5,
+        "windowSize": "1920x911"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "b3053a9d-1752-58b2-bd24-b40d4d058017",
+      "distinct_id": "a4e70e3a-5b71-4d7d-9888-4c16ecd24033",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "430x932"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120245319097350718",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe51DyquvmirM4Uk1_4msSyris7IjDJnjglblemEtC3_RY2VtUH-dOmnb2v0Y_aem_KkdQx-rFW2j2G5nzmr51eQ",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_scroll_50",
+          "product_video_play"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T04:48:11Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120245319097350718",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe51DyquvmirM4Uk1_4msSyris7IjDJnjglblemEtC3_RY2VtUH-dOmnb2v0Y_aem_KkdQx-rFW2j2G5nzmr51eQ",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T04:48:10.000Z",
+      "today_last_event_at": "2026-05-14T04:53:05.000Z",
+      "today_page_count": 3,
+      "today_event_count": 39,
+      "today_duration_sec": 415,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T04:48:10Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 170,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-14T04:50:59Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View×4, AI Sex Toys Product Detail View, 年龄验证弹窗, 年龄验证通过, AI商品详情-滚动×3, AI商品详情-视频播放×3, AI Sex Toys Product Detail Video Progress×8, AI商品详情-视频暂停×3, AI Sex Toys Product Detail Consider Popup Show, 商品测试-开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T04:51:00Z",
+          "type": "页面访问",
+          "url": "/test",
+          "description": "性测试问卷页 (/test)",
+          "duration_sec": 36,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T04:51:35Z",
+          "type": "用户操作",
+          "description": "商品测试-选项×7, 商品测试-下一步×2, 商品测试-关闭, AI Sex Toys Product Detail Section View",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T04:51:36Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 209,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-14T04:53:05Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, AI Sex Toys Product Detail Consider Popup Show",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 41,
+        "duration_sec": 415,
+        "exit_page": "/ai-sex-toys/1181025-shenyong"
+      },
+      "extra_data": {
+        "windowSize": "430x753",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "SEA"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "4c198c20-12dd-5450-91b8-bc725507f7a1",
+      "distinct_id": "4c672b47-f3ee-4e32-b052-c94b56065117",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "385x854"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_5886c2d8",
+        "utm_campaign": "260508_hzm_facebook_5886c2d8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMzUwNjg1NTMxNzI4AAEeU13G-ln-QR_IyP6FVB8ytkvw04TI6TR36LW47fvEisxlS9HokpMcZaTRUZg_aem_456-k63Q7MbWB26Jxo5J4w",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049760273118638081",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T15:35:46Z",
+          "utm_campaign": "260508_hzm_facebook_5886c2d8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMzUwNjg1NTMxNzI4AAEeU13G-ln-QR_IyP6FVB8ytkvw04TI6TR36LW47fvEisxlS9HokpMcZaTRUZg_aem_456-k63Q7MbWB26Jxo5J4w",
+          "landing_path": "/exp-app/scene/2049760273118638081",
+          "linkedTask": {
+            "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+            "name": "广告组65：（沈星回）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+            "dateSuffix": "5886c2d8",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_5886c2d8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:05:25.838Z",
+            "updatedAt": "2026-05-08T10:05:56.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T15:35:46.000Z",
+      "today_last_event_at": "2026-05-14T15:39:13.000Z",
+      "today_page_count": 6,
+      "today_event_count": 38,
+      "today_duration_sec": 411,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T15:35:46Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081",
+          "description": "/exp-app/scene/2049760273118638081 (/exp-app/scene/2049760273118638081)",
+          "duration_sec": 64,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T15:36:50Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 年龄验证弹窗, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:36:50Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081/room",
+          "description": "/exp-app/scene/2049760273118638081/room (/exp-app/scene/2049760273118638081/room)",
+          "duration_sec": 27,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T15:37:12Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Product Quick Prompt Show",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:37:17Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 10,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T15:37:27Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View, AI Sex Toys Product Detail View, Scene Room 进入拦截（missing_pending_entry）, 房间错误弹窗展示（generic: Your experience has ended. Come back anytime and let me guide you again.）, 房间错误弹窗确认（generic: Your experience has ended. Come back anytime and let me guide you again.）, 场景详情页首屏曝光",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:37:27Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081",
+          "description": "/exp-app/scene/2049760273118638081 (/exp-app/scene/2049760273118638081)",
+          "duration_sec": 11,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T15:37:38Z",
+          "type": "用户操作",
+          "description": "场景详情页开始体验, Scene Room 创建开始, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:37:38Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081/room",
+          "description": "/exp-app/scene/2049760273118638081/room (/exp-app/scene/2049760273118638081/room)",
+          "duration_sec": 91,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T15:39:09Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Mode Switch Success, 房间推荐回复点击×3, 房间消息发送×3, Exp App Scene Room Sensation Prompt Show, 感官引导-解锁商品, Exp App Scene Room Chat Limited",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:39:09Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 208,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-14T15:39:10Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View, AI Sex Toys Product Detail View",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 6,
+        "event_count": 40,
+        "duration_sec": 411,
+        "exit_page": "/ai-sex-toys/1181025-shenyong"
+      },
+      "extra_data": {
+        "windowSize": "384x737",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "DEN"
+      },
+      "linkedTask": {
+        "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+        "name": "广告组65：（沈星回）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+        "dateSuffix": "5886c2d8",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_5886c2d8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:05:25.838Z",
+        "updatedAt": "2026-05-08T10:05:56.722Z"
+      }
+    },
+    {
+      "session_id": "37d85d13-f2bd-5e99-a295-b7d9960a3cc7",
+      "distinct_id": "24870861-c451-42d0-9eee-8f62974cf311",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "390x844"
+      },
+      "geo": {
+        "country": "US",
+        "language": "es-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHvUFOzjbW6iU3fGkpG8P72CZgYcERu44yeOd5iN87GKwTuzFELs_pRUbb9mL_aem_16Pa_lR7rvKW_n_oK0AvOA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_video_play",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T02:52:02Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHvUFOzjbW6iU3fGkpG8P72CZgYcERu44yeOd5iN87GKwTuzFELs_pRUbb9mL_aem_16Pa_lR7rvKW_n_oK0AvOA",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T02:52:02.000Z",
+      "today_last_event_at": "2026-05-14T02:55:34.000Z",
+      "today_page_count": 4,
+      "today_event_count": 28,
+      "today_duration_sec": 392,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T02:52:02Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 133,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-14T02:53:59Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, AI Sex Toys Product Detail View, AI Sex Toys Product Detail Section View×4, 年龄验证通过, AI商品详情-视频播放×2, AI Sex Toys Product Detail Video Progress×6, AI商品详情-视频暂停×2, AI Sex Toys Product Detail Consider Popup Show, AI商品详情-滚动×3",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:54:15Z",
+          "type": "页面访问",
+          "url": "/search",
+          "description": "全站搜索页 (/search)",
+          "duration_sec": 38,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T02:54:53Z",
+          "type": "用户操作",
+          "description": "搜索提交, 搜索-推荐故事",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:54:53Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2053731486849413121",
+          "description": "/exp-app/scene/2053731486849413121 (/exp-app/scene/2053731486849413121)",
+          "duration_sec": 9,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T02:55:01Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 场景详情图集滑动×2, 场景详情页返回, Logo 点击",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:55:02Z",
+          "type": "页面访问",
+          "url": "/",
+          "description": "首页 (/)",
+          "duration_sec": 212,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        }
+      ],
+      "suspicious": {
+        "score": 0
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 4,
+        "event_count": 30,
+        "duration_sec": 392,
+        "exit_page": "/"
+      },
+      "extra_data": {
+        "windowSize": "390x335",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "DEN"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "5e9dd36e-6902-5b31-aa93-a6dcc3a34d80",
+      "distinct_id": "9b224f11-88c3-4034-9479-53dfa5591a76",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "412x922"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260407_chj_facebook_9bb14546",
+        "utm_campaign": "260407_chj_facebook_9bb14546",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242242005630559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasvrti8Zb9zcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR7ZJk8RLHC_SGw-tIr4HhNEn6-c7UD5cruhr9u-OqM90-fwSeMsgLqC1C_ONA_aem_JebQo3ECmIp3LfGhdJwsDg",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_60s"
+        ],
+        "hq2_reason_keys": [
+          "column_to_product_or_scenario",
+          "column_to_product"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T21:36:27Z",
+          "utm_campaign": "260407_chj_facebook_9bb14546",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242242005630559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasvrti8Zb9zcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR7ZJk8RLHC_SGw-tIr4HhNEn6-c7UD5cruhr9u-OqM90-fwSeMsgLqC1C_ONA_aem_JebQo3ECmIp3LfGhdJwsDg",
+          "landing_path": "/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper",
+          "linkedTask": {
+            "id": "4d388f51-b0f2-40c8-ac0c-3f4bea1404f3",
+            "name": "广告组5：（30 Positions）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper?page=1",
+            "dateSuffix": "9bb14546",
+            "status": "active",
+            "utmCampaign": "260407_chj_facebook_9bb14546",
+            "fullUrl": "https://www.creviatech.com/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260407_chj_facebook_9bb14546&utm_content=C008hj",
+            "createdAt": "2026-04-07T11:57:23.483Z",
+            "updatedAt": "2026-04-07T11:57:25.728Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T21:36:27.000Z",
+      "today_last_event_at": "2026-05-13T22:28:57.000Z",
+      "today_page_count": 5,
+      "today_event_count": 13,
+      "today_duration_sec": 328,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T21:36:27Z",
+          "type": "页面访问",
+          "url": "/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper",
+          "description": "专栏文章详情页 · power-dynamics · #4690 (/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper)",
+          "duration_sec": 135,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-13T21:38:41Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过, Multisensory Article Inline Card Click",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:38:42Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181026-twin-pact",
+          "description": "商品详情页 · 双生契约 (/ai-sex-toys/1181026-twin-pact)",
+          "duration_sec": 144,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-13T21:39:23Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View×2, AI Sex Toys Product Detail View, AI商品详情-观看演示, AI Sex Toys Product Detail Video Progress×4, AI Sex Toys Product Detail Demo Video Ended",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T22:28:29Z",
+          "type": "页面访问",
+          "url": "/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper",
+          "description": "专栏文章详情页 · power-dynamics · #4690 (/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper)",
+          "duration_sec": 11,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T22:28:40Z",
+          "type": "页面访问",
+          "url": "/multisensory/power-dynamics",
+          "description": "某个专栏内容页 · power-dynamics (/multisensory/power-dynamics)",
+          "duration_sec": 10,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T22:28:50Z",
+          "type": "用户操作",
+          "description": "翻页",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T22:28:50Z",
+          "type": "页面访问",
+          "url": "/multisensory/power-dynamics/page/3",
+          "description": "专栏分页页 · power-dynamics (/multisensory/power-dynamics/page/3)",
+          "duration_sec": 28,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 5,
+        "event_count": 19,
+        "duration_sec": 328,
+        "exit_page": "/multisensory/power-dynamics/page/3"
+      },
+      "extra_data": {
+        "windowSize": "411x775",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAD",
+        "hv": 1,
+        "hm": 20
+      },
+      "linkedTask": {
+        "id": "4d388f51-b0f2-40c8-ac0c-3f4bea1404f3",
+        "name": "广告组5：（30 Positions）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper?page=1",
+        "dateSuffix": "9bb14546",
+        "status": "active",
+        "utmCampaign": "260407_chj_facebook_9bb14546",
+        "fullUrl": "https://www.creviatech.com/multisensory/power-dynamics/4690-30-adventurous-sex-positions-to-spark-passion-curiosity-and-deeper?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260407_chj_facebook_9bb14546&utm_content=C008hj",
+        "createdAt": "2026-04-07T11:57:23.483Z",
+        "updatedAt": "2026-04-07T11:57:25.728Z"
+      }
+    },
+    {
+      "session_id": "cdc71fe6-87ff-5596-9a56-dbd185e0c1cc",
+      "distinct_id": "134d5d1c-8d90-4835-aecc-23993664c4e6",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "tablet",
+        "screen": "604x967"
+      },
+      "geo": {
+        "country": "AU",
+        "language": "en-AU"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_5886c2d8",
+        "utm_campaign": "260508_hzm_facebook_5886c2d8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260518577070362",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxGrGtpzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR4dh5cPVDfyb8JL4pmlbDb45O3JukjZr8xNBrYx_yo1FqJsk-XoCOSXdRQH0g_aem__wWGRt7mR5IIdZS1FvEu-g",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049760273118638081",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T05:44:44Z",
+          "utm_campaign": "260508_hzm_facebook_5886c2d8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260518577070362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxGrGtpzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR4dh5cPVDfyb8JL4pmlbDb45O3JukjZr8xNBrYx_yo1FqJsk-XoCOSXdRQH0g_aem__wWGRt7mR5IIdZS1FvEu-g",
+          "landing_path": "/exp-app/scene/2049760273118638081",
+          "linkedTask": {
+            "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+            "name": "广告组65：（沈星回）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+            "dateSuffix": "5886c2d8",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_5886c2d8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:05:25.838Z",
+            "updatedAt": "2026-05-08T10:05:56.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T05:44:44.000Z",
+      "today_last_event_at": "2026-05-14T05:47:17.000Z",
+      "today_page_count": 3,
+      "today_event_count": 14,
+      "today_duration_sec": 291,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T05:44:44Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081",
+          "description": "/exp-app/scene/2049760273118638081 (/exp-app/scene/2049760273118638081)",
+          "duration_sec": 74,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T05:45:58Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T05:45:58Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081/room",
+          "description": "/exp-app/scene/2049760273118638081/room (/exp-app/scene/2049760273118638081/room)",
+          "duration_sec": 62,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T05:46:28Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Product Quick Prompt Show",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T05:47:00Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 155,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-14T05:47:03Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View, AI Sex Toys Product Detail View",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 16,
+        "duration_sec": 291,
+        "exit_page": "/ai-sex-toys/1181025-shenyong"
+      },
+      "extra_data": {
+        "windowSize": "604x838",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "BNE"
+      },
+      "linkedTask": {
+        "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+        "name": "广告组65：（沈星回）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+        "dateSuffix": "5886c2d8",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_5886c2d8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:05:25.838Z",
+        "updatedAt": "2026-05-08T10:05:56.722Z"
+      }
+    },
+    {
+      "session_id": "f38edd90-bf35-56e6-b01b-42cc505a50c6",
+      "distinct_id": "b4981a2e-8d09-41da-b88f-3c67c6c4e735",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "tablet",
+        "screen": "810x1080"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120245319097350718",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZA8xNzM4NDc2NDI2NzAzNzAAAR6SoYdiV2NIBHTUo-CbyazOSnLeJLF87LCQ8RIm58gifpuZWncje7FEG-9p5A_aem_avk1jWUuYck6WcNuyO7Iag",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_video_play",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T23:34:36Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120245319097350718",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZA8xNzM4NDc2NDI2NzAzNzAAAR6SoYdiV2NIBHTUo-CbyazOSnLeJLF87LCQ8RIm58gifpuZWncje7FEG-9p5A_aem_avk1jWUuYck6WcNuyO7Iag",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T23:34:36.000Z",
+      "today_last_event_at": "2026-05-13T23:36:27.000Z",
+      "today_page_count": 2,
+      "today_event_count": 41,
+      "today_duration_sec": 211,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T23:34:36Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 99,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T23:36:15Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, AI Sex Toys Product Detail View, 年龄验证通过, AI Sex Toys Product Detail Section View×4, AI商品详情-视频播放×7, AI Sex Toys Product Detail Video Progress×7, AI商品详情-视频暂停×7, AI商品详情-滚动×2, AI Sex Toys Product Detail Consider Popup Show, AI商品详情-推荐故事",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T23:36:15Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2053732442366390274",
+          "description": "/exp-app/scene/2053732442366390274 (/exp-app/scene/2053732442366390274)",
+          "duration_sec": 112,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T23:36:25Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 场景详情页返回, AI商品详情-滚动×5, AI Sex Toys Product Detail Section View, AI Sex Toys Product Detail View",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 43,
+        "duration_sec": 211,
+        "exit_page": "/exp-app/scene/2053732442366390274"
+      },
+      "extra_data": {
+        "windowSize": "1080x692",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "EWR"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "30c152bb-3d9d-54af-b35d-731ca3d9af54",
+      "distinct_id": "0313c85e-0496-4e2b-8e90-f677c0186705",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "600x960"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMzUwNjg1NTMxNzI4AAEe4duAxU-Tr1zfd1P2FtTtHy1wCRyA35uvPihJKTrSnhAXER3YU6LXYvkmK0Q_aem_zHCGdhxcMAgjiRZ4PL7KjA",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T15:16:39Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMzUwNjg1NTMxNzI4AAEe4duAxU-Tr1zfd1P2FtTtHy1wCRyA35uvPihJKTrSnhAXER3YU6LXYvkmK0Q_aem_zHCGdhxcMAgjiRZ4PL7KjA",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T15:16:39.000Z",
+      "today_last_event_at": "2026-05-14T15:18:14.000Z",
+      "today_page_count": 3,
+      "today_event_count": 15,
+      "today_duration_sec": 150,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T15:16:39Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 26,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T15:17:05Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:17:05Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 27,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T15:17:22Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Product Quick Prompt Show",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T15:17:32Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 97,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T15:17:44Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View×2, AI Sex Toys Product Detail View",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 17,
+        "duration_sec": 150,
+        "exit_page": "/ai-sex-toys/1181025-shenyong"
+      },
+      "extra_data": {
+        "windowSize": "600x916",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "BOS"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "86d952e5-fa2b-5f06-b6cc-5221e4a744fd",
+      "distinct_id": "fd04530b-3a96-430b-a9d5-04b5b3c60c06",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "375x812"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHkggAW3ZaUb8Nir7kkUliFAWuzdq9e0U2C0KjjdK_QkZbX5CMAaL48b0mONN_aem_a0PcxU16ltCmElyt8c4xuA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T19:06:00Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHkggAW3ZaUb8Nir7kkUliFAWuzdq9e0U2C0KjjdK_QkZbX5CMAaL48b0mONN_aem_a0PcxU16ltCmElyt8c4xuA",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T19:06:00.000Z",
+      "today_last_event_at": "2026-05-13T19:08:32.000Z",
+      "today_page_count": 3,
+      "today_event_count": 21,
+      "today_duration_sec": 127,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T19:06:00Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 33,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T19:06:32Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, AI Sex Toys Product Detail View, 年龄验证通过, AI Sex Toys Product Detail Section View×4, AI商品详情-滚动×2, 商品测试-开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T19:06:33Z",
+          "type": "页面访问",
+          "url": "/test",
+          "description": "性测试问卷页 (/test)",
+          "duration_sec": 29,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T19:07:02Z",
+          "type": "用户操作",
+          "description": "商品测试-选项×5, 商品测试-下一步×3, 商品测试-关闭",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T19:07:02Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 65,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T19:08:32Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, AI Sex Toys Product Detail Consider Popup Show",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 23,
+        "duration_sec": 127,
+        "exit_page": "/ai-sex-toys/1181025-shenyong"
+      },
+      "extra_data": {
+        "windowSize": "375x316",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ATL"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "55a85c19-7117-59d2-bab0-4ebf43b74ba5",
+      "distinct_id": "46b8183b-ecbc-4a3e-862b-0cfa904203c9",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "393x852"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120245319097350718",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeady_wITLkW4nvyQn0tF_sexfgQABhAsLggGYNzYBvz3V-8m1ydJkvmXNHXg_aem_T1c1XIPIfapGSwxX4l6iGA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T01:32:25Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120245319097350718",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeady_wITLkW4nvyQn0tF_sexfgQABhAsLggGYNzYBvz3V-8m1ydJkvmXNHXg_aem_T1c1XIPIfapGSwxX4l6iGA",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T01:32:25.000Z",
+      "today_last_event_at": "2026-05-14T01:35:38.000Z",
+      "today_page_count": 3,
+      "today_event_count": 20,
+      "today_duration_sec": 115,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T01:32:25Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 41,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T01:33:05Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View×4, AI Sex Toys Product Detail View, 年龄验证弹窗, 年龄验证通过, AI商品详情-滚动×2, AI商品详情-推荐故事",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T01:33:06Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2053731486849413121",
+          "description": "/exp-app/scene/2053731486849413121 (/exp-app/scene/2053731486849413121)",
+          "duration_sec": 7,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T01:33:13Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 场景详情页开始体验, Scene Room 创建开始, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T01:33:13Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2053731486849413121/room",
+          "description": "/exp-app/scene/2053731486849413121/room (/exp-app/scene/2053731486849413121/room)",
+          "duration_sec": 67,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T01:35:38Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Sensation Prompt Show",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 22,
+        "duration_sec": 115,
+        "exit_page": "/exp-app/scene/2053731486849413121/room"
+      },
+      "extra_data": {
+        "windowSize": "393x673",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAD"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "83a1699d-9515-5750-8c65-e65da8432d3a",
+      "distinct_id": "62293a21-9b43-4f82-abeb-dd625682946c",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "375x667"
+      },
+      "geo": {
+        "country": "GB",
+        "language": "en-GB"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_5886c2d8",
+        "utm_campaign": "260508_hzm_facebook_5886c2d8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260518577070362",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxGrGtpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe66Ph0KFAoI-_ZzEAMS7yzsPZ3NvocK8FWQ_M3lG41lWV5pPMoUnfQzu6fWU_aem_tht2ZY-lLer2vyNVs0A-nA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049760273118638081",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq2_matched": true,
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T23:06:31Z",
+          "utm_campaign": "260508_hzm_facebook_ef4cb460",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260517201370362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe5s1NXMmtx_8ITcK4CsBtBzeC_sGd45_8XqDkzQZoY3llkyhKIapZUq3MZmM_aem_-4u9PLMPwprxgcFio7ZQrA",
+          "landing_path": "/exp-app/scene/2049744772917211137",
+          "linkedTask": {
+            "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+            "name": "广告组64：（黎深）视频跳转到剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+            "dateSuffix": "ef4cb460",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_ef4cb460",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:02:13.242Z",
+            "updatedAt": "2026-05-08T10:02:14.462Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T23:06:31.000Z",
+      "today_last_event_at": "2026-05-13T23:08:47.000Z",
+      "today_page_count": 3,
+      "today_event_count": 16,
+      "today_duration_sec": 110,
+      "today_conv": {
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-13T23:06:31Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137",
+          "description": "/exp-app/scene/2049744772917211137 (/exp-app/scene/2049744772917211137)",
+          "duration_sec": 10,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T23:06:41Z",
+          "type": "用户操作",
+          "description": "场景详情页开始体验, Scene Room 创建开始, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T23:06:41Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137/room",
+          "description": "/exp-app/scene/2049744772917211137/room (/exp-app/scene/2049744772917211137/room)",
+          "duration_sec": 93,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T23:08:13Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Mode Switch Success, 房间推荐回复点击, 房间消息发送×2, Exp App Scene Room Sensation Prompt Show, 感官引导-解锁商品, Exp App Scene Room Chat Limited",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T23:08:14Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181026-twin-pact",
+          "description": "商品详情页 · 双生契约 (/ai-sex-toys/1181026-twin-pact)",
+          "duration_sec": 7,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T23:08:41Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 9,
+        "event_count": 73,
+        "duration_sec": 405,
+        "exit_page": "/ai-sex-toys/1181026-twin-pact"
+      },
+      "extra_data": {
+        "windowSize": "375x561",
+        "hv": 1,
+        "hm": 20,
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "LHR"
+      },
+      "linkedTask": {
+        "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+        "name": "广告组65：（沈星回）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+        "dateSuffix": "5886c2d8",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_5886c2d8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:05:25.838Z",
+        "updatedAt": "2026-05-08T10:05:56.722Z"
+      }
+    },
+    {
+      "session_id": "f4cdfb32-1422-5250-8c0d-f3083541892f",
+      "distinct_id": "14504f65-4c26-4da0-ba19-190eb6a70742",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "390x844"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHny32Uy7ak0IvdR4wkXSRxtsmHBeplHRyMRuwQtyzuLMbyFZvnBQtQ8aB0ny_aem_T29MCH_-Pxkcqas8Xzo9og",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_watch_demo_click"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T16:31:59Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHny32Uy7ak0IvdR4wkXSRxtsmHBeplHRyMRuwQtyzuLMbyFZvnBQtQ8aB0ny_aem_T29MCH_-Pxkcqas8Xzo9og",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T16:31:59.000Z",
+      "today_last_event_at": "2026-05-13T16:32:55.000Z",
+      "today_page_count": 2,
+      "today_event_count": 9,
+      "today_duration_sec": 102,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T16:31:59Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 45,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T16:32:43Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail View, 年龄验证弹窗, 年龄验证通过, AI Sex Toys Product Detail Section View, AI商品详情-观看演示, AI Sex Toys Product Detail Video Progress×3, AI商品详情-立即购买",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T16:32:44Z",
+          "type": "页面访问",
+          "url": "/order",
+          "description": "结算页 (/order)",
+          "duration_sec": 57,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 11,
+        "duration_sec": 102,
+        "exit_page": "/order"
+      },
+      "extra_data": {
+        "windowSize": "390x335",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "DFW"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "ea39378d-90e9-5bf7-8147-9ae621ab4f04",
+      "distinct_id": "608e5c66-7191-4869-871e-53d7ef34120b",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "412x915"
+      },
+      "geo": {
+        "country": "US",
+        "language": "es-US"
+      },
+      "traffic": {
+        "source": "campaign:260430_hzm_facebook_39e5d9ad",
+        "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120245319097350718",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR6ZStl1Pq6VsEn02yskdugMZzIt4-E6EqTel5NKyO8b6isLMFm5yzYYp-4rcw_aem_JXiCxV1F7aQ6Fna4cptCrA",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/ai-sex-toys/1181025-shenyong",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T03:18:54Z",
+          "utm_campaign": "260430_hzm_facebook_39e5d9ad",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120245319097350718",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasypw9iMT5zcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR6ZStl1Pq6VsEn02yskdugMZzIt4-E6EqTel5NKyO8b6isLMFm5yzYYp-4rcw_aem_JXiCxV1F7aQ6Fna4cptCrA",
+          "landing_path": "/ai-sex-toys/1181025-shenyong",
+          "linkedTask": {
+            "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+            "name": "广告组60：（直棒）视频跳转产品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+            "dateSuffix": "39e5d9ad",
+            "status": "active",
+            "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+            "createdAt": "2026-04-30T06:55:11.599Z",
+            "updatedAt": "2026-04-30T06:55:11.633Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T03:18:54.000Z",
+      "today_last_event_at": "2026-05-14T03:19:58.000Z",
+      "today_page_count": 2,
+      "today_event_count": 8,
+      "today_duration_sec": 50,
+      "today_conv": {
+        "age_verified": true,
+        "viewed_product": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T03:18:54Z",
+          "type": "页面访问",
+          "url": "/ai-sex-toys/1181025-shenyong",
+          "description": "商品详情页 · 深涌 (/ai-sex-toys/1181025-shenyong)",
+          "duration_sec": 18,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T03:19:11Z",
+          "type": "用户操作",
+          "description": "AI Sex Toys Product Detail Section View×2, AI Sex Toys Product Detail View, 年龄验证弹窗, 年龄验证通过, AI商品详情-立即购买",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T03:19:12Z",
+          "type": "页面访问",
+          "url": "/order",
+          "description": "结算页 (/order)",
+          "duration_sec": 32,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T03:19:29Z",
+          "type": "用户操作",
+          "description": "Checkout Form Focus, 结账-邮箱输入",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 14,
+        "duration_sec": 50,
+        "exit_page": "/order"
+      },
+      "extra_data": {
+        "windowSize": "411x770",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ORD"
+      },
+      "linkedTask": {
+        "id": "1f572f2b-5a92-4832-bde6-b969f94f3cf1",
+        "name": "广告组60：（直棒）视频跳转产品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong",
+        "dateSuffix": "39e5d9ad",
+        "status": "active",
+        "utmCampaign": "260430_hzm_facebook_39e5d9ad",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys/1181025-shenyong?utm_source=facebook&utm_medium=paid&utm_campaign=260430_hzm_facebook_39e5d9ad&utm_content=Mm0818",
+        "createdAt": "2026-04-30T06:55:11.599Z",
+        "updatedAt": "2026-04-30T06:55:11.633Z"
+      }
+    },
+    {
+      "session_id": "6ddb5190-c3b7-5ec6-993d-fdc76353ed7c",
+      "distinct_id": "0b593b19-c7ab-4011-bcca-05a2008bbd82",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Windows 10",
+        "type": "laptop",
+        "screen": "1707x1067"
+      },
+      "geo": {
+        "country": "JP",
+        "language": "zh-CN"
+      },
+      "traffic": {
+        "source": "campaign:260421_chj_facebook_2b593df8",
+        "utm_campaign": "260421_chj_facebook_2b593df8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "landing_path": "/ai-sex-toys",
+        "landing_type": "product",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "duration_30s"
+        ],
+        "hq2_reason_keys": [
+          "product_browse_any",
+          "product_scroll_50"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T23:33:34Z",
+          "utm_campaign": "260421_chj_facebook_2b593df8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "landing_path": "/zh/ai-sex-toys",
+          "linkedTask": {
+            "id": "57c9df4f-07c9-4d61-9990-d34b7ac0b1c6",
+            "name": "广告组38：（CRAVE AI）图片跳转到商品详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/ai-sex-toys",
+            "dateSuffix": "2b593df8",
+            "status": "active",
+            "utmCampaign": "260421_chj_facebook_2b593df8",
+            "fullUrl": "https://www.creviatech.com/ai-sex-toys?utm_source=facebook&utm_medium=paid&utm_campaign=260421_chj_facebook_2b593df8&utm_content=C008hj",
+            "createdAt": "2026-04-21T08:35:53.991Z",
+            "updatedAt": "2026-04-21T08:35:54.408Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true,
+        "viewed_product_list": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T23:33:34.000Z",
+      "today_last_event_at": "2026-05-14T08:05:42.000Z",
+      "today_page_count": 4,
+      "today_event_count": 6,
+      "today_duration_sec": 37,
+      "today_conv": {
+        "viewed_product_list": true
+      },
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-13T23:33:34Z",
+          "type": "页面访问",
+          "url": "/zh/ai-sex-toys",
+          "description": "商品列表页 (/zh/ai-sex-toys)",
+          "duration_sec": 6,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T02:34:54Z",
+          "type": "用户操作",
+          "description": "滚动深度×3, 导航-剧场",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:34:54Z",
+          "type": "页面访问",
+          "url": "/zh/scenarios",
+          "description": "剧场首页 (/zh/scenarios)",
+          "duration_sec": 18,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T02:35:12Z",
+          "type": "用户操作",
+          "description": "导航-商品",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:35:12Z",
+          "type": "页面访问",
+          "url": "/zh/ai-sex-toys",
+          "description": "商品列表页 (/zh/ai-sex-toys)",
+          "duration_sec": 2,
+          "conv_status": "继续",
+          "user_intent": "快速操作"
+        },
+        {
+          "time": "2026-05-14T02:35:13Z",
+          "type": "用户操作",
+          "description": "导航-App",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T02:35:14Z",
+          "type": "页面访问",
+          "url": "/zh/app",
+          "description": "App 下载 / 引导页 (/zh/app)",
+          "duration_sec": 11,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 0
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 8,
+        "event_count": 140,
+        "duration_sec": 316,
+        "exit_page": "/zh/app"
+      },
+      "extra_data": {
+        "windowSize": "1707x932",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "KIX",
+        "hv": 1,
+        "hm": 5
+      },
+      "linkedTask": {
+        "id": "57c9df4f-07c9-4d61-9990-d34b7ac0b1c6",
+        "name": "广告组38：（CRAVE AI）图片跳转到商品详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/ai-sex-toys",
+        "dateSuffix": "2b593df8",
+        "status": "active",
+        "utmCampaign": "260421_chj_facebook_2b593df8",
+        "fullUrl": "https://www.creviatech.com/ai-sex-toys?utm_source=facebook&utm_medium=paid&utm_campaign=260421_chj_facebook_2b593df8&utm_content=C008hj",
+        "createdAt": "2026-04-21T08:35:53.991Z",
+        "updatedAt": "2026-04-21T08:35:54.408Z"
+      }
+    },
+    {
+      "session_id": "35c6e92c-042d-57b2-a00b-87480eb17776",
+      "distinct_id": "8138707e-cab6-4256-b80b-51172d4ce921",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "414x896"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeYc2U-bVM0L0hNSyNG19z2SHE74tn9ycWXFC_luXJFD5exw6piOjUxxLPhWo_aem_RkFsFG01nsTFAEJesYnPfw",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "duration_60s"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T20:04:52Z",
+          "utm_campaign": "260413_chj_facebook_c3c702b5",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242549291400559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeYc2U-bVM0L0hNSyNG19z2SHE74tn9ycWXFC_luXJFD5exw6piOjUxxLPhWo_aem_RkFsFG01nsTFAEJesYnPfw",
+          "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "linkedTask": {
+            "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+            "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+            "dateSuffix": "c3c702b5",
+            "status": "active",
+            "utmCampaign": "260413_chj_facebook_c3c702b5",
+            "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+            "createdAt": "2026-04-13T09:31:06.691Z",
+            "updatedAt": "2026-04-13T09:31:07.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T20:04:52.000Z",
+      "today_last_event_at": "2026-05-13T20:14:02.000Z",
+      "today_page_count": 2,
+      "today_event_count": 2,
+      "today_duration_sec": 930,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T20:04:52Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "description": "专栏文章详情页 · kink-fetish · #4686 (/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer)",
+          "duration_sec": 380,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-13T20:04:55Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T20:11:12Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4687-mastering-nipple-play-how-to-build-sensual-pleasure-deeper-arousal",
+          "description": "专栏文章详情页 · kink-fetish · #4687 (/multisensory/kink-fetish/4687-mastering-nipple-play-how-to-build-sensual-pleasure-deeper-arousal)",
+          "duration_sec": 550,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 4,
+        "duration_sec": 930,
+        "exit_page": "/multisensory/kink-fetish/4687-mastering-nipple-play-how-to-build-sensual-pleasure-deeper-arousal"
+      },
+      "extra_data": {
+        "windowSize": "414x728",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ORD"
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "398a8443-f5e8-5d32-b93f-e18d7684b93d",
+      "distinct_id": "7f0f93d3-af74-4429-b057-0ac1ea682e9d",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "430x932"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEekA2CgJaJMm5dtspFzoDr3jMXB7Q4a-O0AA9wyKpNAI2cuAMU10TYNgRfb9k_aem_SYXyI-MSflZioFLP2RCyug",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "duration_60s"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T21:01:27Z",
+          "utm_campaign": "260413_chj_facebook_c3c702b5",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242549291400559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEekA2CgJaJMm5dtspFzoDr3jMXB7Q4a-O0AA9wyKpNAI2cuAMU10TYNgRfb9k_aem_SYXyI-MSflZioFLP2RCyug",
+          "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "linkedTask": {
+            "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+            "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+            "dateSuffix": "c3c702b5",
+            "status": "active",
+            "utmCampaign": "260413_chj_facebook_c3c702b5",
+            "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+            "createdAt": "2026-04-13T09:31:06.691Z",
+            "updatedAt": "2026-04-13T09:31:07.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T21:01:27.000Z",
+      "today_last_event_at": "2026-05-13T21:08:52.000Z",
+      "today_page_count": 2,
+      "today_event_count": 2,
+      "today_duration_sec": 711,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T21:01:27Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "description": "专栏文章详情页 · kink-fetish · #4686 (/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer)",
+          "duration_sec": 266,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        },
+        {
+          "time": "2026-05-13T21:01:39Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:05:53Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness",
+          "description": "专栏文章详情页 · kink-fetish · #4685 (/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness)",
+          "duration_sec": 445,
+          "conv_status": "继续",
+          "user_intent": "深度阅读"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 4,
+        "duration_sec": 711,
+        "exit_page": "/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness"
+      },
+      "extra_data": {
+        "windowSize": "430x753",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ORD"
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "27900d47-05d9-57b8-9409-120f4033942a",
+      "distinct_id": "feaee8d3-0728-429e-a8da-e01b6834fd2c",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "375x812"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswau1AS39zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeO3a9BNvr68qjp1LLUzbd0C3brXwH-XfZymU3lEdvCsrwULxVlBScDzTrm4Q_aem_WxOigBAZN2MAR9wIRfG47w",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "duration_60s"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T22:01:51Z",
+          "utm_campaign": "260413_chj_facebook_c3c702b5",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242549291400559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswau1AS39zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeO3a9BNvr68qjp1LLUzbd0C3brXwH-XfZymU3lEdvCsrwULxVlBScDzTrm4Q_aem_WxOigBAZN2MAR9wIRfG47w",
+          "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "linkedTask": {
+            "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+            "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+            "dateSuffix": "c3c702b5",
+            "status": "active",
+            "utmCampaign": "260413_chj_facebook_c3c702b5",
+            "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+            "createdAt": "2026-04-13T09:31:06.691Z",
+            "updatedAt": "2026-04-13T09:31:07.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T22:01:51.000Z",
+      "today_last_event_at": "2026-05-13T22:03:35.000Z",
+      "today_page_count": 2,
+      "today_event_count": 2,
+      "today_duration_sec": 182,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T22:01:51Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "description": "专栏文章详情页 · kink-fetish · #4686 (/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer)",
+          "duration_sec": 77,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T22:01:54Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T22:03:08Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness",
+          "description": "专栏文章详情页 · kink-fetish · #4685 (/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness)",
+          "duration_sec": 105,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 4,
+        "duration_sec": 182,
+        "exit_page": "/multisensory/kink-fetish/4685-mastering-squirting-understanding-female-ejaculation-body-awareness"
+      },
+      "extra_data": {
+        "windowSize": "375x720",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "DEN"
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "a7ce8e92-57f3-5d3c-8d63-196174955835",
+      "distinct_id": "472a61f5-6f51-4d3a-87ca-81779d010224",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "tablet",
+        "screen": "768x1024"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTczODQ3NjQyNjcwMzcwAAEepz31qwpdbJ8vjZCBqTRFdLkWZGSxw_1QnWbIuyEhM2FHLqZxzdr381ctbJc_aem_lG1hmSfllT6d7eEkWxoYhw",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T14:05:42Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTczODQ3NjQyNjcwMzcwAAEepz31qwpdbJ8vjZCBqTRFdLkWZGSxw_1QnWbIuyEhM2FHLqZxzdr381ctbJc_aem_lG1hmSfllT6d7eEkWxoYhw",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T14:05:42.000Z",
+      "today_last_event_at": "2026-05-14T14:07:17.000Z",
+      "today_page_count": 2,
+      "today_event_count": 11,
+      "today_duration_sec": 175,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T14:05:42Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 79,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T14:07:01Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T14:07:01Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 96,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T14:07:07Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 13,
+        "duration_sec": 175,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "768x438",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAD"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "02fa9986-eb46-5c62-9d8d-6b6bb1d9986d",
+      "distinct_id": "0467f861-bea6-47c2-9a46-c1104ad5a78d",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chrome",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "686x1098"
+      },
+      "geo": {
+        "country": "GB",
+        "language": "en-GB"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_ef4cb460",
+        "utm_campaign": "260508_hzm_facebook_ef4cb460",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260517201370362",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5SaBhc8Geh-PmHjbup_muFm5l5SGmUG51Uq1L0VlOsGxKhZ-mWNBT5XJFpHQ_aem_ja7QoXphauLclY4lOtJuIg",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049744772917211137",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq2_matched": true,
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T15:52:02Z",
+          "utm_campaign": "260508_hzm_facebook_ef4cb460",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260517201370362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR4re5SeLivb_YdfktCFNEbBO5ZnyuF1MoH5sJ6iePBiGlv57e55PrTH37TMrg_aem_V4dFztLVB-CfukXT-JCMwA",
+          "landing_path": "/exp-app/scene/2049744772917211137",
+          "linkedTask": {
+            "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+            "name": "广告组64：（黎深）视频跳转到剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+            "dateSuffix": "ef4cb460",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_ef4cb460",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:02:13.242Z",
+            "updatedAt": "2026-05-08T10:02:14.462Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T16:11:20.000Z",
+      "today_last_event_at": "2026-05-13T16:13:07.000Z",
+      "today_page_count": 2,
+      "today_event_count": 13,
+      "today_duration_sec": 130,
+      "today_conv": {},
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-13T16:11:20Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137",
+          "description": "/exp-app/scene/2049744772917211137 (/exp-app/scene/2049744772917211137)",
+          "duration_sec": 23,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T16:11:43Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T16:11:43Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137/room",
+          "description": "/exp-app/scene/2049744772917211137/room (/exp-app/scene/2049744772917211137/room)",
+          "duration_sec": 107,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T16:13:02Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, 离开房间弹窗展示, 离开房间执行, 离开房间确认, 场景详情页首屏曝光",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 5,
+        "event_count": 44,
+        "duration_sec": 332,
+        "exit_page": "/exp-app/scene/2049744772917211137/room"
+      },
+      "extra_data": {
+        "windowSize": "686x978",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "LHR",
+        "hv": 1,
+        "hm": 18
+      },
+      "linkedTask": {
+        "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+        "name": "广告组64：（黎深）视频跳转到剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+        "dateSuffix": "ef4cb460",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_ef4cb460",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:02:13.242Z",
+        "updatedAt": "2026-05-08T10:02:14.462Z"
+      }
+    },
+    {
+      "session_id": "a180338c-ee6e-5598-838f-efdc0326dd7c",
+      "distinct_id": "080afa5a-e6d5-48ee-ada5-016f777b51e8",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "402x874"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHqWvkXjyVP9gISEn-J9Yt7NskukDEeIrUpupZWs-btrc938Kbb6igc92YDlE_aem_SImPYLnfve-d4FJukBqGXA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T21:26:51Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHqWvkXjyVP9gISEn-J9Yt7NskukDEeIrUpupZWs-btrc938Kbb6igc92YDlE_aem_SImPYLnfve-d4FJukBqGXA",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T21:26:51.000Z",
+      "today_last_event_at": "2026-05-13T21:28:25.000Z",
+      "today_page_count": 2,
+      "today_event_count": 17,
+      "today_duration_sec": 128,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T21:26:51Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 33,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:27:24Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 年龄验证弹窗, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T21:27:24Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 95,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T21:28:01Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Mode Switch Success, Exp App Scene Room Mic Access Blocked, 房间错误弹窗展示（generic: Microphone access has been denied here. Open the page in Chrome or Safari for a fuller experience, …）, 房间错误弹窗确认（generic: Microphone access has been denied here. Open the page in Chrome or Safari for a fuller experience, …）, 房间推荐回复点击, 房间消息发送",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 19,
+        "duration_sec": 128,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "402x342",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ORD"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "daf264f3-2574-549a-a050-6c0f933ce4f4",
+      "distinct_id": "eaaaa864-6e6d-46bd-a5b7-5775166b0547",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "414x896"
+      },
+      "geo": {
+        "country": "AU",
+        "language": "en-AU"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_ef4cb460",
+        "utm_campaign": "260508_hzm_facebook_ef4cb460",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260517201370362",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeGDLaKYF28uD5IUqlcoJ9aPt1npNBi_UjXnzHUkYiU53vyKeKOMUyZBTvcC4_aem_A31cIb4lBc_z8D0nrZFbMw",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049744772917211137",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T04:45:07Z",
+          "utm_campaign": "260508_hzm_facebook_ef4cb460",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260517201370362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeGDLaKYF28uD5IUqlcoJ9aPt1npNBi_UjXnzHUkYiU53vyKeKOMUyZBTvcC4_aem_A31cIb4lBc_z8D0nrZFbMw",
+          "landing_path": "/exp-app/scene/2049744772917211137",
+          "linkedTask": {
+            "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+            "name": "广告组64：（黎深）视频跳转到剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+            "dateSuffix": "ef4cb460",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_ef4cb460",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:02:13.242Z",
+            "updatedAt": "2026-05-08T10:02:14.462Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T04:45:07.000Z",
+      "today_last_event_at": "2026-05-14T04:46:11.000Z",
+      "today_page_count": 2,
+      "today_event_count": 11,
+      "today_duration_sec": 112,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T04:45:07Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137",
+          "description": "/exp-app/scene/2049744772917211137 (/exp-app/scene/2049744772917211137)",
+          "duration_sec": 55,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T04:46:02Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, 场景详情图集滑动×6, 场景详情页返回×2",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T04:46:02Z",
+          "type": "页面访问",
+          "url": "/scenarios",
+          "description": "剧场首页 (/scenarios)",
+          "duration_sec": 57,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 15,
+        "duration_sec": 112,
+        "exit_page": "/scenarios"
+      },
+      "extra_data": {
+        "windowSize": "414x149",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "SYD"
+      },
+      "linkedTask": {
+        "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+        "name": "广告组64：（黎深）视频跳转到剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+        "dateSuffix": "ef4cb460",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_ef4cb460",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:02:13.242Z",
+        "updatedAt": "2026-05-08T10:02:14.462Z"
+      }
+    },
+    {
+      "session_id": "4619441e-6b77-52c0-9873-96fcfef740b4",
+      "distinct_id": "61ffcb11-fc87-4b7d-8d1a-893d27e8f7a8",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "430x932"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_5886c2d8",
+        "utm_campaign": "260508_hzm_facebook_5886c2d8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260518577070362",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxGrGtpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeqSSTjH22ccDCPy8hKiYKJpleXNSLkMW1AL0gZHzfftbQlb2aMmt525IP1HQ_aem_aHkuVshQDLXMSil4hZOB2Q",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2049760273118638081",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T04:14:11Z",
+          "utm_campaign": "260508_hzm_facebook_5886c2d8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260518577070362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxGrGtpzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeqSSTjH22ccDCPy8hKiYKJpleXNSLkMW1AL0gZHzfftbQlb2aMmt525IP1HQ_aem_aHkuVshQDLXMSil4hZOB2Q",
+          "landing_path": "/exp-app/scene/2049760273118638081",
+          "linkedTask": {
+            "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+            "name": "广告组65：（沈星回）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+            "dateSuffix": "5886c2d8",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_5886c2d8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:05:25.838Z",
+            "updatedAt": "2026-05-08T10:05:56.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T04:14:11.000Z",
+      "today_last_event_at": "2026-05-14T04:15:51.000Z",
+      "today_page_count": 2,
+      "today_event_count": 15,
+      "today_duration_sec": 112,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T04:14:11Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081",
+          "description": "/exp-app/scene/2049760273118638081 (/exp-app/scene/2049760273118638081)",
+          "duration_sec": 16,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T04:14:26Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 年龄验证弹窗, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T04:14:27Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049760273118638081/room",
+          "description": "/exp-app/scene/2049760273118638081/room (/exp-app/scene/2049760273118638081/room)",
+          "duration_sec": 96,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T04:15:51Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, 离开房间弹窗展示, 房间页返回, 离开房间取消, Exp App Scene Room Sensation Prompt Show",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 17,
+        "duration_sec": 112,
+        "exit_page": "/exp-app/scene/2049760273118638081/room"
+      },
+      "extra_data": {
+        "windowSize": "430x753",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "DFW"
+      },
+      "linkedTask": {
+        "id": "309e5cb8-8f8a-4d4b-9e38-043ecae0ea20",
+        "name": "广告组65：（沈星回）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories",
+        "dateSuffix": "5886c2d8",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_5886c2d8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049760273118638081?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_5886c2d8&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:05:25.838Z",
+        "updatedAt": "2026-05-08T10:05:56.722Z"
+      }
+    },
+    {
+      "session_id": "222cf75e-7596-5074-af4f-2aa13f9c7c8f",
+      "distinct_id": "030d4192-43b0-4b9c-9d66-b62f69aba22b",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "390x844"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHudl0W2Ez12LwCslWPUo4DMVRI1JxcnETQawVQ8OhowAkVC91tSW78M3v-dk_aem_dR_bIUtz7Ky9FUNL5TNsfQ",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq2_matched": true,
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-12T23:38:31Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHudl0W2Ez12LwCslWPUo4DMVRI1JxcnETQawVQ8OhowAkVC91tSW78M3v-dk_aem_dR_bIUtz7Ky9FUNL5TNsfQ",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T00:55:46.000Z",
+      "today_last_event_at": "2026-05-14T00:56:40.000Z",
+      "today_page_count": 2,
+      "today_event_count": 9,
+      "today_duration_sec": 91,
+      "today_conv": {},
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-14T00:55:46Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 36,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T00:56:21Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T00:56:22Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 55,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-14T00:56:25Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 5,
+        "event_count": 47,
+        "duration_sec": 398,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "390x667",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAD",
+        "hv": 1,
+        "hm": 18
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "3bd06a63-9fd4-5d5a-977d-8dde7412c8c9",
+      "distinct_id": "959c0fad-1f23-49e4-bc19-4f2e383bdf38",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "393x852"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHgnaTnliCtLUd6DotPq0rcN4VCC39KK-ma3s-Ehy12d0xYq-4prErcYv5Qa__aem_YbEosK1S-f1HvfOEAXdtWQ",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T10:42:24Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHgnaTnliCtLUd6DotPq0rcN4VCC39KK-ma3s-Ehy12d0xYq-4prErcYv5Qa__aem_YbEosK1S-f1HvfOEAXdtWQ",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T10:42:24.000Z",
+      "today_last_event_at": "2026-05-14T10:43:09.000Z",
+      "today_page_count": 3,
+      "today_event_count": 19,
+      "today_duration_sec": 86,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T10:42:24Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 23,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T10:42:47Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 年龄验证弹窗, 年龄验证通过, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T10:42:47Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 17,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T10:43:03Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, 离开房间弹窗展示×2, 房间页返回×2, 离开房间取消, 离开房间确认, 场景详情页首屏曝光, 场景详情页返回",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T10:43:04Z",
+          "type": "页面访问",
+          "url": "/scenarios",
+          "description": "剧场首页 (/scenarios)",
+          "duration_sec": 46,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 21,
+        "duration_sec": 86,
+        "exit_page": "/scenarios"
+      },
+      "extra_data": {
+        "windowSize": "393x333",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAD"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "8c13368b-2f90-5c63-aa17-d473ac9626fb",
+      "distinct_id": "e255062c-a709-4111-ad2c-ab62a98f086f",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "ios",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "390x844"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hzm_facebook_ef4cb460",
+        "utm_campaign": "260508_hzm_facebook_ef4cb460",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120260517201370362",
+        "landing_path": "/exp-app/scene/2034149038498054145",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T22:54:12Z",
+          "utm_campaign": "260508_hzm_facebook_ef4cb460",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260517201370362",
+          "landing_path": "/exp-app/scene/2034149038498054145",
+          "linkedTask": {
+            "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+            "name": "广告组64：（黎深）视频跳转到剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+            "dateSuffix": "ef4cb460",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_ef4cb460",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:02:13.242Z",
+            "updatedAt": "2026-05-08T10:02:14.462Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T22:54:12.000Z",
+      "today_last_event_at": "2026-05-13T22:55:20.000Z",
+      "today_page_count": 2,
+      "today_event_count": 22,
+      "today_duration_sec": 77,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T22:54:12Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2034149038498054145",
+          "description": "/exp-app/scene/2034149038498054145 (/exp-app/scene/2034149038498054145)",
+          "duration_sec": 8,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T22:54:19Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, 年龄验证弹窗, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T22:54:20Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2034149038498054145/room",
+          "description": "/exp-app/scene/2034149038498054145/room (/exp-app/scene/2034149038498054145/room)",
+          "duration_sec": 69,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T22:55:14Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Product Quick Prompt Show, 房间页返回×3, 离开房间弹窗展示×3, 离开房间取消×2, 离开房间确认, 场景详情页首屏曝光",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 24,
+        "duration_sec": 77,
+        "exit_page": "/exp-app/scene/2034149038498054145/room"
+      },
+      "extra_data": {
+        "windowSize": "390x699",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "LAX"
+      },
+      "linkedTask": {
+        "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+        "name": "广告组64：（黎深）视频跳转到剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+        "dateSuffix": "ef4cb460",
+        "status": "active",
+        "utmCampaign": "260508_hzm_facebook_ef4cb460",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+        "createdAt": "2026-05-08T10:02:13.242Z",
+        "updatedAt": "2026-05-08T10:02:14.462Z"
+      }
+    },
+    {
+      "session_id": "0c55d047-103c-5942-84ad-6b3f20f63711",
+      "distinct_id": "315d91c9-51bd-4fef-9c38-9ab31ca6b93f",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "430x932"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHkRdPxFFTr2nUzM5HOrJvztJPmi21pQV3w6e67RXGKZYonBbXmoW7fzh26nQ_aem_FqsBd4qJiqsWPQYgJhlPjA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq2_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ],
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T18:00:10Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQKNjYyODU2ODM3OQABHkRdPxFFTr2nUzM5HOrJvztJPmi21pQV3w6e67RXGKZYonBbXmoW7fzh26nQ_aem_FqsBd4qJiqsWPQYgJhlPjA",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T18:00:10.000Z",
+      "today_last_event_at": "2026-05-13T18:02:52.000Z",
+      "today_page_count": 2,
+      "today_event_count": 12,
+      "today_duration_sec": 62,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T18:00:10Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 23,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T18:00:33Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, Scene Room 创建开始, 场景详情页开始体验, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T18:00:33Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 39,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T18:02:52Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, 房间重连中",
+          "user_intent": "主动操作"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 14,
+        "duration_sec": 62,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "430x373",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "ORD"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "566e83d4-deb4-5a08-b076-c337473bf728",
+      "distinct_id": "12b95348-f6ca-4c15-8e6a-b8f48f0908a9",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "chromium-webview",
+        "os": "Android OS",
+        "type": "mobile",
+        "screen": "412x869"
+      },
+      "geo": {
+        "country": "CA",
+        "language": "en-CA"
+      },
+      "traffic": {
+        "source": "campaign:260318_hzm_facebook_0deef6dc",
+        "utm_campaign": "260318_hzm_facebook_0deef6dc",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "Mm0818",
+        "utm_term": "120240582653310578",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAasuLFU6aqJzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR4anxO1Y9QJcgCNzGKApx-iplJFkzSy2gZ_E-EFolxKpxvAioS2S5lQ9oR9qQ_aem_ddf9k_He68KnaQSr27IZZA",
+        "referrer_domain": "m.facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/scenarios/4726-surrender-to-his-obsession-first-time-penetration-squirting-praise",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq2_matched": true,
+        "hq2_reason_keys": [
+          "room_connected"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T17:20:00Z",
+          "utm_campaign": "260508_hzm_facebook_ef4cb460",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "Mm0818",
+          "utm_term": "120260517201370362",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAatATxHESCpzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR750jeAJhbbv2fAMkgcZLUwV1l61uoRu2LTEfQ_6P4ycr3laveaKvxTwteuUQ_aem_lHfv7qs42MPp09TejbxpZg",
+          "landing_path": "/exp-app/scene/2049744772917211137",
+          "linkedTask": {
+            "id": "965ae6cd-3cff-42ee-ae1a-e4418c1d19c0",
+            "name": "广告组64：（黎深）视频跳转到剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HZM",
+            "personCode": "Mm0818",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories",
+            "dateSuffix": "ef4cb460",
+            "status": "active",
+            "utmCampaign": "260508_hzm_facebook_ef4cb460",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2049744772917211137?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hzm_facebook_ef4cb460&utm_content=Mm0818",
+            "createdAt": "2026-05-08T10:02:13.242Z",
+            "updatedAt": "2026-05-08T10:02:14.462Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T17:20:00.000Z",
+      "today_last_event_at": "2026-05-13T17:21:09.000Z",
+      "today_page_count": 2,
+      "today_event_count": 14,
+      "today_duration_sec": 57,
+      "today_conv": {},
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-13T17:20:00Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137",
+          "description": "/exp-app/scene/2049744772917211137 (/exp-app/scene/2049744772917211137)",
+          "duration_sec": 20,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T17:20:19Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, Scene Room 创建开始, 场景详情页开始体验, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T17:20:20Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2049744772917211137/room",
+          "description": "/exp-app/scene/2049744772917211137/room (/exp-app/scene/2049744772917211137/room)",
+          "duration_sec": 37,
+          "conv_status": "继续",
+          "user_intent": "深入浏览"
+        },
+        {
+          "time": "2026-05-13T17:21:08Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, Exp App Scene Room Mode Switch Success, 离开房间弹窗展示, 离开房间确认, 离开房间执行, 场景详情页首屏曝光",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 22,
+        "duration_sec": 75,
+        "exit_page": "/exp-app/scene/2049744772917211137/room"
+      },
+      "extra_data": {
+        "hvv": "v2",
+        "windowSize": "411x735",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "YVR"
+      },
+      "linkedTask": {
+        "id": "39200db3-907c-4a92-b38f-72420a793305",
+        "name": "广告组22：（乙游秦彻）视频跳转到剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HZM",
+        "personCode": "Mm0818",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/scenarios/4726-surrender-to-his-obsession-first-time-penetration-squirting-praise?from=theater-more-stories",
+        "dateSuffix": "0deef6dc",
+        "status": "active",
+        "utmCampaign": "260318_hzm_facebook_0deef6dc",
+        "fullUrl": "https://www.creviatech.com/scenarios/4726-surrender-to-his-obsession-first-time-penetration-squirting-praise?from=theater-more-stories&utm_source=facebook&utm_medium=paid&utm_campaign=260318_hzm_facebook_0deef6dc&utm_content=Mm0818",
+        "createdAt": "2026-03-18T10:16:39.697Z",
+        "updatedAt": "2026-03-19T11:47:26.780Z",
+        "adId": "120240582653310578"
+      }
+    },
+    {
+      "session_id": "5e03ebef-d9c7-52bc-b901-414cc9a60225",
+      "distinct_id": "94166f5f-11a1-4335-9320-e62d4aafa8f5",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "402x874"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe1CqU8FwENzjgK-R-OoBDTamdTwD18WS3oYJLIJXRgTCy9WvpISOvt8C0Gak_aem_ZwcqV3dlNJluqxx--V2lGA",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29"
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T19:33:57Z",
+          "utm_campaign": "260413_chj_facebook_c3c702b5",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "C008hj",
+          "utm_term": "120242549291400559",
+          "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswatuF349zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEe1CqU8FwENzjgK-R-OoBDTamdTwD18WS3oYJLIJXRgTCy9WvpISOvt8C0Gak_aem_ZwcqV3dlNJluqxx--V2lGA",
+          "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "linkedTask": {
+            "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+            "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "CHJ",
+            "personCode": "C008hj",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+            "dateSuffix": "c3c702b5",
+            "status": "active",
+            "utmCampaign": "260413_chj_facebook_c3c702b5",
+            "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+            "createdAt": "2026-04-13T09:31:06.691Z",
+            "updatedAt": "2026-04-13T09:31:07.722Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T19:33:57.000Z",
+      "today_last_event_at": "2026-05-13T19:34:24.000Z",
+      "today_page_count": 2,
+      "today_event_count": 3,
+      "today_duration_sec": 44,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T19:33:57Z",
+          "type": "页面访问",
+          "url": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+          "description": "专栏文章详情页 · kink-fetish · #4686 (/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer)",
+          "duration_sec": 17,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T19:34:13Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 年龄验证通过, Logo 点击",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T19:34:14Z",
+          "type": "页面访问",
+          "url": "/",
+          "description": "首页 (/)",
+          "duration_sec": 27,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 0
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 5,
+        "duration_sec": 44,
+        "exit_page": "/"
+      },
+      "extra_data": {
+        "windowSize": "402x692",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "MIA"
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "6143434d-674b-5623-bdcf-afa38f56f70b",
+      "distinct_id": "57aeda65-95bc-4e16-9b88-4fec3d5bc0c5",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "tablet",
+        "screen": "820x1180"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260413_chj_facebook_c3c702b5",
+        "utm_campaign": "260413_chj_facebook_c3c702b5",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120242549291400559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswat1pbJ9zcnRjBmFwcF9pZA8xNzM4NDc2NDI2NzAzNzAAAR7roUJBi_nrsg9UBm8Zpp90tRdE7FEKqX4RMFYnBkP9StfnOnl7Z8oH77ezGw_aem_YJfNCncXe28D0DIef8_Q7Q",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29"
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T20:40:31Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTczODQ3NjQyNjcwMzcwAAEev-fvdiD-Ei0UtouhAdIKNdISqJc0wnsV8R17Ivsq8oAMjlkB8qPHLvOhPXY_aem_gNe5wnh8lSmMTYLYW50ohw",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T20:40:31.000Z",
+      "today_last_event_at": "2026-05-13T20:44:56.000Z",
+      "today_page_count": 2,
+      "today_event_count": 13,
+      "today_duration_sec": 37,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-13T20:40:31Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 15,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T20:41:38Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光×2, 年龄验证通过, 场景详情页开始体验, Scene Room 创建开始, Scene Room 跳转, Scene Room 创建成功, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T20:41:38Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 22,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T20:44:56Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功, 房间重连中",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 20,
+        "duration_sec": 43,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "1180x334",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "EWR",
+        "hv": 1,
+        "hm": 18
+      },
+      "linkedTask": {
+        "id": "639bedfa-0499-4f27-aa07-df99436b89fc",
+        "name": "广告组17：（18 Sensual）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1",
+        "dateSuffix": "c3c702b5",
+        "status": "active",
+        "utmCampaign": "260413_chj_facebook_c3c702b5",
+        "fullUrl": "https://www.creviatech.com/multisensory/kink-fetish/4686-18-sensual-couch-sex-ideas-to-make-intimate-moments-feel-closer?page=1&utm_source=facebook&utm_medium=paid&utm_campaign=260413_chj_facebook_c3c702b5&utm_content=C008hj",
+        "createdAt": "2026-04-13T09:31:06.691Z",
+        "updatedAt": "2026-04-13T09:31:07.722Z"
+      }
+    },
+    {
+      "session_id": "9adc7c09-9c97-592b-8ff0-3ac14b0646de",
+      "distinct_id": "8f5a01ab-310e-4672-a713-ce31b08900c0",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "instagram",
+        "os": "iOS",
+        "type": "mobile",
+        "screen": "390x844"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260508_hnn_facebook_812309e8",
+        "utm_campaign": "260508_hnn_facebook_812309e8",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "HnN219",
+        "utm_term": "120242155778940773",
+        "fbclid": "PAZXh0bgNhZW0BMABhZGlkAasvmr6dBYVzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae0ZLf88TQ46HOxeh_-xSUSr_5N1OC59y09XjFwspiAca6pDt5mz91FiC5Wdg_aem_Eezbyrub_HnkwlQkpH5lZw",
+        "referrer_domain": "instagram.com",
+        "referrer_path": "/",
+        "landing_path": "/exp-app/scene/2046083147751297026",
+        "landing_type": "scenario",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29",
+        "hq1_matched": true,
+        "hq1_reason_keys": [
+          "age_verification_yes"
+        ]
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-14T10:22:52Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "utm_term": "120242155778940773",
+          "fbclid": "PAZXh0bgNhZW0BMABhZGlkAasvmr6dBYVzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAae0ZLf88TQ46HOxeh_-xSUSr_5N1OC59y09XjFwspiAca6pDt5mz91FiC5Wdg_aem_Eezbyrub_HnkwlQkpH5lZw",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-14T10:22:52.000Z",
+      "today_last_event_at": "2026-05-14T10:23:26.000Z",
+      "today_page_count": 2,
+      "today_event_count": 4,
+      "today_duration_sec": 32,
+      "today_conv": {
+        "age_verified": true
+      },
+      "today_max_conv_stage": "age_verified",
+      "today_events": [
+        {
+          "time": "2026-05-14T10:22:52Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 16,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-14T10:23:17Z",
+          "type": "用户操作",
+          "description": "年龄验证弹窗, 场景详情页首屏曝光, 年龄验证通过, 场景详情页返回",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-14T10:23:18Z",
+          "type": "页面访问",
+          "url": "/scenarios",
+          "description": "剧场首页 (/scenarios)",
+          "duration_sec": 16,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        }
+      ],
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 2,
+        "event_count": 8,
+        "duration_sec": 32,
+        "exit_page": "/scenarios"
+      },
+      "extra_data": {
+        "windowSize": "390x662",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "IAH"
+      },
+      "linkedTask": {
+        "id": "b5079442-d763-465b-9d37-dacb678ab741",
+        "name": "广告组66：(躺椅）视频跳转剧场详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "HNN",
+        "personCode": "HnN219",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+        "dateSuffix": "812309e8",
+        "status": "active",
+        "utmCampaign": "260508_hnn_facebook_812309e8",
+        "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+        "createdAt": "2026-05-08T10:11:51.443Z",
+        "updatedAt": "2026-05-08T10:11:51.286Z"
+      }
+    },
+    {
+      "session_id": "f273b57d-619b-56ce-b1a0-0cd0f35b2518",
+      "distinct_id": "addc507d-b8cf-4e14-bc1b-cc7017fcd46e",
+      "is_new_visitor": true,
+      "identity": {},
+      "device": {
+        "browser": "facebook",
+        "os": "iOS",
+        "type": "tablet",
+        "screen": "810x1080"
+      },
+      "geo": {
+        "country": "US",
+        "language": "en-US"
+      },
+      "traffic": {
+        "source": "campaign:260422_chj_facebook_1ded8322",
+        "utm_campaign": "260422_chj_facebook_1ded8322",
+        "utm_source": "facebook",
+        "utm_medium": "paid",
+        "utm_content": "C008hj",
+        "utm_term": "120243168135250559",
+        "fbclid": "IwZXh0bgNhZW0BMABhZGlkAaswhpJg1Q9zcnRjBmFwcF9pZA8xNzM4NDc2NDI2NzAzNzAAAR6dZ5MHdKFqj8JFF2kV_aDMQLhWiOdQonCWt7lZ0FF3Jf34JN2xEDSycKz2Ew_aem_3XYhYYVKrlhaUObJQeV4_A",
+        "referrer_domain": "facebook.com",
+        "referrer_path": "/",
+        "landing_path": "/multisensory/roleplay/4495-architecture-of-resonance-mastering-washing-machine-position",
+        "landing_type": "column",
+        "hostname": "www.creviatech.com"
+      },
+      "hq": {
+        "rule_version": "2026-04-29"
+      },
+      "touchpoints": {
+        "primary": {
+          "at": "2026-05-13T20:45:11Z",
+          "utm_campaign": "260508_hnn_facebook_812309e8",
+          "utm_source": "facebook",
+          "utm_medium": "paid",
+          "utm_content": "HnN219",
+          "fbclid": "IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTczODQ3NjQyNjcwMzcwAAEeRgJJQl4yGu45_FM_eHbhXmz0SbIJwp2iRas9w4xY2pDYcON2UQq6YxjNXiQ_aem_SFefrvnxkctid_tCUCq5Qw",
+          "landing_path": "/exp-app/scene/2046083147751297026",
+          "linkedTask": {
+            "id": "b5079442-d763-465b-9d37-dacb678ab741",
+            "name": "广告组66：(躺椅）视频跳转剧场详情",
+            "medium": "paid",
+            "platform": "facebook",
+            "personName": "",
+            "personInitials": "HNN",
+            "personCode": "HnN219",
+            "landingType": "",
+            "landingUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit",
+            "dateSuffix": "812309e8",
+            "status": "active",
+            "utmCampaign": "260508_hnn_facebook_812309e8",
+            "fullUrl": "https://www.creviatech.com/exp-app/scene/2046083147751297026?from=search&q=sunlit&utm_source=facebook&utm_medium=paid&utm_campaign=260508_hnn_facebook_812309e8&utm_content=HnN219",
+            "createdAt": "2026-05-08T10:11:51.443Z",
+            "updatedAt": "2026-05-08T10:11:51.286Z"
+          }
+        },
+        "secondary": []
+      },
+      "conv": {
+        "age_verified": true
+      },
+      "today_window_from": "2026-05-13T16:00:00.000Z",
+      "today_window_to": "2026-05-14T16:00:00.000Z",
+      "today_first_event_at": "2026-05-13T20:45:11.000Z",
+      "today_last_event_at": "2026-05-13T20:45:30.000Z",
+      "today_page_count": 2,
+      "today_event_count": 9,
+      "today_duration_sec": 31,
+      "today_conv": {},
+      "today_max_conv_stage": "landing",
+      "today_events": [
+        {
+          "time": "2026-05-13T20:45:11Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026",
+          "description": "/exp-app/scene/2046083147751297026 (/exp-app/scene/2046083147751297026)",
+          "duration_sec": 11,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T20:45:21Z",
+          "type": "用户操作",
+          "description": "场景详情页首屏曝光, Scene Room 创建开始, 场景详情页开始体验, Scene Room 创建成功, Scene Room 跳转, Scene Room 连接开始",
+          "user_intent": "主动操作"
+        },
+        {
+          "time": "2026-05-13T20:45:22Z",
+          "type": "页面访问",
+          "url": "/exp-app/scene/2046083147751297026/room",
+          "description": "/exp-app/scene/2046083147751297026/room (/exp-app/scene/2046083147751297026/room)",
+          "duration_sec": 20,
+          "conv_status": "继续",
+          "user_intent": "浏览"
+        },
+        {
+          "time": "2026-05-13T20:45:24Z",
+          "type": "用户操作",
+          "description": "Scene Room 已连接, 会话准备开始, 会话准备成功",
+          "user_intent": "主动操作"
+        }
+      ],
+      "is_cross_day": true,
+      "suspicious": {
+        "score": 1
+      },
+      "max_conv_stage": "age_verified",
+      "metrics": {
+        "page_count": 3,
+        "event_count": 15,
+        "duration_sec": 45,
+        "exit_page": "/exp-app/scene/2046083147751297026/room"
+      },
+      "extra_data": {
+        "windowSize": "1080x325",
+        "hvv": "v2",
+        "cdnVendor": "CLOUDFLARE",
+        "cdnNode": "RIC",
+        "hv": 1,
+        "hm": 20
+      },
+      "linkedTask": {
+        "id": "9f179347-24f3-4e6b-ab3a-6dc5a5d5faf0",
+        "name": "广告组41：（Most positions）图片跳转到文章详情",
+        "medium": "paid",
+        "platform": "facebook",
+        "personName": "",
+        "personInitials": "CHJ",
+        "personCode": "C008hj",
+        "landingType": "",
+        "landingUrl": "https://www.creviatech.com/multisensory/roleplay/4495-architecture-of-resonance-mastering-washing-machine-position?page=2",
+        "dateSuffix": "1ded8322",
+        "status": "active",
+        "utmCampaign": "260422_chj_facebook_1ded8322",
+        "fullUrl": "https://www.creviatech.com/multisensory/roleplay/4495-architecture-of-resonance-mastering-washing-machine-position?page=2&utm_source=facebook&utm_medium=paid&utm_campaign=260422_chj_facebook_1ded8322&utm_content=C008hj",
+        "createdAt": "2026-04-22T09:46:24.688Z",
+        "updatedAt": "2026-04-22T09:46:38.293Z"
+      }
+    }
+  ]
+}

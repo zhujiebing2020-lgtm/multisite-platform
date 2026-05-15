@@ -9,6 +9,9 @@ import { handleResults, handleResultDetail } from './api/results.js';
 import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 import { handleIngest } from './api/ingest.js';
 import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
+import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
+import { handleKnowledge, handleKnowledgeToRule } from './api/knowledge.js';
+import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary } from './api/agents.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -36,6 +39,35 @@ export default {
     }
     if (url.pathname === '/api/admin/logs' && request.method === 'GET') {
       return handleAdminLogs(request, env);
+    }
+
+    // 建议卡片
+    if (url.pathname === '/api/recommendations' && request.method === 'GET') {
+      return handleRecommendations(request, env);
+    }
+    if (url.pathname.startsWith('/api/recommendations/') && request.method === 'PUT') {
+      const id = url.pathname.split('/').pop();
+      return handleRecommendationUpdate(request, env, id);
+    }
+    // 知识库
+    if (url.pathname === '/api/knowledge' && request.method === 'GET') {
+      return handleKnowledge(request, env);
+    }
+    if (url.pathname.match(/^\/api\/knowledge\/\d+\/to-rule$/) && request.method === 'POST') {
+      const id = url.pathname.split('/')[3];
+      return handleKnowledgeToRule(request, env, id);
+    }
+    // Agent 状态
+    if (url.pathname === '/api/agents/status' && request.method === 'GET') {
+      return handleAgentsStatus(request, env);
+    }
+    if (url.pathname.startsWith('/api/agents/') && url.pathname.endsWith('/trigger') && request.method === 'POST') {
+      const agentId = url.pathname.split('/')[3];
+      return handleAgentTrigger(request, env, agentId);
+    }
+    // 跨站汇总
+    if (url.pathname === '/api/cross-site/summary' && request.method === 'GET') {
+      return handleCrossSiteSummary(request, env);
     }
 
     // 需要鉴权的 API

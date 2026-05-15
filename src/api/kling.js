@@ -21,6 +21,22 @@ export async function handleUploadImage(request, env) {
   return json({ ok: true, url, key });
 }
 
+export async function handleUploadImageDirect(request, env) {
+  const user = await verifySession(request, env);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const contentType = request.headers.get('content-type') || '';
+  const filename = request.headers.get('x-filename') || `${Date.now()}.jpg`;
+  const key = `ref-images/${Date.now()}-${filename.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+
+  await env.R2.put(key, request.body, {
+    httpMetadata: { contentType: contentType || 'image/jpeg' }
+  });
+
+  const url = `https://crave.${env.R2_DOMAIN || 'r2.dev'}/${key}`;
+  return json({ ok: true, url, key });
+}
+
 export async function handleGenerateScenes(request, env, ctx) {
   const user = await verifySession(request, env);
   if (!user) return json({ error: '未登录' }, 401);

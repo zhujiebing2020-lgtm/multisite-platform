@@ -524,15 +524,16 @@ async function uploadRefImg(input){
   const file=input.files[0];if(!file)return;
   const preview=document.getElementById('ref-img-preview');
   preview.innerHTML='<p style="font-size:11px;color:var(--blue)">上传中...</p>';
-  const b64=btoa(String.fromCharCode(...new Uint8Array(await file.arrayBuffer())));
-  const r=await fetch('/api/upload/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:file.name,contentBase64:b64})}).then(r=>r.json());
-  if(r.ok){
-    refImageUrl=r.url;
-    preview.innerHTML=`<img src="${r.url}" style="max-height:120px;border-radius:8px;margin-bottom:8px"><br><span style="font-size:11px;color:var(--green)">✓ 参考图已上传</span>`;
-    document.getElementById('gen-all-scenes-btn').disabled=false;
-    document.getElementById('vp-s1').textContent='✅';
-    document.getElementById('video-progress').style.display='block';
-  }else{preview.innerHTML=`<span style="color:var(--red)">上传失败: ${r.error||''}</span>`;}
+  try{
+    const r=await fetch('/api/upload/image-direct',{method:'PUT',headers:{'Content-Type':file.type,'x-filename':file.name},body:file}).then(r=>r.json());
+    if(r.ok){
+      refImageUrl=r.url;
+      preview.innerHTML=`<img src="${r.url}" style="max-height:120px;border-radius:8px;margin-bottom:8px"><br><span style="font-size:11px;color:var(--green)">✓ 参考图已上传（原图）</span>`;
+      document.getElementById('gen-all-scenes-btn').disabled=false;
+      document.getElementById('vp-s1').textContent='✅';
+      document.getElementById('video-progress').style.display='block';
+    }else{preview.innerHTML=`<span style="color:var(--red)">上传失败: ${r.error||''}</span>`;}
+  }catch(e){preview.innerHTML=`<span style="color:var(--red)">上传失败: ${e.message}</span>`;}
 }
 
 async function genAllScenes(){

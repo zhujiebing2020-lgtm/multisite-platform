@@ -12,7 +12,7 @@ import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
 import { handleKnowledge, handleKnowledgeToRule, handleScripts, handleKnowledgeAdd } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
-import { handleUploadImage, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
+import { handleUploadImage, handleUploadImageDirect, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
 import { handleFetchScene } from './api/fetch-scene.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
@@ -89,6 +89,9 @@ export default {
     // 图片上传 + Kling 视频生成
     if (url.pathname === '/api/upload/image' && request.method === 'POST') {
       return handleUploadImage(request, env);
+    }
+    if (url.pathname === '/api/upload/image-direct' && request.method === 'PUT') {
+      return handleUploadImageDirect(request, env);
     }
     if (url.pathname === '/api/kling/generate-clip' && request.method === 'POST') {
       return handleKlingGenerate(request, env, ctx);

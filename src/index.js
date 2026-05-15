@@ -10,7 +10,7 @@ import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 import { handleIngest } from './api/ingest.js';
 import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
-import { handleKnowledge, handleKnowledgeToRule } from './api/knowledge.js';
+import { handleKnowledge, handleKnowledgeToRule, handleScripts } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
 import { handleUploadImage, handleKlingGenerate, handleKlingStatus } from './api/kling.js';
 
@@ -57,6 +57,10 @@ export default {
     if (url.pathname.match(/^\/api\/knowledge\/\d+\/to-rule$/) && request.method === 'POST') {
       const id = url.pathname.split('/')[3];
       return handleKnowledgeToRule(request, env, id);
+    }
+    // 剧本库
+    if (url.pathname === '/api/scripts' && (request.method === 'GET' || request.method === 'POST')) {
+      return handleScripts(request, env);
     }
     // Agent 状态
     if (url.pathname === '/api/agents/status' && request.method === 'GET') {

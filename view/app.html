@@ -246,10 +246,12 @@ function renderInvest(el){
           <button class="btn" onclick="toggleAF('str')">策略</button>
         </div>
         <div id="af-cmt" class="card hidden">
-          <div class="form-group"><label>广告组</label><input id="af-cmt-g" placeholder="组17 18 Sensual"></div>
+          <div class="form-group"><label>产品/广告组</label><input id="af-cmt-g" placeholder="组17 18 Sensual"></div>
+          <div class="form-group"><label>落地页 URL</label><input id="af-cmt-url" placeholder="https://www.creviatech.com/..."></div>
+          <div class="form-group"><label>剧本方向</label><select id="af-cmt-theme"><option value="女性自我探索">女性自我探索</option><option value="伴侣互动">伴侣互动</option><option value="夫妻关系修复">夫妻关系修复</option><option value="开箱体验">开箱体验</option><option value="对比旧产品">对比旧产品</option><option value="">自定义↓</option></select><input id="af-cmt-theme-custom" placeholder="自定义方向" style="margin-top:4px;display:none"></div>
           <div class="form-group"><label>数量</label><select id="af-cmt-n"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
           <div class="form-group"><label>补充</label><textarea id="af-cmt-note" rows="2" placeholder="可选"></textarea></div>
-          <button class="btn" onclick="triggerAgent('comment_gen',{group:gv('af-cmt-g'),count:gv('af-cmt-n'),note:gv('af-cmt-note')})">生成</button>
+          <button class="btn" onclick="triggerComment()">生成</button>
         </div>
         <div id="af-vid" class="card hidden">
           <div class="form-group"><label>广告组</label><input id="af-vid-g" placeholder="组5 30 Positions"></div>
@@ -341,6 +343,11 @@ function loadInvestData(){
   });
 }
 let pollTimer=null;
+function triggerComment(){
+  const theme=gv('af-cmt-theme')||gv('af-cmt-theme-custom');
+  triggerAgent('comment_gen',{group:gv('af-cmt-g'),landing_url:gv('af-cmt-url'),script_theme:theme,count:gv('af-cmt-n'),note:gv('af-cmt-note')});
+}
+document.addEventListener('change',e=>{if(e.target.id==='af-cmt-theme'){const c=document.getElementById('af-cmt-theme-custom');c.style.display=e.target.value?'none':'block';}});
 async function triggerAgent(type,params){
   const site=getSite()||'elysianu';
   const r=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent_type:type,site,params})}).then(r=>r.json());
@@ -550,23 +557,66 @@ function loadProps(type){
 // === 素材视图 ===
 function renderCreative(el){
   el.innerHTML=`
-    <div class="sec-h">生成素材 Brief</div>
-    <div class="card">
-      <div class="grid-2">
-        <div>
-          <div class="form-group"><label>落地页 URL</label><input id="cr-group" placeholder="https://www.creviatech.com/..."></div>
-          <div class="form-group"><label>落地页类型</label><select id="cr-landing"><option value="article">文章页</option><option value="scene">剧情页</option><option value="product">产品页</option></select></div>
-          <div class="form-group"><label>目标受众</label><input id="cr-audience" placeholder="自动解析，可修改"></div>
-          <div class="form-group"><label>补充说明</label><textarea id="cr-notes" rows="3" placeholder="可选"></textarea></div>
-          <button class="btn" onclick="triggerCreative()">生成素材 Brief</button>
-        </div>
-        <div id="cr-output" style="font-size:12px;color:var(--muted)">生成结果将显示在这里</div>
-      </div>
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <button class="btn" onclick="showCreativeTab('brief')">素材 Brief</button>
+      <button class="btn btn-gray" onclick="showCreativeTab('scripts')">剧本库</button>
     </div>
-    <div class="sec-h">我的素材库</div>
-    <div id="cr-history"><p style="font-size:12px;color:var(--muted)">暂无历史记录</p></div>
+    <div id="cr-tab-brief">
+      <div class="card">
+        <div class="grid-2">
+          <div>
+            <div class="form-group"><label>落地页 URL</label><input id="cr-group" placeholder="https://www.creviatech.com/..."></div>
+            <div class="form-group"><label>落地页类型</label><select id="cr-landing"><option value="article">文章页</option><option value="scene">剧情页</option><option value="product">产品页</option></select></div>
+            <div class="form-group"><label>目标受众</label><input id="cr-audience" placeholder="自动解析，可修改"></div>
+            <div class="form-group"><label>补充说明</label><textarea id="cr-notes" rows="3" placeholder="可选"></textarea></div>
+            <button class="btn" onclick="triggerCreative()">生成素材 Brief</button>
+          </div>
+          <div id="cr-output" style="font-size:12px;color:var(--muted)">生成结果将显示在这里</div>
+        </div>
+      </div>
+      <div class="sec-h">我的素材库</div>
+      <div id="cr-history"><p style="font-size:12px;color:var(--muted)">暂无历史记录</p></div>
+    </div>
+    <div id="cr-tab-scripts" style="display:none">
+      <div class="card">
+        <h3>上传剧本</h3>
+        <div class="drop-zone" id="script-drop" style="margin-top:8px">拖拽 JSON 文件或点击选择<input type="file" accept=".json,.csv" id="script-file" style="display:none"></div>
+        <div id="script-file-tag" style="margin-top:6px"></div>
+        <button class="btn" style="margin-top:8px" onclick="uploadScripts()">导入剧本</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:6px">格式：[{"title":"标题","tags":"标签","product":"适用产品","emotion":"核心情绪","scene":"关键场景"}]</p>
+      </div>
+      <div class="sec-h">已有剧本</div>
+      <div id="cr-scripts-list"></div>
+    </div>
   `;
   loadCreativeHistory();
+  initScriptDrop();
+}
+function showCreativeTab(tab){
+  document.getElementById('cr-tab-brief').style.display=tab==='brief'?'block':'none';
+  document.getElementById('cr-tab-scripts').style.display=tab==='scripts'?'block':'none';
+  if(tab==='scripts')loadScripts();
+}
+function initScriptDrop(){
+  const drop=document.getElementById('script-drop'),fi=document.getElementById('script-file');
+  drop.addEventListener('click',()=>fi.click());
+  fi.addEventListener('change',()=>{if(fi.files[0])document.getElementById('script-file-tag').innerHTML=`<span style="font-size:12px;color:var(--green)">✓ ${fi.files[0].name}</span>`;});
+}
+async function uploadScripts(){
+  const fi=document.getElementById('script-file');
+  if(!fi.files[0]){toast('请选择文件','var(--red)');return;}
+  const text=await fi.files[0].text();
+  let items;
+  try{items=JSON.parse(text);if(!Array.isArray(items))items=[items];}catch(e){toast('JSON 格式错误','var(--red)');return;}
+  const r=await fetch('/api/scripts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items})}).then(r=>r.json());
+  if(r.ok){toast(`✓ 导入 ${r.count} 条剧本`);loadScripts();}else toast(r.error||'失败','var(--red)');
+}
+function loadScripts(){
+  fetch('/api/scripts').then(r=>r.json()).then(d=>{
+    const el=document.getElementById('cr-scripts-list');
+    if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无剧本</p>';return;}
+    el.innerHTML=d.items.map(s=>`<div class="card" style="padding:12px"><b>${esc(s.title)}</b><div style="font-size:11px;color:var(--muted);margin-top:4px">${esc(s.tags||'')} · ${esc(s.product||'')} · ${esc(s.emotion||'')}</div></div>`).join('');
+  });
 }
 function triggerCreative(){
   const params={group:gv('cr-group'),landing_type:gv('cr-landing'),audience:gv('cr-audience'),notes:gv('cr-notes')};

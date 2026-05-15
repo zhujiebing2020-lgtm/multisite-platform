@@ -4,7 +4,44 @@ import { verifySession } from './auth.js';
 import { logOp } from './admin.js';
 
 const AGENT_TYPES = {
-  comment_gen: { name: '评论生成', prompt: (p) => `你是一个情趣用品电商的用户体验文案专家。请为产品系列"${p.group||''}"撰写${p.count||10}条产品体验分享文案，用于社交媒体营销素材。要求：每条风格不同、口语化、有真实感受细节、避免模板化表达。${p.note?'补充要求：'+p.note:''}。输出JSON格式：{"comments":[{"text":"文案内容","stars":5}]}` },
+  comment_gen: { name: '评论生成', prompt: (p) => `你是一个专门为成人玩具独立站生成真实用户评论的文案专家。
+
+【任务】
+为产品「${p.group||''}」生成 ${p.count||10} 条真实女性用户评论，用于 Facebook/Instagram 广告评论区。
+
+【产品落地页】
+${p.landing_url||'（未提供）'}
+（请先理解落地页的产品卖点、使用场景、情感诉求）
+
+【广告剧本方向】
+${p.script_theme||'女性自我探索'}
+（评论内容必须和这个剧本方向强相关，像是看了这个广告后真实产生的感受）
+
+【评论者人设要求】
+- 全部是女性视角，25-45 岁
+- 包含以下几类人：
+  * 单身女性（自我探索、独立）
+  * 有伴侣但伴侣不满足（寻求补充）
+  * 夫妻/长期关系中的女性（改善亲密关系）
+  * 刚开箱的新用户（第一次体验）
+  * 使用一段时间的老用户（对比之前的产品）
+
+【字数要求】
+- 每条评论 80-150 字
+- 必须有开箱/收到货/使用过程的具体细节
+- 至少 60% 是口语化的短句，不要书面语
+- 可以有真实的小缺点（增加可信度），但整体正向
+
+【语气要求】
+- 真实、口语化、有情绪波动
+- 可以用省略号、感叹号、emoji（不超过 2 个/条）
+- 不要用"非常""十分""极其"等书面词
+- 像在跟闺蜜说话，不像在写产品评测
+${p.note?'\n【补充要求】\n'+p.note:''}
+
+【输出格式】
+输出纯JSON，不要markdown标记：
+{"comments":[{"text":"评论内容","stars":5,"persona":"人设类型"}]}` },
   video_script: { name: '视频脚本', prompt: (p) => `你是一个短视频创意脚本专家。为广告组"${p.group||''}"生成一个15-30秒的视频脚本。方向：${p.direction||'产品展示'}。输出JSON格式：{"title":"标题","duration":"时长","scenes":[{"time":"0-5s","visual":"画面描述","audio":"音频/旁白"}],"hook":"开头钩子文案"}` },
   strategy: { name: '自动策略', prompt: (p, data) => `你是一个广告投放策略专家。基于以下广告组数据，生成今日行动建议。每条建议包含：广告组名、建议动作、原因、风险等级。\n\n数据：${JSON.stringify(data||{})}\n\n输出JSON格式：{"actions":[{"group":"组名","action":"建议动作","reason":"原因","risk_level":"low|medium|high"}]}` },
   creative_agent: { name: '素材生成', prompt: (p) => `你是一个成人用品电商的创意Brief专家。为广告组"${p.group||''}"生成Creative Brief。落地页类型：${p.landing_type||'文章页'}。受众：${p.audience||'自动'}。${p.notes?'补充：'+p.notes:''}。输出JSON格式：{"hook_variants":["钩子1","钩子2","钩子3"],"headline":"标题建议","audience_description":"受众描述","compliance_status":"compliant","compliance_reason":""}` },

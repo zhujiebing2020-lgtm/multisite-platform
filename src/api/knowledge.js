@@ -26,7 +26,28 @@ export async function handleKnowledge(request, env) {
   return json({ error: 'method not allowed' }, 405);
 }
 
-export async function handleKnowledgeToRule(request, env, id) {
+export async function handleScripts(request, env) {
+  const user = await verifySession(request, env);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  if (request.method === 'GET') {
+    const rows = await env.DB.prepare('SELECT * FROM scripts ORDER BY created_at DESC LIMIT 100').all();
+    return json({ ok: true, items: rows.results });
+  }
+
+  if (request.method === 'POST') {
+    const { items } = await request.json();
+    if (!items || !items.length) return json({ error: '无数据' }, 400);
+    for (const s of items) {
+      await env.DB.prepare(
+        'INSERT INTO scripts (title, tags, product, emotion, scene) VALUES (?, ?, ?, ?, ?)'
+      ).bind(s.title || '', s.tags || '', s.product || '', s.emotion || '', s.scene || '').run();
+    }
+    return json({ ok: true, count: items.length });
+  }
+
+  return json({ error: 'method not allowed' }, 405);
+}
   const user = await verifySession(request, env);
   if (!user || user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
 

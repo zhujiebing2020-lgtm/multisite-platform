@@ -62,6 +62,8 @@ export async function handleScripts(request, env) {
 
   return json({ error: 'method not allowed' }, 405);
 }
+
+export async function handleKnowledgeToRule(request, env, id) {
   const user = await verifySession(request, env);
   if (!user || user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
 

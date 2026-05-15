@@ -103,10 +103,9 @@ export async function handleGenerateScenesStatus(request, env, batchId) {
 
   return json({ ok: true, status: allDone ? 'completed' : 'processing', results });
 }
-  const user = await verifySession(request, env);
-  if (!user) return json({ error: '未登录' }, 401);
 
-  const { image_url, prompt, duration, aspect_ratio } = await request.json();
+export async function handleKlingGenerate(request, env, ctx) {
+  const user = await verifySession(request, env);
   if (!image_url) return json({ error: '缺少图片' }, 400);
 
   const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';

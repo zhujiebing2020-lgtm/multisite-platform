@@ -12,7 +12,7 @@ import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
 import { handleKnowledge, handleKnowledgeToRule, handleScripts } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
-import { handleUploadImage, handleKlingGenerate, handleKlingStatus } from './api/kling.js';
+import { handleUploadImage, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -88,6 +88,13 @@ export default {
     if (url.pathname.startsWith('/api/kling/status/') && request.method === 'GET') {
       const taskId = url.pathname.split('/').pop();
       return handleKlingStatus(request, env, taskId);
+    }
+    if (url.pathname === '/api/image/generate-scenes' && request.method === 'POST') {
+      return handleGenerateScenes(request, env, ctx);
+    }
+    if (url.pathname.startsWith('/api/image/generate-scenes/status/') && request.method === 'GET') {
+      const batchId = url.pathname.split('/').pop();
+      return handleGenerateScenesStatus(request, env, batchId);
     }
 
     // 需要鉴权的 API

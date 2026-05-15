@@ -394,16 +394,31 @@ function renderAgentOutput(type,raw){
     }).join('');
   }
   if(type==='video_script'){
-    let h=`<div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-size:14px">🎬 ${esc(data.title||'')}</b><span style="font-size:12px;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:4px">${data.duration||''}</span></div>`;
+    let h=`<div class="card" style="padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-size:14px">🎬 ${esc(data.title||'')}</b><span style="font-size:12px;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:4px">${data.duration||''}</span></div>`;
     if(data.hook)h+=`<div style="padding:10px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;margin-bottom:12px;font-size:13px"><span style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px">HOOK</span><div style="margin-top:4px">${esc(data.hook)}</div></div>`;
+    // 参考图上传区
+    h+=`<div style="border:2px dashed var(--accent-bd);border-radius:10px;padding:16px;text-align:center;margin-bottom:16px" id="ref-img-zone">
+      <div id="ref-img-preview"></div>
+      <label style="cursor:pointer;color:var(--accent);font-size:13px;font-weight:600">📷 上传参考图（人物/场景基准图）<input type="file" accept="image/*" style="display:none" onchange="uploadRefImg(this)"></label>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px">只需上传一张，所有 Scene 图从这里衍生，保证人物一致性</p>
+    </div>
+    <div style="margin-bottom:12px"><button class="btn" id="gen-all-scenes-btn" disabled onclick="genAllScenes()">✨ 一键生成所有分镜图</button><span id="gen-scenes-status" style="font-size:12px;color:var(--blue);margin-left:8px"></span></div>`;
+    // 进度条
+    h+=`<div id="video-progress" style="display:none;margin-bottom:12px;padding:10px;background:var(--bg);border-radius:6px;font-size:11px">
+      <div>Step 1: 上传参考图 <span id="vp-s1">⏳</span></div>
+      <div>Step 2: 生成分镜图 <span id="vp-s2">⏳</span></div>
+      <div>Step 3: 生成视频片段 <span id="vp-s3">⏳</span></div>
+    </div>`;
+    // Scene 卡片
     if(data.scenes)data.scenes.forEach((s,i)=>{
-      h+=`<div style="border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px">
+      h+=`<div style="border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px" id="scene-card-${i}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:13px">🎬 Scene ${i+1}</span><span style="font-size:11px;padding:2px 8px;background:var(--bg);border-radius:4px;color:var(--muted)">${esc(s.time||'')}</span></div>
         <div style="font-size:12px;margin-bottom:6px"><span style="color:var(--muted)">📹 画面：</span>${esc(s.visual||'')}</div>
         <div style="font-size:12px"><span style="color:var(--muted)">🎙 音频：</span>${esc(s.audio||'')}</div>
-        <div style="margin-top:10px;display:flex;gap:6px;align-items:center">
-          <label style="font-size:11px;padding:4px 10px;background:var(--bg);border:1px solid var(--line);border-radius:4px;cursor:pointer">📷 上传图片<input type="file" accept="image/*" style="display:none" onchange="uploadSceneImg(this,${i})"></label>
-          <span id="scene-img-${i}" style="font-size:11px;color:var(--muted)"></span>
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+          <div id="scene-img-${i}" style="font-size:11px;color:var(--muted)">待生成</div>
+          <button class="btn btn-s" id="scene-regen-${i}" style="display:none" onclick="regenSceneImg(${i})">🔄 重新生成</button>
           <button class="btn btn-s btn-green" id="scene-gen-${i}" style="display:none" onclick="generateClip(${i})">▶ 生成视频片段</button>
           <span id="scene-status-${i}" style="font-size:11px;color:var(--blue)"></span>
         </div>
@@ -432,28 +447,103 @@ function showResult(id){
   });
 }
 
-// === 视频场景图片上传 + Kling 生成 ===
+// === 视频场景：参考图上传 + 批量生成分镜 + Kling 生成 ===
 const sceneData={};
-async function uploadSceneImg(input,idx){
+let refImageUrl=null;
+let currentScenes=null;
+
+async function uploadRefImg(input){
   const file=input.files[0];if(!file)return;
-  const el=document.getElementById('scene-img-'+idx);
-  el.textContent='上传中...';
+  const preview=document.getElementById('ref-img-preview');
+  preview.innerHTML='<p style="font-size:11px;color:var(--blue)">上传中...</p>';
   const b64=btoa(String.fromCharCode(...new Uint8Array(await file.arrayBuffer())));
   const r=await fetch('/api/upload/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:file.name,contentBase64:b64})}).then(r=>r.json());
   if(r.ok){
-    el.innerHTML=`<img src="${r.url}" style="height:40px;border-radius:4px;vertical-align:middle"> ✓`;
-    sceneData[idx]={...(sceneData[idx]||{}),image_url:r.url};
-    document.getElementById('scene-gen-'+idx).style.display='inline-block';
-  }else{el.textContent='上传失败: '+(r.error||'');el.style.color='var(--red)';}
+    refImageUrl=r.url;
+    preview.innerHTML=`<img src="${r.url}" style="max-height:120px;border-radius:8px;margin-bottom:8px"><br><span style="font-size:11px;color:var(--green)">✓ 参考图已上传</span>`;
+    document.getElementById('gen-all-scenes-btn').disabled=false;
+    document.getElementById('vp-s1').textContent='✅';
+    document.getElementById('video-progress').style.display='block';
+  }else{preview.innerHTML=`<span style="color:var(--red)">上传失败: ${r.error||''}</span>`;}
 }
+
+async function genAllScenes(){
+  if(!refImageUrl){toast('请先上传参考图','var(--red)');return;}
+  const btn=document.getElementById('gen-all-scenes-btn');
+  btn.disabled=true;btn.textContent='生成中...';
+  document.getElementById('vp-s2').textContent='⏳ 生成中...';
+  // 收集所有 scene 的 visual 描述
+  const cards=document.querySelectorAll('[id^="scene-card-"]');
+  const scenes=[];
+  cards.forEach((card,i)=>{
+    const texts=card.querySelectorAll('[style*="font-size:12px"]');
+    const visual=(texts[0]?.textContent||'').replace('📹 画面：','').trim();
+    scenes.push({index:i,visual});
+  });
+  currentScenes=scenes;
+  const r=await fetch('/api/image/generate-scenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference_image_url:refImageUrl,scenes,style:'realistic'})}).then(r=>r.json());
+  if(r.ok){
+    document.getElementById('gen-scenes-status').textContent='✓ 已提交';
+    pollSceneImages(r.task_id||r.results);
+  }else{
+    btn.disabled=false;btn.textContent='✨ 一键生成所有分镜图';
+    toast(r.error||'生成失败','var(--red)');
+  }
+}
+
+function pollSceneImages(taskIdOrResults){
+  // 如果直接返回结果（同步）
+  if(Array.isArray(taskIdOrResults)){
+    applySceneImages(taskIdOrResults);return;
+  }
+  // 异步轮询
+  const iv=setInterval(async()=>{
+    const r=await fetch('/api/image/generate-scenes/status/'+taskIdOrResults).then(r=>r.json());
+    if(!r.ok)return;
+    if(r.status==='completed'){
+      clearInterval(iv);
+      applySceneImages(r.results);
+    }else if(r.status==='failed'){
+      clearInterval(iv);
+      document.getElementById('gen-scenes-status').textContent='❌ 失败';
+      document.getElementById('gen-all-scenes-btn').disabled=false;
+      document.getElementById('gen-all-scenes-btn').textContent='✨ 重试';
+    }
+  },5000);
+}
+
+function applySceneImages(results){
+  document.getElementById('vp-s2').textContent='✅';
+  document.getElementById('vp-s3').textContent='⏳ 可生成';
+  results.forEach(r=>{
+    const i=r.index;
+    sceneData[i]={...(sceneData[i]||{}),image_url:r.image_url};
+    document.getElementById('scene-img-'+i).innerHTML=`<img src="${r.image_url}" style="height:60px;border-radius:6px">`;
+    document.getElementById('scene-regen-'+i).style.display='inline-block';
+    document.getElementById('scene-gen-'+i).style.display='inline-block';
+  });
+  document.getElementById('gen-all-scenes-btn').textContent='✓ 分镜图已生成';
+}
+
+async function regenSceneImg(idx){
+  if(!refImageUrl){toast('请先上传参考图','var(--red)');return;}
+  const card=document.getElementById('scene-card-'+idx);
+  const texts=card.querySelectorAll('[style*="font-size:12px"]');
+  const visual=(texts[0]?.textContent||'').replace('📹 画面：','').trim();
+  document.getElementById('scene-img-'+idx).innerHTML='<span style="color:var(--blue)">重新生成中...</span>';
+  const r=await fetch('/api/image/generate-scenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference_image_url:refImageUrl,scenes:[{index:idx,visual}],style:'realistic'})}).then(r=>r.json());
+  if(r.ok&&Array.isArray(r.results)){applySceneImages(r.results);}
+  else if(r.ok&&r.task_id){pollSceneImages(r.task_id);}
+  else{document.getElementById('scene-img-'+idx).innerHTML='<span style="color:var(--red)">失败</span>';}
+}
+
 async function generateClip(idx){
   const sd=sceneData[idx];
-  if(!sd||!sd.image_url){toast('请先上传图片','var(--red)');return;}
+  if(!sd||!sd.image_url){toast('请先生成分镜图','var(--red)');return;}
   const btn=document.getElementById('scene-gen-'+idx);
   const status=document.getElementById('scene-status-'+idx);
   btn.disabled=true;btn.textContent='生成中...';status.textContent='⏳';
-  // 从 DOM 获取 scene 描述
-  const card=btn.closest('[style*="border:1px"]');
+  const card=document.getElementById('scene-card-'+idx);
   const texts=card.querySelectorAll('[style*="font-size:12px"]');
   const prompt=(texts[0]?.textContent||'')+(texts[1]?.textContent||'');
   const r=await fetch('/api/kling/generate-clip',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image_url:sd.image_url,prompt,duration:5,aspect_ratio:'9:16'})}).then(r=>r.json());

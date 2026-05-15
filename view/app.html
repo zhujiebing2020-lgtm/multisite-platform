@@ -274,35 +274,50 @@ function delUser(code){
 // ===== OPERATOR VIEW =====
 function renderOperator(){
   return `
-    <div class="sec-h">今日待执行</div>
-    <div id="o-tasks"><p style="font-size:12px;color:var(--muted)">暂无待执行任务 · Agent 建议会出现在这里</p></div>
     <div class="sec-h">广告组表现</div>
     <div class="kpi-grid" id="o-kpis"></div>
     <div id="o-groups"></div>
-    <div class="sec-h">操作</div>
-    <div class="card"><h3>📤 上传今日数据</h3><p>拖入 xlsx，自动解析入库并触发分析</p>
-      <div class="drop-zone" id="o-drop" style="margin-top:8px">拖拽 xlsx/json 或点击选择<input type="file" accept=".xlsx,.xls,.json" id="o-file"></div>
-      <div id="o-file-tag"></div>
-      <button class="btn" style="margin-top:8px" onclick="opUpload()">上传并分析</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
+      <div>
+        <div class="sec-h">上传数据</div>
+        <div class="card" style="margin:0">
+          <div class="drop-zone" id="o-drop">拖拽 xlsx/json 或点击选择<input type="file" accept=".xlsx,.xls,.json" id="o-file"></div>
+          <div id="o-file-tag"></div>
+          <button class="btn" style="margin-top:8px" onclick="opUpload()">上传并分析</button>
+        </div>
+      </div>
+      <div>
+        <div class="sec-h">触发 Agent</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn" onclick="toggleAgent('cmt')">评论</button>
+          <button class="btn" onclick="toggleAgent('vid')">视频脚本</button>
+          <button class="btn" onclick="toggleAgent('str')">策略</button>
+        </div>
+        <div id="agent-form-cmt" class="card" style="display:none;margin-top:8px">
+          <div class="form-group"><label>广告组</label><input id="o-cmt-group" placeholder="组17 18 Sensual" style="width:100%"></div>
+          <div style="display:flex;gap:8px"><div class="form-group" style="flex:1"><label>数量</label><select id="o-cmt-count" style="width:100%"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div></div>
+          <div class="form-group"><label>补充</label><textarea id="o-cmt-note" placeholder="可选" rows="2"></textarea></div>
+          <button class="btn" onclick="opComment()">生成</button>
+        </div>
+        <div id="agent-form-vid" class="card" style="display:none;margin-top:8px">
+          <div class="form-group"><label>广告组</label><input id="o-vid-group" placeholder="组5 30 Positions" style="width:100%"></div>
+          <div class="form-group"><label>方向</label><textarea id="o-vid-dir" placeholder="真人出镜、产品开箱" rows="2"></textarea></div>
+          <button class="btn" onclick="opVideo()">生成</button>
+        </div>
+        <div id="agent-form-str" class="card" style="display:none;margin-top:8px">
+          <p style="font-size:12px;color:var(--muted)">基于系统数据生成全组投放指令</p>
+          <button class="btn" onclick="opStrategy()">生成策略</button>
+        </div>
+      </div>
     </div>
-    <div class="card"><h3>💬 生成评论</h3>
-      <div class="form-group"><label>广告组</label><input id="o-cmt-group" placeholder="例：组17 18 Sensual"></div>
-      <div class="form-group"><label>数量</label><select id="o-cmt-count"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
-      <div class="form-group"><label>补充要求</label><textarea id="o-cmt-note" placeholder="可选"></textarea></div>
-      <button class="btn" onclick="opComment()">生成评论</button>
-    </div>
-    <div class="card"><h3>🎬 生成视频脚本</h3>
-      <div class="form-group"><label>广告组</label><input id="o-vid-group" placeholder="例：组5 30 Positions"></div>
-      <div class="form-group"><label>创意方向</label><textarea id="o-vid-dir" placeholder="例：真人出镜、产品开箱"></textarea></div>
-      <button class="btn" onclick="opVideo()">生成脚本</button>
-    </div>
-    <div class="card"><h3>⚙️ 自动策略</h3><p>基于系统数据生成全组投放指令</p>
-      <button class="btn" style="margin-top:8px" onclick="opStrategy()">生成策略</button>
-    </div>
-    <div class="sec-h">我的结果</div>
+    <div class="sec-h" style="margin-top:20px">我的结果</div>
     <div id="o-results"></div>
     <div class="result-box" id="o-result-box" style="display:none"><h4 id="o-result-title"></h4><div class="result-content" id="o-result-content"></div><button class="copy-btn" onclick="copyResult()">复制结果</button></div>
   `;
+}
+function toggleAgent(id){
+  ['cmt','vid','str'].forEach(k=>{const el=document.getElementById('agent-form-'+k);if(el)el.style.display=k===id&&el.style.display==='none'?'block':'none';});
+}
 }
 let opFile=null;
 function initOperator(){

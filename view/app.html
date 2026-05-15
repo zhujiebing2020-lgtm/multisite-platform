@@ -370,12 +370,43 @@ function loadResults(){
   });
 }
 const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略',creative_agent:'🎨 素材生成'};
+function parseAgentResult(raw){
+  if(!raw)return raw;
+  let s=String(raw).replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+  try{return JSON.parse(s);}catch(e){return raw;}
+}
+function renderAgentOutput(type,raw){
+  const data=parseAgentResult(raw);
+  if(typeof data==='string')return `<pre style="font-size:11px;white-space:pre-wrap">${esc(data)}</pre>`;
+  if(type==='comment_gen'&&data.comments){
+    return data.comments.map((c,i)=>{
+      const stars='⭐'.repeat(c.stars||5);
+      const text=esc(c.text||'');
+      const short=text.length>100;
+      return `<div class="card" style="margin-bottom:8px;padding:12px"><div style="display:flex;justify-content:space-between"><span>${stars}</span><span style="font-size:11px;color:var(--muted)">评论 #${i+1}</span></div><div style="margin-top:6px;font-size:13px;line-height:1.6" ${short?'onclick="this.style.maxHeight=this.style.maxHeight?null:\'3em\'" style="max-height:3em;overflow:hidden;cursor:pointer"':''}>${text}</div>${short?'<div style="font-size:11px;color:var(--accent);cursor:pointer" onclick="this.previousElementSibling.style.maxHeight=this.previousElementSibling.style.maxHeight?null:\'3em\'">点击展开/收起</div>':''}</div>`;
+    }).join('');
+  }
+  if(type==='video_script'){
+    let h=`<div class="card" style="padding:12px"><b>${esc(data.title||'')}</b><span style="font-size:11px;color:var(--muted);margin-left:8px">${data.duration||''}</span>`;
+    if(data.hook)h+=`<div style="margin-top:8px;padding:8px;background:var(--accent-soft);border-radius:6px;font-size:12px"><b>[HOOK]</b> ${esc(data.hook)}</div>`;
+    if(data.scenes)data.scenes.forEach((s,i)=>{h+=`<div style="margin-top:6px;font-size:12px;border-left:2px solid var(--line);padding-left:8px"><b>${s.time||'段'+(i+1)}</b><br>画面: ${esc(s.visual||'')}<br>音频: ${esc(s.audio||'')}</div>`;});
+    h+='</div>';return h;
+  }
+  if(type==='strategy'&&data.actions){
+    return data.actions.map(a=>{
+      const rc={'low':'var(--risk-low)','medium':'var(--risk-medium)','high':'var(--risk-high)'}[a.risk_level]||'var(--muted)';
+      return `<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid ${rc}"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(a.group||'')}</b><span style="font-size:10px;padding:2px 8px;border-radius:10px;background:${rc}20;color:${rc};font-weight:600">${a.risk_level||''}</span></div><div style="margin-top:6px;font-size:13px">${esc(a.action||'')}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${esc(a.reason||'')}</div></div>`;
+    }).join('');
+  }
+  if(Array.isArray(data))return '<div class="card" style="padding:12px">'+data.map(item=>`<div style="margin-bottom:4px;font-size:12px">• ${esc(typeof item==='string'?item:JSON.stringify(item))}</div>`).join('')+'</div>';
+  if(typeof data==='object')return '<div class="card" style="padding:12px">'+Object.entries(data).map(([k,v])=>`<div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:var(--muted)">${esc(k)}</div><div style="font-size:12px">${esc(typeof v==='string'?v:JSON.stringify(v))}</div></div>`).join('')+'</div>';
+  return `<pre style="font-size:11px;white-space:pre-wrap">${esc(String(data))}</pre>`;
+}
 function showResult(id){
   fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
     if(!d.ok)return;const j=d.job;const box=document.getElementById('i-result-box');
     document.getElementById('i-result-title').textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+(j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
-    const c=j.output_full||j.output_summary||'';
-    document.getElementById('i-result-content').textContent=typeof c==='string'?c:JSON.stringify(c,null,2);
+    document.getElementById('i-result-content').innerHTML=renderAgentOutput(j.agent_type,j.output_full||j.output_summary||'');
     box.style.display='block';
   });
 }
@@ -462,7 +493,7 @@ function renderCreative(el){
     <div class="card">
       <div class="grid-2">
         <div>
-          <div class="form-group"><label>广告组名称</label><input id="cr-group" placeholder="组17 18 Sensual"></div>
+          <div class="form-group"><label>落地页 URL</label><input id="cr-group" placeholder="https://www.creviatech.com/..."></div>
           <div class="form-group"><label>落地页类型</label><select id="cr-landing"><option value="article">文章页</option><option value="scene">剧情页</option><option value="product">产品页</option></select></div>
           <div class="form-group"><label>目标受众</label><input id="cr-audience" placeholder="自动解析，可修改"></div>
           <div class="form-group"><label>补充说明</label><textarea id="cr-notes" rows="3" placeholder="可选"></textarea></div>
@@ -478,7 +509,7 @@ function renderCreative(el){
 }
 function triggerCreative(){
   const params={group:gv('cr-group'),landing_type:gv('cr-landing'),audience:gv('cr-audience'),notes:gv('cr-notes')};
-  if(!params.group){toast('请填广告组','var(--red)');return;}
+  if(!params.group){toast('请填落地页 URL','var(--red)');return;}
   triggerAgent('creative_agent',params);
   document.getElementById('cr-output').innerHTML='<p style="color:var(--blue)">⏳ 生成中，稍后刷新...</p>';
 }

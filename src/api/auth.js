@@ -71,6 +71,12 @@ async function hmacSign(data, secret) {
   );
 }
 
+export function handleLogout() {
+  const resp = json({ ok: true });
+  resp.headers.set('Set-Cookie', 'session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');
+  return resp;
+}
+
 function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status, headers: { 'Content-Type': 'application/json' }

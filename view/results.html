@@ -40,7 +40,7 @@ h1{font-size:18px;color:var(--accent);border-bottom:2px solid var(--accent);padd
 </style>
 </head>
 <body>
-<div class="nav"><a href="index.html"><b>总览</b></a> | <a href="upload.html">上传数据</a> | <a href="agents.html">Agent 工坊</a> | <a href="results.html"><b>我的结果</b></a></div>
+<div class="nav"><a href="index.html"><b>总览</b></a> | <a href="upload.html">上传数据</a> | <a href="agents.html">Agent 工坊</a> | <a href="results.html"><b>我的结果</b></a> | <a href="#" onclick="fetch('/api/logout',{method:'POST'}).then(()=>location.reload())" style="color:#d44">退出登录</a></div>
 
 <h1>我的结果 <button class="refresh-btn" onclick="loadResults()">刷新</button></h1>
 

@@ -3,7 +3,7 @@
 
 import { handleUpload } from './api/upload.js';
 import { handleRequest } from './api/request.js';
-import { handleAuth, verifySession } from './api/auth.js';
+import { handleAuth, handleLogout, verifySession } from './api/auth.js';
 import { handleTriggerAgent } from './api/trigger-agent.js';
 import { handleResults, handleResultDetail } from './api/results.js';
 import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
@@ -18,6 +18,11 @@ export default {
     // 公开 API：登录
     if (request.method === 'POST' && url.pathname === '/api/auth') {
       return handleAuth(request, env);
+    }
+
+    // 退出登录
+    if (request.method === 'POST' && url.pathname === '/api/logout') {
+      return handleLogout();
     }
 
     // 需要鉴权的 API

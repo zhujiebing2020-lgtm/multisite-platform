@@ -12,6 +12,7 @@ import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
 import { handleKnowledge, handleKnowledgeToRule } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
+import { handleUploadImage, handleKlingGenerate, handleKlingStatus } from './api/kling.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -72,6 +73,17 @@ export default {
     // 承接诊断数据
     if (url.pathname === '/api/accept/data' && request.method === 'GET') {
       return handleAcceptData(request, env);
+    }
+    // 图片上传 + Kling 视频生成
+    if (url.pathname === '/api/upload/image' && request.method === 'POST') {
+      return handleUploadImage(request, env);
+    }
+    if (url.pathname === '/api/kling/generate-clip' && request.method === 'POST') {
+      return handleKlingGenerate(request, env, ctx);
+    }
+    if (url.pathname.startsWith('/api/kling/status/') && request.method === 'GET') {
+      const taskId = url.pathname.split('/').pop();
+      return handleKlingStatus(request, env, taskId);
     }
 
     // 需要鉴权的 API

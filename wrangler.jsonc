@@ -26,5 +26,11 @@
       "database_name": "multisite-db",
       "database_id": "6464276b-0c5e-406b-9019-acb793b2c4c6"
     }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "crave"
+    }
   ]
 }

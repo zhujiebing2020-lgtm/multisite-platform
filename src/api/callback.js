@@ -26,6 +26,27 @@ export async function handleCallback(request, env) {
     const job = await env.DB.prepare('SELECT owner, agent_type, site FROM agent_jobs WHERE id = ?').bind(job_id).first();
     if (job) {
       await logOp(env, job.owner, status === 'failed' ? 'agent_failed' : 'agent_done', { agent_type: job.agent_type, site: job.site, job_id }, request);
+
+      // Agent 成功时，将输出写入建议卡片表
+      if (status !== 'failed' && output_full) {
+        try {
+          const parsed = JSON.parse(output_full);
+          const items = parsed.recommendations || parsed.actions || (Array.isArray(parsed) ? parsed : [parsed]);
+          for (const item of items) {
+            await env.DB.prepare(
+              'INSERT INTO agent_recommendations (agent_id, group_name, site, recommendation, risk_level, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
+            ).bind(
+              job.agent_type,
+              item.group_name || item.group || null,
+              job.site,
+              JSON.stringify(item),
+              item.risk_level || 'medium',
+              'pending',
+              now
+            ).run();
+          }
+        } catch (e) { /* output 不是 JSON 或无建议结构，跳过 */ }
+      }
     }
 
     return json({ ok: true });

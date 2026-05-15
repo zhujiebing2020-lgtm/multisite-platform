@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "data_sync_agent",
+      "name": "数据同步 Agent",
+      "description": "定时从 AdClaw 拉取用户质量数据，写入数据库",
+      "layer": "data",
+      "trigger": { "type": "scheduled", "cron": "0 6,12,18 * * *" },
+      "deploy": "docker_cron",
+      "priority": "P0"
+    },
+    {
+      "id": "spend_parser_agent",
+      "name": "花费解析 Agent",
+      "description": "解析投手上传的 xlsx，提取花费数据，计算 CPHQ",
+      "layer": "data",
+      "trigger": { "type": "event", "event": "xlsx_uploaded" },
+      "deploy": "inline_api",
+      "priority": "P0"
+    },
+    {
+      "id": "strategy_agent",
+      "name": "投放策略 Agent",
+      "description": "基于 CPHQ/HVU 数据和规则库，生成今日行动建议卡片",
+      "layer": "decision",
+      "trigger": {
+        "type": "multi",
+        "triggers": [
+          { "type": "scheduled", "cron": "0 7 * * *" },
+          { "type": "event", "event": "xlsx_uploaded" },
+          { "type": "manual", "button": "策略刷新" }
+        ]
+      },
+      "deploy": "docker_service",
+      "priority": "P1"
+    },
+    {
+      "id": "accept_agent",
+      "name": "承接诊断 Agent",
+      "description": "识别独立站漏斗断点，生成 P0/P1 修复需求",
+      "layer": "decision",
+      "trigger": {
+        "type": "multi",
+        "triggers": [
+          { "type": "scheduled", "cron": "30 6 * * *" },
+          { "type": "event", "event": "hvu_anomaly", "condition": "今日HVU < 昨日HVU * 0.7" }
+        ]
+      },
+      "deploy": "docker_service",
+      "priority": "P1"
+    },
+    {
+      "id": "creative_agent",
+      "name": "素材生成 Agent",
+      "description": "基于广告组数据生成 Creative Brief，调用 LLM 生成文案，进行合规审查",
+      "layer": "decision",
+      "trigger": { "type": "manual", "button": "生成素材" },
+      "deploy": "docker_service",
+      "priority": "P2"
+    },
+    {
+      "id": "knowledge_agent",
+      "name": "知识管理 Agent",
+      "description": "验证命题、沉淀规则、30天回看打脸、查重",
+      "layer": "system",
+      "trigger": {
+        "type": "multi",
+        "triggers": [
+          { "type": "scheduled", "cron": "0 9 * * 1", "desc": "每周一30天回看" },
+          { "type": "event", "event": "breakpoint_verified" },
+          { "type": "manual", "button": "手动触发" }
+        ]
+      },
+      "deploy": "local_claude_code",
+      "priority": "P2"
+    },
+    {
+      "id": "orchestrator_agent",
+      "name": "多站协同编排 Agent",
+      "description": "协调其他 Agent 执行顺序，生成跨站汇总报告",
+      "layer": "system",
+      "trigger": { "type": "scheduled", "cron": "30 6 * * *" },
+      "pipeline": [
+        { "step": 1, "agent": "data_sync_agent", "wait": true },
+        { "step": 2, "agent": "accept_agent", "wait": false },
+        { "step": 2, "agent": "strategy_agent", "wait": false },
+        { "step": 3, "action": "generate_cross_site_summary" }
+      ],
+      "deploy": "docker_cron",
+      "priority": "P1"
+    }
+  ]
+}

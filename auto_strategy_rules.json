@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-05-15",
+  "rules": [
+    {
+      "id": "tier_s",
+      "name": "CPHQ 分层 S",
+      "condition": "cphq <= 1.5",
+      "action": "标记为 S 类（优质），可放量",
+      "scope": "全部站点",
+      "source": "手动"
+    },
+    {
+      "id": "tier_a",
+      "name": "CPHQ 分层 A",
+      "condition": "cphq <= 3.0",
+      "action": "标记为 A 类（良好），维持预算",
+      "scope": "全部站点",
+      "source": "手动"
+    },
+    {
+      "id": "tier_b",
+      "name": "CPHQ 分层 B",
+      "condition": "cphq <= 5.0",
+      "action": "标记为 B 类（观察），不加量",
+      "scope": "全部站点",
+      "source": "手动"
+    },
+    {
+      "id": "tier_o",
+      "name": "CPHQ 分层 O",
+      "condition": "cphq > 5.0",
+      "action": "标记为 O 类（淘汰候选），考虑止损",
+      "scope": "全部站点",
+      "source": "手动"
+    },
+    {
+      "id": "stop_loss",
+      "name": "止损线",
+      "condition": "连续 3 天 HVU = 0",
+      "action": "建议暂停该广告组",
+      "scope": "全部站点",
+      "source": "手动"
+    },
+    {
+      "id": "scale_up",
+      "name": "放量条件",
+      "condition": "S 类 + 累计 HVU > 200",
+      "action": "建议加量 20-50%",
+      "scope": "elysianu",
+      "source": "手动"
+    }
+  ]
+}

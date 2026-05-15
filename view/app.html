@@ -11,6 +11,10 @@
   --accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);
   --line:rgba(0,0,0,.07);--line-2:rgba(0,0,0,.04);
   --red:#D94030;--orange:#E8603A;--yellow:#D29922;--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;
+  --risk-low:#18A057;--risk-medium:#D29922;--risk-high:#D94030;
+  --status-pending:#3A9FE8;--status-confirmed:#D29922;--status-executed:#18A057;--status-rejected:#9A8F85;--status-verified:#E8603A;
+  --tier-s:#18A057;--tier-a:#3A9FE8;--tier-b:#D29922;--tier-o:#9A8F85;
+  --drawer-bg:#FFFFFF;--drawer-shadow:0 4px 24px rgba(0,0,0,0.10);
 }
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Segoe UI',sans-serif;font-size:14px;line-height:1.55}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
@@ -120,7 +124,9 @@ const VIEWS={
   invest:{label:'📊 投放',roles:['admin','pitcher']},
   accept:{label:'🛠 承接诊断',roles:['admin','tech']},
   strategy:{label:'⚙️ 策略',roles:['admin','pitcher']},
+  creative:{label:'🎨 素材',roles:['admin','pitcher']},
   control:{label:'🏠 总控',roles:['admin']},
+  knowledge:{label:'📚 知识库',roles:['admin']},
 };
 let currentView='';
 
@@ -164,6 +170,8 @@ function loadCurrentView(){
   else if(currentView==='invest')renderInvest(el);
   else if(currentView==='accept')renderAccept(el);
   else if(currentView==='strategy')renderStrategy(el);
+  else if(currentView==='creative')renderCreative(el);
+  else if(currentView==='knowledge')renderKnowledge(el);
 }
 function getSite(){return document.getElementById('f-site').value;}
 function toast(msg,color){const t=document.getElementById('toast');t.textContent=msg;if(color)t.style.background=color;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
@@ -379,6 +387,73 @@ function renderStrategy(el){
     <div class="sec-h">命题库</div>
     <div class="card"><p style="font-size:12px;color:var(--muted)">策略命题和排查题将从 crave-AI 同步。${readonly?'（只读）':''}</p></div>
   `;
+}
+
+// === 素材视图 ===
+function renderCreative(el){
+  el.innerHTML=`
+    <div class="sec-h">生成素材 Brief</div>
+    <div class="card">
+      <div class="grid-2">
+        <div>
+          <div class="form-group"><label>广告组名称</label><input id="cr-group" placeholder="组17 18 Sensual"></div>
+          <div class="form-group"><label>落地页类型</label><select id="cr-landing"><option value="article">文章页</option><option value="scene">剧情页</option><option value="product">产品页</option></select></div>
+          <div class="form-group"><label>目标受众</label><input id="cr-audience" placeholder="自动解析，可修改"></div>
+          <div class="form-group"><label>补充说明</label><textarea id="cr-notes" rows="3" placeholder="可选"></textarea></div>
+          <button class="btn" onclick="triggerCreative()">生成素材 Brief</button>
+        </div>
+        <div id="cr-output" style="font-size:12px;color:var(--muted)">生成结果将显示在这里</div>
+      </div>
+    </div>
+    <div class="sec-h">我的素材库</div>
+    <div id="cr-history"><p style="font-size:12px;color:var(--muted)">暂无历史记录</p></div>
+  `;
+  loadCreativeHistory();
+}
+function triggerCreative(){
+  const params={group:gv('cr-group'),landing_type:gv('cr-landing'),audience:gv('cr-audience'),notes:gv('cr-notes')};
+  if(!params.group){toast('请填广告组','var(--red)');return;}
+  triggerAgent('creative_agent',params);
+  document.getElementById('cr-output').innerHTML='<p style="color:var(--blue)">⏳ 生成中，稍后刷新...</p>';
+}
+function loadCreativeHistory(){
+  fetch('/api/recommendations?agent=creative_agent').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.items.length)return;
+    const el=document.getElementById('cr-history');
+    el.innerHTML=d.items.slice(0,10).map(r=>{
+      const c=JSON.parse(r.recommendation||'{}');
+      return `<div class="card"><b>${c.group_name||r.group_name||''}</b><div style="font-size:12px;color:var(--muted);margin-top:4px">${(r.created_at||'').slice(0,16)}</div><div style="margin-top:6px;font-size:12px">${esc(c.hook_variants?c.hook_variants[0]:(c.recommendation||''))}</div></div>`;
+    }).join('');
+  });
+}
+
+// === 知识库视图 ===
+function renderKnowledge(el){
+  el.innerHTML=`
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <button class="btn" onclick="loadKTab('proposition')">已验证命题</button>
+      <button class="btn btn-gray" onclick="loadKTab('rejection_analysis')">拒绝记录分析</button>
+      <button class="btn btn-gray" onclick="loadKTab('rule')">规则库历史</button>
+    </div>
+    <div id="k-content"></div>
+  `;
+  loadKTab('proposition');
+}
+function loadKTab(type){
+  fetch('/api/knowledge?type='+type).then(r=>r.json()).then(d=>{
+    const el=document.getElementById('k-content');
+    if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无记录</p>';return;}
+    el.innerHTML=d.items.map(e=>{
+      const c=JSON.parse(e.content||'{}');
+      return `<div class="card"><div style="display:flex;justify-content:space-between"><b>${c.title||c.name||e.type}</b><span class="status s-${e.status==='confirmed'?'done':'pending'}">${e.status}</span></div><div style="font-size:12px;color:var(--muted);margin-top:4px">${esc(c.description||c.content||JSON.stringify(c).slice(0,100))}</div>${e.status!=='confirmed'?`<button class="btn btn-s btn-green" style="margin-top:6px" onclick="toRule(${e.id})">转化为规则</button>`:''}</div>`;
+    }).join('');
+  });
+}
+function toRule(id){
+  fetch('/api/knowledge/'+id+'/to-rule',{method:'POST'}).then(r=>r.json()).then(d=>{
+    if(d.ok)toast('✓ 已转化为规则');else toast(d.error,'var(--red)');
+    loadKTab('proposition');
+  });
 }
 
 // === 用户管理函数 ===

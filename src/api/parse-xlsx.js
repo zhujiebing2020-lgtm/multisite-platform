@@ -2,12 +2,17 @@
 // 使用简化的 xlsx 解析（CSV fallback + 基础 xlsx 解码）
 
 import { logOp } from './admin.js';
+import { verifySession } from './auth.js';
 
 export async function handleUploadAndParse(request, env) {
   try {
-    const pass = request.headers.get('x-pass') || '';
-    if (!env.ACCESS_PASSCODE || pass !== env.ACCESS_PASSCODE) {
-      return json({ error: '口令错误' }, 401);
+    // 支持 session cookie 或 x-pass 认证
+    const session = await verifySession(request, env);
+    if (!session) {
+      const pass = request.headers.get('x-pass') || '';
+      if (!env.ACCESS_PASSCODE || pass !== env.ACCESS_PASSCODE) {
+        return json({ error: '未登录或口令错误' }, 401);
+      }
     }
 
     const { filename, contentBase64, owner, site, channel } = await request.json();
@@ -32,6 +37,38 @@ export async function handleUploadAndParse(request, env) {
       }),
     });
 
+    // HVU JSON 文件处理
+    if (filename.toLowerCase().endsWith('.json')) {
+      const binary = Uint8Array.from(atob(contentBase64), c => c.charCodeAt(0));
+      const text = new TextDecoder().decode(binary);
+      const data = JSON.parse(text);
+      const sessions = data.sessions || [];
+      const date = extractDateFromFilename(filename) || new Date().toISOString().slice(0, 10);
+      const byGroup = {};
+      for (const s of sessions) {
+        const task = s.linkedTask || {};
+        const name = task.name || '';
+        const m = name.match(/广告组(\d+)/);
+        const key = m ? `组${m[1]}` : null;
+        if (!key) continue;
+        if (!byGroup[key]) byGroup[key] = 0;
+        byGroup[key]++;
+      }
+      const stmts = [];
+      for (const [group, hvu] of Object.entries(byGroup)) {
+        stmts.push(env.DB.prepare(
+          `INSERT INTO ad_daily (owner, site, date, group_name, hvu) VALUES (?, ?, ?, ?, ?)
+           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET hvu=excluded.hvu, cphq=CASE WHEN ad_daily.spend>0 THEN round(ad_daily.spend*1.0/excluded.hvu,2) ELSE 0 END`
+        ).bind(owner, site, date, group, hvu));
+      }
+      if (stmts.length > 0) {
+        await env.DB.batch(stmts);
+      }
+      await ghPromise;
+      await logOp(env, owner, 'upload', { site, filename, type: 'hvu_json', groups: Object.keys(byGroup).length }, request);
+      return json({ ok: true, path, parsed: Object.keys(byGroup).length, message: `✓ HVU JSON 解析完成，${Object.keys(byGroup).length} 个组` });
+    }
+
     // 解析 xlsx 内容
     const binary = Uint8Array.from(atob(contentBase64), c => c.charCodeAt(0));
     let rows = parseXlsx(binary);
@@ -47,7 +84,32 @@ export async function handleUploadAndParse(request, env) {
     let defaultDate = extractDateFromFilename(filename) || new Date().toISOString().slice(0, 10);
     const stmts = [];
 
-    if (isHorizontalFormat(header)) {
+    // 检测原始 FB 格式（广告组XX：开头，按年龄/性别拆行，需聚合）
+    if (isRawFbFormat(header, rows)) {
+      const spendCol = findCol(header.map(h=>h.toLowerCase()), ['已花费金额', 'amount spent', 'จำนวนเงินที่ใช้จ่ายไป']);
+      const adsetCol = findCol(header.map(h=>h.toLowerCase()), ['广告组名称', 'ad set name', 'ชื่อชุดโฆษณา']);
+      if (spendCol === -1 || adsetCol === -1) {
+        await ghPromise;
+        return json({ ok: true, path, parsed: 0, message: '已上传但未找到广告组/花费列' });
+      }
+      const agg = {};
+      for (let i = 1; i < rows.length; i++) {
+        const adset = String(rows[i][adsetCol] || '').trim();
+        const m = adset.match(/广告组(\d+)/);
+        if (!m) continue;
+        const key = `组${m[1]}`;
+        if (!agg[key]) agg[key] = 0;
+        agg[key] += parseNum(rows[i][spendCol]);
+      }
+      for (const [group, spend] of Object.entries(agg)) {
+        if (spend <= 0) continue;
+        stmts.push(env.DB.prepare(
+          `INSERT INTO ad_daily (owner, site, date, group_name, spend) VALUES (?, ?, ?, ?, ?)
+           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, cphq=CASE WHEN ad_daily.hvu>0 THEN round(excluded.spend*1.0/ad_daily.hvu,2) ELSE 0 END`
+        ).bind(owner, site, defaultDate, group, round2(spend)));
+        parsed++;
+      }
+    } else if (isHorizontalFormat(header)) {
       // 横向看板格式：行=组，列=日期，单元格=$spend/hvu/$cphq
       const dateColumns = [];
       for (let c = 3; c < header.length; c++) {
@@ -69,7 +131,8 @@ export async function handleUploadAndParse(request, env) {
 
           stmts.push(
             env.DB.prepare(
-              'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)'
+              `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)
+               ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, hvu=excluded.hvu, cphq=excluded.cphq`
             ).bind(rowOwner, site, date, groupName, parsed_cell.spend, parsed_cell.hvu, parsed_cell.cphq)
           );
           parsed++;
@@ -106,7 +169,8 @@ export async function handleUploadAndParse(request, env) {
 
         stmts.push(
           env.DB.prepare(
-            'INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq, impressions, clicks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq, impressions, clicks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq, impressions=excluded.impressions, clicks=excluded.clicks`
           ).bind(owner, site, date, groupName, spend, hvu, cphq, impressions, clicks)
         );
         parsed++;
@@ -256,6 +320,19 @@ function parseSheet(xml, sharedStrings) {
     rows.push(cells);
   }
   return rows.length > 0 ? rows : null;
+}
+
+// --- 原始 FB 格式检测 ---
+function isRawFbFormat(header, rows) {
+  const h = header.map(s => (s || '').toLowerCase()).join(' ');
+  if (h.includes('广告组名称') || h.includes('ad set name') || h.includes('ชื่อชุดโฆษณา')) {
+    // 确认数据行含"广告组XX"
+    for (let i = 1; i < Math.min(rows.length, 5); i++) {
+      const row = rows[i] || [];
+      if (row.some(c => /广告组\d+/.test(String(c || '')))) return true;
+    }
+  }
+  return false;
 }
 
 // --- 横向看板格式检测和解析 ---

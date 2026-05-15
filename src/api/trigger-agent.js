@@ -2,6 +2,7 @@
 
 import { verifySession } from './auth.js';
 import { logOp } from './admin.js';
+import { generateComments } from './comment-pipeline.js';
 
 const AGENT_TYPES = {
   comment_gen: { name: '评论生成', prompt: (p) => `你是一个专门为成人玩具独立站生成真实用户评论的文案专家。
@@ -122,75 +123,89 @@ export async function handleTriggerAgent(request, env, ctx) {
 
 async function executeAgent(env, jobId, agentType, site, params) {
   try {
+    const now = () => new Date().toISOString();
+
+    // comment_gen 走多模型链路
+    if (agentType === 'comment_gen') {
+      // Step 1: Claude 制定策略
+      const baseUrl = env.ANTHROPIC_BASE_URL || 'https://api.anthropic.com';
+      const sd = params.sceneData || {};
+      const strategyPrompt = `你是资深成人内容营销策略师。产品：${params.group||''}${sd.title?'，剧情：'+sd.title:''}${sd.synopsis?'，简介：'+sd.synopsis.slice(0,150):''}。用2-3句话制定评论投放策略（目标受众、情感诉求、差异化角度）。直接输出文字。`;
+      const sResp = await fetch(`${baseUrl}/v1/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({ model: 'claude-opus-4-7', max_tokens: 300, messages: [{ role: 'user', content: strategyPrompt }] }),
+      });
+      const sData = await sResp.json();
+      const strategy = sData.content?.[0]?.text || '面向欧美女性用户，强调情感沉浸感';
+
+      // Steps 2-5: 多模型链路
+      const result = await generateComments(env, {
+        sceneTitle: sd.title || params.group || '',
+        sceneSynopsis: sd.synopsis || '',
+        sceneTags: sd.tags || [],
+        count: parseInt(params.count) || 5,
+        style: params.style || '真实用户口吻',
+        note: params.note || '',
+        strategy,
+      });
+
+      const content = JSON.stringify(result);
+      const summary = result.error ? result.error : `${result.reviews?.length||0} 条评论 · 评分 ${result.scoring?.average||'?'}/10`;
+      await env.DB.prepare('UPDATE agent_jobs SET status=?, output_summary=?, output_full=?, completed_at=? WHERE id=?')
+        .bind(result.error ? 'failed' : 'done', summary, content, now(), jobId).run();
+      return;
+    }
+
+    // 其他 agent 走 Claude 单模型
     const agentDef = AGENT_TYPES[agentType];
     let contextData = null;
-
-    // 策略 agent 需要拉取当前数据
     if (agentType === 'strategy') {
-      const rows = await env.DB.prepare(
-        "SELECT group_name, spend, hvu, cphq FROM ad_daily WHERE site != '_test' ORDER BY date DESC LIMIT 30"
-      ).all();
+      const rows = await env.DB.prepare("SELECT group_name, spend, hvu, cphq FROM ad_daily WHERE site != '_test' ORDER BY date DESC LIMIT 30").all();
       contextData = rows.results;
     }
 
     const prompt = agentDef.prompt(params, contextData);
     const baseUrl = env.ANTHROPIC_BASE_URL || 'https://api.anthropic.com';
-
     const resp = await fetch(`${baseUrl}/v1/messages`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-7',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
+      headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-opus-4-7', max_tokens: 2000, messages: [{ role: 'user', content: prompt }] }),
     });
 
     if (!resp.ok) {
       const err = await resp.text();
-      await env.DB.prepare(
-        'UPDATE agent_jobs SET status = ?, output_summary = ?, completed_at = ? WHERE id = ?'
-      ).bind('failed', `API错误: ${resp.status} ${err.slice(0, 200)}`, new Date().toISOString(), jobId).run();
+      await env.DB.prepare('UPDATE agent_jobs SET status=?, output_summary=?, completed_at=? WHERE id=?')
+        .bind('failed', `API错误: ${resp.status} ${err.slice(0, 200)}`, now(), jobId).run();
       return;
     }
 
     const result = await resp.json();
     const content = result.content?.[0]?.text || '';
-    const now = new Date().toISOString();
 
-    // 提取摘要
     let summary = content.slice(0, 100);
     try {
       const parsed = JSON.parse(content);
       if (parsed.actions) summary = `${parsed.actions.length} 条建议`;
-      else if (parsed.comments) summary = `${parsed.comments.length} 条评论`;
       else if (parsed.title) summary = parsed.title;
       else if (parsed.hook_variants) summary = parsed.hook_variants[0];
     } catch (e) {}
 
-    await env.DB.prepare(
-      'UPDATE agent_jobs SET status = ?, output_summary = ?, output_full = ?, completed_at = ? WHERE id = ?'
-    ).bind('done', summary, content, now, jobId).run();
+    await env.DB.prepare('UPDATE agent_jobs SET status=?, output_summary=?, output_full=?, completed_at=? WHERE id=?')
+      .bind('done', summary, content, now(), jobId).run();
 
-    // 写入 agent_recommendations
     try {
       const parsed = JSON.parse(content);
       const items = parsed.actions || parsed.recommendations || (Array.isArray(parsed) ? parsed : []);
       for (const item of items) {
-        await env.DB.prepare(
-          'INSERT INTO agent_recommendations (agent_id, group_name, site, recommendation, risk_level, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
-        ).bind(agentType, item.group || item.group_name || null, site, JSON.stringify(item), item.risk_level || 'medium', 'pending', now).run();
+        await env.DB.prepare('INSERT INTO agent_recommendations (agent_id, group_name, site, recommendation, risk_level, status, created_at) VALUES (?,?,?,?,?,?,?)')
+          .bind(agentType, item.group || item.group_name || null, site, JSON.stringify(item), item.risk_level || 'medium', 'pending', now()).run();
       }
     } catch (e) {}
 
   } catch (e) {
-    await env.DB.prepare(
-      'UPDATE agent_jobs SET status = ?, output_summary = ?, completed_at = ? WHERE id = ?'
-    ).bind('failed', String(e.message || e).slice(0, 200), new Date().toISOString(), jobId).run();
+    await env.DB.prepare('UPDATE agent_jobs SET status=?, output_summary=?, completed_at=? WHERE id=?')
+      .bind('failed', String(e.message || e).slice(0, 200), new Date().toISOString(), jobId).run();
   }
 }
 

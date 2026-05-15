@@ -446,6 +446,19 @@ function parseAgentResult(raw){
 function renderAgentOutput(type,raw){
   const data=parseAgentResult(raw);
   if(typeof data==='string')return `<pre style="font-size:11px;white-space:pre-wrap">${esc(data)}</pre>`;
+  // 多模型链路评论结果
+  if(type==='comment_gen'&&data.reviews){
+    let h='';
+    if(data.audit_summary){const a=data.audit_summary;h+=`<div style="font-size:11px;padding:6px 10px;background:var(--bg);border-radius:4px;margin-bottom:12px;color:var(--muted)">🔗 ${(data.models_used||[]).join(' → ')} | 🔄 重试：${a.attempts} | ✅ 审核：${a.pass_count}/${a.total}</div>`;}
+    if(data.scoring?.average){h+=`<div style="font-size:11px;padding:4px 10px;margin-bottom:10px;color:var(--green)">⭐ 平均评分：${data.scoring.average}/10 | ${data.scoring.recommendation==='publish'?'✓ 建议发布':'⚠ 建议重试'}</div>`;}
+    h+=data.reviews.map((c,i)=>{
+      const text=esc(c.text||'');
+      const short=text.length>100;
+      return `<div class="card" style="margin-bottom:8px;padding:12px"><div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--muted)">${esc(c.persona||'')}</span><span style="font-size:11px;color:var(--muted)">#${i+1}</span></div><div style="margin-top:6px;font-size:13px;line-height:1.6${short?';max-height:3em;overflow:hidden;cursor:pointer':''}" ${short?'onclick="this.style.maxHeight=this.style.maxHeight?null:\'3em\'"':''}>${text}</div>${short?'<div style="font-size:11px;color:var(--accent);cursor:pointer" onclick="this.previousElementSibling.style.maxHeight=this.previousElementSibling.style.maxHeight?null:\'3em\'">展开/收起</div>':''}</div>`;
+    }).join('');
+    return h;
+  }
+  // 旧格式兼容
   if(type==='comment_gen'&&data.comments){
     return data.comments.map((c,i)=>{
       const stars='⭐'.repeat(c.stars||5);

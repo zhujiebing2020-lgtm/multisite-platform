@@ -623,10 +623,10 @@ function loadAcceptData(){
 
 // === 策略视图 ===
 function renderStrategy(el){
-  const readonly=user.role!=='admin';
   el.innerHTML=`
-    <div class="sec-h">运营规则</div>
-    <div class="card">
+    ${user.role==='admin'?'<div style="margin-bottom:12px"><button class="btn btn-green btn-s" onclick="showAddProp()">+ 新增命题</button></div><div id="add-prop-form" class="hidden"></div>':''}
+    <div class="sec-h" style="cursor:pointer" onclick="document.getElementById('rules-panel').classList.toggle('hidden')">⚙️ 运营规则 <span style="font-size:11px;color:var(--muted)">（点击展开）</span></div>
+    <div id="rules-panel" class="card hidden">
       <table><tr><th>规则</th><th>阈值</th><th>适用站</th></tr>
       <tr><td>CPHQ 分层</td><td>S≤$1.5 / A≤$3 / B≤$5 / R>$5</td><td>全部</td></tr>
       <tr><td>止损线</td><td>连续 3 天 0 HVU</td><td>全部</td></tr>
@@ -643,17 +643,28 @@ function renderStrategy(el){
   `;
   loadProps('');
 }
+function showAddProp(){
+  const f=document.getElementById('add-prop-form');f.classList.remove('hidden');
+  f.innerHTML=`<div class="card"><div class="form-group"><label>标题</label><input id="np-title" placeholder="命题标题"></div><div class="form-group"><label>类型</label><select id="np-type"><option value="strategy">策略</option><option value="diagnosis">诊断</option><option value="flywheel">飞轮断点</option></select></div><div class="form-group"><label>置信度</label><select id="np-status"><option value="hypothesis">存疑</option><option value="validating">验证中</option><option value="confirmed">已确认</option></select></div><button class="btn" onclick="addProp()">添加</button></div>`;
+}
+function addProp(){
+  const content=JSON.stringify({title:gv('np-title')});
+  fetch('/api/knowledge/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:gv('np-type'),content,status:gv('np-status')})}).then(r=>r.json()).then(d=>{
+    if(d.ok){toast('✓ 已添加');loadProps('');}else toast(d.error||'失败','var(--red)');
+  });
+}
 function loadProps(type){
   const q=type?'/api/knowledge?type='+type:'/api/knowledge';
   fetch(q).then(r=>r.json()).then(d=>{
     const el=document.getElementById('s-props');
     if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无命题</p>';return;}
     const statusColor={'confirmed':'var(--green)','validating':'var(--blue)','hypothesis':'var(--muted)','falsified':'var(--red)'};
+    const labels={'confirmed':'已确认','validating':'验证中','hypothesis':'存疑','falsified':'已证伪'};
+    const typeLabels={'strategy':'策略','diagnosis':'诊断','flywheel':'飞轮'};
     el.innerHTML=d.items.map(e=>{
       const c=JSON.parse(e.content||'{}');
       const sc=statusColor[e.status]||'var(--muted)';
-      const labels={'confirmed':'已确认','validating':'验证中','hypothesis':'存疑','falsified':'已证伪'};
-      return `<div class="card" style="border-left:3px solid ${sc}"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">${esc(c.title||'')}</b><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}20;color:${sc};font-weight:600">${labels[e.status]||e.status}</span></div><div style="font-size:11px;color:var(--muted);margin-top:4px">${e.type} · ${c.proposed_date||''} · ${c.confidence||''}</div></div>`;
+      return `<div class="card" style="border-left:3px solid ${sc};padding:10px 14px;cursor:pointer" onclick="this.querySelector('.prop-detail').classList.toggle('hidden')"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">${esc(c.title||'')}</b><div><span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--bg);color:var(--muted);margin-right:4px">${typeLabels[e.type]||e.type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}20;color:${sc};font-weight:600">${labels[e.status]||e.status}</span></div></div><div class="prop-detail hidden" style="margin-top:8px;font-size:11px;color:var(--muted)">${c.proposed_date?'提出: '+c.proposed_date+' · ':''}${c.confidence||''}${c.claim_side?' · 侧: '+c.claim_side:''}</div></div>`;
     }).join('');
   });
 }
@@ -662,47 +673,87 @@ function loadProps(type){
 function renderCreative(el){
   el.innerHTML=`
     <div style="display:flex;gap:6px;margin-bottom:12px">
-      <button class="btn" onclick="showCreativeTab('brief')">素材 Brief</button>
-      <button class="btn btn-gray" onclick="showCreativeTab('scripts')">剧本库</button>
+      <button class="btn" id="cr-tab-btn-scripts" onclick="showCrTab('scripts')">脚本库</button>
+      <button class="btn btn-gray" id="cr-tab-btn-images" onclick="showCrTab('images')">图片库</button>
+      <button class="btn btn-gray" id="cr-tab-btn-videos" onclick="showCrTab('videos')">视频库</button>
     </div>
-    <div id="cr-tab-brief">
-      <div class="card">
-        <div class="grid-2">
-          <div>
-            <div class="form-group"><label>落地页 URL</label><input id="cr-group" placeholder="https://www.creviatech.com/..."></div>
-            <div class="form-group"><label>落地页类型</label><select id="cr-landing"><option value="article">文章页</option><option value="scene">剧情页</option><option value="product">产品页</option></select></div>
-            <div class="form-group"><label>目标受众</label><input id="cr-audience" placeholder="自动解析，可修改"></div>
-            <div class="form-group"><label>补充说明</label><textarea id="cr-notes" rows="3" placeholder="可选"></textarea></div>
-            <button class="btn" onclick="triggerCreative()">生成素材 Brief</button>
-          </div>
-          <div id="cr-output" style="font-size:12px;color:var(--muted)">生成结果将显示在这里</div>
-        </div>
-      </div>
-      <div class="sec-h">我的素材库</div>
-      <div id="cr-history"><p style="font-size:12px;color:var(--muted)">暂无历史记录</p></div>
-    </div>
-    <div id="cr-tab-scripts" style="display:none">
-      <div class="card">
-        <h3>上传剧本</h3>
+    <div id="cr-tab-scripts">
+      <div id="cr-scripts-list"></div>
+      <div class="card" style="margin-top:12px">
+        <h3>导入剧本</h3>
         <div class="drop-zone" id="script-drop" style="margin-top:8px">拖拽 JSON 文件或点击选择<input type="file" accept=".json,.csv" id="script-file" style="display:none"></div>
         <div id="script-file-tag" style="margin-top:6px"></div>
-        <button class="btn" style="margin-top:8px" onclick="uploadScripts()">导入剧本</button>
-        <p style="font-size:11px;color:var(--muted);margin-top:6px">格式：[{"title":"标题","tags":"标签","product":"适用产品","emotion":"核心情绪","scene":"关键场景"}]</p>
+        <button class="btn" style="margin-top:8px" onclick="uploadScripts()">导入</button>
       </div>
-      <div class="sec-h">已有剧本</div>
-      <div id="cr-scripts-list"></div>
+    </div>
+    <div id="cr-tab-images" class="hidden">
+      <div id="cr-images-list"><p style="font-size:12px;color:var(--muted)">暂无图片</p></div>
+      <div class="card" style="margin-top:12px">
+        <label class="btn btn-s">📷 上传图片<input type="file" accept="image/*" multiple style="display:none" onchange="uploadImages(this)"></label>
+      </div>
+    </div>
+    <div id="cr-tab-videos" class="hidden">
+      <div id="cr-videos-list"><p style="font-size:12px;color:var(--muted)">暂无视频</p></div>
     </div>
   `;
-  loadCreativeHistory();
+  loadScriptsList();
   initScriptDrop();
 }
-function showCreativeTab(tab){
-  document.getElementById('cr-tab-brief').style.display=tab==='brief'?'block':'none';
-  document.getElementById('cr-tab-scripts').style.display=tab==='scripts'?'block':'none';
-  if(tab==='scripts')loadScripts();
+function showCrTab(tab){
+  ['scripts','images','videos'].forEach(k=>{
+    document.getElementById('cr-tab-'+k).classList.toggle('hidden',k!==tab);
+    document.getElementById('cr-tab-btn-'+k).classList.toggle('btn-gray',k!==tab);
+  });
+  if(tab==='images')loadImagesList();
+  if(tab==='videos')loadVideosList();
+}
+function loadScriptsList(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok)return;
+    const scripts=d.jobs.filter(j=>j.agent_type==='video_script'&&j.status==='done');
+    const el=document.getElementById('cr-scripts-list');
+    if(!scripts.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无脚本 · 在投放视图触发"视频脚本"Agent 生成</p>';return;}
+    el.innerHTML=scripts.map(j=>{
+      return `<div class="card" style="padding:12px;cursor:pointer" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${j.output_summary||'视频脚本'}</b><span style="font-size:11px;color:var(--muted)">${(j.created_at||'').slice(5,16).replace('T',' ')}</span></div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+    }).join('');
+  });
+  // 也加载剧本库
+  fetch('/api/scripts').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.items.length)return;
+    const el=document.getElementById('cr-scripts-list');
+    el.innerHTML+=`<div class="sec-h" style="margin-top:16px">剧本模板</div>`+d.items.map(s=>`<div class="card" style="padding:10px"><b>${esc(s.title)}</b><div style="font-size:11px;color:var(--muted);margin-top:4px">${esc(s.tags||'')} · ${esc(s.product||'')} · ${esc(s.emotion||'')}</div></div>`).join('');
+  });
+}
+function loadImagesList(){
+  // 从 recommendations 里找有图片的
+  fetch('/api/recommendations?agent=creative_agent').then(r=>r.json()).then(d=>{
+    const el=document.getElementById('cr-images-list');
+    if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无图片 · 在脚本库中生成分镜图</p>';return;}
+    el.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">'+d.items.map(r=>{
+      const c=JSON.parse(r.recommendation||'{}');
+      const url=c.image_url||'';
+      return url?`<div class="card" style="padding:6px"><img src="${url}" style="width:100%;border-radius:6px"><div style="font-size:10px;color:var(--muted);margin-top:4px">${(r.created_at||'').slice(5,16)}</div></div>`:'';
+    }).filter(Boolean).join('')+'</div>';
+  });
+}
+async function uploadImages(input){
+  for(const file of input.files){
+    const b64=btoa(String.fromCharCode(...new Uint8Array(await file.arrayBuffer())));
+    await fetch('/api/upload/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:file.name,contentBase64:b64})});
+  }
+  toast('✓ 上传完成');loadImagesList();
+}
+function loadVideosList(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok)return;
+    const el=document.getElementById('cr-videos-list');
+    // 暂时显示提示
+    el.innerHTML='<p style="font-size:12px;color:var(--muted)">视频片段在脚本库中生成后会出现在这里</p>';
+  });
 }
 function initScriptDrop(){
   const drop=document.getElementById('script-drop'),fi=document.getElementById('script-file');
+  if(!drop||!fi)return;
   drop.addEventListener('click',()=>fi.click());
   fi.addEventListener('change',()=>{if(fi.files[0])document.getElementById('script-file-tag').innerHTML=`<span style="font-size:12px;color:var(--green)">✓ ${fi.files[0].name}</span>`;});
 }
@@ -713,30 +764,7 @@ async function uploadScripts(){
   let items;
   try{items=JSON.parse(text);if(!Array.isArray(items))items=[items];}catch(e){toast('JSON 格式错误','var(--red)');return;}
   const r=await fetch('/api/scripts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items})}).then(r=>r.json());
-  if(r.ok){toast(`✓ 导入 ${r.count} 条剧本`);loadScripts();}else toast(r.error||'失败','var(--red)');
-}
-function loadScripts(){
-  fetch('/api/scripts').then(r=>r.json()).then(d=>{
-    const el=document.getElementById('cr-scripts-list');
-    if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无剧本</p>';return;}
-    el.innerHTML=d.items.map(s=>`<div class="card" style="padding:12px"><b>${esc(s.title)}</b><div style="font-size:11px;color:var(--muted);margin-top:4px">${esc(s.tags||'')} · ${esc(s.product||'')} · ${esc(s.emotion||'')}</div></div>`).join('');
-  });
-}
-function triggerCreative(){
-  const params={group:gv('cr-group'),landing_type:gv('cr-landing'),audience:gv('cr-audience'),notes:gv('cr-notes')};
-  if(!params.group){toast('请填落地页 URL','var(--red)');return;}
-  triggerAgent('creative_agent',params);
-  document.getElementById('cr-output').innerHTML='<p style="color:var(--blue)">⏳ 生成中，稍后刷新...</p>';
-}
-function loadCreativeHistory(){
-  fetch('/api/recommendations?agent=creative_agent').then(r=>r.json()).then(d=>{
-    if(!d.ok||!d.items.length)return;
-    const el=document.getElementById('cr-history');
-    el.innerHTML=d.items.slice(0,10).map(r=>{
-      const c=JSON.parse(r.recommendation||'{}');
-      return `<div class="card"><b>${c.group_name||r.group_name||''}</b><div style="font-size:12px;color:var(--muted);margin-top:4px">${(r.created_at||'').slice(0,16)}</div><div style="margin-top:6px;font-size:12px">${esc(c.hook_variants?c.hook_variants[0]:(c.recommendation||''))}</div></div>`;
-    }).join('');
-  });
+  if(r.ok){toast(`✓ 导入 ${r.count} 条剧本`);loadScriptsList();}else toast(r.error||'失败','var(--red)');
 }
 
 // === 知识库视图 ===

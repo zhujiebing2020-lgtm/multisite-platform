@@ -26,6 +26,20 @@ export async function handleKnowledge(request, env) {
   return json({ error: 'method not allowed' }, 405);
 }
 
+export async function handleKnowledgeAdd(request, env) {
+  const user = await verifySession(request, env);
+  if (!user || user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+
+  const { type, content, status } = await request.json();
+  if (!type || !content) return json({ error: '缺少 type 或 content' }, 400);
+
+  await env.DB.prepare(
+    'INSERT INTO knowledge_entries (type, content, status, source, created_at) VALUES (?, ?, ?, ?, ?)'
+  ).bind(type, content, status || 'hypothesis', 'manual', new Date().toISOString()).run();
+
+  return json({ ok: true });
+}
+
 export async function handleScripts(request, env) {
   const user = await verifySession(request, env);
   if (!user) return json({ error: '未登录' }, 401);

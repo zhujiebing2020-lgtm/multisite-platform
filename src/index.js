@@ -10,7 +10,7 @@ import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 import { handleIngest } from './api/ingest.js';
 import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
-import { handleKnowledge, handleKnowledgeToRule, handleScripts } from './api/knowledge.js';
+import { handleKnowledge, handleKnowledgeToRule, handleScripts, handleKnowledgeAdd } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
 import { handleUploadImage, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
 
@@ -53,6 +53,9 @@ export default {
     // 知识库
     if (url.pathname === '/api/knowledge' && request.method === 'GET') {
       return handleKnowledge(request, env);
+    }
+    if (url.pathname === '/api/knowledge/add' && request.method === 'POST') {
+      return handleKnowledgeAdd(request, env);
     }
     if (url.pathname.match(/^\/api\/knowledge\/\d+\/to-rule$/) && request.method === 'POST') {
       const id = url.pathname.split('/')[3];

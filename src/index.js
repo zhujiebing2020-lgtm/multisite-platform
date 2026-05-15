@@ -92,8 +92,9 @@ export default {
     }
     if (host.endsWith('.z-jb.com') && !ROOT_HOSTS.has(host)) {
       const subdomain = host.replace(/\.z-jb\.com$/, '');
-      if (/^[a-z0-9_-]+$/.test(subdomain) && url.pathname === '/') {
-        return env.ASSETS.fetch(new Request(`${url.origin}/site/${subdomain}.html`));
+      if (/^[a-z0-9_-]+$/.test(subdomain) && subdomain !== 'crave') {
+        // 子站直接用主 app，投手登录后按权限看对应站数据
+        return env.ASSETS.fetch(new Request(`${url.origin}/app.html`));
       }
     }
 

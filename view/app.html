@@ -250,10 +250,19 @@ function renderInvest(el){
     </div>
     <div id="af-vid" class="card hidden" style="margin-top:8px">
       <div class="form-group"><label>落地页 URL</label><input id="af-vid-url" placeholder="https://www.creviatech.com/..."></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px;margin-bottom:8px">
+        <button id="btn-parse-scene" type="button" class="btn btn-s" onclick="parseSceneUrl()">解析剧情</button>
+        <span id="scene-parse-status" style="font-size:12px;color:var(--muted)">或手动填写下方简介</span>
+      </div>
+      <div id="scene-data-preview" class="hidden" style="padding:10px;background:var(--bg);border-radius:6px;font-size:12px;line-height:1.6;margin-bottom:8px"></div>
+      <div class="form-group"><label>剧情标题</label><input id="af-vid-title" placeholder="如：办公室禁忌之吻"></div>
+      <div class="form-group"><label>剧情简介</label><textarea id="af-vid-synopsis" rows="3" placeholder="粘贴剧情简介，Agent 会基于此生成专属脚本"></textarea></div>
+      <div class="form-group"><label>标签</label><input id="af-vid-tags" placeholder="如：Reluctant play, D/s, Possessiveness"></div>
+      <input type="hidden" id="af-vid-scene-data" value="">
       <div class="form-group"><label>视频时长</label><select id="af-vid-dur"><option value="15s">15秒</option><option value="30s" selected>30秒</option><option value="60s">60秒</option></select></div>
       <div class="form-group"><label>风格</label><select id="af-vid-style"><option value="写实">写实</option><option value="动画">动画</option></select></div>
       <div class="form-group"><label>补充</label><textarea id="af-vid-dir" rows="2" placeholder="可选"></textarea></div>
-      <button class="btn" onclick="triggerAgent('video_script',{group:gv('af-vid-url'),duration:gv('af-vid-dur'),style:gv('af-vid-style'),direction:gv('af-vid-dir')})">生成脚本</button>
+      <button class="btn" onclick="triggerVideoScript()">生成脚本</button>
     </div>
     <div id="af-str" class="card hidden" style="margin-top:8px">
       <div class="form-group"><label>广告组（可选）</label><input id="af-str-g" placeholder="留空=全组分析"></div>
@@ -273,6 +282,36 @@ function switchAF(id){
     document.getElementById('af-'+k).classList.toggle('hidden',k!==id);
     document.getElementById('tab-'+k).classList.toggle('btn-gray',k!==id);
   });
+}
+async function parseSceneUrl(){
+  const url=gv('af-vid-url');
+  const statusEl=document.getElementById('scene-parse-status');
+  const previewEl=document.getElementById('scene-data-preview');
+  const hiddenEl=document.getElementById('af-vid-scene-data');
+  const btn=document.getElementById('btn-parse-scene');
+  if(!url){statusEl.textContent='请先输入 URL';statusEl.style.color='orange';return;}
+  if(!url.includes('creviatech.com')){statusEl.textContent='⚠ 非 creviatech.com，将生成通用脚本';statusEl.style.color='orange';hiddenEl.value='';previewEl.classList.add('hidden');return;}
+  btn.disabled=true;btn.textContent='解析中...';statusEl.textContent='正在抓取...';statusEl.style.color='var(--muted)';
+  try{
+    const r=await fetch('/api/fetch-scene',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})}).then(r=>r.json());
+    if(r.error||!r.title){statusEl.textContent='⚠ '+( r.error||'未找到剧情');statusEl.style.color='orange';hiddenEl.value='';previewEl.classList.add('hidden');}
+    else{statusEl.textContent='✓ 剧情解析成功';statusEl.style.color='var(--green)';hiddenEl.value=JSON.stringify(r);previewEl.classList.remove('hidden');previewEl.innerHTML=`<div style="font-weight:600;margin-bottom:4px">📖 ${esc(r.title)}</div><div style="color:var(--muted);margin-bottom:6px">${(r.tags||[]).map(t=>'<span style="background:var(--bg);padding:1px 6px;border-radius:3px;margin-right:4px;border:1px solid var(--line)">#'+esc(t)+'</span>').join('')}</div><div>${esc((r.synopsis||'').slice(0,120))}${(r.synopsis||'').length>120?'...':''}</div>`;
+      document.getElementById('af-vid-title').value=r.title||'';
+      document.getElementById('af-vid-synopsis').value=r.synopsis||'';
+      document.getElementById('af-vid-tags').value=(r.tags||[]).join(', ');
+    }
+  }catch(e){statusEl.textContent='⚠ 网络错误: '+e.message;statusEl.style.color='orange';hiddenEl.value='';previewEl.classList.add('hidden');}
+  btn.disabled=false;btn.textContent='解析剧情';
+}
+function triggerVideoScript(){
+  const sceneRaw=document.getElementById('af-vid-scene-data').value;
+  let sceneData=sceneRaw?JSON.parse(sceneRaw):null;
+  // 如果没有解析数据，用手动输入构建
+  if(!sceneData){
+    const title=gv('af-vid-title'),synopsis=gv('af-vid-synopsis'),tags=gv('af-vid-tags');
+    if(title||synopsis)sceneData={title,synopsis,tags:tags?tags.split(/[,，]/).map(t=>t.trim()):[]};
+  }
+  triggerAgent('video_script',{group:gv('af-vid-url'),duration:gv('af-vid-dur'),style:gv('af-vid-style'),direction:gv('af-vid-dir'),sceneData});
 }
 let uploadFile=null;
 function initUpload(){
@@ -418,6 +457,8 @@ function renderAgentOutput(type,raw){
   if(type==='video_script'){
     let h=`<div class="card" style="padding:16px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-size:14px">🎬 ${esc(data.title||'')}</b><span style="font-size:12px;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:4px">${data.duration||''}</span></div>`;
+    if(data.scene_ref)h+=`<div style="font-size:11px;color:var(--accent);margin-bottom:10px;padding:4px 8px;background:var(--accent-soft);border-radius:4px;display:inline-block">📖 基于剧情：${esc(data.scene_ref)}</div>`;
+    if(data.warning)h+=`<div style="font-size:11px;color:orange;padding:6px 10px;background:rgba(255,165,0,0.08);border-radius:4px;margin-bottom:10px">⚠ ${esc(data.warning)}</div>`;
     if(data.hook)h+=`<div style="padding:10px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;margin-bottom:12px;font-size:13px"><span style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px">HOOK</span><div style="margin-top:4px">${esc(data.hook)}</div></div>`;
     // 参考图上传区
     h+=`<div style="border:2px dashed var(--accent-bd);border-radius:10px;padding:16px;text-align:center;margin-bottom:16px" id="ref-img-zone">

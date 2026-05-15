@@ -42,7 +42,45 @@ ${p.note?'\n【补充要求】\n'+p.note:''}
 【输出格式】
 输出纯JSON，不要markdown标记：
 {"comments":[{"text":"评论内容","stars":5,"persona":"人设类型"}]}` },
-  video_script: { name: '视频脚本', prompt: (p) => `你是一个短视频创意脚本专家。为广告组"${p.group||''}"生成一个15-30秒的视频脚本。方向：${p.direction||'产品展示'}。输出JSON格式：{"title":"标题","duration":"时长","scenes":[{"time":"0-5s","visual":"画面描述","audio":"音频/旁白"}],"hook":"开头钩子文案"}` },
+  video_script: { name: '视频脚本', prompt: (p) => {
+    const sd = p.sceneData;
+    if (sd && sd.synopsis && sd.title) {
+      const tagStr = Array.isArray(sd.tags) ? sd.tags.join('、') : '';
+      return `你是一位专业的短视频广告脚本策划师，擅长为互动叙事产品创作投放素材。
+
+【落地页剧情信息】
+标题：${sd.title}
+剧情简介：${sd.synopsis}
+内容标签：${tagStr}
+落地页：${p.group||''}
+
+【创作要求】
+- 视频时长：${p.duration||'30s'}
+- 风格：${p.style||'写实'}
+${p.direction?'- 补充要求：'+p.direction:''}
+
+【脚本创作原则】
+1. 开场 Hook（0-3秒）必须直接切入剧情中最有张力的冲突点或情绪高点
+2. 每个场景的画面描述要具体可执行（镜头角度、光线氛围、人物动作）
+3. 音频文案简短有力，配合画面节奏
+4. 结尾 CTA 引导用户点击体验完整互动剧情
+5. 整体节奏：冲突→升级→反转→钩子
+
+【输出格式（严格JSON，不要有任何其他文字）】
+{"title":"脚本标题（基于剧情，不超过15字）","duration":"${p.duration||'30s'}","hook":"开场钩子文案（不超过20字）","scenes":[{"time":"0-3s","visual":"具体画面描述","audio":"配音或字幕"},{"time":"3-8s","visual":"具体画面描述","audio":"配音或字幕"},{"time":"8-12s","visual":"具体画面描述","audio":"配音或字幕"},{"time":"12-${p.duration||'30s'}","visual":"具体画面描述","audio":"配音或字幕"}],"cta":"结尾行动号召","scene_ref":"${sd.title}"}`;
+    }
+    return `你是一位专业的短视频广告脚本策划师。
+
+产品落地页：${p.group||''}
+视频时长：${p.duration||'30s'}
+风格：${p.style||'写实'}
+${p.direction?'补充要求：'+p.direction:''}
+
+注意：未获取到落地页剧情数据，请根据URL生成通用脚本框架。
+
+【输出格式（严格JSON，不要有任何其他文字）】
+{"title":"脚本标题","duration":"${p.duration||'30s'}","hook":"开场钩子文案","scenes":[{"time":"0-3s","visual":"画面描述","audio":"配音或字幕"},{"time":"3-8s","visual":"画面描述","audio":"配音或字幕"},{"time":"8-12s","visual":"画面描述","audio":"配音或字幕"},{"time":"12-${p.duration||'30s'}","visual":"画面描述","audio":"配音或字幕"}],"cta":"结尾行动号召","warning":"未获取到落地页剧情，建议点击解析剧情后重新生成"}`;
+  }},
   strategy: { name: '自动策略', prompt: (p, data) => `你是一个广告投放策略专家。基于以下广告组数据，生成今日行动建议。每条建议包含：广告组名、建议动作、原因、风险等级。\n\n数据：${JSON.stringify(data||{})}\n\n输出JSON格式：{"actions":[{"group":"组名","action":"建议动作","reason":"原因","risk_level":"low|medium|high"}]}` },
   creative_agent: { name: '素材生成', prompt: (p) => `你是一个成人用品电商的创意Brief专家。为广告组"${p.group||''}"生成Creative Brief。落地页类型：${p.landing_type||'文章页'}。受众：${p.audience||'自动'}。${p.notes?'补充：'+p.notes:''}。输出JSON格式：{"hook_variants":["钩子1","钩子2","钩子3"],"headline":"标题建议","audience_description":"受众描述","compliance_status":"compliant","compliance_reason":""}` },
 };

@@ -13,6 +13,7 @@ import { handleRecommendations, handleRecommendationUpdate } from './api/recomme
 import { handleKnowledge, handleKnowledgeToRule, handleScripts, handleKnowledgeAdd } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
 import { handleUploadImage, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
+import { handleFetchScene } from './api/fetch-scene.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -80,6 +81,10 @@ export default {
     // 承接诊断数据
     if (url.pathname === '/api/accept/data' && request.method === 'GET') {
       return handleAcceptData(request, env);
+    }
+    // 落地页剧情解析
+    if (url.pathname === '/api/fetch-scene' && request.method === 'POST') {
+      return handleFetchScene(request, env);
     }
     // 图片上传 + Kling 视频生成
     if (url.pathname === '/api/upload/image' && request.method === 'POST') {

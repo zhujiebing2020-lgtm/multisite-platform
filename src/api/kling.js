@@ -26,7 +26,7 @@ export async function handleUploadImageDirect(request, env) {
   if (!user) return json({ error: '未登录' }, 401);
 
   const contentType = request.headers.get('content-type') || '';
-  const filename = request.headers.get('x-filename') || `${Date.now()}.jpg`;
+  const filename = decodeURIComponent(request.headers.get('x-filename') || `${Date.now()}.jpg`);
   const key = `ref-images/${Date.now()}-${filename.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
 
   await env.R2.put(key, request.body, {

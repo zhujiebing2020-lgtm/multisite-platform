@@ -525,7 +525,7 @@ async function uploadRefImg(input){
   const preview=document.getElementById('ref-img-preview');
   preview.innerHTML='<p style="font-size:11px;color:var(--blue)">上传中...</p>';
   try{
-    const r=await fetch('/api/upload/image-direct',{method:'PUT',headers:{'Content-Type':file.type,'x-filename':file.name},body:file}).then(r=>r.json());
+    const r=await fetch('/api/upload/image-direct',{method:'PUT',headers:{'Content-Type':file.type,'x-filename':encodeURIComponent(file.name)},body:file}).then(r=>r.json());
     if(r.ok){
       refImageUrl=r.url;
       preview.innerHTML=`<img src="${r.url}" style="max-height:120px;border-radius:8px;margin-bottom:8px"><br><span style="font-size:11px;color:var(--green)">✓ 参考图已上传（原图）</span>`;

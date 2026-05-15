@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>多站群多 agent · 投手 ZJB</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         max-width: 1100px; margin: 20px auto; padding: 0 20px; color: #222; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+  h2 { margin-top: 30px; color: #444; }
+  .nav { background: #f5f5f5; padding: 10px; border-radius: 6px; margin-bottom: 20px; }
+  .nav a { margin-right: 16px; color: #06c; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+  .card { border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin: 12px 0; }
+  .card-header { font-weight: bold; color: #333; margin-bottom: 8px; }
+  .status-success { color: #2a7; }
+  .status-failed { color: #d44; }
+  .status-no_data { color: #888; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th { background: #f5f5f5; }
+  .绿灯 { color: #2a7; font-weight: bold; }
+  .黄灯 { color: #c80; font-weight: bold; }
+  .橙灯, .橙灯红灯候选 { color: #d44; font-weight: bold; }
+  pre { background: #f9f9f9; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
+  .request-btn { display: inline-block; padding: 8px 14px; background: #06c; color: #fff;
+                  border-radius: 4px; text-decoration: none; margin: 4px; }
+  .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                 gap: 8px; margin: 6px 0; }
+  .agent-btn { display: block; padding: 10px 12px; color: #fff; text-decoration: none;
+                border-radius: 6px; transition: opacity 0.15s; }
+  .agent-btn:hover { opacity: 0.85; }
+  .agent-name { font-weight: bold; font-size: 14px; }
+  .agent-desc { font-size: 11px; opacity: 0.9; margin-top: 2px; }
+  .config-btn { display: inline-block; padding: 8px 14px; background: #444; color: #fff;
+                 border-radius: 4px; text-decoration: none; }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
+             color: #888; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html">总览</a> | <a href="CHJ.html">CHJ</a> | <a href="HNN.html">HNN</a> | <a href="HZM.html">HZM</a> | <a href="ZJB.html">★ ZJB</a></div><h1>投手 ZJB 自看</h1>
+    <div class="card">
+      <div class="card-header">投手工作台</div>
+      <p style="margin: 8px 0 12px; font-size: 14px;">
+        上传当日 xlsx、触发 agent、看自己看板 —— 全在这一个页面。
+      </p>
+      <a class="request-btn" href="upload.html" style="background:#06c; font-size:15px; padding:10px 20px">
+        → 打开工作台
+      </a>
+      <p style="font-size:12px; color:#888; margin-top:12px">
+        首次需要 ZJB 发的访问口令 · 不需要 GitHub 账号
+      </p>
+    </div><h2>近期 agent 输出(1 条)</h2>
+    <div class="card">
+      <div class="card-header">
+        2026-05-13 23:19 · <span class="status-success">success</span> · 0ms
+      </div>
+      <p><b>视角:</b> ZJB 统筹</p><p>在册 66 组 · 有日报数据 22 组</p><table><tr><th>灯色</th><th>组数</th></tr><tr><td class="绿灯">绿灯</td><td>29</td></tr><tr><td class="橙灯红灯候选">橙灯/红灯候选</td><td>2</td></tr><tr><td class="黄灯">黄灯</td><td>2</td></tr></table><h3 class="绿灯">绿灯 (29 组)</h3><table><tr><th>组</th><th>投手</th><th>CPHQ</th><th>HVU</th><th>日期</th></tr><tr><td>组4 Viennese Oyster</td><td>CHJ</td><td>$0.01</td><td>5</td><td>2026-05-11</td></tr><tr><td>组5 30 Positions</td><td>CHJ</td><td>$0.03</td><td>10</td><td>2026-05-11</td></tr><tr><td>组7 The best intimacy</td><td>CHJ</td><td>$0.03</td><td>2</td><td>2026-05-11</td></tr><tr><td>组17 18 Sensual</td><td>CHJ</td><td>$0.0</td><td>12</td><td>2026-05-11</td></tr><tr><td>组27 performance</td><td>CHJ</td><td>$0.02</td><td>2</td><td>2026-05-11</td></tr><tr><td>组41 Most positions</td><td>CHJ</td><td>$0.01</td><td>3</td><td>2026-05-11</td></tr><tr><td>组58（弯棒）</td><td>HNN</td><td>$1.27</td><td>7</td><td>2026-05-11</td></tr><tr><td>组59（肛塞</td><td>HNN</td><td>$2.66</td><td>3</td><td>2026-05-11</td></tr><tr><td>组65（沈星回）</td><td>HZM</td><td>$2.36</td><td>7</td><td>2026-05-11</td></tr><tr><td>组66 （躺椅）</td><td>HNN</td><td>$0.76</td><td>11</td><td>2026-05-11</td></tr><tr><td>组4 Viennese Oyster</td><td>CHJ</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组5 30 Positions</td><td>CHJ</td><td>$2.29</td><td>8</td><td>2026-05-12</td></tr><tr><td>组7 The best intimacy</td><td>CHJ</td><td>$2.04</td><td>4</td><td>2026-05-12</td></tr><tr><td>组17 18 Sensual</td><td>CHJ</td><td>$0.94</td><td>26</td><td>2026-05-12</td></tr><tr><td>组27 performance</td><td>CHJ</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组32 confidence</td><td>CHJ</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组33 黑男</td><td>HNN</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组35 15 Ideas</td><td>CHJ</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组38 CRAVE AI</td><td>CHJ</td><td>$0.0</td><td>1</td><td>2026-05-12</td></tr><tr><td>组41 Most positions</td><td>CHJ</td><td>$0.0</td><td>2</td><td>2026-05-12</td></tr><tr><td colspan=5>... 共 29 行</td></tr></table><h3 class="橙灯红灯候选">橙灯/红灯候选 (2 组)</h3><table><tr><th>组</th><th>投手</th><th>CPHQ</th><th>HVU</th><th>日期</th></tr><tr><td>组64（黎深）</td><td>HZM</td><td>$5.33</td><td>3</td><td>2026-05-11</td></tr><tr><td>组63（漫男）</td><td>HNN</td><td>$9.42</td><td>1</td><td>2026-05-12</td></tr></table><h3 class="黄灯">黄灯 (2 组)</h3><table><tr><th>组</th><th>投手</th><th>CPHQ</th><th>HVU</th><th>日期</th></tr><tr><td>组58（弯棒）</td><td>HNN</td><td>$3.9</td><td>2</td><td>2026-05-12</td></tr><tr><td>组64（黎深）</td><td>HZM</td><td>$4.91</td><td>3</td><td>2026-05-12</td></tr></table><h3>按投手拆解</h3><table><tr><th>投手</th><th>组数</th><th>绿灯数</th><th>CPHQ均</th></tr><tr><td>CHJ</td><td>11</td><td>11</td><td>$0.48</td></tr><tr><td>HNN</td><td>8</td><td>6</td><td>$2.08</td></tr><tr><td>HZM</td><td>3</td><td>2</td><td>$2.32</td></tr></table><p style='font-size:12px;color:#888'>target_role: ['ZJB排查', 'Claude'] · rule_source: platform-core/规则/thresholds.json</p>
+    </div>
+    <div class="footer">生成于 2026-05-15T12:03:51.319515 · build.py</div></body></html>

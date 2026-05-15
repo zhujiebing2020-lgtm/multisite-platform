@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 工坊 · z-jb.com</title>
+<style>
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;--red:#D94030}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:860px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg)}
+h1{font-size:18px;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:8px}
+h2{font-size:15px;color:var(--text);margin-top:24px}
+.nav{background:#fff;padding:10px 14px;border-radius:6px;margin-bottom:16px;border:1px solid var(--line)}
+.nav a{margin-right:14px;color:var(--accent);text-decoration:none;font-size:13px}
+.nav a:hover{text-decoration:underline}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;margin:20px 0;text-align:center}
+.login-box input,.login-box select{padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;margin:4px}
+.login-box button{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;margin:4px}
+.agent-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:12px 0;transition:box-shadow .14s}
+.agent-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.agent-card h3{font-size:15px;margin:0 0 6px;color:var(--text)}
+.agent-card p{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+.agent-card .inputs{background:var(--bg);border-radius:6px;padding:12px;margin:10px 0}
+.agent-card .inputs label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.agent-card .inputs input,.agent-card .inputs select,.agent-card .inputs textarea{width:100%;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px;margin-bottom:8px;box-sizing:border-box}
+.agent-card .inputs textarea{height:60px;resize:vertical}
+.drop-zone{border:2px dashed var(--accent-bd);border-radius:6px;padding:16px;text-align:center;color:var(--muted);font-size:12px;cursor:pointer;transition:background .15s;margin:8px 0}
+.drop-zone.hover{background:var(--accent-soft);border-color:var(--accent)}
+.drop-zone input{display:none}
+.file-name{font-size:11px;color:var(--accent);margin-top:4px}
+.trigger-btn{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:14px;cursor:pointer;width:100%;margin-top:8px}
+.trigger-btn:hover{opacity:.85}
+.trigger-btn:disabled{background:var(--gray);cursor:not-allowed}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:4px;font-size:13px;opacity:0;transition:opacity .2s;z-index:100}
+.toast.show{opacity:.95}
+.setup-box{background:var(--card);border:1px solid var(--accent-bd);border-radius:10px;padding:20px;margin:16px 0}
+.setup-box h3{font-size:14px;color:var(--accent);margin:0 0 12px}
+.user-bar{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.user-bar .name{font-weight:600;color:var(--accent)}
+.user-bar .site-tag{background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:10px;font-size:11px}
+</style>
+</head>
+<body>
+<div class="nav"><a href="/"><b>总览</b></a> | <a href="upload.html">上传数据</a> | <a href="agents.html"><b>Agent 工坊</b></a> | <a href="results.html">我的结果</a> | <a href="#" onclick="fetch('/api/logout',{method:'POST'}).then(()=>location.reload())" style="color:#d44">退出登录</a></div>
+
+<h1>Agent 工坊</h1>
+
+<!-- 登录 -->
+<div id="login-area" class="login-box">
+  <p style="margin:0 0 12px;font-size:14px;color:var(--text)">输入口令进入</p>
+  <input id="passcode" type="password" placeholder="口令" onkeydown="if(event.key==='Enter')doLogin()">
+  <button onclick="doLogin()">进入</button>
+</div>
+
+<!-- 主内容 -->
+<div id="main" style="display:none">
+  <div class="user-bar">
+    <span>当前身份：<span class="name" id="user-name"></span></span>
+    <span class="site-tag" id="user-site"></span>
+  </div>
+
+  <!-- 数据分析 -->
+  <div class="agent-card">
+    <h3>📊 数据分析</h3>
+    <p>上传你的 FB 后台 xlsx，自动分析广告组表现，给出加减预算建议</p>
+    <div class="inputs">
+      <label>上传今日 xlsx（必须）</label>
+      <div class="drop-zone" id="drop-analysis" onclick="this.querySelector('input').click()">
+        拖拽 xlsx 到这里，或点击选择
+        <input type="file" accept=".xlsx,.xls" onchange="fileSelected(this,'analysis')">
+      </div>
+      <div class="file-name" id="file-analysis"></div>
+    </div>
+    <button class="trigger-btn" onclick="triggerAgent('data_analysis')">开始分析</button>
+  </div>
+
+  <!-- 评论生成 -->
+  <div class="agent-card">
+    <h3>💬 评论生成</h3>
+    <p>为你的绿灯广告组生成产品评论（反AI腔 v1.2），可直接复制到广告后台</p>
+    <div class="inputs">
+      <label>选择广告组（或填组名）</label>
+      <input type="text" id="input-comment-group" placeholder="例：组17 18 Sensual">
+      <label>评论数量</label>
+      <select id="input-comment-count">
+        <option value="5">5 条</option>
+        <option value="10" selected>10 条</option>
+        <option value="20">20 条</option>
+      </select>
+      <label>补充要求（可选）</label>
+      <textarea id="input-comment-note" placeholder="例：侧重产品手感、加一条3星评论"></textarea>
+    </div>
+    <button class="trigger-btn" onclick="triggerAgent('comment_gen')">生成评论</button>
+  </div>
+
+  <!-- 视频脚本 -->
+  <div class="agent-card">
+    <h3>🎬 视频脚本</h3>
+    <p>根据广告组和你的创意方向，生成视频拍摄脚本 + 分镜</p>
+    <div class="inputs">
+      <label>广告组</label>
+      <input type="text" id="input-video-group" placeholder="例：组5 30 Positions">
+      <label>创意方向</label>
+      <textarea id="input-video-direction" placeholder="例：真人出镜、产品开箱、情侣互动场景"></textarea>
+    </div>
+    <button class="trigger-btn" onclick="triggerAgent('video_script')">生成脚本</button>
+  </div>
+
+  <!-- 自动策略 -->
+  <div class="agent-card">
+    <h3>⚙️ 自动策略</h3>
+    <p>基于最新数据，自动判断你所有组的状态并生成投放动作指令</p>
+    <div class="inputs">
+      <label>上传最新 xlsx（可选，不传则用系统已有数据）</label>
+      <div class="drop-zone" id="drop-strategy" onclick="this.querySelector('input').click()">
+        拖拽 xlsx 到这里，或点击选择
+        <input type="file" accept=".xlsx,.xls" onchange="fileSelected(this,'strategy')">
+      </div>
+      <div class="file-name" id="file-strategy"></div>
+    </div>
+    <button class="trigger-btn" onclick="triggerAgent('strategy')">生成策略</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentUser = null;
+const files = {};
+
+function doLogin(){
+  const pass = document.getElementById('passcode').value;
+  fetch('/api/auth', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({passcode:pass})})
+    .then(r=>r.json()).then(d=>{
+      if(d.ok){
+        currentUser = d.user;
+        document.getElementById('login-area').style.display='none';
+        document.getElementById('main').style.display='block';
+        document.getElementById('user-name').textContent = d.user.display_name || d.user.owner_code;
+        document.getElementById('user-site').textContent = 'elysianu';
+      } else { toast(d.error||'口令错误','var(--red)'); }
+    }).catch(e=>toast(String(e),'var(--red)'));
+}
+
+function fileSelected(input, agentKey){
+  const file = input.files[0];
+  if(!file) return;
+  files[agentKey] = file;
+  document.getElementById('file-'+agentKey).textContent = '✓ ' + file.name + ' (' + (file.size/1024).toFixed(1) + 'KB)';
+}
+
+// drag & drop
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('hover')});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('hover'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault(); zone.classList.remove('hover');
+    const f = e.dataTransfer.files[0];
+    if(f){
+      const key = zone.id.replace('drop-','');
+      files[key] = f;
+      document.getElementById('file-'+key).textContent = '✓ ' + f.name + ' (' + (f.size/1024).toFixed(1) + 'KB)';
+    }
+  });
+});
+
+async function triggerAgent(agentType){
+  const site = 'elysianu';
+  let params = {};
+  let fileToUpload = null;
+
+  if(agentType === 'data_analysis'){
+    fileToUpload = files['analysis'];
+    if(!fileToUpload){ toast('请先上传 xlsx','var(--red)'); return; }
+  }
+  if(agentType === 'comment_gen'){
+    const group = document.getElementById('input-comment-group').value;
+    if(!group){ toast('请填写广告组名','var(--red)'); return; }
+    params = { group, count: document.getElementById('input-comment-count').value, note: document.getElementById('input-comment-note').value };
+  }
+  if(agentType === 'video_script'){
+    const group = document.getElementById('input-video-group').value;
+    if(!group){ toast('请填写广告组','var(--red)'); return; }
+    params = { group, direction: document.getElementById('input-video-direction').value };
+  }
+  if(agentType === 'strategy'){
+    fileToUpload = files['strategy'] || null;
+  }
+
+  // 如果有文件，先上传
+  if(fileToUpload){
+    const b64 = await fileToBase64(fileToUpload);
+    const upRes = await fetch('/api/upload', {
+      method:'POST', headers:{'Content-Type':'application/json','x-pass':document.getElementById('passcode').value},
+      body:JSON.stringify({filename:fileToUpload.name, contentBase64:b64, owner:currentUser.owner_code, site, channel:'FB'})
+    }).then(r=>r.json());
+    if(!upRes.ok){ toast('文件上传失败: '+(upRes.error||''),'var(--red)'); return; }
+    params.uploaded_file = upRes.path;
+  }
+
+  // 触发 agent
+  const res = await fetch('/api/trigger-agent', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({agent_type:agentType, site, params})
+  }).then(r=>r.json());
+
+  if(res.ok){
+    toast('✓ '+res.agent+' 已提交 · 5-10分钟后去"我的结果"查看');
+  } else {
+    toast(res.error||'触发失败','var(--red)');
+  }
+}
+
+function fileToBase64(file){
+  return new Promise((resolve)=>{
+    const r = new FileReader();
+    r.onload = ()=> resolve(r.result.split(',')[1]);
+    r.readAsDataURL(file);
+  });
+}
+
+function toast(msg, bg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.background=bg||'#333';
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// 自动恢复登录态
+fetch('/api/results').then(r=>{if(r.ok) return r.json(); throw 0;}).then(d=>{
+  if(d.ok){
+    document.getElementById('login-area').style.display='none';
+    document.getElementById('main').style.display='block';
+    document.getElementById('user-name').textContent = '已登录';
+    document.getElementById('user-site').textContent = 'elysianu';
+  }
+}).catch(()=>{});
+</script>
+</body>
+</html>

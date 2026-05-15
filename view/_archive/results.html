@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的结果 · z-jb.com</title>
+<style>
+:root{--bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;--accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);--line:rgba(0,0,0,.07);--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;--red:#D94030}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:900px;margin:0 auto;padding:16px;color:var(--text);background:var(--bg)}
+h1{font-size:18px;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.nav{background:#fff;padding:10px 14px;border-radius:6px;margin-bottom:16px;border:1px solid var(--line)}
+.nav a{margin-right:14px;color:var(--accent);text-decoration:none;font-size:13px}
+.nav a:hover{text-decoration:underline}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;margin:20px 0;text-align:center}
+.login-box input{padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;width:160px}
+.login-box button{margin-left:8px;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer}
+.refresh-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer}
+.job-list{margin:12px 0}
+.job-item{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:8px 0;cursor:pointer;transition:box-shadow .14s}
+.job-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.job-item.active{border-color:var(--accent);box-shadow:0 2px 12px rgba(232,96,58,.12)}
+.job-header{display:flex;justify-content:space-between;align-items:center}
+.job-title{font-size:13px;font-weight:600}
+.job-meta{font-size:11px;color:var(--muted)}
+.status{font-size:10px;padding:2px 8px;border-radius:10px;color:#fff;display:inline-block}
+.s-pending{background:var(--gray)}
+.s-running{background:var(--blue)}
+.s-done{background:var(--green)}
+.s-failed{background:var(--red)}
+.result-panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:16px 0;display:none}
+.result-panel.show{display:block}
+.result-panel h3{font-size:14px;color:var(--accent);margin:0 0 12px}
+.result-content{font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:500px;overflow-y:auto}
+.result-content .action-item{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0}
+.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer;margin-top:12px}
+.copy-btn:hover{opacity:.85}
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.empty a{color:var(--accent)}
+.pending-hint{font-size:12px;color:var(--blue);margin-top:8px;padding:10px;background:rgba(58,159,232,.06);border-radius:6px}
+</style>
+</head>
+<body>
+<div class="nav"><a href="/"><b>总览</b></a> | <a href="upload.html">上传数据</a> | <a href="agents.html">Agent 工坊</a> | <a href="results.html"><b>我的结果</b></a> | <a href="#" onclick="fetch('/api/logout',{method:'POST'}).then(()=>location.reload())" style="color:#d44">退出登录</a></div>
+
+<h1>我的结果 <button class="refresh-btn" onclick="loadResults()">刷新</button></h1>
+
+<div id="login-area" class="login-box">
+  <p style="margin:0 0 12px;font-size:14px;color:var(--text)">输入口令查看结果</p>
+  <input id="passcode" type="password" placeholder="口令" onkeydown="if(event.key==='Enter')doLogin()">
+  <button onclick="doLogin()">进入</button>
+</div>
+
+<div id="main" style="display:none">
+  <div class="job-list" id="job-list"></div>
+  <div class="result-panel" id="result-panel">
+    <h3 id="result-title"></h3>
+    <div class="result-content" id="result-content"></div>
+    <button class="copy-btn" onclick="copyResult()">复制结果</button>
+  </div>
+</div>
+
+<script>
+const AGENT_NAMES = {data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
+
+function doLogin(){
+  const pass = document.getElementById('passcode').value;
+  fetch('/api/auth', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({passcode:pass})})
+    .then(r=>r.json()).then(d=>{
+      if(d.ok){
+        document.getElementById('login-area').style.display='none';
+        document.getElementById('main').style.display='block';
+        loadResults();
+      } else { alert(d.error||'口令错误'); }
+    });
+}
+
+function loadResults(){
+  fetch('/api/results').then(r=>r.json()).then(d=>{
+    if(!d.ok||!d.jobs.length){
+      document.getElementById('job-list').innerHTML='<div class="empty">暂无任务结果<br><a href="agents.html">→ 去 Agent 工坊触发一个</a></div>';
+      return;
+    }
+    let html = '';
+    d.jobs.forEach(j=>{
+      const time = j.created_at ? j.created_at.slice(5,16).replace('T',' ') : '?';
+      const name = AGENT_NAMES[j.agent_type]||j.agent_type;
+      const sClass = 's-'+(j.status||'pending');
+      const summary = j.output_summary ? j.output_summary.slice(0,60) : (j.status==='pending'?'等待执行中...':'');
+      html += `<div class="job-item" onclick="showDetail('${j.id}')">
+        <div class="job-header">
+          <span class="job-title">${name}</span>
+          <span class="status ${sClass}">${j.status}</span>
+        </div>
+        <div class="job-meta">${time} · ${j.site}${summary?' · '+summary:''}</div>
+      </div>`;
+    });
+    document.getElementById('job-list').innerHTML = html;
+  });
+}
+
+function showDetail(jobId){
+  document.querySelectorAll('.job-item').forEach(el=>el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  fetch('/api/results/'+jobId).then(r=>r.json()).then(d=>{
+    if(!d.ok) return;
+    const j = d.job;
+    const panel = document.getElementById('result-panel');
+    const name = AGENT_NAMES[j.agent_type]||j.agent_type;
+    document.getElementById('result-title').textContent = name + ' · ' + (j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
+
+    if(j.status === 'pending' || j.status === 'running'){
+      document.getElementById('result-content').innerHTML = '<div class="pending-hint">⏳ 任务正在执行中，请稍后刷新查看结果（通常 5-10 分钟）</div>';
+    } else if(j.status === 'failed'){
+      document.getElementById('result-content').innerHTML = '<div style="color:var(--red)">❌ 执行失败：'+(j.output_summary||'未知错误')+'</div>';
+    } else {
+      const content = j.output_full || j.output_summary || '（无内容）';
+      document.getElementById('result-content').innerHTML = renderResult(j.agent_type, content);
+    }
+    panel.classList.add('show');
+  });
+}
+
+function renderResult(agentType, content){
+  try { content = JSON.parse(content); } catch(e){}
+
+  if(typeof content === 'string') return escapeHtml(content);
+
+  if(agentType === 'comment_gen' && content.comments){
+    return content.comments.map((c,i)=>
+      `<div class="action-item"><b>#${i+1}</b> ${'⭐'.repeat(c.stars||5)}<br>${escapeHtml(c.text)}</div>`
+    ).join('');
+  }
+  if(agentType === 'strategy' && content.actions){
+    return content.actions.map(a=>
+      `<div class="action-item"><b>${escapeHtml(a.group||'')}</b> → ${escapeHtml(a.action||'')} <span style="color:var(--muted);font-size:11px">${escapeHtml(a.reason||'')}</span></div>`
+    ).join('');
+  }
+  if(agentType === 'data_analysis' && content.summary){
+    return `<div style="margin-bottom:12px">${escapeHtml(content.summary)}</div>` +
+      (content.groups||[]).map(g=>
+        `<div class="action-item"><b>${escapeHtml(g.name||'')}</b> · CPHQ $${g.cphq||'?'} · ${escapeHtml(g.recommendation||'')}</div>`
+      ).join('');
+  }
+  return '<pre>'+escapeHtml(JSON.stringify(content, null, 2))+'</pre>';
+}
+
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function copyResult(){
+  const el = document.getElementById('result-content');
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent='✓ 已复制'; setTimeout(()=>btn.textContent='复制结果',1500);
+  });
+}
+
+// 自动恢复
+fetch('/api/results').then(r=>{if(r.ok) return r.json(); throw 0;}).then(d=>{
+  if(d.ok){
+    document.getElementById('login-area').style.display='none';
+    document.getElementById('main').style.display='block';
+    loadResults();
+  }
+}).catch(()=>{});
+</script>
+</body>
+</html>

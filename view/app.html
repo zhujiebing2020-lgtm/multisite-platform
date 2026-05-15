@@ -223,11 +223,12 @@ function loadMasterData(){
   // 用户管理
   fetch('/api/admin/users').then(r=>r.json()).then(users=>{
     if(!Array.isArray(users)){document.getElementById('m-users').innerHTML='<p style="font-size:12px;color:var(--muted)">无权限</p>';return;}
-    let h='<table><tr><th>代号</th><th>名称</th><th>角色</th><th>站点</th><th>口令</th><th>操作</th></tr>';
+    let h='<table><tr><th>代号</th><th>名称</th><th>角色</th><th>站点</th><th>操作</th></tr>';
     users.forEach(u=>{
-      h+=`<tr><td>${u.owner_code}</td><td>${u.display_name||''}</td><td>${u.role}</td><td>${u.sites}</td><td><button onclick="this.textContent=this.dataset.p" data-p="${u.passcode}" style="font-size:11px;padding:2px 8px;background:#eee;border:1px solid #ccc;border-radius:3px;cursor:pointer">点击查看</button></td><td><button onclick="resetPw('${u.owner_code}')" style="font-size:11px;padding:2px 6px;background:var(--accent);color:#fff;border:none;border-radius:3px;cursor:pointer">重置口令</button> <button onclick="delUser('${u.owner_code}')" style="font-size:11px;padding:2px 6px;background:var(--red);color:#fff;border:none;border-radius:3px;cursor:pointer">删除</button></td></tr>`;
+      h+=`<tr><td>${u.owner_code}</td><td>${u.display_name||''}</td><td>${u.role}</td><td>${u.sites}</td><td><button onclick="editUser('${u.owner_code}')" style="font-size:11px;padding:2px 8px;background:var(--accent);color:#fff;border:none;border-radius:3px;cursor:pointer">管理</button></td></tr>`;
     });
     h+='</table><div style="margin-top:8px"><button onclick="showAddUser()" style="font-size:12px;padding:4px 10px;background:var(--green);color:#fff;border:none;border-radius:4px;cursor:pointer">+ 新增用户</button></div><div id="add-user-form" style="display:none;margin-top:8px"><input id="nu-code" placeholder="代号如HNN" style="width:80px;padding:4px;margin-right:4px"><input id="nu-name" placeholder="显示名" style="width:80px;padding:4px;margin-right:4px"><select id="nu-role" style="padding:4px;margin-right:4px"><option value="pitcher">pitcher</option><option value="admin">admin</option><option value="tech">tech</option></select><select id="nu-sites" multiple style="padding:4px;margin-right:4px;min-width:100px"><option value="crave">crave</option><option value="elysianu" selected>elysianu</option></select><button onclick="addUser()" style="font-size:12px;padding:4px 10px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer">创建</button></div>';
+    h+='<div id="edit-user-panel" style="display:none;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--card)"></div>';
     document.getElementById('m-users').innerHTML=h;
   });
   // 操作日志
@@ -244,6 +245,38 @@ function loadMasterData(){
   });
 }
 function showAddUser(){document.getElementById('add-user-form').style.display='block';}
+function editUser(code){
+  fetch('/api/admin/users').then(r=>r.json()).then(users=>{
+    const u=users.find(x=>x.owner_code===code);if(!u)return;
+    const sites=JSON.parse(u.sites||'[]');
+    const panel=document.getElementById('edit-user-panel');
+    panel.style.display='block';
+    panel.innerHTML=`
+      <h4 style="margin:0 0 8px">${u.owner_code} · ${u.display_name||''}</h4>
+      <div style="font-size:12px;margin-bottom:8px">口令: <b>${u.passcode}</b></div>
+      <div style="margin-bottom:8px">
+        <label style="font-size:12px">角色:</label>
+        <select id="eu-role" style="padding:4px;font-size:12px"><option value="pitcher"${u.role==='pitcher'?' selected':''}>pitcher</option><option value="admin"${u.role==='admin'?' selected':''}>admin</option><option value="tech"${u.role==='tech'?' selected':''}>tech</option></select>
+      </div>
+      <div style="margin-bottom:8px">
+        <label style="font-size:12px">站点:</label>
+        <select id="eu-sites" multiple style="padding:4px;font-size:12px;min-width:120px"><option value="crave"${sites.includes('crave')?' selected':''}>crave</option><option value="elysianu"${sites.includes('elysianu')?' selected':''}>elysianu</option></select>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button onclick="saveUser('${code}')" style="font-size:11px;padding:4px 10px;background:var(--green);color:#fff;border:none;border-radius:3px;cursor:pointer">保存</button>
+        <button onclick="resetPw('${code}')" style="font-size:11px;padding:4px 10px;background:var(--accent);color:#fff;border:none;border-radius:3px;cursor:pointer">重置口令</button>
+        <button onclick="delUser('${code}')" style="font-size:11px;padding:4px 10px;background:var(--red);color:#fff;border:none;border-radius:3px;cursor:pointer">删除</button>
+        <button onclick="document.getElementById('edit-user-panel').style.display='none'" style="font-size:11px;padding:4px 10px;background:#888;color:#fff;border:none;border-radius:3px;cursor:pointer">关闭</button>
+      </div>`;
+  });
+}
+function saveUser(code){
+  const role=document.getElementById('eu-role').value;
+  const sites=[...document.getElementById('eu-sites').selectedOptions].map(o=>o.value);
+  fetch('/api/admin/users/'+code,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({role,sites})}).then(r=>r.json()).then(d=>{
+    if(d.ok){alert('已保存');loadMasterData();}else alert(d.error);
+  });
+}
 function addUser(){
   const code=document.getElementById('nu-code').value.trim();
   const name=document.getElementById('nu-name').value.trim();

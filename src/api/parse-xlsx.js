@@ -214,11 +214,11 @@ export async function handleDashboard(request, env) {
   let query, params;
   if (owner) {
     query = `SELECT date, group_name, spend, hvu, cphq, impressions, clicks
-             FROM ad_daily WHERE owner = ? ORDER BY date DESC, spend DESC LIMIT 500`;
+             FROM ad_daily WHERE owner = ? AND site != '_test' ORDER BY date DESC, spend DESC LIMIT 500`;
     params = [owner];
   } else {
     query = `SELECT owner, date, group_name, spend, hvu, cphq, impressions, clicks
-             FROM ad_daily ORDER BY date DESC, spend DESC LIMIT 1000`;
+             FROM ad_daily WHERE site != '_test' ORDER BY date DESC, spend DESC LIMIT 1000`;
     params = [];
   }
 

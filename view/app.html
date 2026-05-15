@@ -340,11 +340,27 @@ function loadInvestData(){
     }
   });
 }
+let pollTimer=null;
 async function triggerAgent(type,params){
   const site=getSite()||'elysianu';
   const r=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent_type:type,site,params})}).then(r=>r.json());
-  if(r.ok)toast('✓ 已提交');else toast(r.error||'失败','var(--red)');
-  setTimeout(loadResults,1000);
+  if(r.ok){toast('✓ 已提交，等待结果...');startPoll(r.job_id);}else toast(r.error||'失败','var(--red)');
+  loadResults();
+}
+function startPoll(jobId){
+  if(pollTimer)clearInterval(pollTimer);
+  pollTimer=setInterval(()=>{
+    fetch('/api/results/'+jobId).then(r=>r.json()).then(d=>{
+      if(!d.ok)return;
+      if(d.job.status==='done'||d.job.status==='failed'){
+        clearInterval(pollTimer);pollTimer=null;
+        loadResults();
+        if(d.job.status==='done')toast('✓ Agent 完成');
+        else toast('Agent 失败: '+(d.job.output_summary||''),'var(--red)');
+        showResult(jobId);
+      }
+    });
+  },3000);
 }
 function loadResults(){
   fetch('/api/results').then(r=>r.json()).then(d=>{
@@ -353,7 +369,7 @@ function loadResults(){
     el.innerHTML=d.jobs.slice(0,10).map(j=>`<div class="job-item" onclick="showResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div><div class="job-meta">${(j.created_at||'').slice(5,16).replace('T',' ')}</div></div>`).join('');
   });
 }
-const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略'};
+const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略',creative_agent:'🎨 素材生成'};
 function showResult(id){
   fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
     if(!d.ok)return;const j=d.job;const box=document.getElementById('i-result-box');

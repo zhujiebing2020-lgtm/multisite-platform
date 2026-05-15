@@ -85,7 +85,7 @@ export default {
       return handleRequest(request, env);
     }
     if (request.method === 'POST' && url.pathname === '/api/trigger-agent') {
-      return handleTriggerAgent(request, env);
+      return handleTriggerAgent(request, env, ctx);
     }
     if (request.method === 'GET' && url.pathname === '/api/dashboard') {
       return handleDashboard(request, env);

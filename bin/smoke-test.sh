@@ -55,7 +55,7 @@ check "投手无admin权限" "管理员权限" "$PITCHER_ADMIN"
 echo ""
 echo "[Ingest]"
 INGEST=$(curl -s -b "session=$COOKIE" -X POST "$BASE/api/ingest" -H 'Content-Type: application/json' \
-  -d '{"site":"elysianu","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0.01,"hvu":0,"cphq":0}]}')
+  -d '{"site":"_test","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0.01,"hvu":0,"cphq":0}]}')
 check "ingest 入库" '"ok":true' "$INGEST"
 
 # 6. HVU JSON 上传
@@ -93,7 +93,7 @@ check "主页有用户管理" "admin/users" "$APP_HTML"
 
 # 清理测试数据
 curl -s -b "session=$COOKIE" -X POST "$BASE/api/ingest" -H 'Content-Type: application/json' \
-  -d '{"site":"elysianu","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0,"hvu":0,"cphq":0}]}' > /dev/null
+  -d '{"site":"_test","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0,"hvu":0,"cphq":0}]}' > /dev/null
 
 # 结果
 echo ""

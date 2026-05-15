@@ -44,13 +44,23 @@ export async function handleUploadAndParse(request, env) {
       const data = JSON.parse(text);
       const sessions = data.sessions || [];
       const date = extractDateFromFilename(filename) || new Date().toISOString().slice(0, 10);
+
+      // 查已有组名，按编号建映射
+      const existing = await env.DB.prepare('SELECT DISTINCT group_name FROM ad_daily WHERE site=?').bind(site).all();
+      const nameMap = {};
+      for (const r of existing.results) {
+        const m = r.group_name.match(/^组(\d+)/);
+        if (m) nameMap[m[1]] = r.group_name;
+      }
+
       const byGroup = {};
       for (const s of sessions) {
         const task = s.linkedTask || {};
         const name = task.name || '';
         const m = name.match(/广告组(\d+)/);
-        const key = m ? `组${m[1]}` : null;
-        if (!key) continue;
+        if (!m) continue;
+        const num = m[1];
+        const key = nameMap[num] || `组${num}`;
         if (!byGroup[key]) byGroup[key] = 0;
         byGroup[key]++;
       }
@@ -58,7 +68,7 @@ export async function handleUploadAndParse(request, env) {
       for (const [group, hvu] of Object.entries(byGroup)) {
         stmts.push(env.DB.prepare(
           `INSERT INTO ad_daily (owner, site, date, group_name, hvu) VALUES (?, ?, ?, ?, ?)
-           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET hvu=excluded.hvu, cphq=CASE WHEN ad_daily.spend>0 THEN round(ad_daily.spend*1.0/excluded.hvu,2) ELSE 0 END`
+           ON CONFLICT(site, date, group_name) DO UPDATE SET hvu=excluded.hvu, cphq=CASE WHEN ad_daily.spend>0 THEN round(ad_daily.spend*1.0/excluded.hvu,2) ELSE 0 END`
         ).bind(owner, site, date, group, hvu));
       }
       if (stmts.length > 0) {
@@ -105,7 +115,7 @@ export async function handleUploadAndParse(request, env) {
         if (spend <= 0) continue;
         stmts.push(env.DB.prepare(
           `INSERT INTO ad_daily (owner, site, date, group_name, spend) VALUES (?, ?, ?, ?, ?)
-           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, cphq=CASE WHEN ad_daily.hvu>0 THEN round(excluded.spend*1.0/ad_daily.hvu,2) ELSE 0 END`
+           ON CONFLICT(site, date, group_name) DO UPDATE SET spend=excluded.spend, cphq=CASE WHEN ad_daily.hvu>0 THEN round(excluded.spend*1.0/ad_daily.hvu,2) ELSE 0 END`
         ).bind(owner, site, defaultDate, group, round2(spend)));
         parsed++;
       }
@@ -132,7 +142,7 @@ export async function handleUploadAndParse(request, env) {
           stmts.push(
             env.DB.prepare(
               `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)
-               ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, hvu=excluded.hvu, cphq=excluded.cphq`
+               ON CONFLICT(site, date, group_name) DO UPDATE SET spend=excluded.spend, hvu=excluded.hvu, cphq=excluded.cphq`
             ).bind(rowOwner, site, date, groupName, parsed_cell.spend, parsed_cell.hvu, parsed_cell.cphq)
           );
           parsed++;
@@ -170,7 +180,7 @@ export async function handleUploadAndParse(request, env) {
         stmts.push(
           env.DB.prepare(
             `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq, impressions, clicks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-             ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=excluded.spend, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq, impressions=excluded.impressions, clicks=excluded.clicks`
+             ON CONFLICT(site, date, group_name) DO UPDATE SET spend=excluded.spend, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq, impressions=excluded.impressions, clicks=excluded.clicks`
           ).bind(owner, site, date, groupName, spend, hvu, cphq, impressions, clicks)
         );
         parsed++;

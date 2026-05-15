@@ -24,7 +24,7 @@ export async function handleIngest(request, env) {
       stmts.push(
         env.DB.prepare(
           `INSERT INTO ad_daily (owner, site, date, group_name, spend, hvu, cphq) VALUES (?, ?, ?, ?, ?, ?, ?)
-           ON CONFLICT(site, date, group_name, owner) DO UPDATE SET spend=CASE WHEN excluded.spend>0 THEN excluded.spend ELSE ad_daily.spend END, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq`
+           ON CONFLICT(site, date, group_name) DO UPDATE SET owner=excluded.owner, spend=CASE WHEN excluded.spend>0 THEN excluded.spend ELSE ad_daily.spend END, hvu=CASE WHEN excluded.hvu>0 THEN excluded.hvu ELSE ad_daily.hvu END, cphq=excluded.cphq`
         ).bind(
           r.owner || 'unknown',
           site,

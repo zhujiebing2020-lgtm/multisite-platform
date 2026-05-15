@@ -226,54 +226,54 @@ function loadControlData(){
 // === 投放视图 ===
 function renderInvest(el){
   el.innerHTML=`
+    <div class="sec-h" style="cursor:pointer" onclick="document.getElementById('upload-panel').classList.toggle('hidden')">📤 上传数据 <span style="font-size:11px;color:var(--muted)">（点击展开/收起）</span></div>
+    <div id="upload-panel" class="card hidden">
+      <div class="drop-zone" id="i-drop">拖拽 xlsx / json 或点击选择<input type="file" accept=".xlsx,.xls,.json" id="i-file"></div>
+      <div id="i-file-tag" style="margin-top:6px"></div>
+      <button class="btn" style="margin-top:8px" onclick="doUpload()">上传并分析</button>
+    </div>
     <div class="sec-h">广告组表现</div>
     <div class="kpi-row" id="i-kpis"></div>
     <div id="i-groups"></div>
-    <div class="grid-2">
-      <div>
-        <div class="sec-h">上传数据</div>
-        <div class="card">
-          <div class="drop-zone" id="i-drop">拖拽 xlsx / json 或点击选择<input type="file" accept=".xlsx,.xls,.json" id="i-file"></div>
-          <div id="i-file-tag" style="margin-top:6px"></div>
-          <button class="btn" style="margin-top:8px" onclick="doUpload()">上传并分析</button>
-        </div>
-      </div>
-      <div>
-        <div class="sec-h">触发 Agent</div>
-        <div class="agent-btns">
-          <button class="btn" onclick="toggleAF('cmt')">评论</button>
-          <button class="btn" onclick="toggleAF('vid')">视频脚本</button>
-          <button class="btn" onclick="toggleAF('str')">策略</button>
-        </div>
-        <div id="af-cmt" class="card hidden">
-          <div class="form-group"><label>产品/广告组</label><input id="af-cmt-g" placeholder="组17 18 Sensual"></div>
-          <div class="form-group"><label>落地页 URL</label><input id="af-cmt-url" placeholder="https://www.creviatech.com/..."></div>
-          <div class="form-group"><label>剧本方向</label><select id="af-cmt-theme"><option value="女性自我探索">女性自我探索</option><option value="伴侣互动">伴侣互动</option><option value="夫妻关系修复">夫妻关系修复</option><option value="开箱体验">开箱体验</option><option value="对比旧产品">对比旧产品</option><option value="">自定义↓</option></select><input id="af-cmt-theme-custom" placeholder="自定义方向" style="margin-top:4px;display:none"></div>
-          <div class="form-group"><label>数量</label><select id="af-cmt-n"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
-          <div class="form-group"><label>补充</label><textarea id="af-cmt-note" rows="2" placeholder="可选"></textarea></div>
-          <button class="btn" onclick="triggerComment()">生成</button>
-        </div>
-        <div id="af-vid" class="card hidden">
-          <div class="form-group"><label>广告组</label><input id="af-vid-g" placeholder="组5 30 Positions"></div>
-          <div class="form-group"><label>方向</label><textarea id="af-vid-dir" rows="2" placeholder="真人出镜、产品开箱"></textarea></div>
-          <button class="btn" onclick="triggerAgent('video_script',{group:gv('af-vid-g'),direction:gv('af-vid-dir')})">生成</button>
-        </div>
-        <div id="af-str" class="card hidden">
-          <p style="font-size:12px;color:var(--muted)">基于系统数据生成全组投放指令</p>
-          <button class="btn" onclick="triggerAgent('strategy',{})">生成策略</button>
-        </div>
-      </div>
+    <div class="sec-h">触发 Agent</div>
+    <div class="agent-btns">
+      <button class="btn" id="tab-cmt" onclick="switchAF('cmt')">评论</button>
+      <button class="btn btn-gray" id="tab-vid" onclick="switchAF('vid')">视频脚本</button>
+      <button class="btn btn-gray" id="tab-str" onclick="switchAF('str')">策略</button>
     </div>
-    <div class="sec-h">我的结果</div>
+    <div id="af-cmt" class="card" style="margin-top:8px">
+      <div class="form-group"><label>落地页 URL</label><input id="af-cmt-url" placeholder="https://www.creviatech.com/..."></div>
+      <div class="form-group"><label>数量</label><select id="af-cmt-n"><option value="5">5条</option><option value="10" selected>10条</option><option value="20">20条</option></select></div>
+      <div class="form-group"><label>剧本方向</label><select id="af-cmt-theme"><option value="女性自我探索">女性自我探索</option><option value="伴侣互动">伴侣互动</option><option value="夫妻关系修复">夫妻关系修复</option><option value="开箱体验">开箱体验</option><option value="对比旧产品">对比旧产品</option><option value="">自定义↓</option></select><input id="af-cmt-theme-custom" placeholder="自定义方向" style="margin-top:4px;display:none"></div>
+      <div class="form-group"><label>补充</label><textarea id="af-cmt-note" rows="2" placeholder="可选"></textarea></div>
+      <button class="btn" onclick="triggerComment()">生成评论</button>
+    </div>
+    <div id="af-vid" class="card hidden" style="margin-top:8px">
+      <div class="form-group"><label>落地页 URL</label><input id="af-vid-url" placeholder="https://www.creviatech.com/..."></div>
+      <div class="form-group"><label>视频时长</label><select id="af-vid-dur"><option value="15s">15秒</option><option value="30s" selected>30秒</option><option value="60s">60秒</option></select></div>
+      <div class="form-group"><label>风格</label><select id="af-vid-style"><option value="写实">写实</option><option value="动画">动画</option></select></div>
+      <div class="form-group"><label>补充</label><textarea id="af-vid-dir" rows="2" placeholder="可选"></textarea></div>
+      <button class="btn" onclick="triggerAgent('video_script',{group:gv('af-vid-url'),duration:gv('af-vid-dur'),style:gv('af-vid-style'),direction:gv('af-vid-dir')})">生成脚本</button>
+    </div>
+    <div id="af-str" class="card hidden" style="margin-top:8px">
+      <div class="form-group"><label>广告组（可选）</label><input id="af-str-g" placeholder="留空=全组分析"></div>
+      <div class="form-group"><label>补充</label><textarea id="af-str-note" rows="2" placeholder="可选"></textarea></div>
+      <button class="btn" onclick="triggerAgent('strategy',{group:gv('af-str-g'),note:gv('af-str-note')})">生成策略</button>
+    </div>
+    <div class="sec-h">我的结果${user.role==='admin'?'<button class="btn btn-s btn-gray" style="margin-left:12px;font-size:10px" onclick="clearOldPending()">清除旧 pending</button>':''}</div>
     <div id="i-results"></div>
-    <div class="result-box" id="i-result-box"><h4 id="i-result-title"></h4><div class="result-content" id="i-result-content"></div></div>
   `;
   initUpload();
   loadInvestData();
   loadResults();
 }
 function gv(id){return document.getElementById(id).value;}
-function toggleAF(id){['cmt','vid','str'].forEach(k=>{const e=document.getElementById('af-'+k);if(e)e.classList.toggle('hidden',k!==id||!e.classList.contains('hidden'));});}
+function switchAF(id){
+  ['cmt','vid','str'].forEach(k=>{
+    document.getElementById('af-'+k).classList.toggle('hidden',k!==id);
+    document.getElementById('tab-'+k).classList.toggle('btn-gray',k!==id);
+  });
+}
 let uploadFile=null;
 function initUpload(){
   const drop=document.getElementById('i-drop'),fi=document.getElementById('i-file');
@@ -364,7 +364,7 @@ function startPoll(jobId){
         loadResults();
         if(d.job.status==='done')toast('✓ Agent 完成');
         else toast('Agent 失败: '+(d.job.output_summary||''),'var(--red)');
-        showResult(jobId);
+        toggleResult(jobId);
       }
     });
   },3000);
@@ -373,10 +373,32 @@ function loadResults(){
   fetch('/api/results').then(r=>r.json()).then(d=>{
     const el=document.getElementById('i-results');if(!el)return;
     if(!d.ok||!d.jobs||!d.jobs.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无结果</p>';return;}
-    el.innerHTML=d.jobs.slice(0,10).map(j=>`<div class="job-item" onclick="showResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span class="status s-${j.status}">${j.status}</span></div><div class="job-meta">${(j.created_at||'').slice(5,16).replace('T',' ')}</div></div>`).join('');
+    el.innerHTML=d.jobs.slice(0,15).map(j=>{
+      const sc={'done':'var(--green)','pending':'var(--gray)','failed':'var(--red)'}[j.status]||'var(--muted)';
+      return `<div class="job-item" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}15;color:${sc};font-weight:600">${j.status}</span></div><div class="job-meta">${(j.created_at||'').slice(5,16).replace('T',' ')}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+    }).join('');
   });
 }
 const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略',creative_agent:'🎨 素材生成'};
+function toggleResult(id){
+  const detail=document.getElementById('job-detail-'+id);
+  if(!detail.classList.contains('hidden')){detail.classList.add('hidden');return;}
+  detail.innerHTML='<span style="font-size:11px;color:var(--blue)">加载中...</span>';
+  detail.classList.remove('hidden');
+  fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
+    if(!d.ok)return;const j=d.job;
+    if(j.status==='pending'){detail.innerHTML='<span style="font-size:12px;color:var(--muted)">⏳ 执行中...</span>';return;}
+    if(j.status==='failed'){detail.innerHTML=`<span style="font-size:12px;color:var(--red)">❌ ${esc(j.output_summary||'失败')}</span>`;return;}
+    detail.innerHTML=renderAgentOutput(j.agent_type,j.output_full||j.output_summary||'');
+  });
+}
+function clearOldPending(){
+  if(!confirm('确认清除超过24小时的 pending 记录？'))return;
+  fetch('/api/results/clear-pending',{method:'POST'}).then(r=>r.json()).then(d=>{
+    if(d.ok)toast(`✓ 已清除 ${d.count} 条`);else toast(d.error||'失败','var(--red)');
+    loadResults();
+  });
+}
 function parseAgentResult(raw){
   if(!raw)return raw;
   let s=String(raw).replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
@@ -437,14 +459,6 @@ function renderAgentOutput(type,raw){
   if(Array.isArray(data))return '<div class="card" style="padding:12px">'+data.map(item=>`<div style="margin-bottom:4px;font-size:12px">• ${esc(typeof item==='string'?item:JSON.stringify(item))}</div>`).join('')+'</div>';
   if(typeof data==='object')return '<div class="card" style="padding:12px">'+Object.entries(data).map(([k,v])=>`<div style="margin-bottom:8px"><div style="font-size:11px;font-weight:600;color:var(--muted)">${esc(k)}</div><div style="font-size:12px">${esc(typeof v==='string'?v:JSON.stringify(v))}</div></div>`).join('')+'</div>';
   return `<pre style="font-size:11px;white-space:pre-wrap">${esc(String(data))}</pre>`;
-}
-function showResult(id){
-  fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
-    if(!d.ok)return;const j=d.job;const box=document.getElementById('i-result-box');
-    document.getElementById('i-result-title').textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+(j.completed_at||j.created_at||'').slice(0,16).replace('T',' ');
-    document.getElementById('i-result-content').innerHTML=renderAgentOutput(j.agent_type,j.output_full||j.output_summary||'');
-    box.style.display='block';
-  });
 }
 
 // === 视频场景：参考图上传 + 批量生成分镜 + Kling 生成 ===

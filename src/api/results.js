@@ -42,6 +42,17 @@ export async function handleResultDetail(request, env) {
   return json({ ok: true, job });
 }
 
+export async function handleClearPending(request, env) {
+  const user = await verifySession(request, env);
+  if (!user || user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+
+  const result = await env.DB.prepare(
+    "UPDATE agent_jobs SET status = 'failed', output_summary = '超时自动清除' WHERE status = 'pending' AND created_at < datetime('now', '-24 hours')"
+  ).run();
+
+  return json({ ok: true, count: result.meta?.changes || 0 });
+}
+
 function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status, headers: { 'Content-Type': 'application/json' }

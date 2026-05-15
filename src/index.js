@@ -5,7 +5,7 @@ import { handleUpload } from './api/upload.js';
 import { handleRequest } from './api/request.js';
 import { handleAuth, handleLogout, verifySession } from './api/auth.js';
 import { handleTriggerAgent } from './api/trigger-agent.js';
-import { handleResults, handleResultDetail } from './api/results.js';
+import { handleResults, handleResultDetail, handleClearPending } from './api/results.js';
 import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 import { handleIngest } from './api/ingest.js';
 import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
@@ -115,6 +115,9 @@ export default {
     }
     if (request.method === 'GET' && url.pathname === '/api/results') {
       return handleResults(request, env);
+    }
+    if (request.method === 'POST' && url.pathname === '/api/results/clear-pending') {
+      return handleClearPending(request, env);
     }
     if (request.method === 'GET' && url.pathname.startsWith('/api/results/')) {
       return handleResultDetail(request, env);

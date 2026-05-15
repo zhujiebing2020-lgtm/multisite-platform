@@ -91,6 +91,23 @@ APP_HTML=$(curl -s "$BASE/")
 check "主页有退出按钮" "退出" "$APP_HTML"
 check "主页有用户管理" "admin/users" "$APP_HTML"
 
+# 10. JS 语法检查
+echo ""
+echo "[JS]"
+echo "$APP_HTML" | python3 -c "
+import sys,re
+html=sys.stdin.read()
+m=re.search(r'<script>(.*?)</script>',html,re.DOTALL)
+if m:
+    with open('/tmp/smoke_app.js','w') as f: f.write(m.group(1))
+" 2>/dev/null
+JS_CHECK=$(node --check /tmp/smoke_app.js 2>&1)
+if [ $? -eq 0 ]; then
+  check "JS 语法正确" "" ""
+else
+  check "JS 语法正确" "PASS" "$JS_CHECK"
+fi
+
 # 清理测试数据
 curl -s -b "session=$COOKIE" -X POST "$BASE/api/ingest" -H 'Content-Type: application/json' \
   -d '{"site":"_test","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0,"hvu":0,"cphq":0}]}' > /dev/null

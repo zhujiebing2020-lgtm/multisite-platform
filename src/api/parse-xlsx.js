@@ -210,19 +210,18 @@ export async function handleDashboard(request, env) {
   const url = new URL(request.url);
   const days = parseInt(url.searchParams.get('days') || '7');
   const owner = user.role === 'admin' ? url.searchParams.get('owner') || null : user.sub;
+  const site = url.searchParams.get('site') || null;
 
-  let query, params;
-  if (owner) {
-    query = `SELECT date, group_name, spend, hvu, cphq, impressions, clicks
-             FROM ad_daily WHERE owner = ? AND site != '_test' ORDER BY date DESC, spend DESC LIMIT 500`;
-    params = [owner];
-  } else {
-    query = `SELECT owner, date, group_name, spend, hvu, cphq, impressions, clicks
-             FROM ad_daily WHERE site != '_test' ORDER BY date DESC, spend DESC LIMIT 1000`;
-    params = [];
-  }
+  let query, params = [];
+  let conditions = ["site != '_test'"];
+  if (owner) { conditions.push('owner = ?'); params.push(owner); }
+  if (site) { conditions.push('site = ?'); params.push(site); }
+  const where = conditions.join(' AND ');
 
-  const stmt = owner ? env.DB.prepare(query).bind(...params) : env.DB.prepare(query);
+  query = `SELECT owner, date, group_name, spend, hvu, cphq, impressions, clicks
+           FROM ad_daily WHERE ${where} ORDER BY date DESC, spend DESC LIMIT 1000`;
+
+  const stmt = params.length ? env.DB.prepare(query).bind(...params) : env.DB.prepare(query);
   const { results } = await stmt.all();
 
   // 汇总

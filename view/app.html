@@ -182,7 +182,9 @@ function renderControl(el){
   loadControlData();
 }
 function loadControlData(){
-  fetch('/api/dashboard').then(r=>r.json()).then(d=>{
+  const site=getSite();
+  const q=site?`/api/dashboard?site=${site}`:'/api/dashboard';
+  fetch(q).then(r=>r.json()).then(d=>{
     if(!d.ok){document.getElementById('c-kpis').innerHTML='<div class="kpi"><div class="num">—</div><div class="label">暂无数据</div></div>';return;}
     const s=d.summary;
     document.getElementById('c-kpis').innerHTML=`
@@ -315,7 +317,9 @@ async function doUpload(){
   if(res.ok){toast(`✓ ${res.ingested} 条数据已入库`);loadInvestData();}else toast(res.error||'失败','var(--red)');
 }
 function loadInvestData(){
-  fetch('/api/dashboard').then(r=>r.json()).then(d=>{
+  const site=getSite();
+  const q=site?`/api/dashboard?site=${site}`:'/api/dashboard';
+  fetch(q).then(r=>r.json()).then(d=>{
     if(!d.ok||!d.latest_date){document.getElementById('i-kpis').innerHTML='';document.getElementById('i-groups').innerHTML='<p style="font-size:12px;color:var(--muted)">上传数据后显示</p>';return;}
     const s=d.summary;
     document.getElementById('i-kpis').innerHTML=`

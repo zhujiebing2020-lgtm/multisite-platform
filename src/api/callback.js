@@ -1,5 +1,7 @@
 // src/api/callback.js — Actions 执行完后回写结果
 
+import { logOp } from './admin.js';
+
 export async function handleCallback(request, env) {
   const secret = request.headers.get('x-callback-secret') || '';
   if (!env.CALLBACK_SECRET || secret !== env.CALLBACK_SECRET) {
@@ -20,6 +22,11 @@ export async function handleCallback(request, env) {
       now,
       job_id
     ).run();
+
+    const job = await env.DB.prepare('SELECT owner, agent_type, site FROM agent_jobs WHERE id = ?').bind(job_id).first();
+    if (job) {
+      await logOp(env, job.owner, status === 'failed' ? 'agent_failed' : 'agent_done', { agent_type: job.agent_type, site: job.site, job_id }, request);
+    }
 
     return json({ ok: true });
   } catch (e) {

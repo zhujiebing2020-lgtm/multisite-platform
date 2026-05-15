@@ -1,6 +1,7 @@
 // src/api/trigger-agent.js — 投手触发 agent
 
 import { verifySession } from './auth.js';
+import { logOp } from './admin.js';
 
 const AGENT_TYPES = {
   data_analysis: { name: '数据分析', desc: '分析你的广告组表现，给出加减预算建议' },
@@ -71,6 +72,7 @@ export async function handleTriggerAgent(request, env) {
       return json({ error: `GitHub ${ghRes.status}: ${t.slice(0, 200)}` }, 502);
     }
 
+    await logOp(env, owner, 'trigger_agent', { agent_type, site, job_id: jobId }, request);
     return json({ ok: true, job_id: jobId, agent: AGENT_TYPES[agent_type].name, status: 'pending' });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);

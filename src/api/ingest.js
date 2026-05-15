@@ -1,5 +1,7 @@
 // src/api/ingest.js — 接收前端解析好的数据直接入库
 
+import { logOp } from './admin.js';
+
 export async function handleIngest(request, env) {
   try {
     const pass = request.headers.get('x-pass') || '';
@@ -38,6 +40,7 @@ export async function handleIngest(request, env) {
       ingested = stmts.length;
     }
 
+    await logOp(env, records[0]?.owner || 'unknown', 'upload', { site, rows: ingested }, request);
     return json({ ok: true, ingested });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);

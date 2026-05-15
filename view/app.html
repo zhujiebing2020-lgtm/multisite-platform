@@ -190,6 +190,10 @@ function renderMaster(){
     <div id="m-alerts"><p style="font-size:12px;color:var(--muted)">暂无异常</p></div>
     <div class="sec-h">Agent 运行状态</div>
     <div id="m-agents"></div>
+    <div class="sec-h">用户管理</div>
+    <div id="m-users"></div>
+    <div class="sec-h">操作日志</div>
+    <div id="m-logs"></div>
   `;
 }
 function loadMasterData(){
@@ -214,6 +218,53 @@ function loadMasterData(){
     document.getElementById('m-agents').innerHTML=recent.length?recent.map(j=>`
       <div class="info-row"><span class="label">${AGENT_NAMES[j.agent_type]||j.agent_type} · ${j.owner}</span><span class="status s-${j.status}">${j.status}</span></div>
     `).join(''):'<p style="font-size:12px;color:var(--muted)">暂无 Agent 记录</p>';
+  });
+  // 用户管理
+  fetch('/api/admin/users').then(r=>r.json()).then(users=>{
+    if(!Array.isArray(users)){document.getElementById('m-users').innerHTML='<p style="font-size:12px;color:var(--muted)">无权限</p>';return;}
+    let h='<table><tr><th>代号</th><th>名称</th><th>角色</th><th>站点</th><th>口令</th><th>操作</th></tr>';
+    users.forEach(u=>{
+      h+=`<tr><td>${u.owner_code}</td><td>${u.display_name||''}</td><td>${u.role}</td><td>${u.sites}</td><td><code class="pw-hide" onclick="this.textContent=this.dataset.p;this.onclick=null" data-p="${u.passcode}">****</code></td><td><button onclick="resetPw('${u.owner_code}')" style="font-size:11px;padding:2px 6px;background:var(--accent);color:#fff;border:none;border-radius:3px;cursor:pointer">重置口令</button> <button onclick="delUser('${u.owner_code}')" style="font-size:11px;padding:2px 6px;background:var(--red);color:#fff;border:none;border-radius:3px;cursor:pointer">删除</button></td></tr>`;
+    });
+    h+='</table><div style="margin-top:8px"><button onclick="showAddUser()" style="font-size:12px;padding:4px 10px;background:var(--green);color:#fff;border:none;border-radius:4px;cursor:pointer">+ 新增用户</button></div><div id="add-user-form" style="display:none;margin-top:8px"><input id="nu-code" placeholder="代号如HNN" style="width:80px;padding:4px;margin-right:4px"><input id="nu-name" placeholder="显示名" style="width:80px;padding:4px;margin-right:4px"><select id="nu-role" style="padding:4px;margin-right:4px"><option value="pitcher">pitcher</option><option value="admin">admin</option><option value="tech">tech</option></select><button onclick="addUser()" style="font-size:12px;padding:4px 10px;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer">创建</button></div>';
+    document.getElementById('m-users').innerHTML=h;
+  });
+  // 操作日志
+  fetch('/api/admin/logs?days=7').then(r=>r.json()).then(logs=>{
+    if(!Array.isArray(logs)){document.getElementById('m-logs').innerHTML='<p style="font-size:12px;color:var(--muted)">无权限</p>';return;}
+    if(!logs.length){document.getElementById('m-logs').innerHTML='<p style="font-size:12px;color:var(--muted)">暂无日志</p>';return;}
+    let h='<table><tr><th>时间</th><th>投手</th><th>动作</th><th>详情</th></tr>';
+    logs.slice(0,50).forEach(l=>{
+      const d=l.detail?JSON.parse(l.detail):{};
+      h+=`<tr><td style="font-size:11px">${(l.ts||'').slice(5,16)}</td><td>${l.owner_code}</td><td>${l.action}</td><td style="font-size:11px;color:var(--muted)">${Object.entries(d).map(([k,v])=>k+'='+v).join(' ')}</td></tr>`;
+    });
+    h+='</table>';
+    document.getElementById('m-logs').innerHTML=h;
+  });
+}
+function showAddUser(){document.getElementById('add-user-form').style.display='block';}
+function addUser(){
+  const code=document.getElementById('nu-code').value.trim();
+  const name=document.getElementById('nu-name').value.trim();
+  const role=document.getElementById('nu-role').value;
+  if(!code)return alert('填代号');
+  fetch('/api/admin/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({owner_code:code,display_name:name,role})}).then(r=>r.json()).then(d=>{
+    if(d.ok)alert('创建成功，口令: '+d.passcode);else alert(d.error);
+    loadMasterData();
+  });
+}
+function resetPw(code){
+  if(!confirm('确认重置 '+code+' 的口令？'))return;
+  fetch('/api/admin/users/'+code,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({reset_passcode:true})}).then(r=>r.json()).then(d=>{
+    if(d.ok)alert('新口令: '+d.passcode);else alert(d.error);
+    loadMasterData();
+  });
+}
+function delUser(code){
+  if(!confirm('确认删除 '+code+'？'))return;
+  fetch('/api/admin/users/'+code,{method:'DELETE'}).then(r=>r.json()).then(d=>{
+    if(d.ok)alert('已删除');else alert(d.error);
+    loadMasterData();
   });
 }
 

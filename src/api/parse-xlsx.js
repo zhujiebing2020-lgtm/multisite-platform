@@ -1,6 +1,8 @@
 // src/api/parse-xlsx.js — 在 Worker 端解析 xlsx 并存入 D1
 // 使用简化的 xlsx 解析（CSV fallback + 基础 xlsx 解码）
 
+import { logOp } from './admin.js';
+
 export async function handleUploadAndParse(request, env) {
   try {
     const pass = request.headers.get('x-pass') || '';
@@ -118,6 +120,7 @@ export async function handleUploadAndParse(request, env) {
     }
 
     await ghPromise;
+    if (parsed > 0) await logOp(env, owner, 'upload', { site, filename, rows: parsed }, request);
     return json({ ok: true, path, parsed, date: defaultDate, message: `✓ 已解析 ${parsed} 条广告组数据` });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);

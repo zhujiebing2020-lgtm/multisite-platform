@@ -8,6 +8,7 @@ import { handleTriggerAgent } from './api/trigger-agent.js';
 import { handleResults, handleResultDetail } from './api/results.js';
 import { handleUploadAndParse, handleDashboard } from './api/parse-xlsx.js';
 import { handleIngest } from './api/ingest.js';
+import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -23,6 +24,18 @@ export default {
     // 退出登录
     if (request.method === 'POST' && url.pathname === '/api/logout') {
       return handleLogout();
+    }
+
+    // Admin API
+    if (url.pathname === '/api/admin/users' && (request.method === 'GET' || request.method === 'POST')) {
+      return handleAdminUsers(request, env);
+    }
+    if (url.pathname.startsWith('/api/admin/users/') && (request.method === 'PUT' || request.method === 'DELETE')) {
+      const code = url.pathname.split('/').pop();
+      return handleAdminUser(request, env, code);
+    }
+    if (url.pathname === '/api/admin/logs' && request.method === 'GET') {
+      return handleAdminLogs(request, env);
     }
 
     // 需要鉴权的 API

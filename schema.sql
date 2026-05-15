@@ -40,3 +40,15 @@ CREATE TABLE IF NOT EXISTS data_lake (
 INSERT OR IGNORE INTO users (passcode, role, owner_code, display_name, sites, permissions) VALUES
   ('xiuxiu', 'pitcher', 'HZM', '梓铭', '["elysianu"]', '["upload","trigger_agent","view_results"]'),
   ('crave2026', 'admin', 'ZJB', 'ZJB', '["*"]', '["*"]');
+
+-- 操作日志
+CREATE TABLE IF NOT EXISTS operation_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ts TEXT DEFAULT (datetime('now')),
+  owner_code TEXT NOT NULL,
+  action TEXT NOT NULL,
+  detail TEXT,
+  ip TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_oplog_owner ON operation_log(owner_code, ts);
+CREATE INDEX IF NOT EXISTS idx_oplog_action ON operation_log(action, ts);

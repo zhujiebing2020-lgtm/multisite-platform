@@ -8,7 +8,7 @@ function json(obj, status = 200) {
 
 export async function handleKnowledge(request, env) {
   const user = await verifySession(request, env);
-  if (!user || user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+  if (!user) return json({ error: '未登录' }, 401);
 
   if (request.method === 'GET') {
     const url = new URL(request.url);

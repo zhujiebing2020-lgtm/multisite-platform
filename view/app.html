@@ -385,8 +385,29 @@ function renderStrategy(el){
       <tr><td>放量条件</td><td>S 类 + 累计 >200 HVU</td><td>elysianu</td></tr></table>
     </div>
     <div class="sec-h">命题库</div>
-    <div class="card"><p style="font-size:12px;color:var(--muted)">策略命题和排查题将从 crave-AI 同步。${readonly?'（只读）':''}</p></div>
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <button class="btn btn-s" onclick="loadProps('')">全部</button>
+      <button class="btn btn-s btn-gray" onclick="loadProps('strategy')">策略</button>
+      <button class="btn btn-s btn-gray" onclick="loadProps('diagnosis')">诊断</button>
+      <button class="btn btn-s btn-gray" onclick="loadProps('flywheel')">飞轮断点</button>
+    </div>
+    <div id="s-props"></div>
   `;
+  loadProps('');
+}
+function loadProps(type){
+  const q=type?'/api/knowledge?type='+type:'/api/knowledge';
+  fetch(q).then(r=>r.json()).then(d=>{
+    const el=document.getElementById('s-props');
+    if(!d.ok||!d.items.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无命题</p>';return;}
+    const statusColor={'confirmed':'var(--green)','validating':'var(--blue)','hypothesis':'var(--muted)','falsified':'var(--red)'};
+    el.innerHTML=d.items.map(e=>{
+      const c=JSON.parse(e.content||'{}');
+      const sc=statusColor[e.status]||'var(--muted)';
+      const labels={'confirmed':'已确认','validating':'验证中','hypothesis':'存疑','falsified':'已证伪'};
+      return `<div class="card" style="border-left:3px solid ${sc}"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">${esc(c.title||'')}</b><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}20;color:${sc};font-weight:600">${labels[e.status]||e.status}</span></div><div style="font-size:11px;color:var(--muted);margin-top:4px">${e.type} · ${c.proposed_date||''} · ${c.confidence||''}</div></div>`;
+    }).join('');
+  });
 }
 
 // === 素材视图 ===

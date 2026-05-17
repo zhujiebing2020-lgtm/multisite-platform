@@ -80,6 +80,7 @@ th{font-size:11px;color:var(--muted);font-weight:600;background:var(--bg)}
 .tier-b{color:var(--muted);font-weight:700}
 .tier-r{color:var(--red);font-weight:700}
 .hidden{display:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 </style>
 </head>
 <body>
@@ -176,6 +177,7 @@ function loadCurrentView(){
 function getSite(){return document.getElementById('f-site').value;}
 function toast(msg,color){const t=document.getElementById('toast');t.textContent=msg;if(color)t.style.background=color;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function toBJ(iso){if(!iso)return'';const d=new Date(iso);const b=new Date(d.getTime()+8*3600000);return `${String(b.getUTCMonth()+1).padStart(2,'0')}-${String(b.getUTCDate()).padStart(2,'0')} ${String(b.getUTCHours()).padStart(2,'0')}:${String(b.getUTCMinutes()).padStart(2,'0')}`;}
 
 // === 总控视图 ===
 function renderControl(el){
@@ -216,7 +218,7 @@ function loadControlData(){
     let h='<div class="card"><table><tr><th>时间</th><th>投手</th><th>动作</th><th>详情</th></tr>';
     logs.slice(0,30).forEach(l=>{
       const d=l.detail?JSON.parse(l.detail):{};
-      h+=`<tr><td>${(l.ts||'').slice(5,16)}</td><td>${l.owner_code}</td><td>${l.action}</td><td style="color:var(--muted)">${Object.entries(d).map(([k,v])=>k+'='+v).join(' ')}</td></tr>`;
+      h+=`<tr><td>${toBJ(l.ts)}</td><td>${l.owner_code}</td><td>${l.action}</td><td style="color:var(--muted)">${Object.entries(d).map(([k,v])=>k+'='+v).join(' ')}</td></tr>`;
     });
     h+='</table></div>';
     document.getElementById('c-logs').innerHTML=h;
@@ -412,10 +414,20 @@ function loadResults(){
   fetch('/api/results').then(r=>r.json()).then(d=>{
     const el=document.getElementById('i-results');if(!el)return;
     if(!d.ok||!d.jobs||!d.jobs.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无结果</p>';return;}
-    el.innerHTML=d.jobs.slice(0,15).map(j=>{
-      const sc={'done':'var(--green)','pending':'var(--gray)','failed':'var(--red)'}[j.status]||'var(--muted)';
-      return `<div class="job-item" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}15;color:${sc};font-weight:600">${j.status}</span></div><div class="job-meta">${(j.created_at||'').slice(5,16).replace('T',' ')}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+    const now=Date.now();
+    const fiveMin=5*60*1000;
+    let html='';
+    // 进行中的任务置顶
+    const active=d.jobs.filter(j=>j.status==='pending');
+    const recent=d.jobs.filter(j=>j.status==='done'&&(now-new Date(j.completed_at||j.created_at).getTime())<fiveMin);
+    const rest=d.jobs.filter(j=>!active.includes(j)&&!recent.includes(j));
+    if(active.length)html+=active.map(j=>`<div class="job-item" style="border-color:var(--blue);animation:pulse 2s infinite" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(58,159,232,.1);color:var(--blue);font-weight:600">执行中</span></div><div class="job-meta">${toBJ(j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`).join('');
+    if(recent.length)html+=recent.map(j=>`<div class="job-item" style="border-color:var(--green)" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(24,160,87,.1);color:var(--green);font-weight:600">刚完成</span></div><div class="job-meta">${toBJ(j.completed_at||j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`).join('');
+    if(rest.length)html+=rest.slice(0,12).map(j=>{
+      const sc={'done':'var(--green)','failed':'var(--red)'}[j.status]||'var(--gray)';
+      return `<div class="job-item" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}15;color:${sc};font-weight:600">${j.status}</span></div><div class="job-meta">${toBJ(j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
     }).join('');
+    el.innerHTML=html;
   });
 }
 const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略',creative_agent:'🎨 素材生成'};
@@ -769,7 +781,7 @@ function loadScriptsList(){
     const el=document.getElementById('cr-scripts-list');
     if(!scripts.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无脚本 · 在投放视图触发"视频脚本"Agent 生成</p>';return;}
     el.innerHTML=scripts.map(j=>{
-      return `<div class="card" style="padding:12px;cursor:pointer" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${j.output_summary||'视频脚本'}</b><span style="font-size:11px;color:var(--muted)">${(j.created_at||'').slice(5,16).replace('T',' ')}</span></div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+      return `<div class="card" style="padding:12px;cursor:pointer" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${j.output_summary||'视频脚本'}</b><span style="font-size:11px;color:var(--muted)">${toBJ(j.created_at)}</span></div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
     }).join('');
   });
   // 也加载剧本库

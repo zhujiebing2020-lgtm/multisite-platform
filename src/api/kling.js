@@ -33,8 +33,17 @@ export async function handleUploadImageDirect(request, env) {
     httpMetadata: { contentType: contentType || 'image/jpeg' }
   });
 
-  const url = `https://crave.${env.R2_DOMAIN || 'r2.dev'}/${key}`;
+  // 通过 Worker 代理访问（不依赖 R2 公开域名）
+  const url = `/api/r2/${key}`;
   return json({ ok: true, url, key });
+}
+
+export async function handleR2Get(request, env, key) {
+  const obj = await env.R2.get(key);
+  if (!obj) return new Response('Not found', { status: 404 });
+  return new Response(obj.body, {
+    headers: { 'Content-Type': obj.httpMetadata?.contentType || 'image/jpeg', 'Cache-Control': 'public, max-age=86400' }
+  });
 }
 
 export async function handleGenerateScenes(request, env, ctx) {

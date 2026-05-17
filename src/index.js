@@ -12,7 +12,7 @@ import { handleAdminUsers, handleAdminUser, handleAdminLogs } from './api/admin.
 import { handleRecommendations, handleRecommendationUpdate } from './api/recommendations.js';
 import { handleKnowledge, handleKnowledgeToRule, handleScripts, handleKnowledgeAdd } from './api/knowledge.js';
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
-import { handleUploadImage, handleUploadImageDirect, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
+import { handleUploadImage, handleUploadImageDirect, handleR2Get, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
 import { handleFetchScene } from './api/fetch-scene.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
@@ -92,6 +92,10 @@ export default {
     }
     if (url.pathname === '/api/upload/image-direct' && request.method === 'PUT') {
       return handleUploadImageDirect(request, env);
+    }
+    if (url.pathname.startsWith('/api/r2/') && request.method === 'GET') {
+      const key = url.pathname.replace('/api/r2/', '');
+      return handleR2Get(request, env, decodeURIComponent(key));
     }
     if (url.pathname === '/api/kling/generate-clip' && request.method === 'POST') {
       return handleKlingGenerate(request, env, ctx);

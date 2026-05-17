@@ -58,6 +58,10 @@ INGEST=$(curl -s -b "session=$COOKIE" -X POST "$BASE/api/ingest" -H 'Content-Typ
   -d '{"site":"_test","records":[{"owner":"TEST","date":"2099-01-01","group_name":"smoke_test","spend":0.01,"hvu":0,"cphq":0}]}')
 check "ingest 入库" '"ok":true' "$INGEST"
 
+# 5b. 合约四B：data_check 日志是否产生
+DATA_CHECK=$(curl -s -b "session=$COOKIE" "$BASE/api/admin/logs?days=1" | grep -o 'data_check')
+check "合约四B data_check 日志" "data_check" "$DATA_CHECK"
+
 # 6. HVU JSON 上传
 echo ""
 echo "[Upload]"

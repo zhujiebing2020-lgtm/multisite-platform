@@ -75,8 +75,28 @@ export async function handleUploadAndParse(request, env) {
         await env.DB.batch(stmts);
       }
       await ghPromise;
-      await logOp(env, owner, 'upload', { site, filename, type: 'hvu_json', groups: Object.keys(byGroup).length }, request);
-      return json({ ok: true, path, parsed: Object.keys(byGroup).length, message: `✓ HVU JSON 解析完成，${Object.keys(byGroup).length} 个组` });
+      const hvuCount = Object.values(byGroup).reduce((s, v) => s + v, 0);
+      const groupCount = Object.keys(byGroup).length;
+      await logOp(env, owner, 'upload', { site, filename, type: 'hvu_json', groups: groupCount }, request);
+
+      // 合约四B：HVU 条目数校验（对比历史均值 ±30%）
+      const hist = await env.DB.prepare("SELECT AVG(cnt) as avg_hvu FROM (SELECT SUM(hvu) as cnt FROM ad_daily WHERE site=? AND hvu>0 GROUP BY date ORDER BY date DESC LIMIT 7)").bind(site).first();
+      const avgHvu = hist?.avg_hvu || 0;
+      const lo = Math.round(avgHvu * 0.7), hi = Math.round(avgHvu * 1.3);
+      const hvuCheck = (avgHvu === 0 || (hvuCount >= lo && hvuCount <= hi)) ? 'pass' : 'warn';
+      await logOp(env, 'SYSTEM', 'data_check', {
+        type: 'hvu_count',
+        today_hvu: hvuCount,
+        groups: groupCount,
+        history_avg: Math.round(avgHvu),
+        range: `[${lo}, ${hi}]`,
+        result: hvuCheck,
+        detail: hvuCheck === 'pass'
+          ? `✅ 本日 HVU ${hvuCount} 条(${groupCount}组)，历史均值 ${Math.round(avgHvu)}，范围内`
+          : `⚠️ 本日 HVU ${hvuCount} 条，历史均值 ${Math.round(avgHvu)}，超出 ±30% 范围 [${lo},${hi}]`
+      }, request);
+
+      return json({ ok: true, path, parsed: groupCount, message: `✓ HVU JSON 解析完成，${groupCount} 个组` });
     }
 
     // 解析 xlsx 内容

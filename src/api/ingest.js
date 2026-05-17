@@ -46,6 +46,22 @@ export async function handleIngest(request, env) {
     }
 
     await logOp(env, records[0]?.owner || 'unknown', 'upload', { site, rows: ingested }, request);
+
+    // 合约四B：数据复查 — 行数一致性
+    const sourceRows = records.length;
+    const validRows = records.filter(r => r.group_name && (r.spend || r.hvu)).length;
+    const checkResult = ingested === validRows ? 'pass' : 'fail';
+    await logOp(env, 'SYSTEM', 'data_check', {
+      type: 'row_consistency',
+      source_rows: sourceRows,
+      valid_rows: validRows,
+      ingested,
+      result: checkResult,
+      detail: checkResult === 'pass'
+        ? `✅ 源${sourceRows}行 → 有效${validRows}行 → 入库${ingested}行，一致`
+        : `⚠️ 源${sourceRows}行 → 有效${validRows}行 → 入库${ingested}行，不一致`
+    }, request);
+
     return json({ ok: true, ingested });
   } catch (e) {
     return json({ error: String(e.message || e) }, 500);

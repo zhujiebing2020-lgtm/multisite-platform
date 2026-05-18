@@ -128,7 +128,27 @@ curl -X POST https://crave.z-jb.com/api/crave/intake \
 - ❌ 不在前端 crave.html 中硬编码数据（所有数据走 API）
 - ❌ 不修改 card_id 命名规则（`{type}-{date}[-{channel}]`）
 
-## 8. 变更日志
+## 8. 触发链（模块间自动推送关系）
+
+```
+POST /api/crave/cards (card_type=daily_dashboard)
+    → 自动生成 action-pitcher-{today} 卡片
+    → 基于 ad_daily 最近7天数据，按 CPHQ 分层(S≤$3/A≤$5/B>$5/R=0HVU)
+    → 按投手分组，输出 continue/stop 建议
+
+POST /api/crave/intake
+    → 自动更新 must_fix_today 中 linked_claim 对应的 claim 卡片
+    → 追加最新证据到 signals 数组
+```
+
+触发逻辑：`src/api/crave-triggers.js`
+
+**规则**：
+- 触发链是同步执行的（在 POST 响应前完成）
+- action 卡片每次覆盖（同一天只保留最新版）
+- claim 卡片只追加不覆盖（增量证据）
+
+## 9. 变更日志
 
 | 日期 | 变更 | 操作人 |
 |------|------|--------|

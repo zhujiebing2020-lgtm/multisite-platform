@@ -358,11 +358,37 @@ async function loadData() {
   const [cardsResp, intakeResp, adResp] = await Promise.all([
     fetch('/api/crave/cards'),
     fetch('/api/crave/intake'),
-    fetch('/api/crave/ad-history')
+    fetch('/api/crave/ad-history?days=45')
   ]);
   CARD_DATA = await cardsResp.json() || {};
   ACCEPT_INTAKE = await intakeResp.json();
-  AD_HISTORY = await adResp.json() || [];
+  const rawRows = await adResp.json() || [];
+  // 聚合为前端期望格式
+  const groups = {};
+  for (const r of rawRows) {
+    const gid = r.group_name || r.gid || '?';
+    if (!groups[gid]) groups[gid] = { rows: [], owner: r.owner, channel: 'facebook' };
+    groups[gid].rows.push(r);
+  }
+  AD_HISTORY = Object.entries(groups).map(([gid, g]) => {
+    const sorted = g.rows.sort((a,b) => a.date > b.date ? 1 : -1);
+    const totalSpend = sorted.reduce((s,r) => s + (r.spend||0), 0);
+    const totalHvu = sorted.reduce((s,r) => s + (r.hvu||0), 0);
+    const last = sorted[sorted.length-1];
+    const first = sorted[0];
+    return {
+      gid, channel: g.channel, name: gid, owner: g.owner || '—',
+      landing: '', days_live: sorted.length,
+      spend_total: totalSpend, hvu_total: totalHvu,
+      cphq_total: totalHvu > 0 ? totalSpend/totalHvu : null,
+      tier: totalHvu===0 && totalSpend>5 ? 'R' : (totalHvu>0 && totalSpend/totalHvu<=3) ? 'S' : (totalHvu>0 && totalSpend/totalHvu<=5) ? 'A' : 'B',
+      first_date: first.date, last_date: last.date,
+      spend_today: last.spend, hvu_today: last.hvu,
+      cphq_today: last.hvu > 0 ? last.spend/last.hvu : null,
+      today_date: last.date,
+      trend_daily: sorted.map(r => ({date:r.date, spend:r.spend, hvu:r.hvu, cphq:r.cphq}))
+    };
+  });
 }
 
 const VIEW_FILTER = {

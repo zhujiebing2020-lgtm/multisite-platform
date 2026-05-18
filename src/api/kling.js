@@ -63,8 +63,46 @@ export async function handleGenerateScenes(request, env, ctx) {
   const { reference_image_url, scenes, style } = await request.json();
   if (!reference_image_url || !scenes || !scenes.length) return json({ error: '缺少参考图或场景' }, 400);
 
-  // 图片生成暂用参考图作为所有 scene 的占位（后续接 Flux/DALL-E）
-  const results = scenes.map(scene => ({ index: scene.index, image_url: reference_image_url }));
+  // 用 OpenRouter 图片生成模型为每个 scene 生成分镜图
+  const fullRefUrl = reference_image_url.startsWith('/') ? `https://z-jb.com${reference_image_url}` : reference_image_url;
+  const results = [];
+
+  for (const scene of scenes) {
+    try {
+      const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.OPENROUTER_API_KEY}` },
+        body: JSON.stringify({
+          model: 'sourceful/riverflow-v2-fast',
+          modalities: ['image'],
+          messages: [{ role: 'user', content: `Generate a vertical 9:16 cinematic scene image: ${scene.visual}. Style: ${style || 'realistic photography'}, dramatic lighting, film still quality.` }],
+          max_tokens: 1024,
+        }),
+      });
+      if (!resp.ok) {
+        const err = await resp.text();
+        results.push({ index: scene.index, error: `${resp.status}: ${err.slice(0, 100)}` });
+        continue;
+      }
+      const data = await resp.json();
+      const msg = data.choices?.[0]?.message || {};
+      let imageUrl = null;
+      // OpenRouter 图片模型返回在 message.images 数组
+      if (msg.images && msg.images.length > 0) {
+        const img = msg.images[0];
+        imageUrl = img?.image_url?.url || img?.url || (typeof img === 'string' ? img : null);
+      } else if (Array.isArray(msg.content)) {
+        const imgPart = msg.content.find(c => c.type === 'image_url' || c.type === 'image');
+        imageUrl = imgPart?.image_url?.url || imgPart?.url || null;
+      } else if (typeof msg.content === 'string' && msg.content.startsWith('http')) {
+        imageUrl = msg.content;
+      }
+      results.push({ index: scene.index, image_url: imageUrl || fullRefUrl });
+    } catch (e) {
+      results.push({ index: scene.index, error: e.message, image_url: fullRefUrl });
+    }
+  }
+
   return json({ ok: true, results });
 }
 

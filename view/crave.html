@@ -354,6 +354,13 @@ let ACCEPT_INTAKE = null;
 let AD_HISTORY = [];
 let CREATIVE_BRIEFS = [];
 
+let currentView='dashboard', currentChannel='facebook';
+let currentDashFilter='all';
+let currentDashLandingFilter='all';
+let currentDashSort='cphq_total';
+let currentDashSortDir='asc';
+let currentDashSearch='';
+
 async function loadData() {
   const [cardsResp, intakeResp, adResp] = await Promise.all([
     fetch('/api/crave/cards'),
@@ -1581,6 +1588,7 @@ function renderClaimLibView(cards){
 }
 
 (async function init(){
+  document.getElementById('date').textContent = new Date().toISOString().slice(0,10);
   await loadData();
   render();
 })();

@@ -79,9 +79,11 @@ export async function handleKlingGenerate(request, env, ctx) {
   const { image_url, prompt, duration, aspect_ratio } = await request.json();
   if (!image_url) return json({ error: '缺少图片' }, 400);
 
+  // 相对路径转完整 URL
+  const fullImageUrl = image_url.startsWith('/') ? `https://z-jb.com${image_url}` : image_url;
   const ratioMap = { '9:16': '720:1280', '16:9': '1280:720', '1:1': '960:960' };
   const resp = await runwayFetch(env, '/image_to_video', 'POST', {
-    promptImage: image_url,
+    promptImage: fullImageUrl,
     promptText: prompt || '',
     duration: duration || 5,
     ratio: ratioMap[aspect_ratio] || '720:1280',

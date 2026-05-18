@@ -65,17 +65,20 @@ export async function handleGenerateScenes(request, env, ctx) {
 
   // 用 OpenRouter 图片生成模型为每个 scene 生成分镜图
   const fullRefUrl = reference_image_url.startsWith('/') ? `https://z-jb.com${reference_image_url}` : reference_image_url;
+  // 风格锁定词（确保跨镜头视觉一致）
+  const STYLE_LOCK = 'cinematic, warm amber and deep shadow contrast, 35mm film grain, shallow depth of field, intimate close-up framing, soft backlight, muted desaturated tones with warm highlights, editorial fashion photography style';
   const results = [];
 
   for (const scene of scenes) {
     try {
+      const prompt = `${scene.visual}. ${STYLE_LOCK}, vertical 9:16 aspect ratio`;
       const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.OPENROUTER_API_KEY}` },
         body: JSON.stringify({
           model: 'sourceful/riverflow-v2-fast',
           modalities: ['image'],
-          messages: [{ role: 'user', content: `Generate a vertical 9:16 cinematic scene image: ${scene.visual}. Style: ${style || 'realistic photography'}, dramatic lighting, film still quality.` }],
+          messages: [{ role: 'user', content: prompt }],
           max_tokens: 1024,
         }),
       });

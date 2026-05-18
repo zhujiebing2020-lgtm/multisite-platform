@@ -86,6 +86,20 @@ export default {
     if (url.pathname === '/api/fetch-scene' && request.method === 'POST') {
       return handleFetchScene(request, env);
     }
+    // OpenRouter 连通测试
+    if (url.pathname === '/api/test-openrouter' && request.method === 'GET') {
+      try {
+        const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.OPENROUTER_API_KEY}` },
+          body: JSON.stringify({ model: 'qwen/qwen-2.5-72b-instruct', messages: [{ role: 'user', content: 'Say hello in 5 words' }], max_tokens: 50 }),
+        });
+        const data = await resp.json();
+        return new Response(JSON.stringify({ status: resp.status, data }), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { headers: { 'Content-Type': 'application/json' } });
+      }
+    }
     // 图片上传 + Kling 视频生成
     if (url.pathname === '/api/upload/image' && request.method === 'POST') {
       return handleUploadImage(request, env);

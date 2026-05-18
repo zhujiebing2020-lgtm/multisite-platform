@@ -1,0 +1,27 @@
+{
+  "name": "multisite-platform",
+  "version": "1.0.0",
+  "description": "**平台是发动机,站是车壳。一套 crave-AI 主站经验 → N 个站投手用。**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhujiebing2020-lgtm/multisite-platform.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/zhujiebing2020-lgtm/multisite-platform/issues"
+  },
+  "homepage": "https://github.com/zhujiebing2020-lgtm/multisite-platform#readme",
+  "dependencies": {
+    "@cloudflare/puppeteer": "^1.1.0"
+  }
+}

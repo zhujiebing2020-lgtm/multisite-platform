@@ -32,5 +32,8 @@
       "binding": "R2",
       "bucket_name": "crave"
     }
-  ]
+  ],
+  "browser": {
+    "binding": "BROWSER"
+  }
 }

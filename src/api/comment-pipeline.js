@@ -1,14 +1,23 @@
 // src/api/comment-pipeline.js — 多模型评论生成链路
 
 async function callTogether(env, model, messages, options = {}) {
-  const resp = await fetch('https://api.together.xyz/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.TOGETHER_API_KEY}` },
-    body: JSON.stringify({ model, messages, max_tokens: options.maxTokens || 2000, temperature: options.temperature ?? 0.8 }),
-  });
-  if (!resp.ok) throw new Error(`Together ${resp.status}: ${(await resp.text()).slice(0, 200)}`);
-  const data = await resp.json();
-  return data.choices?.[0]?.message?.content || '';
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
+  try {
+    const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.OPENROUTER_API_KEY}` },
+      body: JSON.stringify({ model, messages, max_tokens: options.maxTokens || 2000, temperature: options.temperature ?? 0.8 }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!resp.ok) throw new Error(`OpenRouter ${resp.status}: ${(await resp.text()).slice(0, 200)}`);
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || '';
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
 }
 
 function extractJson(text) {
@@ -33,7 +42,7 @@ ${note ? '补充：' + note : ''}${retry}
 
 输出严格JSON：{"reviews":[{"id":1,"text":"...","persona":"..."}]}`;
 
-  return extractJson(await callTogether(env, 'Qwen/Qwen2.5-72B-Instruct-Turbo', [{ role: 'user', content: prompt }], { temperature: 0.85 }));
+  return extractJson(await callTogether(env, 'qwen/qwen-2.5-72b-instruct', [{ role: 'user', content: prompt }], { temperature: 0.85 }));
 }
 
 async function polishDraft(env, draft, ctx) {
@@ -47,7 +56,7 @@ ${reviewsText}
 Guidelines: Add sensory details, vary rhythm, remove marketing-speak, keep 100-180 words each, NO explicit content.
 Output strict JSON: {"reviews":[{"id":1,"text":"...","persona":"..."}]}`;
 
-  return extractJson(await callTogether(env, 'meta-llama/Llama-3.3-70B-Instruct-Turbo', [{ role: 'user', content: prompt }], { temperature: 0.7 }));
+  return extractJson(await callTogether(env, 'meta-llama/llama-3.3-70b-instruct', [{ role: 'user', content: prompt }], { temperature: 0.7 }));
 }
 
 async function auditReviews(env, reviews, ctx) {
@@ -61,7 +70,7 @@ Criteria: 1.AUTHENTICITY(no ad-speak) 2.SCENE_SPECIFICITY(references this scene)
 
 Output JSON: {"audit_results":[{"id":1,"criteria":{"authenticity":{"pass":true},"scene_specificity":{"pass":true},"tag_integration":{"pass":true},"language_naturalness":{"pass":true},"platform_safety":{"pass":true}},"overall_pass":true,"feedback":""}],"pass_count":5,"retry_needed":false}`;
 
-  return extractJson(await callTogether(env, 'deepseek-ai/DeepSeek-V3', [{ role: 'user', content: prompt }], { temperature: 0.3 }));
+  return extractJson(await callTogether(env, 'deepseek/deepseek-chat', [{ role: 'user', content: prompt }], { temperature: 0.3 }));
 }
 
 async function scoreReviews(env, reviews, ctx) {

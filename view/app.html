@@ -271,8 +271,9 @@ function renderInvest(el){
       <div class="form-group"><label>补充</label><textarea id="af-str-note" rows="2" placeholder="可选"></textarea></div>
       <button class="btn" onclick="triggerAgent('strategy',{group:gv('af-str-g'),note:gv('af-str-note')})">生成策略</button>
     </div>
-    <div class="sec-h">我的结果${user.role==='admin'?'<button class="btn btn-s btn-gray" style="margin-left:12px;font-size:10px" onclick="clearOldPending()">清除旧 pending</button>':''}</div>
+    <div class="sec-h">我的结果${user.role==='admin'?'<button class="btn btn-s btn-gray" style="margin-left:12px;font-size:10px" onclick="clearOldPending()">清除失效任务</button>':''}</div>
     <div id="i-results"></div>
+    <div id="i-result-detail" class="hidden" style="margin-top:12px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--card)"><h4 id="i-detail-title" style="font-size:13px;color:var(--accent);margin-bottom:10px"></h4><div id="i-detail-content"></div></div>
   `;
   initUpload();
   loadInvestData();
@@ -405,7 +406,7 @@ function startPoll(jobId){
         loadResults();
         if(d.job.status==='done')toast('✓ Agent 完成');
         else toast('Agent 失败: '+(d.job.output_summary||''),'var(--red)');
-        toggleResult(jobId);
+        selectResult(jobId);
       }
     });
   },3000);
@@ -416,31 +417,31 @@ function loadResults(){
     if(!d.ok||!d.jobs||!d.jobs.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无结果</p>';return;}
     const now=Date.now();
     const fiveMin=5*60*1000;
-    let html='';
-    // 进行中的任务置顶
-    const active=d.jobs.filter(j=>j.status==='pending');
-    const recent=d.jobs.filter(j=>j.status==='done'&&(now-new Date(j.completed_at||j.created_at).getTime())<fiveMin);
-    const rest=d.jobs.filter(j=>!active.includes(j)&&!recent.includes(j));
-    if(active.length)html+=active.map(j=>`<div class="job-item" style="border-color:var(--blue);animation:pulse 2s infinite" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(58,159,232,.1);color:var(--blue);font-weight:600">执行中</span></div><div class="job-meta">${toBJ(j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`).join('');
-    if(recent.length)html+=recent.map(j=>`<div class="job-item" style="border-color:var(--green)" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(24,160,87,.1);color:var(--green);font-weight:600">刚完成</span></div><div class="job-meta">${toBJ(j.completed_at||j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`).join('');
-    if(rest.length)html+=rest.slice(0,12).map(j=>{
-      const sc={'done':'var(--green)','failed':'var(--red)'}[j.status]||'var(--gray)';
-      return `<div class="job-item" id="job-${j.id}" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}15;color:${sc};font-weight:600">${j.status}</span></div><div class="job-meta">${toBJ(j.created_at)}</div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+    el.innerHTML=d.jobs.slice(0,15).map(j=>{
+      const isActive=j.status==='pending';
+      const isRecent=j.status==='done'&&(now-new Date(j.completed_at||j.created_at).getTime())<fiveMin;
+      const sc=isActive?'var(--blue)':isRecent?'var(--green)':j.status==='failed'?'var(--red)':'var(--gray)';
+      const label=isActive?'执行中':isRecent?'刚完成':j.status;
+      const style=isActive?'border-color:var(--blue);animation:pulse 2s infinite':isRecent?'border-color:var(--green)':'';
+      return `<div class="job-item" id="job-${j.id}" style="${style}" onclick="selectResult('${j.id}')"><div style="display:flex;justify-content:space-between;align-items:center"><span class="job-title">${AGENT_NAMES[j.agent_type]||j.agent_type}</span><div><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:${sc}15;color:${sc};font-weight:600">${label}</span><span style="font-size:11px;color:var(--muted);margin-left:8px">${toBJ(j.completed_at||j.created_at)}</span></div></div></div>`;
     }).join('');
-    el.innerHTML=html;
   });
 }
 const AGENT_NAMES={data_analysis:'📊 数据分析',comment_gen:'💬 评论生成',video_script:'🎬 视频脚本',strategy:'⚙️ 自动策略',creative_agent:'🎨 素材生成'};
-function toggleResult(id){
-  const detail=document.getElementById('job-detail-'+id);
-  if(!detail.classList.contains('hidden')){detail.classList.add('hidden');return;}
-  detail.innerHTML='<span style="font-size:11px;color:var(--blue)">加载中...</span>';
-  detail.classList.remove('hidden');
+function selectResult(id){
+  document.querySelectorAll('.job-item').forEach(e=>e.classList.remove('active'));
+  const item=document.getElementById('job-'+id);if(item)item.classList.add('active');
+  const panel=document.getElementById('i-result-detail');
+  const title=document.getElementById('i-detail-title');
+  const content=document.getElementById('i-detail-content');
+  panel.classList.remove('hidden');
+  content.innerHTML='<span style="font-size:11px;color:var(--blue)">加载中...</span>';
   fetch('/api/results/'+id).then(r=>r.json()).then(d=>{
     if(!d.ok)return;const j=d.job;
-    if(j.status==='pending'){detail.innerHTML='<span style="font-size:12px;color:var(--muted)">⏳ 执行中...</span>';return;}
-    if(j.status==='failed'){detail.innerHTML=`<span style="font-size:12px;color:var(--red)">❌ ${esc(j.output_summary||'失败')}</span>`;return;}
-    detail.innerHTML=renderAgentOutput(j.agent_type,j.output_full||j.output_summary||'');
+    title.textContent=(AGENT_NAMES[j.agent_type]||j.agent_type)+' · '+toBJ(j.completed_at||j.created_at);
+    if(j.status==='pending'){content.innerHTML='<span style="color:var(--blue)">⏳ 执行中...</span>';return;}
+    if(j.status==='failed'){content.innerHTML=`<span style="color:var(--red)">❌ ${esc(j.output_summary||'失败')}</span>`;return;}
+    content.innerHTML=renderAgentOutput(j.agent_type,j.output_full||j.output_summary||'');
   });
 }
 function clearOldPending(){
@@ -781,7 +782,7 @@ function loadScriptsList(){
     const el=document.getElementById('cr-scripts-list');
     if(!scripts.length){el.innerHTML='<p style="font-size:12px;color:var(--muted)">暂无脚本 · 在投放视图触发"视频脚本"Agent 生成</p>';return;}
     el.innerHTML=scripts.map(j=>{
-      return `<div class="card" style="padding:12px;cursor:pointer" onclick="toggleResult('${j.id}')"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${j.output_summary||'视频脚本'}</b><span style="font-size:11px;color:var(--muted)">${toBJ(j.created_at)}</span></div><div id="job-detail-${j.id}" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"></div></div>`;
+      return `<div class="card" style="padding:12px;cursor:pointer" onclick="selectResult('${j.id}')"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">${j.output_summary||'视频脚本'}</b><span style="font-size:11px;color:var(--muted)">${toBJ(j.created_at)}</span></div></div>`;
     }).join('');
   });
   // 也加载剧本库

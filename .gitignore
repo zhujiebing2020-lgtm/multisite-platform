@@ -8,6 +8,7 @@ venv/
 *.swp
 .idea/
 .vscode/
+node_modules/
 
 sites/*/data-inbox/*
 !sites/*/data-inbox/.gitkeep

@@ -14,6 +14,7 @@ import { handleKnowledge, handleKnowledgeToRule, handleScripts, handleKnowledgeA
 import { handleAgentsStatus, handleAgentTrigger, handleCrossSiteSummary, handleAcceptData } from './api/agents.js';
 import { handleUploadImage, handleUploadImageDirect, handleR2Get, handleKlingGenerate, handleKlingStatus, handleGenerateScenes, handleGenerateScenesStatus } from './api/kling.js';
 import { handleFetchScene } from './api/fetch-scene.js';
+import { handleCraveDashboard } from './api/crave-dashboard.js';
 
 const ROOT_HOSTS = new Set(['z-jb.com', 'www.z-jb.com']);
 
@@ -85,6 +86,29 @@ export default {
     // 落地页剧情解析
     if (url.pathname === '/api/fetch-scene' && request.method === 'POST') {
       return handleFetchScene(request, env);
+    }
+    // Kling JWT 调试
+    if (url.pathname === '/api/test-kling' && request.method === 'GET') {
+      try {
+        const b64url = (str) => btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+        const header = b64url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+        const now = Math.floor(Date.now() / 1000);
+        const payload = b64url(JSON.stringify({ iss: env.KLING_API_KEY, iat: now, exp: now + 1800, nbf: now - 5 }));
+        const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(env.KLING_SECRET_KEY), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+        const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${header}.${payload}`));
+        const sigStr = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+        const token = `${header}.${payload}.${sigStr}`;
+        const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
+        const resp = await fetch(`${klingBase}/v1/images/generations`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ prompt: 'a red apple', n: 1, aspect_ratio: '1:1' }),
+        });
+        const data = await resp.text();
+        return new Response(JSON.stringify({ status: resp.status, kling_key_prefix: (env.KLING_API_KEY||'').slice(0,8), body: data.slice(0, 500) }), { headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { headers: { 'Content-Type': 'application/json' } });
+      }
     }
     // OpenRouter 连通测试
     if (url.pathname === '/api/test-openrouter' && request.method === 'GET') {
@@ -159,27 +183,12 @@ export default {
 
     // 子域路由：*.z-jb.com → 子站页面
     const host = url.hostname.toLowerCase();
-    // crave.z-jb.com → proxy GitHub Pages（保持 URL 不变）
+    // crave.z-jb.com → API + 前端
     if (host === 'crave.z-jb.com') {
-      const ghPath = url.pathname === '/' ? '/crave-AI/' : `/crave-AI${url.pathname}`;
-      const ghUrl = `https://zhujiebing2020-lgtm.github.io${ghPath}${url.search}`;
-      const ghResp = await fetch(ghUrl, {
-        headers: { 'User-Agent': 'z-jb-proxy', 'Accept': request.headers.get('Accept') || '*/*' },
-        redirect: 'follow',
-      });
-      const body = ghResp.body;
-      const headers = new Headers(ghResp.headers);
-      headers.delete('x-frame-options');
-      // 注入返回总控台链接（仅 HTML）
-      const ct = headers.get('content-type') || '';
-      if (ct.includes('text/html')) {
-        let html = await ghResp.text();
-        const backLink = '<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#1C1814;padding:6px 16px;font-size:12px;display:flex;justify-content:space-between;align-items:center"><a href="https://z-jb.com" style="color:#E8603A;text-decoration:none;font-weight:600">← 返回总控台</a><span style="color:#73685F">crave.z-jb.com</span></div>';
-        html = html.replace('<body', '<body style="padding-top:32px"');
-        html = html.replace('</body>', backLink + '</body>');
-        return new Response(html, { status: ghResp.status, headers });
+      if (url.pathname.startsWith('/api/crave/')) {
+        return handleCraveDashboard(request, env, url.pathname);
       }
-      return new Response(body, { status: ghResp.status, headers });
+      return env.ASSETS.fetch(new Request(`${url.origin}/crave.html`));
     }
     if (host.endsWith('.z-jb.com') && !ROOT_HOSTS.has(host)) {
       const subdomain = host.replace(/\.z-jb\.com$/, '');

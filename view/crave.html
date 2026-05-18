@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crave AI · Runtime 决策运行台</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F6F3EE;--card:#FFFFFF;--text:#1C1814;--muted:#73685F;
+  --accent:#E8603A;--accent-soft:rgba(232,96,58,.08);--accent-bd:rgba(232,96,58,.22);
+  --line:rgba(0,0,0,.07);--line-2:rgba(0,0,0,.04);
+  --red:#D94030;--orange:#E8603A;--yellow:#D29922;--green:#18A057;--blue:#3A9FE8;--gray:#9A8F85;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Segoe UI',sans-serif;font-size:14px;line-height:1.55}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
+header .brand{display:flex;align-items:center;gap:10px}
+header .brand .logo{font-size:18px}
+header h1{font-size:15px;color:var(--accent);font-weight:700;letter-spacing:.2px}
+header .sub{font-size:11px;color:var(--muted);margin-left:2px}
+header .date{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.views{display:flex;gap:6px;padding:10px 24px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line)}
+.vw{padding:6px 14px;border-radius:999px;cursor:pointer;font-size:12px;color:var(--muted);background:var(--bg);border:1px solid var(--line);transition:background .12s,color .12s,border-color .12s;user-select:none}
+.vw:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-bd)}
+.vw.a{background:var(--accent);color:#fff;font-weight:600;border-color:var(--accent);box-shadow:0 1px 2px rgba(232,96,58,.18)}
+.ch-tabs{display:flex;gap:6px;padding:8px 24px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line-2)}
+.ct{padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;color:var(--muted);background:var(--bg);border:1px solid var(--line);transition:all .12s}
+.ct:hover{color:var(--accent)}
+.ct.a{background:var(--accent);color:#fff;font-weight:600;border-color:var(--accent)}
+.summary-bar{padding:10px 24px;background:linear-gradient(180deg,#fff, var(--bg));border-bottom:1px solid var(--line-2);font-size:12px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+.summary-bar strong{color:var(--text);font-weight:700}
+.summary-bar .pill{padding:2px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.summary-bar .pill.red{color:#fff;background:var(--red);border-color:var(--red)}
+.summary-bar .pill.orange{color:#fff;background:var(--orange);border-color:var(--orange)}
+.summary-bar .pill.green{color:#fff;background:var(--green);border-color:var(--green)}
+.grid{display:grid;grid-template-columns:1fr;gap:14px;padding:16px 24px;max-width:1400px;margin:0 auto}
+@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1180px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0;box-shadow:0 1px 0 rgba(0,0,0,.02);overflow:hidden;transition:box-shadow .14s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.card-body{padding:14px 16px 10px}
+.r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.tier{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%}
+.dot.r{background:var(--red)}.dot.o{background:var(--orange)}.dot.y{background:var(--yellow)}.dot.g{background:var(--green)}.dot.gy{background:var(--gray)}
+.pri{display:inline-block;font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700;color:#fff;letter-spacing:.3px}
+.pri.p0{background:var(--red)}.pri.p1{background:var(--orange)}.pri.p2{background:var(--green)}.pri.nn{background:var(--gray)}
+.chip{font-size:10px;padding:2px 7px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.r2{font-size:14px;font-weight:700;margin:4px 0 6px;color:var(--text);line-height:1.35}
+.r3{font-size:12px;color:var(--muted);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.r4{background:var(--accent-soft);border-left:3px solid var(--accent);padding:7px 10px;border-radius:0 6px 6px 0;font-size:12px;margin-bottom:6px}
+.r4 .lbl{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px}
+.r4 .body{font-weight:600;font-size:12px;margin-top:2px;color:var(--text)}
+.r4 .own{color:var(--muted);font-weight:500;font-size:11px;margin-left:4px}
+.r5{display:flex;gap:4px;align-items:center;padding:5px 10px;background:rgba(210,153,34,.1);border-left:3px solid var(--yellow);border-radius:0 6px 6px 0;font-size:11px}
+.r5 .dt{font-weight:700;color:#b8860b;font-variant-numeric:tabular-nums}
+.r5 .due-owner{color:var(--muted);margin-left:4px}
+.card-foot{border-top:1px solid var(--line-2);background:var(--bg)}
+.expand-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 10px;border:none;background:transparent;color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s}
+.expand-btn:hover{background:var(--accent-soft)}
+.expand-btn .arw{display:inline-block;animation:bob 1.3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+.expand-btn.open .arw{animation:none;transform:rotate(180deg)}
+.drawer{max-height:0;overflow:hidden;transition:max-height .28s ease;background:#fff;border-top:1px solid var(--line)}
+.drawer.open{max-height:4000px;border-top:1px solid var(--line)}
+.drawer-tabs{display:flex;gap:2px;padding:10px 14px 0;border-bottom:1px solid var(--line-2)}
+.dt-tab{padding:6px 12px;border-radius:6px 6px 0 0;font-size:11px;color:var(--muted);cursor:pointer;border:1px solid transparent;border-bottom:none;font-weight:600}
+.dt-tab:hover{color:var(--accent)}
+.dt-tab.a{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-bd)}
+.drawer-body{padding:12px 16px 14px;font-size:12px}
+.flow{padding:6px 4px 2px;position:relative}
+.flow-step{position:relative;padding:6px 6px 6px 30px;margin:0 0 2px}
+.flow-step::before{content:'';position:absolute;left:10px;top:22px;bottom:-4px;width:2px;background:var(--line)}
+.flow-step:last-child::before{display:none}
+.flow-node{position:absolute;left:4px;top:7px;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.flow-step.done .flow-node{background:var(--green);box-shadow:0 0 0 1px var(--green)}
+.flow-step.done::before{background:var(--green)}
+.flow-step.cur .flow-node{background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft),0 0 0 4px var(--accent)}
+.flow-step.cur .flow-title{color:var(--accent);font-weight:700}
+.flow-step.wait .flow-node{background:var(--bg)}
+.flow-step.block .flow-node{background:var(--red);box-shadow:0 0 0 1px var(--red)}
+.flow-step.block::before{background:var(--red)}
+.flow-step.block .flow-title{color:var(--red)}
+.flow-title{font-size:12px;font-weight:600}
+.flow-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.flow-meta .st{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--bg);color:var(--muted);font-size:10px;margin-right:6px;border:1px solid var(--line)}
+.flow-detail{margin-top:6px;padding:8px 10px;background:var(--bg);border-radius:6px;font-size:11px;color:var(--text);line-height:1.6;display:none}
+.flow-step.open .flow-detail{display:block}
+.flow-detail .kv{display:grid;grid-template-columns:70px 1fr;gap:4px 8px;margin-top:4px}
+.flow-detail .kv .k{color:var(--muted);font-size:10px}
+.why-block{padding:6px 0 4px;border-bottom:1px solid var(--line-2);margin-bottom:8px}
+.why-block:last-child{border-bottom:none;margin-bottom:0}
+.why-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.4px;margin-bottom:4px;text-transform:uppercase}
+.why-row{padding:4px 8px;background:var(--bg);border-radius:5px;margin:3px 0;font-size:11px;color:var(--text);border-left:3px solid var(--line)}
+.why-row.active{border-left-color:var(--red);background:rgba(217,64,48,.05)}
+.why-row.met{border-left-color:var(--green);background:rgba(24,160,87,.05)}
+.why-row .src{color:var(--muted);font-size:10px;margin-top:2px}
+.hist{padding:4px 0}
+.hist-item{display:grid;grid-template-columns:80px 1fr;gap:10px;padding:5px 0;border-bottom:1px solid var(--line-2);font-size:11px}
+.hist-item:last-child{border-bottom:none}
+.hist-date{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;font-size:11px}
+.hist-actor{color:var(--muted)}
+.hist-action{color:var(--text)}
+.hist-down{color:var(--muted);font-size:10px;margin-top:2px;font-style:italic}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:11px;margin-top:6px}
+.sig-grid .k{color:var(--muted);font-size:10px}
+.sig-grid .v{color:var(--text);font-weight:600;text-align:right;word-break:break-all}
+.empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px;background:#fff;border-radius:12px;border:1px dashed var(--line);margin:20px 24px}
+.footer{padding:14px 24px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;text-align:center;background:#fff;margin-top:12px}
+.wiki-sec{padding:24px 40px;max-width:1100px;margin:0 auto;color:#1C1814;line-height:1.7}
+.wiki-sec h1{font-size:18px;color:var(--accent);margin-bottom:12px}
+.wiki-sec .section{display:block;margin-bottom:60px;padding-bottom:30px;border-bottom:1px solid rgba(0,0,0,.06)}
+.wiki-sec .section:last-child{border-bottom:none}
+.wiki-sec .page-header{margin-bottom:24px}
+.wiki-sec .page-header h1{font-size:26px;font-weight:700;line-height:1.3;color:#1C1814}
+.wiki-sec .page-header .meta{font-size:12px;color:var(--muted);margin-top:6px}
+.wiki-sec .page-header .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:6px}
+.wiki-sec .tag-crave{background:rgba(232,96,58,.15);color:var(--accent)}
+.wiki-sec .tag-warn{background:rgba(255,225,31,.25);color:var(--orange)}
+.wiki-sec .tag-rule{background:rgba(15,200,32,.2);color:var(--green)}
+.wiki-sec h2{font-size:18px;font-weight:700;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);color:#1C1814}
+.wiki-sec h2:first-of-type{margin-top:0}
+.wiki-sec h3{font-size:14px;font-weight:700;margin:24px 0 8px;color:#1C1814}
+.wiki-sec p{font-size:13.5px;line-height:1.75;color:#4A3D5A;margin-bottom:10px}
+.wiki-sec ul,.wiki-sec ol{padding-left:20px;margin-bottom:12px}
+.wiki-sec li{font-size:13.5px;line-height:1.75;color:#4A3D5A;margin-bottom:3px}
+.wiki-sec strong{color:#1C1814}
+.wiki-sec hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+.wiki-sec .module-intro{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:24px}
+.wiki-sec .module-intro p{margin:0;font-size:13px;color:var(--muted)}
+.wiki-sec .callout{border-radius:8px;padding:14px 18px;margin:16px 0;border-left:3px solid;font-size:13px;line-height:1.7}
+.wiki-sec .callout-title{font-weight:700;font-size:11px;letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px}
+.wiki-sec .callout.rebuke{background:rgba(217,64,48,.10);border-color:var(--red);color:#BF1516}
+.wiki-sec .callout.rebuke .callout-title{color:var(--red)}
+.wiki-sec .callout.rule{background:rgba(24,160,87,.08);border-color:var(--green);color:#067A40}
+.wiki-sec .callout.rule .callout-title{color:var(--green)}
+.wiki-sec .callout.tip{background:rgba(58,159,232,.08);border-color:var(--blue);color:#1d6fa3}
+.wiki-sec .callout.tip .callout-title{color:var(--blue)}
+.wiki-sec .callout.warn{background:rgba(232,96,58,.08);border-color:var(--orange);color:#A8421F}
+.wiki-sec .callout.warn .callout-title{color:var(--orange)}
+.wiki-sec .callout.purple{background:rgba(139,123,181,.08);border-color:#8B7BB5;color:#6B5A99}
+.wiki-sec .callout.purple .callout-title{color:#8B7BB5}
+.wiki-sec .table-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:8px}
+.wiki-sec table{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff}
+.wiki-sec th{background:#F2EEE9;color:var(--muted);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-weight:700;font-size:11px;letter-spacing:.3px}
+.wiki-sec td{padding:9px 12px;border-bottom:1px solid var(--line);color:#4A3D5A;vertical-align:top}
+.wiki-sec tr:last-child td{border-bottom:none}
+.wiki-sec tr:hover td{background:rgba(232,96,58,.04)}
+.wiki-sec .td-good{color:var(--green);font-weight:600}
+.wiki-sec .td-bad{color:var(--red);font-weight:600}
+.wiki-sec .td-warn{color:var(--orange);font-weight:600}
+.wiki-sec .td-blue{color:var(--blue);font-weight:600}
+.wiki-sec .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:16px 0}
+.wiki-sec .kpi-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.wiki-sec .kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.wiki-sec .kpi-value{font-size:24px;font-weight:700;margin:4px 0;color:#1C1814}
+.wiki-sec .kpi-desc{font-size:11px;color:var(--muted)}
+.wiki-sec .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.wiki-sec .badge-learn{background:rgba(58,159,232,.2);color:var(--blue)}
+.wiki-sec .badge-scale{background:rgba(24,160,87,.2);color:var(--green)}
+.wiki-sec .badge-decay{background:rgba(232,96,58,.2);color:var(--orange)}
+.wiki-sec .badge-dead{background:rgba(217,64,48,.22);color:var(--red)}
+.wiki-sec .code{background:#FAF7F3;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;color:#0891b2;margin:10px 0;overflow-x:auto;line-height:1.6}
+.wiki-sec .updated{font-size:10px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:4px;padding:2px 8px}
+.wiki-sec .decision{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:14px 0;background:#fff}
+.wiki-sec .decision-step{padding:11px 14px;border-bottom:1px solid var(--line);font-size:12.5px}
+.wiki-sec .decision-step:last-child{border-bottom:none}
+.wiki-sec .decision-step .q{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+.wiki-sec .decision-step .a{color:#1C1814;margin-top:3px}
+.wiki-sec .decision-step.go{border-left:3px solid var(--green)}
+.wiki-sec .decision-step.stop{border-left:3px solid var(--red)}
+.wiki-sec .decision-step.wait{border-left:3px solid var(--orange)}
+.wiki-sec .rank-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.wiki-sec .rank-card.rank-1{background:linear-gradient(135deg,rgba(255,215,100,.22),rgba(255,180,60,.12));border-color:rgba(255,200,80,.5)}
+.wiki-sec .toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:24px;position:sticky;top:8px;z-index:5;max-height:calc(100vh - 80px);overflow-y:auto}
+.wiki-sec .toc h3{margin:0 0 8px;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:.4px}
+.wiki-sec .toc-list{display:flex;flex-wrap:wrap;gap:4px}
+.wiki-sec .toc-item{font-size:11px;padding:3px 8px;border-radius:4px;background:#F6F3EE;color:var(--muted);text-decoration:none;cursor:pointer;border:1px solid transparent}
+.wiki-sec .toc-item:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-bd)}
+.wiki-sec s,.wiki-sec .deprecated{text-decoration:line-through;text-decoration-color:rgba(217,64,48,.7);text-decoration-thickness:2px;color:#9A8F85}
+.wiki-sec .deprecated-mark{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(217,64,48,.12);color:var(--red);font-weight:700;margin-left:6px;vertical-align:middle;letter-spacing:.3px}
+.wiki-sec .reflow{background:rgba(232,96,58,.06);border-left:3px solid var(--accent);padding:10px 14px;margin:10px 0;border-radius:0 6px 6px 0;font-size:12.5px}
+.wiki-sec .reflow .reflow-tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:3px;background:var(--accent);color:#fff;font-weight:700;margin-right:6px;letter-spacing:.3px}
+.today-hero{grid-column:1/-1;background:linear-gradient(135deg,#fff,var(--accent-soft));border:1px solid var(--accent-bd);border-radius:14px;padding:16px 20px;margin-bottom:2px}
+.today-hero h2{font-size:16px;color:var(--accent);margin-bottom:6px}
+.today-hero .kv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 18px;font-size:12px;margin-top:8px}
+.today-hero .kv-grid .k{color:var(--muted);font-size:10px}
+.today-hero .kv-grid .v{color:var(--text);font-weight:700;font-size:13px}
+.cd-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:11px}
+.cd{padding:4px 10px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--text)}
+.cd .d{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+/* ===== 投放数据看板 · 行级大表 ===== */
+.dash-strip{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:12px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.dash-strip .ch{display:flex;gap:6px;align-items:center}
+.dash-strip .ch .nm{font-weight:700}
+.dash-strip .dot-ln{display:inline-block;padding:2px 7px;border-radius:10px;font-weight:700;font-variant-numeric:tabular-nums}
+.dash-strip .dot-ln.g{background:rgba(24,160,87,.14);color:#18A057}
+.dash-strip .dot-ln.y{background:rgba(210,153,34,.18);color:#B8860B}
+.dash-strip .dot-ln.o{background:rgba(232,96,58,.14);color:#E8603A}
+.dash-strip .dot-ln.r{background:rgba(217,64,48,.14);color:#D94030}
+.mustfix{grid-column:1/-1;background:rgba(217,64,48,.06);border:2px solid var(--red);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.mustfix h3{font-size:13px;color:var(--red);margin-bottom:8px;font-weight:700}
+.mustfix .mf-row{padding:6px 0;border-bottom:1px solid rgba(217,64,48,.15);font-size:12px;display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:start}
+.mustfix .mf-row:last-child{border-bottom:none}
+.mustfix .mf-pri{display:inline-block;padding:2px 6px;border-radius:4px;background:var(--red);color:#fff;font-size:10px;font-weight:700;text-align:center}
+.mustfix .mf-title{font-weight:700;color:var(--text)}
+.mustfix .mf-impact{color:var(--muted);font-size:11px;margin-top:2px}
+.mustfix .mf-eta{color:var(--muted);font-size:10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adtable{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.adtable h3{padding:10px 14px;font-size:13px;color:var(--text);border-bottom:1px solid var(--line);background:var(--bg);margin:0;display:flex;justify-content:space-between;align-items:center}
+.adtable h3 .hint{font-size:10px;color:var(--muted);font-weight:500}
+.adtable .filters{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--line-2);font-size:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.adtable .filters button{padding:3px 9px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit}
+.adtable .filters button.a{background:var(--accent);color:#fff;border-color:var(--accent)}
+.adtable .filters input{padding:3px 8px;border-radius:6px;border:1px solid var(--line);font-size:11px;font-family:inherit;width:140px}
+.adtable .scroll{max-height:520px;overflow:auto}
+.adtable table{width:100%;border-collapse:collapse;font-size:12px}
+.adtable thead tr{background:var(--bg);position:sticky;top:0;z-index:2}
+.adtable th{padding:7px 10px;text-align:left;color:var(--muted);font-weight:600;font-size:11px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+.adtable th:hover{color:var(--accent)}
+.adtable td{padding:6px 10px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.adtable tr:hover td{background:var(--accent-soft)}
+.adtable td.grp{font-weight:600;color:var(--text);cursor:pointer;text-decoration:underline dotted var(--muted)}
+.adtable td.num{text-align:right;font-variant-numeric:tabular-nums}
+.adtable td.sig{text-align:center}
+.adtable .tdot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle}
+.adtable .grp-link{color:var(--accent);cursor:pointer}
+.adtable-side{display:grid;grid-template-columns:1fr;gap:12px;grid-column:1/-1}
+@media(min-width:1180px){.adtable-side{grid-template-columns:3fr 2fr}}
+/* plan list · 非 claim 卡用简单清单 */
+.plan-list{padding:4px 2px}
+.plan-item{padding:7px 10px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 6px 6px 0;margin:4px 0;font-size:12px}
+.plan-item.done{border-left-color:var(--green);opacity:.75}
+.plan-item.cur{border-left-color:var(--accent);background:var(--accent-soft)}
+.plan-item.block{border-left-color:var(--red);background:rgba(217,64,48,.05)}
+.plan-item.wait{border-left-color:var(--gray)}
+.plan-item .pt{font-size:12px;font-weight:600;color:var(--text)}
+.plan-item .pm{font-size:10px;color:var(--muted);margin-top:3px}
+.plan-item .pd{font-size:11px;color:var(--text);margin-top:4px;line-height:1.5}
+/* ===== 承接诊断 view ===== */
+.accept-strip{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:12px;margin-bottom:4px}
+.accept-strip h2{font-size:14px;color:var(--accent);margin-bottom:4px}
+.accept-strip .who{font-size:11px;color:var(--muted);margin-bottom:6px}
+.accept-strip .hv{padding:4px 10px;border-radius:10px;display:inline-block;font-weight:700;font-size:12px}
+.accept-strip .hv.green{background:rgba(24,160,87,.14);color:#18A057}
+.accept-strip .hv.yellow{background:rgba(210,153,34,.18);color:#B8860B}
+.accept-strip .hv.red{background:rgba(217,64,48,.14);color:#D94030}
+.accept-strip .hv.gray{background:var(--bg);color:var(--muted)}
+.accept-strip .hn{margin-left:6px;font-size:11px;color:var(--text)}
+.mod-grid{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:760px){.mod-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1180px){.mod-grid{grid-template-columns:1fr 1fr 1fr}}
+.mod-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.mod-card.red{border-left:4px solid var(--red)}
+.mod-card.yellow{border-left:4px solid var(--yellow)}
+.mod-card.green{border-left:4px solid var(--green)}
+.mod-card.gray{border-left:4px solid var(--gray)}
+.mod-card .mc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.mod-card .mc-nm{font-size:13px;font-weight:700;color:var(--text)}
+.mod-card .mc-host{font-size:10px;color:var(--muted)}
+.mod-card .mc-note{font-size:11px;color:var(--text);margin:4px 0 8px;line-height:1.5}
+.mod-card .mc-kv{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:11px;border-top:1px dashed var(--line-2);padding-top:6px}
+.mod-card .mc-kv .k{color:var(--muted)}
+.mod-card .mc-kv .v{color:var(--text);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.mod-card .mc-trend{font-size:10px;color:var(--muted);margin-top:4px;font-style:italic}
+.mod-card .mc-ev{font-size:10px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line-2)}
+.funnel{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:4px}
+.funnel h3{font-size:13px;color:var(--text);margin-bottom:8px}
+.funnel .fn-row{display:grid;grid-template-columns:130px 1fr 70px 70px;gap:8px;align-items:center;padding:4px 0;font-size:11px}
+.funnel .fn-nm{color:var(--text);font-weight:600}
+.funnel .fn-bar{height:18px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative}
+.funnel .fn-bar .fill{height:100%;transition:width .3s}
+.funnel .fn-bar .fill.green{background:#18A057}
+.funnel .fn-bar .fill.yellow{background:#D29922}
+.funnel .fn-bar .fill.red{background:#D94030}
+.funnel .fn-bar .lbl{position:absolute;left:8px;top:1px;color:#fff;font-size:10px;font-weight:700;line-height:18px;text-shadow:0 0 3px rgba(0,0,0,.3)}
+.funnel .fn-drop{text-align:right;color:var(--red);font-weight:700;font-variant-numeric:tabular-nums;font-size:11px}
+.funnel .fn-note{font-size:10px;color:var(--muted);padding-left:138px;margin-top:-2px}
+.wv{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:4px}
+.wv h3{font-size:13px;color:var(--text);margin-bottom:8px}
+.wv .wv-row{display:grid;grid-template-columns:140px repeat(4,1fr) 60px;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid var(--line-2);align-items:center}
+.wv .wv-row.head{color:var(--muted);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+.wv .wv-metric{padding:2px 6px;border-radius:4px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.wv .wv-metric.green{background:rgba(24,160,87,.12);color:#18A057}
+.wv .wv-metric.yellow{background:rgba(210,153,34,.16);color:#B8860B}
+.wv .wv-metric.red{background:rgba(217,64,48,.12);color:#D94030}
+.wv .wv-metric.gray{background:var(--bg);color:var(--muted)}
+.wv .wv-host{font-weight:600;color:var(--text)}
+.wv .wv-sample{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.accept-empty{grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);font-size:12px;background:#fff;border:1px dashed var(--line);border-radius:10px}
+/* ===== 命题库 4 栏沙漏 ===== */
+.claim-lib{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:760px){.claim-lib{grid-template-columns:1fr 1fr}}
+@media(min-width:1180px){.claim-lib{grid-template-columns:repeat(4,1fr)}}
+.cl-col{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;min-height:200px}
+.cl-col.proposed{border-top:3px solid var(--yellow)}
+.cl-col.validating{border-top:3px solid var(--accent)}
+.cl-col.validated{border-top:3px solid var(--green)}
+.cl-col.refuted{border-top:3px solid var(--gray)}
+.cl-col h3{font-size:12px;color:var(--text);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.cl-col h3 .ct{font-size:10px;color:var(--muted);background:var(--bg);padding:1px 7px;border-radius:8px}
+.cl-col .cl-item{background:var(--bg);border-radius:6px;padding:7px 9px;margin-bottom:6px;font-size:11px;line-height:1.5;cursor:pointer;border:1px solid transparent}
+.cl-col .cl-item:hover{border-color:var(--accent-bd);background:var(--accent-soft)}
+.cl-col .cl-title{font-weight:600;color:var(--text);font-size:11px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cl-col .cl-meta{color:var(--muted);font-size:10px;margin-top:3px;font-variant-numeric:tabular-nums}
+.cl-col .cl-pending{background:var(--bg);border:1px dashed var(--line);border-radius:6px;padding:7px 9px;margin-bottom:6px;font-size:11px;font-style:italic;color:var(--muted)}
+.cl-col .cl-pending .cl-title{font-style:normal;color:var(--text)}
+.cl-col .cl-empty{color:var(--muted);font-size:11px;text-align:center;padding:20px 8px;font-style:italic}
+/* flow split · 投放侧 | 承接侧 两列 */
+.flow-split{display:grid;grid-template-columns:1fr;gap:14px;padding:4px 0}
+@media(min-width:640px){.flow-split{grid-template-columns:1fr 1fr}}
+.flow-col{border:1px solid var(--line);border-radius:10px;padding:10px 10px 6px;background:var(--bg)}
+.flow-col.ad{border-top:3px solid #1877F2}
+.flow-col.site{border-top:3px solid #18A057}
+.flow-col h4{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.flow-col.ad h4{color:#1877F2}
+.flow-col.site h4{color:#18A057}
+.flow-col .empty-side{font-size:11px;color:var(--muted);padding:16px 8px;text-align:center;background:#fff;border-radius:6px;border:1px dashed var(--line)}
+@media(max-width:760px){.views{gap:4px;padding:8px 16px}.vw{padding:5px 10px;font-size:11px}.grid{padding:14px 16px;gap:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="logo">✈️</span>
+    <div>
+      <h1>Crave AI · Runtime</h1>
+      <span class="sub">决策运行台 · 7 view · 主卡+状态流抽屉</span>
+    </div>
+  </div>
+  <span class="date" id="date"></span>
+</header>
+<div class="views" id="views">
+  <span class="vw a" data-v="dashboard" onclick="sw('dashboard')">📊 投放数据看板</span>
+  <span class="vw" data-v="accept" onclick="sw('accept')">🛠 承接诊断</span>
+  <span class="vw" data-v="claim_lib" onclick="sw('claim_lib')">📚 命题库</span>
+  <span class="vw" data-v="creative" onclick="sw('creative')">🎬 素材工坊</span>
+  <span class="vw" data-v="breakpoint" onclick="sw('breakpoint')">🔗 飞轮断点</span>
+  <span class="vw" data-v="rule" onclick="sw('rule')">⚙️ 自动规则</span>
+  <span class="vw" data-v="wiki" onclick="sw('wiki')">🗂 知识基座</span>
+  <span class="vw" data-v="multisite" onclick="sw('multisite')">🌐 多站群</span>
+</div>
+<div id="chTabs" class="ch-tabs" style="display:none"></div>
+<div id="summary" class="summary-bar" style="display:none"></div>
+<div class="grid" id="cards"></div>
+<div id="wikiView" style="display:none"></div>
+<div id="creativeView" style="display:none"></div>
+<div id="multisiteView" style="display:none"></div>
+<div class="footer" id="ft">7 view · 主卡 + 向下展开状态流 · build.py --runtime 生成</div>
+<script>
+let CARD_DATA = {};
+let WIKI_DATA = {};
+let ACCEPT_INTAKE = null;
+let AD_HISTORY = [];
+let CREATIVE_BRIEFS = [];
+
+async function loadData() {
+  const [cardsResp, intakeResp, adResp] = await Promise.all([
+    fetch('/api/crave/cards'),
+    fetch('/api/crave/intake'),
+    fetch('/api/crave/ad-history')
+  ]);
+  CARD_DATA = await cardsResp.json() || {};
+  ACCEPT_INTAKE = await intakeResp.json();
+  AD_HISTORY = await adResp.json() || [];
+}
+
+const VIEW_FILTER = {
+  breakpoint: c => c.meta.card_type==='breakpoint',
+  rule: c => c.meta.card_type==='rule'
+};
+
+function h(s){return s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
+function sig(card,key){const s=(card.signals||[]).find(x=>x.label.includes(key));return s?s.value:null}
+
+function tierFromCard(c){
+  const t = String(sig(c,'分层')||sig(c,'置信度')||sig(c,'紧急')||'');
+  if(/红|P0/.test(t)) return {dot:'r', pri:'P0', cls:'p0'};
+  if(/橙/.test(t)) return {dot:'o', pri:'P1', cls:'p1'};
+  if(/黄/.test(t)) return {dot:'y', pri:'P1', cls:'p1'};
+  if(/绿/.test(t)) return {dot:'g', pri:'P2', cls:'p2'};
+  if(c.meta.card_type==='daily_dashboard') return {dot:'gy', pri:'日', cls:'nn'};
+  return {dot:'gy', pri:'—', cls:'nn'};
+}
+
+function mapFlowStatus(exec){
+  if(!exec) return 'wait';
+  if(/已执行|已完成|已采纳/.test(exec)) return 'done';
+  if(/已生成|正在|进行中/.test(exec)) return 'cur';
+  if(/挂起|阻塞|已拒绝/.test(exec)) return 'block';
+  return 'wait';
+}
+
+function pickCurrentAction(actions){
+  if(!actions||!actions.length) return null;
+  let c = actions.find(a=>/已生成未执行|已生成/.test(a.execution_status||''));
+  if(c) return c;
+  c = actions.find(a=>/挂起/.test(a.execution_status||''));
+  if(c) return c;
+  return actions[0];
+}
+
+function sortCards(cards){
+  return cards.sort((a,b)=>{
+    const pa=(a.skeptic_conditions||[]).filter(s=>s.active).length;
+    const pb=(b.skeptic_conditions||[]).filter(s=>s.active).length;
+    if(pa!==pb) return pb-pa;
+    const da=(a.actions||[]).flatMap(x=>x.next_move?.due_date?[x.next_move.due_date]:[])[0]||'z';
+    const db=(b.actions||[]).flatMap(x=>x.next_move?.due_date?[x.next_move.due_date]:[])[0]||'z';
+    return da.localeCompare(db);
+  });
+}
+
+function renderCard(c){
+  const t = tierFromCard(c);
+  const tierText = sig(c,'分层')||sig(c,'置信度')||sig(c,'紧急')||c.meta.card_type;
+  const title = c.meta.title||c.meta.card_id;
+  const note = (c.status?.honest_note||'').split('。')[0]+'。';
+  const cur = pickCurrentAction(c.actions);
+  const next = cur?.next_move||{};
+  const due = (c.actions||[]).map(a=>a.review_at||a.next_move?.due_date).filter(Boolean).sort()[0]||'';
+  const owner = next.owner||'—';
+  const channel = c.meta.channel ? `<span class="chip">${channelLabel(c.meta.channel)}</span>`:'';
+  const isClaim = c.meta.card_type==='claim';
+  const btnLabel = isClaim ? '展开验证流程' : '展开行动清单';
+  const tabMain = isClaim
+    ? `<div class="dt-tab a" data-t="flow" onclick="swTab(this,'flow')">🧭 验证流程</div>`
+    : `<div class="dt-tab a" data-t="flow" onclick="swTab(this,'flow')">📋 行动清单</div>`;
+  const paneMain = isClaim ? renderFlowSplit(c) : renderPlanList(c);
+  return `<div class="card" data-id="${h(c.meta.card_id)}">
+    <div class="card-body">
+      <div class="r1">
+        <div class="tier"><span class="dot ${t.dot}"></span><span>${h(String(tierText).slice(0,22))}</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><span class="pri ${t.cls}">${h(t.pri)}</span>${channel}</div>
+      </div>
+      <div class="r2">${h(title)}</div>
+      <div class="r3">${h(note)}</div>
+      ${cur?`<div class="r4"><div class="lbl">NEXT · ${h(cur.name||'')}</div><div class="body">👤 ${h(owner)}<span class="own">${h(next.do_what? '· '+String(next.do_what).slice(0,44)+(String(next.do_what).length>44?'…':''):'')}</span></div></div>`:''}
+      ${due?`<div class="r5"><span class="dt">⏳ ${h(due)}</span><span class="due-owner">${h(owner)}</span></div>`:''}
+    </div>
+    <div class="card-foot">
+      <button class="expand-btn" onclick="toggleDrawer(this)" aria-expanded="false">
+        <span class="txt">${btnLabel}</span><span class="arw">▼</span>
+      </button>
+      <div class="drawer">
+        <div class="drawer-tabs">
+          ${tabMain}
+          <div class="dt-tab" data-t="why" onclick="swTab(this,'why')">💡 为什么</div>
+          <div class="dt-tab" data-t="hist" onclick="swTab(this,'hist')">📜 历史</div>
+        </div>
+        <div class="drawer-body">
+          <div class="dt-pane dt-flow">${paneMain}</div>
+          <div class="dt-pane dt-why" style="display:none">${renderWhy(c)}</div>
+          <div class="dt-pane dt-hist" style="display:none">${renderHist(c)}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function channelLabel(ch){
+  return {facebook:'📘 FB',google:'🟡 Google',twitter:'🐦 Twitter',tiktok:'⚫ TikTok'}[ch]||ch
+}
+
+function renderFlow(c){
+  const actions = c.actions||[];
+  if(!actions.length) return '<div style="color:var(--muted);font-size:11px;padding:8px">暂无动作流</div>';
+  const curIdx = actions.findIndex(a=>/已生成未执行|已生成|进行中|正在/.test(a.execution_status||''));
+  return '<div class="flow">'+actions.map((a,i)=>{
+    const st = mapFlowStatus(a.execution_status);
+    const isCur = (st==='cur') || (curIdx===-1 && i===0 && st!=='done' && st!=='block');
+    const cls = st==='done'?'done':(isCur?'cur':(st==='block'?'block':'wait'));
+    const nm = a.next_move||{};
+    return `<div class="flow-step ${cls}" onclick="this.classList.toggle('open')">
+      <div class="flow-node"></div>
+      <div class="flow-title">Step ${a.step||(i+1)} · ${h(a.name||'')}</div>
+      <div class="flow-meta">
+        <span class="st">${h(a.execution_status||'—')}</span>
+        ${nm.owner?`<span>👤 ${h(nm.owner)}</span>`:''}
+        ${nm.due_date?`<span> · ⏳ ${h(nm.due_date)}</span>`:''}
+      </div>
+      <div class="flow-detail">
+        ${a.description?`<div>${h(a.description)}</div>`:''}
+        <div class="kv">
+          ${nm.do_what?`<div class="k">做什么</div><div>${h(nm.do_what)}</div>`:''}
+          ${nm.handoff_to?`<div class="k">交接</div><div>${h(nm.handoff_to)}</div>`:''}
+          ${a.blocker?`<div class="k">阻塞</div><div>${h(a.blocker)}</div>`:''}
+          ${nm.escalate_if_silent?`<div class="k">升级</div><div>${h(nm.escalate_if_silent)}</div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+// 把单个 action 判定为投放侧 / 承接侧 / 两侧(默认)
+function classifySide(a){
+  if(a.side) return a.side; // 显式 override
+  const blob = [a.name, a.description, a.blocker,
+                a?.next_move?.owner, a?.next_move?.do_what, a?.next_move?.handoff_to]
+               .filter(Boolean).join(' ');
+  const ad = /投手|投放|ad_id|广告组|素材|定向|A\/B|预算|加量|复投|FB|Google/i.test(blob);
+  const site = /承接|落地页|结算|Buy\s*Now|LCP|CLS|FCP|埋点|前端|fanli|技术|UA|浏览器|Apple|服务器/i.test(blob);
+  if(ad && !site) return 'ad';
+  if(site && !ad) return 'site';
+  if(ad && site) return 'both';
+  return 'both';
+}
+
+function renderFlowColumn(actions, label, emoji, colCls, curIdx){
+  if(!actions.length) return `<div class="flow-col ${colCls}"><h4>${emoji} ${label}</h4><div class="empty-side">本命题无${label}动作</div></div>`;
+  const body = actions.map((a,i)=>{
+    const st = mapFlowStatus(a.execution_status);
+    const isCur = (st==='cur') || (curIdx===a._origIdx);
+    const cls = st==='done'?'done':(isCur?'cur':(st==='block'?'block':'wait'));
+    const nm = a.next_move||{};
+    return `<div class="flow-step ${cls}" onclick="this.classList.toggle('open')">
+      <div class="flow-node"></div>
+      <div class="flow-title">Step ${a.step||(i+1)} · ${h(a.name||'')}</div>
+      <div class="flow-meta">
+        <span class="st">${h(a.execution_status||'—')}</span>
+        ${nm.owner?`<span>👤 ${h(nm.owner)}</span>`:''}
+        ${nm.due_date?`<span> · ⏳ ${h(nm.due_date)}</span>`:''}
+      </div>
+      <div class="flow-detail">
+        ${a.description?`<div>${h(a.description)}</div>`:''}
+        <div class="kv">
+          ${nm.do_what?`<div class="k">做什么</div><div>${h(nm.do_what)}</div>`:''}
+          ${nm.handoff_to?`<div class="k">交接</div><div>${h(nm.handoff_to)}</div>`:''}
+          ${a.blocker?`<div class="k">阻塞</div><div>${h(a.blocker)}</div>`:''}
+          ${nm.escalate_if_silent?`<div class="k">升级</div><div>${h(nm.escalate_if_silent)}</div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="flow-col ${colCls}"><h4>${emoji} ${label}</h4><div class="flow">${body}</div></div>`;
+}
+
+function renderFlowSplit(c){
+  const actions = (c.actions||[]).map((a,i)=>({...a,_origIdx:i}));
+  if(!actions.length) return '<div style="color:var(--muted);font-size:11px;padding:8px">本命题暂无验证流程</div>';
+  const curIdx = actions.findIndex(a=>/已生成未执行|已生成|进行中|正在/.test(a.execution_status||''));
+  const adList = [], siteList = [];
+  actions.forEach(a=>{
+    const s = classifySide(a);
+    if(s==='ad') adList.push(a);
+    else if(s==='site') siteList.push(a);
+    else { adList.push(a); siteList.push(a); }
+  });
+  return `<div class="flow-split">
+    ${renderFlowColumn(adList,'投放侧','📘','ad',curIdx)}
+    ${renderFlowColumn(siteList,'承接侧','🛠','site',curIdx)}
+  </div>
+  <div style="font-size:10px;color:var(--muted);margin-top:8px;padding:0 2px">🎯 命题置信度提升需要两侧联动验证 · 动作按关键字自动分流,action 加 side:"ad"/"site" 字段可精确指定</div>`;
+}
+
+function renderPlanList(c){
+  const actions = c.actions||[];
+  if(!actions.length) return '<div style="color:var(--muted);font-size:11px;padding:8px">暂无行动清单</div>';
+  return '<div class="plan-list">'+actions.map((a,i)=>{
+    const st = mapFlowStatus(a.execution_status);
+    const nm = a.next_move||{};
+    const detail = [
+      nm.do_what?`做什么:${nm.do_what}`:'',
+      nm.handoff_to?`交接:${nm.handoff_to}`:'',
+      a.blocker?`阻塞:${a.blocker}`:''
+    ].filter(Boolean).join(' · ');
+    return `<div class="plan-item ${st}">
+      <div class="pt">Step ${a.step||(i+1)} · ${h(a.name||'')} <span style="color:var(--muted);font-weight:400;font-size:10px">[${h(a.execution_status||'—')}]</span></div>
+      <div class="pm">${nm.owner?'👤 '+h(nm.owner):''}${nm.due_date?' · ⏳ '+h(nm.due_date):''}</div>
+      ${detail?`<div class="pd">${h(detail)}</div>`:''}
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function renderDashHero(allCards){
+  const fb = allCards.filter(c=>c.meta.card_type==='daily_dashboard' && (c.meta.channel||'facebook')==='facebook');
+  const gg = allCards.filter(c=>c.meta.card_type==='daily_dashboard' && c.meta.channel==='google');
+  const buildTile = (card, cls, brand) => {
+    if(!card) return `<div class="dash-tile ${cls}"><div class="th"><span class="nm">${brand}</span><span class="ts">暂无数据</span></div><div style="font-size:11px;color:var(--muted)">数据接入中</div></div>`;
+    const sigs = card.signals||[];
+    const pick = (kw) => { const s=sigs.find(x=>x.label.includes(kw)); return s?s.value:'—'; };
+    const rows = [
+      ['广告组数',     pick('广告组总数')||pick('广告组数')],
+      ['🟢 绿灯',     pick('绿灯')],
+      ['🟡 黄灯',     pick('黄灯')],
+      ['🟠 橙灯',     pick('橙灯')],
+      ['🔴 红灯/0 HVU', pick('红灯')||pick('HVU 合计')||pick('0 HVU')],
+      ['周花费',       pick('累计花费')||pick('ads 累计花费')||pick('花费')],
+      ['周 HVU',      pick('累计 HVU')||pick('HVU 合计')||pick('HVU')],
+      ['CPHQ/折算',   pick('CPHQ')||pick('折算')||'—']
+    ].filter(r=>r[1] && r[1]!=='—');
+    return `<div class="dash-tile ${cls}">
+      <div class="th"><span class="nm">${brand}</span><span class="ts">${h(card.meta.last_updated||'')}</span></div>
+      ${rows.map(r=>`<div class="kv-row"><div class="k">${r[0]}</div><div class="v">${h(String(r[1]).slice(0,40))}</div></div>`).join('')}
+    </div>`;
+  };
+  return `<div class="dash-hero">
+    <h2>📊 广告数据看板 · 双渠道并排</h2>
+    <div class="sub">FB 全量 + Google 高质量样本 · 数据源:xlsx 每日手抓 / Google HVU JSON 手抓 · 不接 API</div>
+    <div class="tiles">
+      ${buildTile(fb[0], 'fb', '📘 Facebook')}
+      ${buildTile(gg[0], 'gg', '🟡 Google')}
+    </div>
+  </div>`;
+}
+
+function renderWhy(c){
+  const sigs = c.signals||[];
+  const trig = c.trigger_conditions||[];
+  const skep = (c.skeptic_conditions||[]).filter(s=>s.active);
+  const ev = c.evidence_chain||[];
+  let html = '';
+  if(sigs.length){
+    html += '<div class="why-block"><div class="why-label">📊 关键信号</div><div class="sig-grid">';
+    sigs.slice(0,10).forEach(s=>{html += `<div class="k">${h(s.label)}</div><div class="v">${h(s.value)}</div>`});
+    html += '</div></div>';
+  }
+  if(trig.length){
+    html += '<div class="why-block"><div class="why-label">✅ 规则触发条件</div>';
+    trig.forEach(t=>{html += `<div class="why-row ${t.met?'met':''}"><strong>${t.met?'✓':'✗'}</strong> ${h(t.condition)}${t.evidence?`<div class="src">${h(t.evidence)}</div>`:''}</div>`});
+    html += '</div>';
+  }
+  if(skep.length){
+    html += '<div class="why-block"><div class="why-label">⚠️ 活跃质疑</div>';
+    skep.forEach(s=>{html += `<div class="why-row active">${h(s.condition)} <span style="color:var(--muted);font-size:10px">[${h(s.impact||'')}]</span>${s.evidence?`<div class="src">${h(s.evidence)}</div>`:''}</div>`});
+    html += '</div>';
+  }
+  if(ev.length){
+    html += '<div class="why-block"><div class="why-label">🔗 证据链</div>';
+    ev.slice(0,6).forEach(e=>{html += `<div class="why-row"><strong>${h(e.ref)}</strong><div class="src">${h(e.excerpt||'')}</div></div>`});
+    html += '</div>';
+  }
+  return html||'<div style="color:var(--muted);font-size:11px">暂无</div>';
+}
+
+function renderHist(c){
+  const tl = c.timeline||[];
+  if(!tl.length) return '<div style="color:var(--muted);font-size:11px">暂无历史</div>';
+  return '<div class="hist">'+tl.map(t=>`<div class="hist-item">
+    <div class="hist-date">${h(t.date||'')}</div>
+    <div>
+      <div><span class="hist-actor">${h(t.actor||'')}</span> <span class="hist-action">${h(t.action||'')}</span></div>
+      ${t.downstream_effect?`<div class="hist-down">→ ${h(t.downstream_effect)}</div>`:''}
+    </div></div>`).join('')+'</div>';
+}
+
+function toggleDrawer(btn){
+  const drawer = btn.parentElement.querySelector('.drawer');
+  const open = drawer.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open?'true':'false');
+  const txt = btn.querySelector('.txt').textContent;
+  // flip label between 展开/收起 for both variants (验证流程 or 行动清单)
+  if(open){ btn.querySelector('.txt').textContent = txt.replace('展开','收起'); }
+  else{ btn.querySelector('.txt').textContent = txt.replace('收起','展开'); }
+}
+
+function swTab(el, tab){
+  const tabs = el.parentElement.querySelectorAll('.dt-tab');
+  tabs.forEach(t=>t.classList.toggle('a', t===el));
+  const body = el.parentElement.parentElement.querySelector('.drawer-body');
+  body.querySelectorAll('.dt-pane').forEach(p=>p.style.display='none');
+  body.querySelector('.dt-'+tab).style.display='block';
+}
+
+function sw(v){
+  currentView=v;
+  document.querySelectorAll('.vw').forEach(e=>e.classList.toggle('a',e.dataset.v===v));
+  document.getElementById('chTabs').style.display='none';
+  render();
+}
+
+function ch(channel){
+  currentChannel=channel;
+  document.querySelectorAll('.ct').forEach(e=>e.classList.toggle('a',e.dataset.c===channel));
+  render();
+}
+
+function renderTodayHero(allCards){
+  const byType = {ad_group:0, claim:0, daily_dashboard:0};
+  const byTier = {red:0, orange:0, yellow:0, green:0};
+  const urgent = [];
+  allCards.forEach(c=>{
+    byType[c.meta.card_type] = (byType[c.meta.card_type]||0)+1;
+    const t = tierFromCard(c);
+    if(t.dot==='r') byTier.red++;
+    else if(t.dot==='o') byTier.orange++;
+    else if(t.dot==='y') byTier.yellow++;
+    else if(t.dot==='g') byTier.green++;
+    const due = (c.actions||[]).map(a=>a.review_at||a.next_move?.due_date).filter(Boolean).sort()[0];
+    if(due && t.cls!=='p2'){
+      urgent.push({due, title:c.meta.title, pri:t.pri, cls:t.cls});
+    }
+  });
+  urgent.sort((a,b)=>a.due.localeCompare(b.due));
+  const hero = `<div class="today-hero">
+    <h2>🗓 今日决策状态 · ${new Date().toISOString().slice(0,10)}</h2>
+    <div style="color:var(--muted);font-size:12px">7 view 决策运行台 · 主卡+状态流抽屉 · v0 框架 v1</div>
+    <div class="kv-grid">
+      <div><div class="k">投放决策</div><div class="v">${byType.ad_group||0} 张</div></div>
+      <div><div class="k">承接诊断</div><div class="v">${byType.claim||0} 张</div></div>
+      <div><div class="k">数据看板</div><div class="v">${byType.daily_dashboard||0} 张</div></div>
+      <div><div class="k">🔴 红灯</div><div class="v" style="color:var(--red)">${byTier.red}</div></div>
+      <div><div class="k">🟠 橙/🟡 黄</div><div class="v" style="color:var(--orange)">${byTier.orange+byTier.yellow}</div></div>
+      <div><div class="k">🟢 绿灯</div><div class="v" style="color:var(--green)">${byTier.green}</div></div>
+    </div>
+    ${urgent.length?`<div class="cd-list">${urgent.slice(0,6).map(u=>`<div class="cd"><span class="d">${h(u.due)}</span> · ${h(u.title.slice(0,22))} <span class="pri ${u.cls}" style="margin-left:4px">${h(u.pri)}</span></div>`).join('')}</div>`:''}
+  </div>`;
+  return hero;
+}
+
+function render(){
+  const grid=document.getElementById('cards');
+  const wiki=document.getElementById('wikiView');
+  const creative=document.getElementById('creativeView');
+  const multisite=document.getElementById('multisiteView');
+  const sum=document.getElementById('summary');
+  if(currentView==='multisite'){
+    grid.style.display='none'; sum.style.display='none';
+    wiki.style.display='none'; creative.style.display='none';
+    multisite.style.display='block';
+    if(!multisite.dataset.loaded){
+      multisite.innerHTML = `<div style="max-width:1400px;margin:0 auto;padding:16px 24px">
+        <h2 style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:6px">🌐 多站群 多 agent · 独立项目</h2>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:12px">repo: zhujiebing2020-lgtm/multisite-platform · 嵌入 widget · 不影响 crave-AI 数据</div>
+        <section style="border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff">
+          <iframe src="https://zhujiebing2020-lgtm.github.io/multisite-platform/widget.html"
+                  width="100%" height="380" frameborder="0"
+                  style="display:block;background:#fff" loading="lazy"></iframe>
+        </section>
+      </div>`;
+      multisite.dataset.loaded = '1';
+    }
+    return;
+  }
+  multisite.style.display='none';
+  if(currentView==='creative'){
+    grid.style.display='none'; sum.style.display='none'; wiki.style.display='none';
+    creative.style.display='block';
+    creative.innerHTML=renderCreativeView();
+    return;
+  }
+  creative.style.display='none';
+  if(currentView==='wiki'){
+    grid.style.display='none'; sum.style.display='none';
+    wiki.style.display='block';
+    const raw = WIKI_DATA.sections||'';
+    // 抽取所有 section 的 id + 第一个 h1/h2 作为目录
+    const tmp = document.createElement('div'); tmp.innerHTML = raw;
+    const items = [];
+    tmp.querySelectorAll('.section').forEach(sec=>{
+      const id = sec.id || '';
+      const ttl = sec.querySelector('h1,h2');
+      if(id && ttl) items.push({id, title: ttl.textContent.trim().slice(0,40)});
+    });
+    const toc = items.length ? `<div class="toc"><h3>📚 目录 · ${items.length} 个模块</h3><div class="toc-list">${items.map(x=>`<a class="toc-item" onclick="document.getElementById('${x.id}')?.scrollIntoView({behavior:'smooth',block:'start'})">${x.title}</a>`).join('')}</div></div>` : '';
+    wiki.innerHTML='<div class="wiki-sec"><h1>🗂 知识基座 · 旧 wiki 全量</h1><p style="color:var(--muted);font-size:12px;margin-bottom:14px;">由 build.py --runtime 自动嵌入 · 点目录直接跳转</p>'+toc+raw+'</div>';
+    return;
+  }
+  grid.style.display='grid';
+  wiki.style.display='none';
+  const all = Object.values(CARD_DATA);
+  if(currentView==='dashboard'){
+    sum.style.display='none';
+    grid.innerHTML = renderDashboardView(all);
+    attachDashboardHandlers();
+    return;
+  }
+  if(currentView==='accept'){
+    sum.style.display='none';
+    grid.innerHTML = renderAcceptView(all);
+    return;
+  }
+  if(currentView==='claim_lib'){
+    sum.style.display='none';
+    grid.innerHTML = renderClaimLibView(all);
+    return;
+  }
+  const f = VIEW_FILTER[currentView]||(c=>false);
+  let cards = all.filter(f);
+  if(!cards.length){
+    grid.innerHTML='<div class="empty">📭 '+viewLabel(currentView)+' 尚无卡片</div>'; sum.style.display='none'; return;
+  }
+  sortCards(cards);
+  const tiers = cards.reduce((m,c)=>{const t=tierFromCard(c).dot;m[t]=(m[t]||0)+1;return m},{});
+  sum.style.display='flex';
+  sum.innerHTML = `<span><strong>${cards.length}</strong> 张卡</span>`+
+    (tiers.r?`<span class="pill red">🔴 ${tiers.r}</span>`:'')+
+    (tiers.o?`<span class="pill orange">🟠 ${tiers.o}</span>`:'')+
+    (tiers.y?`<span class="pill" style="background:#d29922;color:#fff;border-color:#d29922">🟡 ${tiers.y}</span>`:'')+
+    (tiers.g?`<span class="pill green">🟢 ${tiers.g}</span>`:'')+
+    `<span>· 按「活跃质疑 ↓ / 到期 ↑」排序</span>`;
+  grid.innerHTML = cards.map(renderCard).join('');
+}
+
+function viewLabel(v){return{dashboard:'投放数据看板',accept:'承接诊断',claim_lib:'命题库',creative:'素材工坊',breakpoint:'飞轮断点',rule:'自动规则',wiki:'知识基座',multisite:'多站群'}[v]||v}
+
+function renderCreativeView(){
+  const briefs = (typeof CREATIVE_BRIEFS!=='undefined' && CREATIVE_BRIEFS) ? CREATIVE_BRIEFS : [];
+  if(!briefs.length) return '<div class="empty">🎬 素材工坊 · 暂无 brief · 等策略卡触发后自动生成</div>';
+  const statusBadge = (s) => {
+    const map = {image_generated:'🖼 首帧已生成',brief_ready:'📝 Brief 就绪',video_generated:'🎬 视频已生成',approved:'✅ 已审核'};
+    const color = {image_generated:'var(--blue)',brief_ready:'var(--gray)',video_generated:'var(--green)',approved:'var(--green)'};
+    return `<span style="font-size:10px;padding:2px 6px;border-radius:3px;background:${color[s]||'var(--gray)'};color:#fff">${map[s]||s}</span>`;
+  };
+  const complianceBadge = (cc) => {
+    if(!cc) return '<span style="font-size:10px;color:var(--muted)">未审</span>';
+    const v = cc.final_verdict;
+    const color = {PASS:'var(--green)', HUMAN_REVIEW:'var(--orange)', REJECT:'var(--red)', ERROR:'var(--gray)'}[v] || 'var(--gray)';
+    const label = {PASS:'✅ 合规', HUMAN_REVIEW:'🟡 待人审', REJECT:'🔴 拒绝', ERROR:'⚠ 错误'}[v] || v;
+    const flags = (cc.red_flags_combined||[]).slice(0,2).join(' · ').replace(/'/g,"\\'");
+    return `<div style="font-size:10px"><span style="padding:2px 6px;border-radius:3px;background:${color};color:#fff;font-weight:600">${label}</span><div style="margin-top:3px;color:var(--muted);font-size:9px">qwen ${cc.qwen_score}/llama ${cc.llama_score}</div>${flags?`<div style="margin-top:3px;color:var(--red);font-size:9px;line-height:1.3" title="${flags}">⚠ ${flags.slice(0,40)}${flags.length>40?'...':''}</div>`:''}</div>`;
+  };
+  let html = `<div style="padding:24px;max-width:1200px;margin:0 auto">
+    <h1 style="font-size:18px;color:var(--accent);margin-bottom:6px">🎬 素材工坊 · ${briefs.length} 条 Creative Brief</h1>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">基于 S 类样板组落地页自动生成 · 投手可直接参考建组 · 图片/视频由可灵 AI 生成</p>
+    <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;background:#fff">
+      <thead><tr style="background:#F2EEE9">
+        <th style="padding:10px 12px;text-align:left;font-size:11px;color:var(--muted)">组</th>
+        <th style="padding:10px 12px;text-align:left">Hook 类型</th>
+        <th style="padding:10px 12px;text-align:left">Hook 文案(3选1)</th>
+        <th style="padding:10px 12px;text-align:left">标题</th>
+        <th style="padding:10px 12px;text-align:left">投放</th>
+        <th style="padding:10px 12px;text-align:left">首帧图</th>
+        <th style="padding:10px 12px;text-align:left">视频</th>
+        <th style="padding:10px 12px;text-align:center">合规</th>
+        <th style="padding:10px 12px;text-align:center">状态</th>
+      </tr></thead><tbody>`;
+  briefs.forEach((b,i) => {
+    const hooks = (b.hooks||[]).map((h,j)=>`<div style="margin-bottom:3px"><span style="color:var(--accent);font-weight:700">${String.fromCharCode(65+j)}.</span> ${h}</div>`).join('');
+    const img = b.image_url ? `<a href="${b.image_url}" target="_blank"><img src="${b.image_url}" style="width:60px;height:106px;object-fit:cover;border-radius:4px;border:1px solid var(--line)"></a>` : '<span style="color:var(--muted)">—</span>';
+    const video = b.video_url ? `<div style="display:flex;flex-direction:column;gap:4px;align-items:center"><video src="${b.video_url}" controls preload="metadata" style="width:80px;height:140px;object-fit:cover;border-radius:4px;border:1px solid var(--line)"></video><a href="${b.video_url}" download style="font-size:10px;color:var(--accent)">⬇ 下载</a></div>` : '<span style="color:var(--muted)">—</span>';
+    html += `<tr style="border-top:1px solid var(--line)${i%2?';background:rgba(0,0,0,.02)':''}">
+      <td style="padding:10px 12px;font-weight:700;white-space:nowrap">${h(b.group)}<br><span style="font-size:10px;color:var(--muted)">${h(b.pitcher)} · ${h(b.cphq)}</span></td>
+      <td style="padding:10px 12px"><span style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--accent-soft);color:var(--accent);font-weight:600">${h(b.hook_type)}</span></td>
+      <td style="padding:10px 12px;max-width:280px;line-height:1.5">${hooks}</td>
+      <td style="padding:10px 12px;font-weight:600">${h(b.headline)}<br><span style="font-size:10px;color:var(--muted)">CTA: ${h(b.cta)}</span></td>
+      <td style="padding:10px 12px;font-size:11px;color:var(--muted)">${h(b.placement||'')}<br>${h(b.audience||'')}<br>${h(b.budget_per_test||'')}</td>
+      <td style="padding:10px 12px;text-align:center">${img}</td>
+      <td style="padding:10px 12px;text-align:center">${video}</td>
+      <td style="padding:10px 12px;text-align:center">${complianceBadge(b.compliance_check)}</td>
+      <td style="padding:10px 12px;text-align:center">${statusBadge(b.status)}</td>
+    </tr>`;
+  });
+  html += '</tbody></table></div></div>';
+  return html;
+}
+
+// ======================== Dashboard view · 大表 ========================
+
+function _readAdHistoryRows(){
+  try{
+    const data = (typeof AD_HISTORY!=='undefined') ? AD_HISTORY : null;
+    if(!data) return [];
+    if(Array.isArray(data)) return data;
+    // dict form: {gid:[entries]}
+    const rows = [];
+    for(const [gid, arr] of Object.entries(data)){
+      if(!Array.isArray(arr) || !arr.length) continue;
+      const latest = arr[arr.length-1];
+      rows.push({
+        gid, channel: latest.channel||'facebook',
+        name: latest.ad_group_name||gid,
+        owner: latest.owner||'—',
+        spend_wk: latest.spend_week ?? latest.spend ?? 0,
+        hvu_wk: latest.hvu_week ?? latest.hvu ?? 0,
+        cphq: latest.cphq ?? (latest.hvu_week>0?(latest.spend_week/latest.hvu_week):null),
+        tier: latest.tier||'',
+        last_date: latest.date||''
+      });
+    }
+    return rows;
+  }catch(e){return []}
+}
+
+function _deriveAdRowsFromCards(cards){
+  return cards.filter(c=>c.meta.card_type==='ad_group').map(c=>{
+    const s=(k)=>(c.signals||[]).find(x=>x.label.includes(k))?.value||'';
+    const spend = parseFloat(String(s('花费')||s('周花费')||0).replace(/[^\d.]/g,''))||0;
+    const hvu = parseInt(String(s('HVU')||0).replace(/[^\d]/g,''),10)||0;
+    const cphq = hvu>0 ? spend/hvu : null;
+    return {gid: c.meta.card_id, channel: c.meta.channel||'facebook',
+      name: c.meta.title||c.meta.card_id, landing: s('落地页')||'—', owner: s('投手')||s('owner')||'—',
+      days_live:1, spend_total: spend, hvu_total: hvu, cphq_total: cphq,
+      spend_today: spend, hvu_today: hvu, cphq_today: cphq,
+      spend_avg: spend, trend_daily:[], yday_cphq:null,
+      tier: s('分层')||s('层级')||'', first_date:'', last_date: c.meta.last_updated||''};
+  });
+}
+
+function _tierFromCphq(cphq, hvu){
+  if(hvu===0) return {dot:'r', badge:'🔴', label:'未起量'};
+  if(cphq==null) return {dot:'gy', badge:'⚫', label:'—'};
+  if(cphq<=3) return {dot:'g', badge:'🟢', label:'绿'};
+  if(cphq<=5) return {dot:'y', badge:'🟡', label:'黄'};
+  return {dot:'o', badge:'🟠', label:'橙'};
+}
+
+function _landingType(landing){
+  if(!landing||landing==='—') return {short:'—', full:'—'};
+  const s = String(landing).toLowerCase();
+  // 剧情:scene/* · */scene/* · 带 scene 关键词的外链
+  if(/(^|\/)scene\/|scene=/i.test(s)) return {short:'剧情', full:landing};
+  // 文章:multisensory / article / post / blog / guide / story
+  if(/multisensory|article|\/post\/|blog|guide|story|journal|magazine/i.test(s)) return {short:'文章', full:landing};
+  // 产品:product / goods / shop / item / buy
+  if(/\/product\/|\/goods\/|\/shop\/|\/item\/|\/buy\//i.test(s)) return {short:'产品', full:landing};
+  return {short:'其他', full:landing};
+}
+
+function _trendArrow(today, yday){
+  if(today==null||yday==null) return '';
+  const diff = today - yday;
+  if(Math.abs(diff) < 0.05) return '<span style="color:var(--muted)">→</span>';
+  if(diff > 0) return '<span style="color:var(--red)">↑</span>';
+  return '<span style="color:var(--green)">↓</span>';
+}
+
+function _renderSparkline(trend){
+  if(!trend||trend.length<2) return '<span style="color:var(--muted);font-size:10px">—</span>';
+  const vals = trend.map(d=>d.cphq==null?null:d.cphq).filter(v=>v!=null);
+  if(vals.length<2) return '<span style="color:var(--muted);font-size:10px">—</span>';
+  const max = Math.max(...vals), min = Math.min(...vals);
+  const range = max-min||1;
+  const w=48, h=14;
+  const step = w/(trend.length-1);
+  const pts = trend.map((d,i)=>{
+    if(d.cphq==null) return null;
+    const y = h - ((d.cphq-min)/range)*h;
+    return `${(i*step).toFixed(1)},${y.toFixed(1)}`;
+  }).filter(Boolean).join(' ');
+  return `<svg width="${w}" height="${h}" style="vertical-align:middle"><polyline points="${pts}" fill="none" stroke="#E8603A" stroke-width="1.2"/></svg>`;
+}
+
+function _dashSnapshot(cards, channel){
+  const matches = cards.filter(c=>c.meta.card_type==='daily_dashboard' && (c.meta.channel||'facebook')===channel);
+  if(!matches.length) return null;
+  // 取 last_updated 最新的(同 channel 多张卡时)
+  const d = matches.slice().sort((a,b)=>String(b.meta.last_updated||'').localeCompare(String(a.meta.last_updated||'')))[0];
+  const pick = (k)=>{const s=(d.signals||[]).find(x=>x.label.includes(k));return s?s.value:''};
+  return {
+    date: d.meta.last_updated||'',
+    green: pick('绿灯'), yellow: pick('黄灯'), orange: pick('橙灯'),
+    red: pick('红灯')||pick('0 HVU'),
+    spend: pick('累计花费')||pick('花费'),
+    hvu: pick('累计 HVU')||pick('HVU 合计')||pick('HVU')
+  };
+}
+
+function renderDashStrip(cards){
+  const fb = _dashSnapshot(cards,'facebook');
+  const gg = _dashSnapshot(cards,'google');
+  const chunk = (brand, snap, color)=>{
+    if(!snap) return `<div class="ch"><span class="nm" style="color:${color}">${brand}</span><span style="color:var(--muted);font-size:11px">暂无快照</span></div>`;
+    const numOnly=(v)=>String(v||'').match(/\d[\d,]*/)?.[0]||String(v||'');
+    return `<div class="ch"><span class="nm" style="color:${color}">${brand}</span>
+      <span style="color:var(--muted);font-size:10px">${h(snap.date)}</span>
+      ${snap.green?`<span class="dot-ln g">🟢 ${h(numOnly(snap.green))}</span>`:''}
+      ${snap.yellow?`<span class="dot-ln y">🟡 ${h(numOnly(snap.yellow))}</span>`:''}
+      ${snap.orange?`<span class="dot-ln o">🟠 ${h(numOnly(snap.orange))}</span>`:''}
+      ${snap.red?`<span class="dot-ln r">🔴 ${h(numOnly(snap.red))}</span>`:''}
+      ${snap.spend?`<span style="color:var(--muted);font-size:11px">· 花费 ${h(snap.spend)}</span>`:''}
+      ${snap.hvu?`<span style="color:var(--muted);font-size:11px">· HVU ${h(snap.hvu)}</span>`:''}
+    </div>`;
+  };
+  return `<div class="dash-strip">
+    ${chunk('📘 Facebook',fb,'#1877F2')}
+    <span style="color:var(--line)">|</span>
+    ${chunk('🟡 Google',gg,'#C59300')}
+  </div>`;
+}
+
+function renderOwnerCompare(rows){
+  const fb = rows.filter(r=>r.channel==='facebook' && r.today_date && r.spend_today!=null);
+  const latest = fb.length ? fb[0].today_date : '';
+  if(!fb.length) return '';
+  const byOwner = {};
+  fb.forEach(r=>{
+    const o = r.owner||'—';
+    if(!byOwner[o]) byOwner[o] = {owner:o, groups:0, spend:0, hvu:0, green:0, red:0};
+    const acc = byOwner[o];
+    acc.groups++;
+    acc.spend += r.spend_today||0;
+    acc.hvu += r.hvu_today||0;
+    const t = _tierFromCphq(r.cphq_today, r.hvu_today||0);
+    if(t.dot==='g') acc.green++;
+    if(t.dot==='r' || (r.hvu_today||0)===0) acc.red++;
+  });
+  const arr = Object.values(byOwner).map(o=>{
+    o.cphq = o.hvu>0 ? o.spend/o.hvu : null;
+    o.green_rate = o.groups>0 ? o.green/o.groups*100 : 0;
+    o.red_rate = o.groups>0 ? o.red/o.groups*100 : 0;
+    return o;
+  }).sort((a,b)=>b.hvu-a.hvu);
+  return `<div class="adtable" style="grid-column:1/-1;margin-bottom:4px">
+    <h3>👥 投手当日对比 · Facebook <span class="hint">${h(latest)} · ${arr.length} 位投手 · 按当日起量降序</span></h3>
+    <div class="scroll" style="max-height:260px"><table>
+      <thead><tr>
+        <th>投手</th>
+        <th style="text-align:right">当日在投组</th>
+        <th style="text-align:right">当日花费</th>
+        <th style="text-align:right">当日起量用户</th>
+        <th style="text-align:right">当日均价</th>
+        <th style="text-align:right">🟢 绿灯率</th>
+        <th style="text-align:right">🔴 未起量率</th>
+      </tr></thead>
+      <tbody>
+      ${arr.map(o=>{
+        const t = _tierFromCphq(o.cphq, o.hvu);
+        const col = t.dot==='g'?'#18A057':t.dot==='y'?'#B8860B':t.dot==='o'?'#E8603A':t.dot==='r'?'#D94030':'var(--muted)';
+        return `<tr>
+          <td class="grp">${h(o.owner)}</td>
+          <td class="num">${o.groups}</td>
+          <td class="num">$${Math.round(o.spend)}</td>
+          <td class="num">${o.hvu}</td>
+          <td class="num" style="color:${col}">${o.cphq!=null?'$'+o.cphq.toFixed(2):'—'}</td>
+          <td class="num" style="color:${o.green_rate>=40?'#18A057':'var(--muted)'}">${o.green_rate.toFixed(0)}%</td>
+          <td class="num" style="color:${o.red_rate>=30?'#D94030':'var(--muted)'}">${o.red_rate.toFixed(0)}%</td>
+        </tr>`;
+      }).join('')}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderAdTable(cards, channel, title){
+  const all = _readAdHistoryRows();
+  let rows = (all.length?all:_deriveAdRowsFromCards(cards)).filter(r=>r.channel===channel);
+  if(currentDashSearch){const q=currentDashSearch.toLowerCase(); rows=rows.filter(r=>(r.name+' '+r.owner+' '+r.gid+' '+(r.landing||'')).toLowerCase().includes(q))}
+  if(currentDashFilter!=='all'){rows=rows.filter(r=>{const t=_tierFromCphq(r.cphq_total,r.hvu_total);return t.dot===currentDashFilter})}
+  if(currentDashLandingFilter!=='all'){rows=rows.filter(r=>_landingType(r.landing).short===currentDashLandingFilter)}
+  const dir=currentDashSortDir==='asc'?1:-1;
+  rows.sort((a,b)=>{const k=currentDashSort;const va=a[k]==null?Infinity:a[k];const vb=b[k]==null?Infinity:b[k];if(typeof va==='string')return va.localeCompare(vb)*dir;return ((va||0)-(vb||0))*dir});
+  const brandDot = channel==='facebook'?'#1877F2':'#FABB05';
+  const landingTypes = Array.from(new Set(rows.map(r=>_landingType(r.landing).short))).filter(x=>x!=='—');
+  return `<div class="adtable" style="grid-column:1/-1">
+    <h3><span style="color:${brandDot}">●</span> ${h(title)} <span class="hint">${rows.length} 行 · 点表头排序 · 点组名看详情</span></h3>
+    <div class="filters">
+      ${['all','r','o','y','g'].map(f=>`<button class="${currentDashFilter===f?'a':''}" data-f="${f}">${{all:'全部',r:'🔴 未起量',o:'🟠 橙',y:'🟡 黄',g:'🟢 绿'}[f]}</button>`).join('')}
+      <span style="color:var(--line);padding:0 4px">|</span>
+      <button class="${currentDashLandingFilter==='all'?'a':''}" data-lf="all">全落地页</button>
+      ${landingTypes.map(lt=>`<button class="${currentDashLandingFilter===lt?'a':''}" data-lf="${h(lt)}">${h(lt)}</button>`).join('')}
+      <input type="text" placeholder="🔍 搜 组名/投手/落地页" value="${h(currentDashSearch)}" id="dashSearch-${channel}">
+    </div>
+    <div class="scroll"><table>
+      <thead><tr>
+        <th data-s="name" style="min-width:180px">广告组</th>
+        <th data-s="owner">投手</th>
+        <th data-s="landing">落地页</th>
+        <th data-s="days_live" style="text-align:right">在投</th>
+        <th data-s="spend_today" style="text-align:right">今日花费</th>
+        <th data-s="hvu_today" style="text-align:right">今日起量</th>
+        <th data-s="cphq_today" style="text-align:right">今日均价</th>
+        <th data-s="cphq_total" style="text-align:right">累计均价</th>
+        <th style="text-align:center">趋势</th>
+        <th data-s="tier">分层</th>
+        <th style="text-align:center">信号</th>
+      </tr></thead>
+      <tbody>
+      ${rows.length?rows.map(r=>{const t=_tierFromCphq(r.cphq_total,r.hvu_total);const col=t.dot==='g'?'#18A057':t.dot==='y'?'#B8860B':t.dot==='o'?'#E8603A':t.dot==='r'?'#D94030':'var(--muted)';const lt=_landingType(r.landing);return `<tr data-gid="${h(r.gid)}">
+        <td class="grp grp-link" title="${h(r.gid)}">${h(r.name)}</td>
+        <td>${h(r.owner||'—')}</td>
+        <td><span style="padding:1px 6px;border-radius:4px;background:var(--bg);font-size:10px" title="${h(lt.full)}">${h(lt.short)}</span></td>
+        <td class="num" style="color:var(--muted)">${r.days_live||0}d</td>
+        <td class="num">${r.spend_today!=null?'$'+r.spend_today.toFixed(0):'—'}</td>
+        <td class="num">${r.hvu_today!=null?r.hvu_today:'—'}</td>
+        <td class="num" style="color:${col}">${r.cphq_today!=null?'$'+r.cphq_today.toFixed(2):'—'} ${_trendArrow(r.cphq_today, r.yday_cphq)}</td>
+        <td class="num">${r.cphq_total!=null?'$'+r.cphq_total.toFixed(2):'—'}</td>
+        <td class="sig">${_renderSparkline(r.trend_daily)}</td>
+        <td style="font-size:10px;color:var(--muted)">${h((r.tier||'—').slice(0,12))}</td>
+        <td class="sig">${t.badge}</td>
+      </tr>`}).join(''):'<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:24px">暂无数据</td></tr>'}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderActionList(all){
+  const raw = all.filter(c=>c.meta.card_type==='action_list');
+  const family = id => String(id||'').replace(/-\d{4}-\d{2}-\d{2}$/,'');
+  const latest = new Map();
+  raw.forEach(c=>{
+    const key = (c.meta.channel||'')+'|'+family(c.meta.card_id);
+    const cur = latest.get(key);
+    if(!cur || String(c.meta.last_updated||'') > String(cur.meta.last_updated||'')) latest.set(key,c);
+  });
+  const cards = [...latest.values()];
+  if(!cards.length) return '';
+  return `<div style="grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;border-left:4px solid var(--accent)">
+    <h2 style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px">📋 今日行动指令 · ${cards.length} 份</h2>
+    ${cards.map(c=>{
+      const m = c.meta; const ctx = c.context||{}; const abp = c.actions_by_pitcher||{};
+      const pitchers = Object.keys(abp);
+      const safeTitle = (m.title||m.card_id).replace(/'/g,"\\'").replace(/\n/g,' ');
+      return `<div style="border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="font-weight:700;margin-bottom:4px">${h(m.title)}</div>
+        ${ctx.constraint?`<div style="font-size:11px;color:var(--red);margin-bottom:4px">⚠️ ${h(ctx.constraint)}</div>`:''}
+        ${ctx.strategy?`<div style="font-size:11px;color:var(--muted);margin-bottom:8px">📌 ${h(ctx.strategy)}</div>`:''}
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px">
+          ${pitchers.map(p=>{
+            const pa = abp[p]; const cnt = (pa.continue?.length||0)+(pa.stop?.length||0)+(pa.reduce?.length||0);
+            return `<div style="border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;background:var(--bg)">
+              <div style="font-weight:700;font-size:12px;color:var(--accent);margin-bottom:4px">${h(p)} · ${cnt} 项</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${h(pa.summary||'')}</div>
+              ${pa.continue?.length?`<div style="font-size:11px;margin-bottom:3px"><span style="color:var(--green);font-weight:600">✅ 维持 ${pa.continue.length}</span>: ${pa.continue.map(x=>h(x.group)).join(' · ')}</div>`:''}
+              ${pa.reduce?.length?`<div style="font-size:11px;margin-bottom:3px"><span style="color:var(--yellow);font-weight:600">⬇ 降预算 ${pa.reduce.length}</span>: ${pa.reduce.map(x=>h(x.group)).join(' · ')}</div>`:''}
+              ${pa.stop?.length?`<div style="font-size:11px;margin-bottom:3px"><span style="color:var(--red);font-weight:600">🛑 停 ${pa.stop.length}</span>: ${pa.stop.map(x=>h(x.group)).join(' · ')}</div>`:''}
+              ${pa.note?`<div style="font-size:10px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line-2)">${h(pa.note)}</div>`:''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderDashboardView(all){
+  const rows = _readAdHistoryRows();
+  const fbLatest = rows.find(r=>r.channel==='facebook')?.today_date || '';
+  const ggLatest = rows.find(r=>r.channel==='google')?.today_date || '';
+  return renderActionList(all) + renderDashStrip(all) +
+    renderOwnerCompare(rows.length?rows:_deriveAdRowsFromCards(all)) +
+    renderAdTable(all,'facebook','Facebook 广告组 · 当日 '+(fbLatest||'—')+' vs 累计') +
+    renderAdTable(all,'google','Google 高质量用户 · 当日 '+(ggLatest||'—'));
+}
+
+function attachDashboardHandlers(){
+  document.querySelectorAll('.adtable .filters button[data-f]').forEach(b=>{b.onclick=()=>{currentDashFilter=b.dataset.f; render()}});
+  document.querySelectorAll('.adtable .filters button[data-lf]').forEach(b=>{b.onclick=()=>{currentDashLandingFilter=b.dataset.lf; render()}});
+  document.querySelectorAll('.adtable input[id^="dashSearch-"]').forEach(inp=>{inp.oninput=()=>{currentDashSearch=inp.value; const id=inp.id; render(); const el=document.getElementById(id); if(el){el.focus();try{el.setSelectionRange(inp.value.length,inp.value.length)}catch(_){}}}});
+  document.querySelectorAll('.adtable thead th[data-s]').forEach(th=>{th.onclick=()=>{const k=th.dataset.s; if(currentDashSort===k){currentDashSortDir=currentDashSortDir==='asc'?'desc':'asc'}else{currentDashSort=k; currentDashSortDir='asc'} render()}});
+  document.querySelectorAll('.adtable tr[data-gid]').forEach(tr=>{tr.onclick=()=>{const gid=tr.dataset.gid; const row=(_readAdHistoryRows().find(r=>r.gid===gid)); if(row){const lt=_landingType(row.landing);alert(`${row.name}\n投手:${row.owner} · 落地页:${lt.full}\n在投:${row.days_live}天\n累计:$${Math.round(row.spend_total)} / ${row.hvu_total}起量 / 均价 ${row.cphq_total!=null?'$'+row.cphq_total.toFixed(2):'—'}\n今日:${row.spend_today!=null?'$'+row.spend_today.toFixed(0):'—'} / ${row.hvu_today??'—'}起量 / ${row.cphq_today!=null?'$'+row.cphq_today.toFixed(2):'—'}\n分层:${row.tier||'—'}`)}}});
+}
+
+// ======================== Accept view · 承接诊断 ========================
+
+function _intake(){ try{return (typeof ACCEPT_INTAKE!=='undefined')?ACCEPT_INTAKE:null}catch(e){return null} }
+
+function _healthCls(s){return ['green','yellow','red','gray'].includes(s)?s:'gray'}
+function _trendEmoji(t){return {better:'↗ 好转',same:'→ 持平',worse:'↘ 恶化',first_day:'· 首次观察'}[t]||''}
+
+function renderAcceptStrip(intake){
+  if(!intake) return `<div class="accept-strip"><h2>🛠 承接诊断</h2><div class="who">等待 data/intake/accept_daily_YYYY-MM-DD.json</div><div style="color:var(--muted);font-size:11px">吴玲每日 20:00 前提交一份 intake,Claude 次日 09:00 自动读取并渲染本 view。详细格式见 data/intake/README.md</div></div>`;
+  const cls = _healthCls(intake.overall_health);
+  const hostRow = intake.modules?.find(m=>m.hostname && m.hostname!=='—')?.hostname||'—';
+  return `<div class="accept-strip">
+    <h2>🛠 承接诊断 · ${h(intake.date||'')}</h2>
+    <div class="who">日报提交人:${h(intake.submitted_by||'—')} · 唯一信息源(不接 AdClaw 自动化) · hostname:<span class="hn">${h(hostRow)}</span></div>
+    <div style="margin-top:6px">整体健康:<span class="hv ${cls}">${h((intake.overall_health||'gray').toUpperCase())}</span> <span style="margin-left:8px;color:var(--muted);font-size:11px">${h(intake.health_note||'')}</span></div>
+    ${intake._note?`<div style="margin-top:6px;color:var(--muted);font-size:10px;font-style:italic">⚠️ ${h(intake._note)}</div>`:''}
+  </div>`;
+}
+
+function renderAcceptMustFix(intake){
+  if(!intake) return '';
+  const mf = intake.must_fix_today||[];
+  const fx = intake.fixed_today||[];
+  let out = '';
+  if(mf.length){
+    out += `<div class="mustfix" style="grid-column:1/-1">
+      <h3>🚨 今天必须修 · ${mf.length} 项</h3>
+      ${mf.map(x=>`<div class="mf-row">
+        <span class="mf-pri" style="background:${x.priority==='P0'?'var(--red)':x.priority==='P1'?'var(--orange)':'var(--gray)'}">${h(x.priority||'P?')}</span>
+        <div>
+          <div class="mf-title">${h(x.title)}</div>
+          <div class="mf-impact">影响:${h(x.impact||'—')}</div>
+          ${x.proposed_fix?`<div class="mf-impact">方案:${h(x.proposed_fix)}</div>`:''}
+          ${x.blocked_by?`<div class="mf-impact" style="color:var(--red)">阻塞:${h(x.blocked_by)}</div>`:''}
+        </div>
+        <div class="mf-eta">${h(x.eta||'')}</div>
+      </div>`).join('')}
+    </div>`;
+  }
+  if(fx.length){
+    out += `<div class="mustfix" style="grid-column:1/-1;background:rgba(24,160,87,.06);border-color:var(--green)">
+      <h3 style="color:var(--green)">✅ 今日已修 · ${fx.length} 项</h3>
+      ${fx.map(x=>`<div class="mf-row">
+        <span class="mf-pri" style="background:var(--green)">✓</span>
+        <div>
+          <div class="mf-title">${h(x.title)}</div>
+          <div class="mf-impact">修复前(${h(x.before?.split('·')?.[0]||'')}):${h((x.before||'').split('·')[1]||x.before||'')}</div>
+          <div class="mf-impact" style="color:var(--green)">修复后(${h(x.after?.split('·')?.[0]||'')}):${h((x.after||'').split('·')[1]||x.after||'')}</div>
+          ${x.effect_note?`<div class="mf-impact">效果:${h(x.effect_note)}</div>`:''}
+        </div>
+        <div class="mf-eta"></div>
+      </div>`).join('')}
+    </div>`;
+  }
+  return out;
+}
+
+function renderAcceptModules(intake){
+  if(!intake||!intake.modules?.length) return '';
+  return `<div class="mod-grid">${intake.modules.map(m=>{
+    const hist = m.history||[];
+    const hasDetail = hist.length || m.data_reflow || m.evidence;
+    return `<div class="mod-card ${_healthCls(m.status)}">
+    <div class="mc-h"><div><div class="mc-nm">${h(m.name)}</div><div class="mc-host">${h(m.hostname||'—')} · ${h(m.id)}</div></div>
+      <span class="hv ${_healthCls(m.status)}" style="padding:2px 8px;font-size:10px;border-radius:10px">${h((m.status||'gray').toUpperCase())}</span></div>
+    <div class="mc-note">${h(m.status_note||'—')}</div>
+    <div class="mc-kv">
+      <div class="k">今日影响用户</div><div class="v">${m.affected_users_today||0}</div>
+      <div class="k">今日受影响尝试</div><div class="v">${m.affected_attempts_today||0}</div>
+      <div class="k">负责人</div><div class="v">${h(m.current_owner||'—')}</div>
+      <div class="k">最后更新</div><div class="v">${h(m.last_update||'—')}</div>
+    </div>
+    <div class="mc-trend">${_trendEmoji(m.trend_vs_yesterday)}</div>
+    ${hasDetail?`<div class="card-foot" style="margin:8px -14px -12px;border-radius:0 0 10px 10px;border-top:1px solid var(--line-2)">
+      <button class="expand-btn" onclick="toggleModuleDrawer(this)" aria-expanded="false">
+        <span class="txt">展开决策/修复记录</span><span class="arw">▼</span>
+      </button>
+      <div class="drawer">
+        <div class="drawer-body" style="padding:10px 14px">
+          ${m.evidence?`<div class="why-block"><div class="why-label">📎 今日证据</div><div style="font-size:11px;color:var(--text);padding:4px 0;line-height:1.6">${h(m.evidence)}</div></div>`:''}
+          ${hist.length?`<div class="why-block"><div class="why-label">📜 决策/修复历史</div><div class="hist">${hist.map(hh=>`<div class="hist-item">
+            <div class="hist-date">${h(hh.date||'')}</div>
+            <div><div class="hist-action"><strong>${h(hh.event||'')}</strong></div><div class="hist-down">${h(hh.detail||'')}</div></div>
+          </div>`).join('')}</div></div>`:''}
+          ${m.data_reflow?`<div class="why-block"><div class="why-label">🔁 数据回灌 · 修复后观察</div><div style="font-size:11px;color:var(--text);padding:6px 10px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 6px 6px 0">${h(m.data_reflow)}</div></div>`:''}
+        </div>
+      </div>
+    </div>`:''}
+  </div>`}).join('')}</div>`;
+}
+
+function toggleModuleDrawer(btn){
+  const drawer = btn.parentElement.querySelector('.drawer');
+  const open = drawer.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open?'true':'false');
+  btn.querySelector('.txt').textContent = open?'收起决策/修复记录':'展开决策/修复记录';
+}
+
+function renderFunnel(intake){
+  if(!intake||!intake.funnel) return '';
+  const order = ['age_verification','registration','product_interest','cart','checkout','purchase'];
+  const labels = {
+    age_verification:'①年龄验证',
+    registration:'②登录注册',
+    product_interest:'③看产品',
+    cart:'④加入心愿/加购',
+    checkout:'⑤进入结算',
+    purchase:'⑥完成支付'
+  };
+  const f = intake.funnel;
+  const maxIn = Math.max(...order.map(k=>f[k]?.in||0));
+  return `<div class="funnel">
+    <h3>🔻 转化漏斗 · 吴玲 intake(非 AdClaw 自动)</h3>
+    ${order.map(k=>{const x=f[k]; if(!x)return '';
+      const pct = maxIn>0 ? (x.out/maxIn*100) : 0;
+      const cls = _healthCls(x.status);
+      return `<div class="fn-row">
+        <div class="fn-nm">${labels[k]}</div>
+        <div class="fn-bar"><div class="fill ${cls}" style="width:${pct.toFixed(1)}%"></div><span class="lbl">${x.in}→${x.out}</span></div>
+        <div class="fn-drop">-${x.drop_pct||0}%</div>
+        <div style="text-align:right;color:var(--muted);font-size:10px">${cls==='red'?'🔴':cls==='yellow'?'🟡':'🟢'}</div>
+        ${x.note?`<div class="fn-note" style="grid-column:1/-1">${h(x.note)}</div>`:''}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderWebVitals(intake){
+  if(!intake||!intake.web_vitals?.by_hostname?.length) return '';
+  const rows = intake.web_vitals.by_hostname;
+  const fmt = (v,unit='ms')=>v==null?'—':(typeof v==='number'?v+unit:v);
+  return `<div class="wv">
+    <h3>📐 Web Vitals · 吴玲 intake</h3>
+    <div class="wv-row head"><div>Hostname</div><div>LCP p75</div><div>CLS p75</div><div>FCP p75</div><div>INP p75</div><div>样本</div></div>
+    ${rows.map(r=>`<div class="wv-row">
+      <div class="wv-host">${h(r.hostname)}</div>
+      <div class="wv-metric ${_healthCls(r.lcp_status)}">${fmt(r.lcp_p75_ms)}</div>
+      <div class="wv-metric ${_healthCls(r.cls_status)}">${r.cls_p75!=null?r.cls_p75:'—'}</div>
+      <div class="wv-metric ${_healthCls(r.fcp_status)}">${fmt(r.fcp_p75_ms)}</div>
+      <div class="wv-metric ${_healthCls(r.inp_status)}">${fmt(r.inp_p75_ms)}</div>
+      <div class="wv-sample">${r.sample_size||'—'}</div>
+      ${r.note?`<div style="grid-column:1/-1;color:var(--muted);font-size:10px;margin-top:-4px">${h(r.note)}</div>`:''}
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderDevStateFlow(c){
+  const m = c.meta;
+  const states = ['draft','aligned','in_progress','shipped','verified'];
+  const labels = {draft:'草稿',aligned:'对齐',in_progress:'开发中',shipped:'已发布',verified:'已验证'};
+  const colors = {draft:'var(--gray)',aligned:'var(--blue)',in_progress:'var(--orange)',shipped:'var(--yellow)',verified:'var(--green)'};
+  const cur = m.dev_status || 'draft';
+  const curIdx = states.indexOf(cur);
+  const hist = c.state_history || [];
+  const histByState = {};
+  hist.forEach(e => { if(e.to) histByState[e.to] = e; });
+  // verified 7 天后默认折叠
+  const verifiedEntry = histByState['verified'];
+  let autoCollapsed = false;
+  if(cur==='verified' && verifiedEntry?.date){
+    const d = new Date(verifiedEntry.date);
+    const days = (Date.now() - d.getTime()) / 86400000;
+    if(days > 7) autoCollapsed = true;
+  }
+  const flowId = 'flow-'+(m.card_id||Math.random().toString(36).slice(2));
+  const nodes = states.map((s,i)=>{
+    const done = i < curIdx;
+    const isCur = i === curIdx;
+    const color = done ? colors[s] : (isCur ? colors[s] : 'var(--line)');
+    const fill = (done||isCur) ? color : '#fff';
+    const labelColor = (done||isCur) ? 'var(--text)' : 'var(--muted)';
+    const fontWeight = isCur ? 700 : 500;
+    return `<div style="flex:1;text-align:center;position:relative">
+      <div style="width:14px;height:14px;border-radius:50%;background:${fill};border:2px solid ${color};margin:0 auto 4px;${isCur?'box-shadow:0 0 0 3px '+color+'33':''}"></div>
+      <div style="font-size:9px;color:${labelColor};font-weight:${fontWeight}">${labels[s]}</div>
+      ${histByState[s]?`<div style="font-size:8px;color:var(--muted);margin-top:1px">${h(histByState[s].date||'')}</div>`:''}
+    </div>`;
+  });
+  // 连线
+  const segments = states.slice(0,-1).map((_,i)=>{
+    const done = i < curIdx;
+    return `<div style="flex:0.1;height:2px;background:${done?colors[states[i]]:'var(--line)'};margin-top:7px"></div>`;
+  });
+  const interleaved = [];
+  nodes.forEach((n,i)=>{ interleaved.push(n); if(segments[i]) interleaved.push(segments[i]); });
+
+  const histRows = hist.length ? hist.map(e=>`<div style="font-size:10px;color:var(--text);padding:4px 6px;border-left:2px solid ${colors[e.to]||'var(--line)'};margin-bottom:3px;background:var(--bg);border-radius:0 4px 4px 0">
+    <div><span style="font-weight:600">${h(e.date||'')}</span> · ${h(e.from||'∅')} → <span style="color:${colors[e.to]||'var(--text)'};font-weight:700">${h(e.to||'')}</span> · by ${h(e.by||'—')}</div>
+    ${e.note?`<div style="font-size:9px;color:var(--muted);margin-top:2px">${h(e.note)}</div>`:''}
+  </div>`).join('') : '<div style="font-size:10px;color:var(--muted);font-style:italic">暂无状态变更记录</div>';
+
+  return `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-2)">
+    <div onclick="toggleStateFlow('${flowId}')" style="cursor:pointer;font-size:10px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;user-select:none">
+      <span>🔄 状态流 · ${labels[cur]}${autoCollapsed?' · 已稳定 7 天':''}</span>
+      <span id="${flowId}-arw" style="font-size:9px">${autoCollapsed?'▶':'▼'}</span>
+    </div>
+    <div id="${flowId}" style="${autoCollapsed?'display:none;':''}margin-top:6px">
+      <div style="display:flex;align-items:flex-start;padding:6px 4px 4px">
+        ${interleaved.join('')}
+      </div>
+      <div style="margin-top:6px;padding-top:6px;border-top:1px dotted var(--line-2)">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:3px">变更历史 · ${hist.length} 条</div>
+        ${histRows}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleStateFlow(id){
+  const el = document.getElementById(id);
+  const arw = document.getElementById(id+'-arw');
+  if(!el) return;
+  const hidden = el.style.display === 'none';
+  el.style.display = hidden ? '' : 'none';
+  if(arw) arw.textContent = hidden ? '▼' : '▶';
+}
+
+function renderAcceptThreePaths(cards){
+  const siteClaims = cards.filter(c=>c.meta.card_type==='claim' && (c.meta.claim_side==='site' || _claimSide(c)==='site'));
+  const path1 = siteClaims.filter(c=>c.meta.proposition_status==='validating' || c.meta.proposition_status==='proposed');
+  const path2 = siteClaims.filter(c=>c.meta.proposition_status==='validated');
+  const devReqs = cards.filter(c=>c.meta.card_type==='dev_requirement' && c.meta.approved_by);
+  const devReqsPending = cards.filter(c=>c.meta.card_type==='dev_requirement' && !c.meta.approved_by);
+  // 优先级排序: pin_top > P0 > P1 > P2 > P3
+  const priorityRank = p => ({P0:0,P1:1,P2:2,P3:3}[p]||9);
+  const sortByPriority = (a,b) => {
+    const ap = (a.meta.pin_top?-1:0) + priorityRank(a.meta.priority);
+    const bp = (b.meta.pin_top?-1:0) + priorityRank(b.meta.priority);
+    return ap - bp;
+  };
+  devReqs.sort(sortByPriority);
+  devReqsPending.sort(sortByPriority);
+
+  const claimCell = (c, badge) => {
+    const m = c.meta;
+    const safeTitle = (m.title||m.card_id).replace(/'/g,"\\'").replace(/\n/g,' ');
+    const topSig = (c.signals||[])[0]?.value || '';
+    const await_ = m.awaiting ? `<div style="font-size:10px;color:var(--orange);margin-top:4px">⏳ ${h(m.awaiting)}</div>` : '';
+    return `<div onclick="alert('${h(safeTitle)}')" style="cursor:pointer;border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;margin-bottom:6px;background:#fff">
+      <div style="font-size:12px;font-weight:700;margin-bottom:3px">${badge} ${h(m.title)}</div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.4">${h(String(topSig).slice(0,100))}</div>
+      ${await_}
+    </div>`;
+  };
+
+  const devCell = (c, pending) => {
+    const m = c.meta;
+    const st = m.dev_status || 'draft';
+    const stColor = {draft:'var(--gray)', aligned:'var(--blue)', in_progress:'var(--orange)', shipped:'var(--yellow)', verified:'var(--green)'}[st]||'var(--gray)';
+    const shipped = st === 'shipped' || st === 'verified';
+    const flow = renderDevStateFlow(c);
+    return `<div style="border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;margin-bottom:6px;background:#fff${pending?';opacity:0.6':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
+        <div style="font-size:12px;font-weight:700">🛠 ${h(m.title)}</div>
+        <span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${stColor};color:#fff">${h(st)}</span>
+      </div>
+      <div style="font-size:10px;color:var(--muted)">${h(m.linked_claim||'')} · 优先级 ${h(m.priority||'P?')}</div>
+      ${m.status_note?`<div style="font-size:10px;color:var(--accent);margin-top:3px">📌 ${h(m.status_note)}</div>`:''}
+      ${pending?`<div style="font-size:9px;color:var(--red);margin-top:4px">⚠ 待 ZJB 签字确认</div>`:''}
+      ${shipped && m.fix_date?`<div style="font-size:10px;color:var(--green);margin-top:4px">✅ 修复日期: ${h(m.fix_date)}</div>`:''}
+      ${shipped && m.verify_next?`<div style="font-size:10px;color:var(--blue);margin-top:2px">🔍 接下来验证: ${h(m.verify_next)}</div>`:''}
+      ${shipped && m.watch_points?`<div style="font-size:10px;color:var(--orange);margin-top:2px">👁 重点查看: ${h(m.watch_points)}</div>`:''}
+      ${flow}
+    </div>`;
+  };
+
+  return `<div style="grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:14px">
+    <h2 style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px">🔬 承接端诊断三段流</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;background:rgba(58,159,232,.04)">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px">🔍 Path 1 · Claude 推断中 · ${path1.length}</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">基于投放端 HVU 数据推断的断点 · 等吴玲交叉验证</div>
+        ${path1.length ? path1.map(c=>claimCell(c,'')).join('') : `<div style="font-size:11px;color:var(--muted);font-style:italic">暂无 Claude 推断中的承接断点</div>`}
+      </div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;background:rgba(24,160,87,.04)">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Path 2 · 每日交叉验证 · ${path2.length}</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">ZJB + 吴玲每日验证记录(按日期排)</div>
+        ${path2.length ? path2.sort((a,b)=>String(b.meta.validated_date||'').localeCompare(String(a.meta.validated_date||''))).map(c=>{
+          const m=c.meta; const ec=(m.evidence_chain||[]).filter(e=>e.path===2);
+          const timeline = ec.length ? ec.map(e=>`<div style="font-size:9px;color:var(--muted);margin-top:3px;padding-left:8px;border-left:2px solid var(--green)">📅 ${h(e.date||'')} · ${h(e.by||'')} · ${h((e.action||e.tech_detail||'').slice(0,60))}</div>`).join('') : '';
+          return claimCell(c,'') + timeline;
+        }).join('') : `<div style="font-size:11px;color:var(--muted);font-style:italic">暂无已验证断点</div>`}
+      </div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:10px;background:rgba(232,96,58,.04)">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">🛠 Path 3 · 研发需求(ZJB 签字) · ${devReqs.length}</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:6px">ZJB 确认后才挂 · 含 before/after 验证方式</div>
+        ${devReqs.length ? devReqs.map(c=>devCell(c,false)).join('') : `<div style="font-size:11px;color:var(--muted);font-style:italic">暂无 ZJB 签字的研发需求</div>`}
+        ${devReqsPending.length ? `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)"><div style="font-size:10px;color:var(--muted);margin-bottom:4px">⏳ Claude 推断(待 ZJB 确认):</div>${devReqsPending.map(c=>devCell(c,true)).join('')}</div>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAcceptView(cards){
+  const intake = _intake();
+  if(!intake){
+    return renderAcceptStrip(null) + renderAcceptThreePaths(cards);
+  }
+  return renderAcceptStrip(intake) +
+    renderAcceptMustFix(intake) +
+    renderAcceptThreePaths(cards) +
+    renderAcceptModules(intake);
+}
+
+// ======================== Claim Library view · 4 态沙漏 ========================
+
+function _claimToRuleDraft(c){
+  // 把 validated claim 翻译成 auto_strategy_rules.json 草稿
+  const pm = c.meta;
+  const id = (pm.proposition_id||pm.card_id).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+  const key = 'rule_from_' + id;
+  const trig = (c.trigger_conditions||[]).filter(t=>t.met).map(t=>t.condition);
+  const actions = (c.actions||[]).filter(a=>/已执行|已完成/.test(a.execution_status||'')).map(a=>({
+    step: a.step,
+    name: a.name,
+    description: a.description||a.next_move?.do_what||'',
+    side: a.side||'both'
+  }));
+  return {
+    key,
+    body: {
+      _applies_to: pm.title,
+      _derived_from: pm.proposition_id+' · '+(pm.validated_date||pm.last_updated||''),
+      _confidence: c.status?.confidence||'已证实',
+      _becomes_rule: pm.becomes_rule||'',
+      trigger_conditions: trig,
+      auto_action: actions,
+      skeptic_conditions: (c.skeptic_conditions||[]).map(s=>s.condition),
+      rollback_procedure: {
+        触发条件: '观察 7 天内效应消失或反向',
+        actions: ['暂停规则','回填命题验证中','通知 ZJB']
+      },
+      expected_lift: (c.signals||[]).find(s=>s.label.includes('观测效果')||s.label.includes('预期'))?.value||''
+    }
+  };
+}
+
+function proposeRuleDraft(claimId){
+  const c = CARD_DATA[claimId];
+  if(!c){ alert('找不到命题 '+claimId); return; }
+  const draft = _claimToRuleDraft(c);
+  const pretty = JSON.stringify({[draft.key]: draft.body}, null, 2);
+  const msg = `📦 命题 ${c.meta.proposition_id||claimId} 自动化规则草稿\n\n目标落点:data/rules/auto_strategy_rules_pending.json#${draft.key}\n(草稿 pending,不直接写入生产规则,等 ZJB 拍板后由 Claude 手动 promote 到 auto_strategy_rules.json)\n\n————\n${pretty}\n————\n\n下一步:\n1) ZJB 看完草稿 · 通过 → Claude 在下次会话 promote\n2) Claude 把 promote 写入加到合约二「命题升降」的自动规则触发条件`;
+  if(navigator.clipboard){ navigator.clipboard.writeText(pretty).then(()=>{ alert(msg+'\n\n(草稿 JSON 已复制到剪贴板)') }, ()=>alert(msg)); } else { alert(msg); }
+}
+
+function _claimSide(c){
+  const ex = c.meta?.claim_side;
+  if(ex==='ad'||ex==='site') return ex;
+  const blob = [c.meta?.title, c.status?.honest_note,
+                ...(c.actions||[]).map(a=>a.name+' '+(a.description||''))].join(' ');
+  const siteHit = /落地页|承接|Buy\s*Now|fanli|客服|支付|结算|埋点|LCP|CLS|FCP|INP|hostname|前端|技术|bug|WebView|Apple\s*Pay/i.test(blob);
+  const adHit = /投放|投手|素材|视频|CTR|CPHQ|受众|定向|出价|加量|A\/B|复投|FB广告|Google广告/i.test(blob);
+  if(siteHit && !adHit) return 'site';
+  if(adHit && !siteHit) return 'ad';
+  return 'ad'; // default: 投放
+}
+
+function renderClaimLibView(cards){
+  const claims = cards.filter(c=>c.meta.card_type==='claim');
+  const adClaims = claims.filter(c=>_claimSide(c)==='ad');
+  const siteClaims = claims.filter(c=>_claimSide(c)==='site');
+  const intake = _intake();
+  const pending = (intake?.new_claim_candidates||[]);
+  const pendingAd = pending.filter(p=>(p.proposed_owner_ad_side && p.proposed_owner_ad_side!=='—'));
+  const pendingSite = pending.filter(p=>(p.proposed_owner_site_side && p.proposed_owner_site_side!=='—') && !(p.proposed_owner_ad_side && p.proposed_owner_ad_side!=='—'));
+
+  const bucket = (arr) => {
+    const o = {proposed:[], validating:[], validated:[], refuted:[]};
+    arr.forEach(c=>{const st=c.meta.proposition_status||'validating'; (o[st]||o.validating).push(c)});
+    return o;
+  };
+
+  const adB = bucket(adClaims), siteB = bucket(siteClaims);
+
+  const colTpl = (cls, title, emoji, arr, extras, sideKind) => {
+    const n = arr.length + (extras?extras.length:0);
+    const canGenRule = (cls==='validated' && sideKind==='ad');
+    const items = arr.length ? arr.map(c=>{
+      const pm = c.meta;
+      const sub = pm.proposition_status==='validated' ? (pm.validated_date||'') :
+                  pm.proposition_status==='refuted' ? (pm.refuted_date||'') :
+                  (pm.proposed_date||'');
+      const safeTitle = (pm.title||pm.card_id).replace(/'/g,"\\'").replace(/\n/g,' ');
+      const safeNote = (c.status?.honest_note||'').slice(0,200).replace(/'/g,"\\'").replace(/\n/g,' ');
+      const ruleBtn = canGenRule ? `<button onclick="event.stopPropagation();proposeRuleDraft('${h(pm.card_id)}')" style="margin-top:6px;padding:4px 8px;font-size:10px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;font-family:inherit;font-weight:600">📦 生成自动广告策略草稿</button>` : '';
+      const siteBadge = (cls==='validated' && sideKind==='site') ? `<div class="cl-meta" style="color:var(--green);margin-top:4px">✅ 已沉淀 · 独立站修改记录</div>` : '';
+      return `<div class="cl-item" onclick="alert('[${h(pm.proposition_id||pm.card_id)}]\\n\\n${h(safeTitle)}\\n\\n${h(safeNote)}')">
+        <div class="cl-title">${h(pm.title||pm.card_id)}</div>
+        <div class="cl-meta">${h(pm.proposition_id||pm.card_id.slice(0,18))} · ${h(sub)}</div>
+        ${pm.becomes_rule?`<div class="cl-meta" style="color:var(--green)">📎 ${h(pm.becomes_rule)}</div>`:''}
+        ${siteBadge}
+        ${ruleBtn}
+      </div>`;
+    }).join('') : '';
+    const pendItems = (extras||[]).map(x=>`<div class="cl-pending">
+      <div class="cl-title">💡 ${h(x.hypothesis)}</div>
+      <div class="cl-meta">源:吴玲候选 · 投放 ${h(x.proposed_owner_ad_side||'—')} / 承接 ${h(x.proposed_owner_site_side||'—')} · 预期 ${h(x.expected_lift||'—')}</div>
+    </div>`).join('');
+    const empty = (!items && !pendItems) ? '<div class="cl-empty">暂无命题</div>' : '';
+    return `<div class="cl-col ${cls}"><h3>${emoji} ${title}<span class="ct">${n}</span></h3>${items}${pendItems}${empty}</div>`;
+  };
+
+  const section = (heading, sub, sideKind, bucket, pendingSide) => `
+    <div style="grid-column:1/-1;margin-top:10px;padding:8px 4px 2px;border-bottom:1px solid var(--line)">
+      <h2 style="font-size:14px;color:var(--accent);display:flex;align-items:baseline;gap:10px">${heading}
+        <span style="font-size:10px;color:var(--muted);font-weight:500">${sub}</span></h2>
+    </div>
+    <div class="claim-lib" style="margin-top:8px">
+      ${colTpl('proposed','提出中','📝',bucket.proposed,pendingSide, sideKind)}
+      ${colTpl('validating','验证中','🔬',bucket.validating,[], sideKind)}
+      ${colTpl('validated','已证实','✅',bucket.validated,[], sideKind)}
+      ${colTpl('refuted','已推翻','❌',bucket.refuted,[], sideKind)}
+    </div>`;
+
+  return section('🎯 投放命题库', '已证实 → 生成自动广告策略草稿 · 铺设 FB/Google 自动化投放依据', 'ad', adB, pendingAd) +
+         section('🛠 承接命题库', '已证实 → 沉淀独立站修改记录 · 不生成自动规则 · 追踪前端修改效应', 'site', siteB, pendingSite) +
+         `<div style="grid-column:1/-1;font-size:10px;color:var(--muted);margin-top:8px;padding:6px 4px">📘 投放命题证实后走向 data/rules/auto_strategy_rules_pending.json(等 ZJB 拍板 promote);承接命题证实后只写入 data/intake 日报的 fixed_today 并反向引用原命题卡时间线</div>`;
+}
+
+(async function init(){
+  await loadData();
+  render();
+})();
+
+</script>
+</body>
+</html>

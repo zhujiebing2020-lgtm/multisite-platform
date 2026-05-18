@@ -117,8 +117,22 @@ export async function handleKlingGenerate(request, env, ctx) {
   const { image_url, prompt, duration, aspect_ratio } = await request.json();
   if (!image_url) return json({ error: '缺少图片' }, 400);
 
-  // 相对路径转完整 URL
-  const fullImageUrl = image_url.startsWith('/') ? `https://z-jb.com${image_url}` : image_url;
+  // 处理不同格式的图片 URL
+  let fullImageUrl;
+  if (image_url.startsWith('data:')) {
+    // base64 data URL → 存到 R2 → 用公网 URL
+    const match = image_url.match(/^data:([^;]+);base64,(.+)$/);
+    if (!match) return json({ error: '无效的图片数据' }, 400);
+    const contentType = match[1];
+    const binary = Uint8Array.from(atob(match[2]), c => c.charCodeAt(0));
+    const key = `video-frames/${Date.now()}.png`;
+    await env.R2.put(key, binary, { httpMetadata: { contentType } });
+    fullImageUrl = `https://z-jb.com/api/r2/${key}`;
+  } else if (image_url.startsWith('/')) {
+    fullImageUrl = `https://z-jb.com${image_url}`;
+  } else {
+    fullImageUrl = image_url;
+  }
   const ratioMap = { '9:16': '720:1280', '16:9': '1280:720', '1:1': '960:960' };
   const resp = await runwayFetch(env, '/image_to_video', 'POST', {
     promptImage: fullImageUrl,

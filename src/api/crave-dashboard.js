@@ -1,3 +1,5 @@
+import { triggerDownstream, triggerIntakeDownstream } from './crave-triggers.js';
+
 export async function handleCraveDashboard(request, env, path) {
   const url = new URL(request.url);
   const method = request.method;
@@ -30,6 +32,8 @@ export async function handleCraveDashboard(request, env, path) {
       return stmt.bind(meta.card_id, meta.card_type || '', meta.channel || '', meta.data_date || meta.last_updated || '', JSON.stringify(item));
     });
     await env.DB.batch(batch);
+    const hasDaily = items.some(i => (i.meta || {}).card_type === 'daily_dashboard');
+    if (hasDaily) await triggerDownstream(env, 'daily_dashboard');
     return Response.json({ ok: true, count: items.length });
   }
 
@@ -51,6 +55,7 @@ export async function handleCraveDashboard(request, env, path) {
       `INSERT OR REPLACE INTO intake_reports (date, submitted_by, overall_health, health_note, payload)
        VALUES (?, ?, ?, ?, ?)`
     ).bind(body.date, body.submitted_by || '', body.overall_health || '', body.health_note || '', JSON.stringify(body)).run();
+    await triggerIntakeDownstream(env, body);
     return Response.json({ ok: true });
   }
 

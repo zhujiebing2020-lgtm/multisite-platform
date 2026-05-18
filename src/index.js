@@ -87,25 +87,14 @@ export default {
     if (url.pathname === '/api/fetch-scene' && request.method === 'POST') {
       return handleFetchScene(request, env);
     }
-    // Kling JWT 调试
+    // Runway API 测试
     if (url.pathname === '/api/test-kling' && request.method === 'GET') {
       try {
-        const b64url = (str) => btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-        const header = b64url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-        const now = Math.floor(Date.now() / 1000);
-        const payload = b64url(JSON.stringify({ iss: env.KLING_API_KEY, iat: now, exp: now + 1800, nbf: now - 5 }));
-        const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(env.KLING_SECRET_KEY), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-        const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${header}.${payload}`));
-        const sigStr = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-        const token = `${header}.${payload}.${sigStr}`;
-        const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
-        const resp = await fetch(`${klingBase}/v1/images/generations`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ prompt: 'a red apple', n: 1, aspect_ratio: '1:1' }),
+        const resp = await fetch('https://api.dev.runwayml.com/v1/tasks', {
+          headers: { 'Authorization': `Bearer ${env.RUNWAY_API_KEY}`, 'X-Runway-Version': '2024-11-06' },
         });
         const data = await resp.text();
-        return new Response(JSON.stringify({ status: resp.status, kling_key_prefix: (env.KLING_API_KEY||'').slice(0,8), body: data.slice(0, 500) }), { headers: { 'Content-Type': 'application/json' } });
+        return new Response(JSON.stringify({ status: resp.status, body: data.slice(0, 300) }), { headers: { 'Content-Type': 'application/json' } });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message }), { headers: { 'Content-Type': 'application/json' } });
       }

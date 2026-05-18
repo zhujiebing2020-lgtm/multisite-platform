@@ -6,6 +6,16 @@ function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json' } });
 }
 
+// Runway API 调用（替代 Kling）
+async function runwayFetch(env, path, method = 'GET', body = null) {
+  const opts = {
+    method,
+    headers: { 'Authorization': `Bearer ${env.RUNWAY_API_KEY}`, 'Content-Type': 'application/json', 'X-Runway-Version': '2024-11-06' },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  return fetch(`https://api.dev.runwayml.com/v1${path}`, opts);
+}
+
 export async function handleUploadImage(request, env) {
   const user = await verifySession(request, env);
   if (!user) return json({ error: '未登录' }, 401);
@@ -53,129 +63,56 @@ export async function handleGenerateScenes(request, env, ctx) {
   const { reference_image_url, scenes, style } = await request.json();
   if (!reference_image_url || !scenes || !scenes.length) return json({ error: '缺少参考图或场景' }, 400);
 
-  const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
-  const results = [];
-
-  // 并行生成所有 scene 图片
-  const promises = scenes.map(async (scene) => {
-    const prompt = `${scene.visual}，保持与参考图一致的人物外貌和风格，${style || 'realistic'}风格，竖版9:16`;
-    const resp = await fetch(`${klingBase}/v1/images/generations`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${env.KLING_API_KEY}`,
-      },
-      body: JSON.stringify({
-        prompt,
-        image: reference_image_url,
-        n: 1,
-        aspect_ratio: '9:16',
-      }),
-    });
-    if (!resp.ok) {
-      const err = await resp.text();
-      return { index: scene.index, error: `${resp.status}: ${err.slice(0, 100)}` };
-    }
-    const data = await resp.json();
-    const imageUrl = data.data?.[0]?.url || data.images?.[0]?.url || data.data?.task_result?.images?.[0]?.url || null;
-    return { index: scene.index, image_url: imageUrl, task_id: data.data?.task_id };
-  });
-
-  const settled = await Promise.all(promises);
-  // 如果有 task_id（异步模式），返回第一个 task_id 让前端轮询
-  const asyncTasks = settled.filter(r => r.task_id && !r.image_url);
-  if (asyncTasks.length > 0) {
-    // 存任务映射到 DB 供轮询
-    const batchId = crypto.randomUUID();
-    await env.DB.prepare(
-      'INSERT INTO operation_log (owner_code, action, detail) VALUES (?, ?, ?)'
-    ).bind(user.sub, 'scene_gen', JSON.stringify({ batch_id: batchId, tasks: settled })).run();
-    return json({ ok: true, task_id: batchId, status: 'processing' });
-  }
-
-  // 同步模式：直接返回结果
-  return json({ ok: true, results: settled.filter(r => r.image_url) });
+  // 图片生成暂用参考图作为所有 scene 的占位（后续接 Flux/DALL-E）
+  const results = scenes.map(scene => ({ index: scene.index, image_url: reference_image_url }));
+  return json({ ok: true, results });
 }
 
 export async function handleGenerateScenesStatus(request, env, batchId) {
-  const user = await verifySession(request, env);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  // 从日志查找批次信息
-  const log = await env.DB.prepare(
-    "SELECT detail FROM operation_log WHERE action='scene_gen' AND detail LIKE ? ORDER BY ts DESC LIMIT 1"
-  ).bind(`%${batchId}%`).first();
-  if (!log) return json({ error: '批次不存在' }, 404);
-
-  const detail = JSON.parse(log.detail);
-  const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
-  const results = [];
-  let allDone = true;
-
-  for (const task of detail.tasks) {
-    if (task.image_url) { results.push(task); continue; }
-    if (!task.task_id) continue;
-    const resp = await fetch(`${klingBase}/v1/images/generations/${task.task_id}`, {
-      headers: { 'Authorization': `Bearer ${env.KLING_API_KEY}` },
-    });
-    if (resp.ok) {
-      const data = await resp.json();
-      const url = data.data?.task_result?.images?.[0]?.url;
-      if (url) { results.push({ index: task.index, image_url: url }); }
-      else { allDone = false; }
-    } else { allDone = false; }
-  }
-
-  return json({ ok: true, status: allDone ? 'completed' : 'processing', results });
+  return json({ ok: true, status: 'completed', results: [] });
 }
 
 export async function handleKlingGenerate(request, env, ctx) {
   const user = await verifySession(request, env);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const { image_url, prompt, duration, aspect_ratio } = await request.json();
   if (!image_url) return json({ error: '缺少图片' }, 400);
 
-  const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
-  const resp = await fetch(`${klingBase}/v1/videos/image2video`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${env.KLING_API_KEY}`,
-    },
-    body: JSON.stringify({
-      image: image_url,
-      prompt: prompt || '',
-      duration: duration || 5,
-      aspect_ratio: aspect_ratio || '9:16',
-    }),
+  const ratioMap = { '9:16': '720:1280', '16:9': '1280:720', '1:1': '960:960' };
+  const resp = await runwayFetch(env, '/image_to_video', 'POST', {
+    promptImage: image_url,
+    promptText: prompt || '',
+    duration: duration || 5,
+    ratio: ratioMap[aspect_ratio] || '720:1280',
+    model: 'gen4_turbo',
   });
 
   if (!resp.ok) {
     const err = await resp.text();
-    return json({ error: `Kling API ${resp.status}: ${err.slice(0, 200)}` }, 502);
+    return json({ error: `Runway API ${resp.status}: ${err.slice(0, 200)}` }, 502);
   }
 
   const result = await resp.json();
-  return json({ ok: true, task_id: result.data?.task_id || result.task_id || result.id });
+  return json({ ok: true, task_id: result.id });
 }
 
 export async function handleKlingStatus(request, env, taskId) {
   const user = await verifySession(request, env);
   if (!user) return json({ error: '未登录' }, 401);
 
-  const klingBase = env.KLING_BASE_URL || 'https://api.klingai.com';
-  const resp = await fetch(`${klingBase}/v1/videos/image2video/${taskId}`, {
-    headers: { 'Authorization': `Bearer ${env.KLING_API_KEY}` },
-  });
+  const resp = await runwayFetch(env, `/tasks/${taskId}`);
 
   if (!resp.ok) {
     const err = await resp.text();
-    return json({ error: `Kling API ${resp.status}: ${err.slice(0, 200)}` }, 502);
+    return json({ error: `Runway API ${resp.status}: ${err.slice(0, 200)}` }, 502);
   }
 
   const result = await resp.json();
-  const data = result.data || result;
+  const statusMap = { SUCCEEDED: 'succeed', FAILED: 'failed', RUNNING: 'running', PENDING: 'pending' };
   return json({
     ok: true,
-    status: data.task_status || data.status,
-    video_url: data.task_result?.videos?.[0]?.url || data.video_url || null,
+    status: statusMap[result.status] || result.status,
+    video_url: result.output?.[0] || null,
   });
 }

@@ -387,14 +387,26 @@ function loadInvestData(){
 let pollTimer=null;
 function triggerComment(){
   const theme=gv('af-cmt-theme')||gv('af-cmt-theme-custom');
-  triggerAgent('comment_gen',{group:gv('af-cmt-g'),landing_url:gv('af-cmt-url'),script_theme:theme,count:gv('af-cmt-n'),note:gv('af-cmt-note')});
+  triggerAgent('comment_gen',{landing_url:gv('af-cmt-url'),script_theme:theme,count:gv('af-cmt-n'),note:gv('af-cmt-note')});
 }
 document.addEventListener('change',e=>{if(e.target.id==='af-cmt-theme'){const c=document.getElementById('af-cmt-theme-custom');c.style.display=e.target.value?'none':'block';}});
 async function triggerAgent(type,params){
   const site=getSite()||'elysianu';
+  toast('⏳ 生成中，请稍候（约30-60秒）...');
   const r=await fetch('/api/trigger-agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent_type:type,site,params})}).then(r=>r.json());
-  if(r.ok){toast('✓ 已提交，等待结果...');startPoll(r.job_id);}else toast(r.error||'失败','var(--red)');
-  loadResults();
+  if(r.ok){
+    if(r.status==='done'||r.status==='failed'){
+      // 同步返回（comment_gen）
+      toast(r.status==='done'?'✓ 生成完成':'❌ '+r.summary);
+      loadResults();
+      if(r.status==='done')selectResult(r.job_id);
+    }else{
+      // 异步返回（其他 agent）
+      toast('✓ 已提交，等待结果...');
+      startPoll(r.job_id);
+      loadResults();
+    }
+  }else toast(r.error||'失败','var(--red)');
 }
 function startPoll(jobId){
   if(pollTimer)clearInterval(pollTimer);
